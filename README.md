@@ -2,7 +2,7 @@
 
 **Higher National Diploma in Network Engineering, Year 2**
 
-Over ten days you will learn how information is protected, one idea at a time, and each idea is shown working before it is named. You start with what is worth protecting and why. You then learn how keys keep secrets, how hashes prove that nothing changed, and how certificates let strangers trust each other. Then you see how systems check who you are and what you may do, and how web applications, email, databases and networks are attacked and defended. The last teaching day covers what an organisation does when protection fails. Every day adds to the security programme of **Lumora College**, a fictional private college in Sri Lanka, where you join the IT office as a trainee security analyst.
+Over ten days you will learn how information is protected, one idea at a time, and each idea is shown working before it is named. You start with what is worth protecting and why. You then learn how keys keep secrets, how hashes prove that nothing changed, and how certificates let strangers trust each other. Then you see how systems check who you are and what you may do, and how web applications, email, databases and networks are attacked and defended. The last teaching day covers what an organisation does when protection fails. Every day adds to the security programme of **Taxila College**, a fictional private college in Sri Lanka, where you join the IT office as a trainee security analyst.
 
 **Before Day 1, read the getting-started guide** (posted with the prelude). It shows you how to set up your laptop and explains the rules for the tools you will use.
 
@@ -41,7 +41,7 @@ In the morning you build the ideas, step by step, with a short demo for each ste
 | Component | Weight | What |
 |---|---|---|
 | [Individual evidence packs](coursework/evidence-packs-brief.md) | 25% | Five packs, one after each of Days 2 to 6 |
-| [Group tabletop exercise](coursework/tabletop-brief.md) | 25% | Your group prepares across Days 6 to 9 and handles a live incident at Lumora on Day 10 |
+| [Group tabletop exercise](coursework/tabletop-brief.md) | 25% | Your group prepares across Days 6 to 9 and handles a live incident at Taxila on Day 10 |
 
 ## Reading
 
@@ -60,4 +60,4 @@ Niranga Dharmaratna
 School of Computing & Engineering  
 National Institute of Business Management
 
-Teaching content © 2026 Niranga Dharmaratna, [CC BY-NC-SA 4.0](LICENSE-CONTENT.md). Interactive demos, plays and code, [MIT](LICENSE). Lumora College is fictional.
+Teaching content © 2026 Niranga Dharmaratna, [CC BY-NC-SA 4.0](LICENSE-CONTENT.md). Interactive demos, plays and code, [MIT](LICENSE). Taxila College is fictional.

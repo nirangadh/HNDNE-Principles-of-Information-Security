@@ -1,6 +1,6 @@
 # Coursework
 
-Two pieces of coursework run alongside the teaching days, both built from what you do in the afternoons and both set at Lumora College.
+Two pieces of coursework run alongside the teaching days, both built from what you do in the afternoons and both set at Taxila College.
 
 | Coursework | Weight | Individual or group | Brief |
 |---|---|---|---|
@@ -17,6 +17,6 @@ Read the [evidence packs brief](evidence-packs-brief.md).
 
 ## Group tabletop exercise
 
-Your group is Lumora's security team. You prepare a risk register and a controls map across Days 6 to 9, handle a live incident on Day 10 morning, and then submit an after-action report and a continuity plan.
+Your group is Taxila's security team. You prepare a risk register and a controls map across Days 6 to 9, handle a live incident on Day 10 morning, and then submit an after-action report and a continuity plan.
 
 Read the [tabletop brief](tabletop-brief.md). It is available from the start of the module, and groups form on Day 5.
