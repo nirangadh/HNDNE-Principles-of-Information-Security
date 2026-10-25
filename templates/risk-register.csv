@@ -1,0 +1,12 @@
+ID,Asset,Threat,Vulnerability,Likelihood (1 low to 5 high),Impact (1 low to 5 high),Risk score (likelihood x impact),Property most at stake,Treatment
+Example,Restricted exam papers before the exam,A curious student,The papers sit in a shared folder that anyone at the college can open,3,5,15,Confidentiality,Move the papers to a folder that only the examinations staff can open
+R01,,,,,,,,
+R02,,,,,,,,
+R03,,,,,,,,
+R04,,,,,,,,
+R05,,,,,,,,
+R06,,,,,,,,
+R07,,,,,,,,
+R08,,,,,,,,
+R09,,,,,,,,
+R10,,,,,,,,
