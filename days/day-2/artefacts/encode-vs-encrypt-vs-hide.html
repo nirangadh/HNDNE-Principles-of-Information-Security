@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Encode, encrypt, hide</title>
+<meta name="description" content="Run one line through Base64, AES encryption and hiding in a picture, then try to get it back without a key. Uses Web Crypto.">
+<link rel="stylesheet" href="../../../assets/fonts/fonts.css">
+<style>
+  body{margin:0;font-family:var(--font-body);background:var(--linen);color:var(--ink);line-height:1.6}
+  main{max-width:50rem;margin:0 auto;padding:1.5rem 1rem 2.5rem}
+  h1{font-size:1.6rem;line-height:1.25;margin:0 0 .4rem}
+  h2{font-size:1.1rem;margin:0 0 .2rem}
+  .bars{display:flex;gap:6px;margin:.3rem 0 1.1rem}.bars i{display:block;height:6px;border-radius:2px}
+  .bars i:first-child{width:56px;background:var(--burgundy)}.bars i:last-child{width:26px;background:var(--blush)}
+  .lead{margin:0 0 1rem}
+  .step{font-size:.78rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--burgundy);margin:1.4rem 0 .3rem;display:block}
+  label{display:block;font-weight:700;margin:.2rem 0 .3rem}
+  select{font:inherit;color:var(--ink);background:var(--snow);border:2px solid var(--taupe);border-radius:8px;padding:.5rem .7rem;min-height:44px;width:100%;box-sizing:border-box}
+  select:focus-visible,button:focus-visible{outline:3px solid var(--burgundy);outline-offset:2px}
+  button{font:inherit;font-weight:700;color:var(--snow);background:var(--burgundy);border:0;border-radius:8px;padding:.55rem 1rem;min-height:44px;cursor:pointer}
+  button.quiet{background:var(--snow);color:var(--burgundy);border:2px solid var(--burgundy)}
+  button[disabled]{background:var(--blush);color:var(--taupe);border-color:var(--blush);cursor:not-allowed}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(14rem,1fr));gap:.8rem;margin-top:.6rem}
+  .card{background:var(--snow);border:1px solid var(--rule);border-top:6px solid var(--burgundy);border-radius:0 0 12px 12px;padding:.9rem 1rem}
+  .tag{display:block;font-size:.72rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--burgundy)}
+  .code{font-family:var(--font-code);font-size:.85rem;background:var(--rose-wash);border-radius:6px;padding:.4rem .5rem;overflow-wrap:anywhere;margin:.3rem 0;min-height:1.4rem}
+  .card .row{display:flex;flex-direction:column;gap:.4rem;margin-top:.5rem}
+  .out{margin:.4rem 0 0;font-weight:700;min-height:1.4rem}
+  .verdict{margin:.5rem 0 0;padding:.4rem .6rem;border:2px solid var(--ink);border-radius:8px;font-weight:700}
+  .verdict:empty{display:none}
+  .pics{display:flex;gap:.4rem;flex-wrap:wrap}
+  .pics figure{margin:0;flex:1 1 6rem}
+  .pics canvas{width:100%;height:auto;border:1px solid var(--rule);border-radius:6px;display:block}
+  .pics figcaption{font-size:.8rem;color:var(--taupe)}
+  table{border-collapse:collapse;width:100%;margin-top:.6rem;background:var(--snow)}
+  th,td{border:1px solid var(--rule);padding:.4rem .5rem;text-align:left;vertical-align:top}
+  th{background:var(--rose-tint)}
+  .note{font-size:.9rem;color:var(--taupe);margin-top:1.4rem}
+</style>
+<!-- portal head: written by the portal generator from this demo's title and description; do not edit -->
+<meta name="robots" content="index, follow">
+<link rel="icon" href="../../../assets/img/favicon.svg" type="image/svg+xml">
+<link rel="canonical" href="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-2/artefacts/encode-vs-encrypt-vs-hide.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Principles of Information Security, HND Network Engineering Year 2">
+<meta property="og:title" content="Encode, encrypt, hide | Day 2">
+<meta property="og:description" content="Run one line through Base64, AES encryption and hiding in a picture, then try to get it back without a key. Uses Web Crypto.">
+<meta property="og:url" content="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-2/artefacts/encode-vs-encrypt-vs-hide.html">
+<meta property="og:locale" content="en_GB">
+<meta property="og:image" content="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/assets/img/social-card.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="At Taxila College the Head of IT points to the security register on the wall: nineteen numbered items, the first outlined as the place to start. The Registrar holds a sealed transcript and the Data Protection Officer a clipboard. A lecturer turns to welcome two students arriving with a laptop and a phone.">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","author":{"@type":"Person","affiliation":{"@type":"Organization","name":"School of Computing & Engineering, National Institute of Business Management"},"name":"Niranga Dharmaratna"},"description":"Run one line through Base64, AES encryption and hiding in a picture, then try to get it back without a key. Uses Web Crypto.","educationalLevel":"Higher National Diploma, Year 2","inLanguage":"en-GB","interactivityType":"active","isAccessibleForFree":true,"isPartOf":{"@id":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/#course","@type":"Course","name":"Principles of Information Security, HND Network Engineering Year 2","url":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/"},"learningResourceType":"Interactive demonstration","license":"https://opensource.org/licenses/MIT","name":"Encode, encrypt, hide | Day 2","url":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-2/artefacts/encode-vs-encrypt-vs-hide.html"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/","name":"Principles of Information Security","position":1},{"@type":"ListItem","item":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-2/","name":"Day 2","position":2},{"@type":"ListItem","item":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-2/artefacts/encode-vs-encrypt-vs-hide.html","name":"Encode, encrypt, hide","position":3}]}</script>
+<!-- /portal head -->
+</head>
+<body>
+<main>
+<h1>Encode, encrypt, hide</h1>
+<div class="bars" aria-hidden="true"><i></i><i></i></div>
+<p class="lead">Three different things can make a message look unreadable: encoding, encrypting and hiding. The encrypting here uses the Advanced Encryption Standard (AES). Run the same line through all three. Then try to get it back without a key, and see which one actually protects it.</p>
+
+<span class="step">Step 1</span>
+<label for="line">Choose a line</label>
+<select id="line">
+  <option value="0">Exam paper for networking: question 3 is the long one</option>
+  <option value="1">The sealed envelope is in the strong room</option>
+  <option value="2">Grades go to students at noon</option>
+</select>
+
+<span class="step">Step 2</span>
+<button id="run" type="button">Run all three</button>
+
+<div class="grid">
+  <section class="card" aria-labelledby="h-enc">
+    <span class="tag">1. Encoding</span>
+    <h2 id="h-enc">Base64</h2>
+    <p class="code" id="b64"></p>
+    <div class="row"><button id="b64back" type="button" class="quiet" disabled>Get it back, with no key</button></div>
+    <p class="out" id="b64out" aria-live="polite"></p>
+    <p class="verdict" id="b64v"></p>
+  </section>
+  <section class="card" aria-labelledby="h-aes">
+    <span class="tag">2. Encryption</span>
+    <h2 id="h-aes">AES with a key</h2>
+    <p class="code" id="aes"></p>
+    <div class="row">
+      <button id="aesnokey" type="button" class="quiet" disabled>Get it back, with no key</button>
+      <button id="aeskey" type="button" class="quiet" disabled>Get it back, with the key</button>
+    </div>
+    <p class="out" id="aesout" aria-live="polite"></p>
+    <p class="verdict" id="aesv"></p>
+  </section>
+  <section class="card" aria-labelledby="h-hide">
+    <span class="tag">3. Hiding</span>
+    <h2 id="h-hide">Steganography</h2>
+    <div class="pics">
+      <figure><canvas id="before" width="160" height="100" aria-label="The picture before"></canvas><figcaption>Before</figcaption></figure>
+      <figure><canvas id="after" width="160" height="100" aria-label="The picture after the message is hidden in it"></canvas><figcaption>After</figcaption></figure>
+    </div>
+    <p class="out" id="pixels"></p>
+    <div class="row">
+      <button id="look" type="button" class="quiet" disabled>Look at the picture</button>
+      <button id="read" type="button" class="quiet" disabled>Read the hidden bits</button>
+    </div>
+    <p class="out" id="hideout" aria-live="polite"></p>
+    <p class="verdict" id="hidev"></p>
+  </section>
+</div>
+
+<span class="step">Step 3</span>
+<table aria-label="The three compared">
+  <thead><tr><th scope="col"></th><th scope="col">Needs a key?</th><th scope="col">Who can get the message back?</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">Encoding</th><td>No</td><td>Anyone who knows Base64</td></tr>
+    <tr><th scope="row">Hiding</th><td>No</td><td>Anyone who knows where to look</td></tr>
+    <tr><th scope="row">Encryption</th><td>Yes</td><td>Only someone with the key</td></tr>
+  </tbody>
+</table>
+
+<p class="note">The encryption on this page uses your browser's own cryptography, called Web Crypto: AES with a 256-bit key, made fresh each time you press Run. The key is never shown in full and never leaves this page. The lines are prepared examples from Taxila College, which is fictional.</p>
+</main>
+<script>
+(function () {
+  "use strict";
+  var LINES = ["Exam paper for networking: question 3 is the long one", "The sealed envelope is in the strong room", "Grades go to students at noon"];
+  var $ = function (id) { return document.getElementById(id); };
+  var subtle = window.crypto && window.crypto.subtle;
+  var state = {};
+  function hex(buf) { return Array.prototype.map.call(new Uint8Array(buf), function (b) { return ("0" + b.toString(16)).slice(-2); }).join(""); }
+  function b64(bytes) { var s = ""; bytes.forEach(function (b) { s += String.fromCharCode(b); }); return btoa(s); }
+  function unb64(t) { var s = atob(t), out = new Uint8Array(s.length); for (var i = 0; i < s.length; i++) { out[i] = s.charCodeAt(i); } return new TextDecoder().decode(out); }
+  function cssv(name) { return getComputedStyle(document.documentElement).getPropertyValue(name).trim(); }
+
+  function drawPicture(ctx, w, h) {
+    var sky = ctx.createLinearGradient(0, 0, 0, h);
+    sky.addColorStop(0, cssv("--rose-tint")); sky.addColorStop(1, cssv("--snow"));
+    ctx.fillStyle = sky; ctx.fillRect(0, 0, w, h);
+    ctx.fillStyle = cssv("--blush"); ctx.fillRect(0, h * 0.78, w, h * 0.22);
+    ctx.fillStyle = cssv("--burgundy"); ctx.fillRect(w * 0.18, h * 0.32, w * 0.5, h * 0.46);
+    ctx.fillStyle = cssv("--burgundy-deep"); ctx.fillRect(w * 0.14, h * 0.26, w * 0.58, h * 0.08);
+    ctx.fillStyle = cssv("--taupe"); ctx.fillRect(w * 0.72, h * 0.46, w * 0.18, h * 0.32);
+    ctx.fillStyle = cssv("--rose");
+    for (var r = 0; r < 3; r++) { for (var c = 0; c < 5; c++) { ctx.fillRect(w * (0.22 + c * 0.09), h * (0.38 + r * 0.12), w * 0.05, h * 0.07); } }
+    ctx.fillStyle = cssv("--ink"); ctx.fillRect(w * 0.4, h * 0.62, w * 0.07, h * 0.16);
+  }
+  function hideBits(src, dst, text) {
+    var w = src.width, h = src.height, sctx = src.getContext("2d"), dctx = dst.getContext("2d");
+    var img = sctx.getImageData(0, 0, w, h), data = new Uint8ClampedArray(img.data);
+    var msg = new TextEncoder().encode(text), bits = [], changed = 0, i;
+    var head = [msg.length >> 8, msg.length & 255];
+    Array.prototype.forEach.call(head.concat(Array.prototype.slice.call(msg)), function (byte) { for (var b = 7; b >= 0; b--) { bits.push((byte >> b) & 1); } });
+    for (i = 0; i < bits.length; i++) {
+      var at = i * 4, v = data[at];
+      var nv = (v & 254) | bits[i];
+      if (nv !== v) { changed += 1; }
+      data[at] = nv;
+    }
+    dctx.putImageData(new ImageData(data, w, h), 0, 0);
+    return { changed: changed, total: w * h };
+  }
+  function readBits(cv) {
+    var d = cv.getContext("2d").getImageData(0, 0, cv.width, cv.height).data;
+    function byteAt(k) { var v = 0; for (var b = 0; b < 8; b++) { v = (v << 1) | (d[(k * 8 + b) * 4] & 1); } return v; }
+    var len = (byteAt(0) << 8) | byteAt(1), out = new Uint8Array(len);
+    for (var k = 0; k < len; k++) { out[k] = byteAt(k + 2); }
+    return new TextDecoder().decode(out);
+  }
+  async function run() {
+    var text = LINES[parseInt($("line").value, 10)];
+    var bytes = new TextEncoder().encode(text);
+    $("b64").textContent = b64(bytes);
+    ["b64out", "b64v", "aesout", "aesv", "hideout", "hidev"].forEach(function (id) { $(id).textContent = ""; });
+    $("b64back").disabled = false;
+    if (!subtle) {
+      $("aes").textContent = "Web Crypto is not available here. Open this page from the portal or from your offline copy.";
+    } else {
+      state.key = await subtle.generateKey({ name: "AES-CBC", length: 256 }, true, ["encrypt", "decrypt"]);
+      state.iv = crypto.getRandomValues(new Uint8Array(16));
+      state.ct = await subtle.encrypt({ name: "AES-CBC", iv: state.iv }, state.key, bytes);
+      $("aes").textContent = hex(state.ct);
+      $("aesnokey").disabled = false; $("aeskey").disabled = false;
+    }
+    var before = $("before"), after = $("after");
+    drawPicture(before.getContext("2d"), before.width, before.height);
+    after.getContext("2d").clearRect(0, 0, after.width, after.height);
+    var r = hideBits(before, after, text);
+    $("pixels").textContent = r.changed + " of " + r.total + " pixels changed. No colour moved by more than 1 step out of 255.";
+    $("look").disabled = false; $("read").disabled = false;
+  }
+  $("run").addEventListener("click", function () { run(); });
+  $("line").addEventListener("change", function () { run(); });
+  $("b64back").addEventListener("click", function () {
+    $("b64out").textContent = "Back: " + unb64($("b64").textContent);
+    $("b64v").textContent = "✗ Not protected: anyone reverses Base64, with no key.";
+  });
+  $("aesnokey").addEventListener("click", async function () {
+    var guess = await subtle.generateKey({ name: "AES-CBC", length: 256 }, false, ["decrypt"]);
+    try {
+      var out = await subtle.decrypt({ name: "AES-CBC", iv: state.iv }, guess, state.ct);
+      $("aesout").textContent = "A key chosen at random gave nonsense: " + hex(out).slice(0, 24) + "...";
+    } catch (e) {
+      $("aesout").textContent = "Refused. A key chosen at random cannot decrypt it, and the method alone is no help.";
+    }
+    $("aesv").textContent = "✓ Protected: without the key, the ciphertext stays unreadable.";
+  });
+  $("aeskey").addEventListener("click", async function () {
+    var out = await subtle.decrypt({ name: "AES-CBC", iv: state.iv }, state.key, state.ct);
+    $("aesout").textContent = "Back, with the key: " + new TextDecoder().decode(out);
+    $("aesv").textContent = "✓ Only someone with the key gets it back.";
+  });
+  $("look").addEventListener("click", function () {
+    $("hideout").textContent = "It looks like an ordinary picture of a campus building. Nothing shows that a message is there.";
+    $("hidev").textContent = "Hidden, for now: nobody knows there is a message to look for.";
+  });
+  $("read").addEventListener("click", function () {
+    $("hideout").textContent = "Read from the lowest bit of each pixel: " + readBits($("after"));
+    $("hidev").textContent = "✗ Not protected: once someone knows where to look, anyone can read it, with no key.";
+  });
+  run();
+}());
+</script>
+</body>
+</html>

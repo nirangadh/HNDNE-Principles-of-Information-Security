@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The public padlock</title>
+<meta name="description" content="Close a padlock with a public key, find that only the private key opens it, then send a long exam paper by the hybrid pattern. Uses Web Crypto.">
+<link rel="stylesheet" href="../../../assets/fonts/fonts.css">
+<style>
+  body{margin:0;font-family:var(--font-body);background:var(--linen);color:var(--ink);line-height:1.6}
+  main{max-width:46rem;margin:0 auto;padding:1.5rem 1rem 2.5rem}
+  h1{font-size:1.6rem;line-height:1.25;margin:0 0 .4rem}
+  .bars{display:flex;gap:6px;margin:.3rem 0 1.1rem}.bars i{display:block;height:6px;border-radius:2px}
+  .bars i:first-child{width:56px;background:var(--burgundy)}.bars i:last-child{width:26px;background:var(--blush)}
+  .lead{margin:0 0 1rem}
+  .step{font-size:.78rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--burgundy);margin:1.4rem 0 .3rem;display:block}
+  button{font:inherit;font-weight:700;color:var(--snow);background:var(--burgundy);border:0;border-radius:8px;padding:.55rem 1rem;min-height:44px;cursor:pointer;margin:.2rem .3rem .2rem 0}
+  button.quiet{background:var(--snow);color:var(--burgundy);border:2px solid var(--burgundy)}
+  button[disabled]{background:var(--blush);color:var(--taupe);border-color:var(--blush);cursor:not-allowed}
+  button:focus-visible{outline:3px solid var(--burgundy);outline-offset:2px}
+  .pair{display:grid;grid-template-columns:1fr 1fr;gap:.6rem}
+  @media (max-width:520px){.pair{grid-template-columns:1fr}}
+  .box{background:var(--snow);border:1px solid var(--rule);border-left:6px solid var(--burgundy);border-radius:0 12px 12px 0;padding:.8rem 1rem;margin:.5rem 0}
+  .box.private{border-left-color:var(--ink)}
+  .box.fault{border-left:6px dashed var(--signal-vermilion)}
+  .tag{display:block;font-size:.72rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--burgundy)}
+  .private .tag{color:var(--ink)}
+  .code{font-family:var(--font-code);font-size:.82rem;overflow-wrap:anywhere;margin:.2rem 0 0;max-height:7.5rem;overflow-y:auto}
+  .msg{font-weight:700;margin:.3rem 0 0}
+  .msg:empty{display:none}
+  table{border-collapse:collapse;width:100%;margin-top:.5rem;background:var(--snow)}
+  th,td{border:1px solid var(--rule);padding:.4rem .5rem;text-align:left;vertical-align:top}
+  th{background:var(--rose-tint)}
+  .note{font-size:.9rem;color:var(--taupe);margin-top:1.4rem}
+</style>
+<!-- portal head: written by the portal generator from this demo's title and description; do not edit -->
+<meta name="robots" content="index, follow">
+<link rel="icon" href="../../../assets/img/favicon.svg" type="image/svg+xml">
+<link rel="canonical" href="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-2/artefacts/public-private-pair.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Principles of Information Security, HND Network Engineering Year 2">
+<meta property="og:title" content="The public padlock | Day 2">
+<meta property="og:description" content="Close a padlock with a public key, find that only the private key opens it, then send a long exam paper by the hybrid pattern. Uses Web Crypto.">
+<meta property="og:url" content="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-2/artefacts/public-private-pair.html">
+<meta property="og:locale" content="en_GB">
+<meta property="og:image" content="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/assets/img/social-card.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="At Taxila College the Head of IT points to the security register on the wall: nineteen numbered items, the first outlined as the place to start. The Registrar holds a sealed transcript and the Data Protection Officer a clipboard. A lecturer turns to welcome two students arriving with a laptop and a phone.">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","author":{"@type":"Person","affiliation":{"@type":"Organization","name":"School of Computing & Engineering, National Institute of Business Management"},"name":"Niranga Dharmaratna"},"description":"Close a padlock with a public key, find that only the private key opens it, then send a long exam paper by the hybrid pattern. Uses Web Crypto.","educationalLevel":"Higher National Diploma, Year 2","inLanguage":"en-GB","interactivityType":"active","isAccessibleForFree":true,"isPartOf":{"@id":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/#course","@type":"Course","name":"Principles of Information Security, HND Network Engineering Year 2","url":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/"},"learningResourceType":"Interactive demonstration","license":"https://opensource.org/licenses/MIT","name":"The public padlock | Day 2","url":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-2/artefacts/public-private-pair.html"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/","name":"Principles of Information Security","position":1},{"@type":"ListItem","item":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-2/","name":"Day 2","position":2},{"@type":"ListItem","item":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-2/artefacts/public-private-pair.html","name":"The public padlock","position":3}]}</script>
+<!-- /portal head -->
+</head>
+<body>
+<main>
+<h1>The public padlock</h1>
+<div class="bars" aria-hidden="true"><i></i><i></i></div>
+<p class="lead">Asymmetric encryption uses a pair of keys. The public key is like an open padlock: anyone can snap it shut. Only the private key opens it. Colombo makes a key pair, and Kandy sends Colombo a message that only Colombo can read.</p>
+
+<span class="step">Step 1</span>
+<button id="gen" type="button">Colombo makes a key pair</button>
+<div class="pair">
+  <div class="box"><span class="tag">Colombo's public key: given to anyone</span><p class="code" id="pub">(none yet)</p></div>
+  <div class="box private"><span class="tag">Colombo's private key: kept by Colombo</span><p class="code" id="priv">(none yet)</p></div>
+</div>
+
+<span class="step">Step 2</span>
+<p style="margin:0">Kandy has only the public key. Kandy locks a short message with it.</p>
+<button id="lock" type="button" disabled>Kandy closes the padlock</button>
+<div class="box"><span class="tag">The short message</span><p class="msg" id="short">The printed copies are ready in the Kandy rack.</p><span class="tag" style="margin-top:.4rem">Locked with Colombo's public key</span><p class="code" id="locked"></p></div>
+
+<span class="step">Step 3</span>
+<button id="trypub" type="button" class="quiet" disabled>Try to open it with the public key</button>
+<button id="trypriv" type="button" class="quiet" disabled>Open it with Colombo's private key</button>
+<div class="box" id="openbox"><span class="tag">What happens</span><p class="msg" id="openout" aria-live="polite">(press a button above)</p></div>
+
+<span class="step">Step 4</span>
+<p style="margin:0">Now Kandy wants to send the whole exam paper, not one sentence.</p>
+<button id="whole" type="button" class="quiet" disabled>Lock the whole paper with the public key</button>
+<div class="box fault"><span class="tag">The whole paper</span><p class="msg" id="wholeout" aria-live="polite">(press the button above)</p></div>
+
+<span class="step">Step 5: the hybrid pass</span>
+<p style="margin:0">Use both families. A fresh key for the Advanced Encryption Standard (AES), which is fast, encrypts the paper. The public key carries only that short AES key.</p>
+<button id="hybrid" type="button" disabled>Send the paper by the hybrid pattern</button>
+<table aria-live="polite">
+  <thead><tr><th scope="col">What travels to Colombo</th><th scope="col">Size</th><th scope="col">Locked with</th></tr></thead>
+  <tbody>
+    <tr><td>The exam paper</td><td id="h-paper">-</td><td>the AES key</td></tr>
+    <tr><td>The AES key</td><td id="h-key">-</td><td>Colombo's public key</td></tr>
+  </tbody>
+</table>
+<p class="msg" id="hybridout" aria-live="polite"></p>
+
+<p class="note">This page uses your browser's own cryptography, called Web Crypto. The key pair is a real Rivest, Shamir and Adleman (RSA) pair, of the size in common use at the time of writing (a number over six hundred digits long), made fresh on this page; the private key is never shown and never leaves it. The paper is a prepared example from Taxila College, which is fictional.</p>
+</main>
+<script>
+(function () {
+  "use strict";
+  var $ = function (id) { return document.getElementById(id); };
+  var subtle = window.crypto && window.crypto.subtle;
+  var RSA = { name: "RSA-OAEP", modulusLength: 256 * 8, publicExponent: new Uint8Array([1, 0, 1]), hash: "SHA-256" };
+  var PAPER = "";
+  for (var q = 1; q <= 12; q++) { PAPER += "Question " + q + ". Read the case of Taxila College and answer every part. Explain each idea, apply it to the college, and say what you would recommend and why. "; }
+  var pair, locked;
+  function hex(buf) { return Array.prototype.map.call(new Uint8Array(buf), function (b) { return ("0" + b.toString(16)).slice(-2); }).join(""); }
+  function b64(buf) { var s = ""; new Uint8Array(buf).forEach(function (b) { s += String.fromCharCode(b); }); return btoa(s); }
+  $("gen").addEventListener("click", async function () {
+    if (!subtle) { $("pub").textContent = "Web Crypto is not available here. Open this page from the portal or from your offline copy."; return; }
+    $("gen").disabled = true; $("pub").textContent = "Making the pair...";
+    pair = await subtle.generateKey(RSA, true, ["encrypt", "decrypt"]);
+    $("pub").textContent = b64(await subtle.exportKey("spki", pair.publicKey));
+    $("priv").textContent = "Made, and kept on Colombo's side. It is never shown and never sent.";
+    $("gen").disabled = false; $("lock").disabled = false; $("whole").disabled = false; $("hybrid").disabled = false;
+    $("locked").textContent = ""; $("openout").textContent = "(press a button above)";
+    $("trypub").disabled = true; $("trypriv").disabled = true;
+  });
+  $("lock").addEventListener("click", async function () {
+    locked = await subtle.encrypt({ name: "RSA-OAEP" }, pair.publicKey, new TextEncoder().encode($("short").textContent));
+    $("locked").textContent = hex(locked) + "  (" + locked.byteLength + " bytes)";
+    $("trypub").disabled = false; $("trypriv").disabled = false;
+  });
+  $("trypub").addEventListener("click", async function () {
+    try {
+      await subtle.decrypt({ name: "RSA-OAEP" }, pair.publicKey, locked);
+      $("openout").textContent = "Unexpected: the public key opened it.";
+    } catch (e) {
+      $("openout").textContent = "✗ Refused. A public key cannot open what it locked. That is why it is safe to give away.";
+    }
+  });
+  $("trypriv").addEventListener("click", async function () {
+    var out = await subtle.decrypt({ name: "RSA-OAEP" }, pair.privateKey, locked);
+    $("openout").textContent = "✓ Opened by Colombo's private key: " + new TextDecoder().decode(out);
+  });
+  $("whole").addEventListener("click", async function () {
+    var bytes = new TextEncoder().encode(PAPER);
+    try {
+      await subtle.encrypt({ name: "RSA-OAEP" }, pair.publicKey, bytes);
+      $("wholeout").textContent = "Unexpected: the whole paper fitted.";
+    } catch (e) {
+      $("wholeout").textContent = "✗ Too large. The paper is " + bytes.length + " bytes, but this padlock fits at most 190 bytes. Asymmetric encryption is also much slower than symmetric encryption, such as the Advanced Encryption Standard (AES). So it is not used for whole documents.";
+    }
+  });
+  $("hybrid").addEventListener("click", async function () {
+    var bytes = new TextEncoder().encode(PAPER);
+    var aes = await subtle.generateKey({ name: "AES-CBC", length: 256 }, true, ["encrypt", "decrypt"]);
+    var iv = crypto.getRandomValues(new Uint8Array(16));
+    var paperCt = await subtle.encrypt({ name: "AES-CBC", iv: iv }, aes, bytes);
+    var rawKey = await subtle.exportKey("raw", aes);
+    var keyCt = await subtle.encrypt({ name: "RSA-OAEP" }, pair.publicKey, rawKey);
+    $("h-paper").textContent = paperCt.byteLength + " bytes";
+    $("h-key").textContent = rawKey.byteLength + " bytes, locked into " + keyCt.byteLength;
+    var keyBack = await subtle.decrypt({ name: "RSA-OAEP" }, pair.privateKey, keyCt);
+    var aes2 = await subtle.importKey("raw", keyBack, { name: "AES-CBC" }, false, ["decrypt"]);
+    var paperBack = new TextDecoder().decode(await subtle.decrypt({ name: "AES-CBC", iv: iv }, aes2, paperCt));
+    $("hybridout").textContent = paperBack === PAPER
+      ? "✓ Colombo opened the AES key with the private key, then opened the whole paper with the AES key. Its first words: \"" + paperBack.slice(0, 48) + "...\""
+      : "Unexpected: the paper did not come back unchanged.";
+  });
+}());
+</script>
+</body>
+</html>

@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Caesar wheel</title>
+<meta name="description" content="Turn a shift wheel to encrypt a message, then try all twenty-five keys and watch a Caesar shift cipher fall in an instant.">
+<link rel="stylesheet" href="../../../assets/fonts/fonts.css">
+<style>
+  body{margin:0;font-family:var(--font-body);background:var(--linen);color:var(--ink);line-height:1.6}
+  main{max-width:46rem;margin:0 auto;padding:1.5rem 1rem 2.5rem}
+  h1{font-size:1.6rem;line-height:1.25;margin:0 0 .4rem}
+  .bars{display:flex;gap:6px;margin:.3rem 0 1.1rem}.bars i{display:block;height:6px;border-radius:2px}
+  .bars i:first-child{width:56px;background:var(--burgundy)}.bars i:last-child{width:26px;background:var(--blush)}
+  .lead{margin:0 0 1rem}
+  .step{font-size:.78rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--burgundy);margin:1.4rem 0 .3rem;display:block}
+  label{display:block;font-weight:700;margin:.2rem 0 .3rem}
+  select,input[type=range]{font:inherit;color:var(--ink);width:100%;box-sizing:border-box}
+  select{background:var(--snow);border:2px solid var(--taupe);border-radius:8px;padding:.5rem .7rem;min-height:44px}
+  input[type=range]{min-height:44px;accent-color:var(--burgundy)}
+  select:focus-visible,button:focus-visible,input:focus-visible{outline:3px solid var(--burgundy);outline-offset:2px}
+  button{font:inherit;font-weight:700;color:var(--snow);background:var(--burgundy);border:0;border-radius:8px;padding:.55rem 1rem;min-height:44px;cursor:pointer}
+  button.quiet{background:var(--snow);color:var(--burgundy);border:2px solid var(--burgundy)}
+  .row{display:flex;gap:.5rem;flex-wrap:wrap;align-items:center;margin:.5rem 0}
+  .wheelbox{display:flex;justify-content:center;margin:.6rem 0}
+  svg.wheel{width:100%;max-width:320px;height:auto}
+  .strip{font-family:var(--font-code);font-size:.95rem;background:var(--snow);border:1px solid var(--rule);border-radius:8px;padding:.5rem .7rem;overflow-x:auto;white-space:pre;margin:.4rem 0}
+  .card{margin-top:.6rem;background:var(--snow);border:1px solid var(--rule);border-left:6px solid var(--burgundy);border-radius:0 12px 12px 0;padding:1rem 1.2rem}
+  .tag{display:block;font-size:.78rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--burgundy)}
+  .text{font-family:var(--font-code);font-size:1.05rem;overflow-wrap:anywhere;margin:.2rem 0 0}
+  .keyline{font-weight:700;margin:.3rem 0 0}
+  ol.tries{list-style:none;padding:0;margin:.6rem 0 0;font-family:var(--font-code);font-size:.92rem}
+  ol.tries li{padding:.2rem .5rem;border-bottom:1px solid var(--blush);overflow-wrap:anywhere}
+  ol.tries li.best{background:var(--rose-wash);border:2px solid var(--burgundy);border-radius:6px;font-weight:700}
+  ol.tries li .mark{font-family:var(--font-body);font-weight:800;color:var(--burgundy);margin-left:.4rem}
+  .result{font-weight:700;margin:.6rem 0 0}
+  .note{font-size:.9rem;color:var(--taupe);margin-top:1.4rem}
+</style>
+<!-- portal head: written by the portal generator from this demo's title and description; do not edit -->
+<meta name="robots" content="index, follow">
+<link rel="icon" href="../../../assets/img/favicon.svg" type="image/svg+xml">
+<link rel="canonical" href="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-2/artefacts/caesar-wheel.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Principles of Information Security, HND Network Engineering Year 2">
+<meta property="og:title" content="The Caesar wheel | Day 2">
+<meta property="og:description" content="Turn a shift wheel to encrypt a message, then try all twenty-five keys and watch a Caesar shift cipher fall in an instant.">
+<meta property="og:url" content="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-2/artefacts/caesar-wheel.html">
+<meta property="og:locale" content="en_GB">
+<meta property="og:image" content="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/assets/img/social-card.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="At Taxila College the Head of IT points to the security register on the wall: nineteen numbered items, the first outlined as the place to start. The Registrar holds a sealed transcript and the Data Protection Officer a clipboard. A lecturer turns to welcome two students arriving with a laptop and a phone.">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","author":{"@type":"Person","affiliation":{"@type":"Organization","name":"School of Computing & Engineering, National Institute of Business Management"},"name":"Niranga Dharmaratna"},"description":"Turn a shift wheel to encrypt a message, then try all twenty-five keys and watch a Caesar shift cipher fall in an instant.","educationalLevel":"Higher National Diploma, Year 2","inLanguage":"en-GB","interactivityType":"active","isAccessibleForFree":true,"isPartOf":{"@id":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/#course","@type":"Course","name":"Principles of Information Security, HND Network Engineering Year 2","url":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/"},"learningResourceType":"Interactive demonstration","license":"https://opensource.org/licenses/MIT","name":"The Caesar wheel | Day 2","url":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-2/artefacts/caesar-wheel.html"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/","name":"Principles of Information Security","position":1},{"@type":"ListItem","item":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-2/","name":"Day 2","position":2},{"@type":"ListItem","item":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-2/artefacts/caesar-wheel.html","name":"The Caesar wheel","position":3}]}</script>
+<!-- /portal head -->
+</head>
+<body>
+<main>
+<h1>The Caesar wheel</h1>
+<div class="bars" aria-hidden="true"><i></i><i></i></div>
+<p class="lead">The Caesar shift moves every letter the same number of places along the alphabet. The method is public. The key is the number of places. Turn the wheel to encrypt a message, then try every key and see how quickly the message comes back.</p>
+
+<span class="step">Step 1</span>
+<label for="msg">Choose a message</label>
+<select id="msg"></select>
+
+<span class="step">Step 2</span>
+<label for="shift">Turn the wheel: the key is how many places each letter moves forward</label>
+<input id="shift" type="range" min="0" max="25" value="3" aria-describedby="keyline">
+<div class="row">
+  <button id="back" type="button" class="quiet">Turn back one place</button>
+  <button id="fwd" type="button" class="quiet">Turn forward one place</button>
+</div>
+<p class="keyline" id="keyline" aria-live="polite"></p>
+<div class="wheelbox"><svg class="wheel" id="wheel" viewBox="0 0 320 320" role="img" aria-labelledby="wheel-t"><title id="wheel-t">A wheel of two alphabets. The outer ring is the plain letter, the inner ring is the letter it becomes.</title></svg></div>
+<div class="strip" id="strip" aria-label="The wheel as two rows"></div>
+
+<div class="card" aria-live="polite">
+  <span class="tag" id="intag">The message</span>
+  <p class="text" id="intext"></p>
+  <span class="tag" style="margin-top:.8rem">After the wheel</span>
+  <p class="text" id="outtext"></p>
+</div>
+
+<span class="step">Step 3</span>
+<p>Now forget the key. Take the text after the wheel and try all twenty-five keys, one after another. This is called brute force.</p>
+<button id="all" type="button">Try every key</button>
+<p class="result" id="result" aria-live="polite"></p>
+<ol class="tries" id="tries"></ol>
+
+<p class="note">A shift of 26 brings every letter back to itself, so there are only twenty-five real keys. A shift of 13 has its own name, ROT13 (rotate, or shift, by thirteen): applying it twice gives back the message. The messages are prepared examples from Taxila College, which is fictional, and nothing on this page is sent anywhere.</p>
+</main>
+<script>
+(function () {
+  "use strict";
+  var A = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  var MESSAGES = [
+    { id: "m1", label: "A note from the examinations office", text: "THE PAPER IS IN THE STRONG ROOM", plain: true },
+    { id: "m2", label: "A message for the Kandy campus", text: "SEND THE SEALED ENVELOPE TO KANDY", plain: true },
+    { id: "m3", label: "A reminder for lecturers", text: "MARKS ARE DUE TO THE REGISTRAR ON THE LAST DAY OF TERM", plain: true },
+    { id: "lab", label: "The lab's message (already encrypted, key unknown)", text: "AOL LEHTPUHAPVUZ VMMPJL DPSS ZLUK AOL ULADVYRPUN WHWLY AV AOL RHUKF JHTWBZ VU AOL LCLUPUN ILMVYL AOL LEHT.", plain: false }
+  ];
+  var COMMON = ["THE", "AND", "TO", "OF", "IS", "IN", "AT", "IT", "ON", "BE", "ARE", "FOR", "WITH", "THIS", "THAT", "WILL", "SEND", "ROOM", "PAPER", "EXAM", "DUE", "DAY"];
+  var sel = document.getElementById("msg"), range = document.getElementById("shift");
+  var keyline = document.getElementById("keyline"), strip = document.getElementById("strip");
+  var intag = document.getElementById("intag"), intext = document.getElementById("intext"), outtext = document.getElementById("outtext");
+  var tries = document.getElementById("tries"), result = document.getElementById("result"), wheel = document.getElementById("wheel");
+  var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var NS = "http://www.w3.org/2000/svg", inner = [], timer = null;
+
+  MESSAGES.forEach(function (m) { var o = document.createElement("option"); o.value = m.id; o.textContent = m.label; sel.appendChild(o); });
+
+  function shiftText(t, n) {
+    var out = "";
+    for (var i = 0; i < t.length; i++) {
+      var p = A.indexOf(t.charAt(i));
+      out += p < 0 ? t.charAt(i) : A.charAt((p + n) % 26);
+    }
+    return out;
+  }
+  function score(t) {
+    return t.split(/[^A-Z]+/).filter(function (w) { return COMMON.indexOf(w) >= 0; }).length;
+  }
+  function clear(node) { while (node.firstChild) { node.removeChild(node.firstChild); } }
+  function svgEl(name, attrs, text) {
+    var e = document.createElementNS(NS, name);
+    Object.keys(attrs).forEach(function (k) { e.setAttribute(k, attrs[k]); });
+    if (text) { e.textContent = text; }
+    return e;
+  }
+  function buildWheel() {
+    var css = getComputedStyle(document.documentElement);
+    var burgundy = css.getPropertyValue("--burgundy").trim(), ink = css.getPropertyValue("--ink").trim();
+    var snow = css.getPropertyValue("--snow").trim(), rule = css.getPropertyValue("--rule").trim(), wash = css.getPropertyValue("--rose-wash").trim();
+    wheel.appendChild(svgEl("circle", { cx: 160, cy: 160, r: 152, fill: snow, stroke: rule, "stroke-width": 2 }));
+    wheel.appendChild(svgEl("circle", { cx: 160, cy: 160, r: 112, fill: wash, stroke: burgundy, "stroke-width": 2 }));
+    wheel.appendChild(svgEl("circle", { cx: 160, cy: 160, r: 74, fill: snow, stroke: rule, "stroke-width": 1 }));
+    wheel.appendChild(svgEl("rect", { x: 145, y: 8, width: 30, height: 100, rx: 8, fill: "none", stroke: burgundy, "stroke-width": 3 }));
+    for (var i = 0; i < 26; i++) {
+      var ang = (i * 360 / 26 - 90) * Math.PI / 180;
+      wheel.appendChild(svgEl("text", { x: (160 + 132 * Math.cos(ang)).toFixed(1), y: (160 + 132 * Math.sin(ang) + 6).toFixed(1), "text-anchor": "middle", "font-size": 16, "font-weight": 700, fill: ink, "font-family": "Open Sans, Arial, sans-serif" }, A.charAt(i)));
+      var t = svgEl("text", { x: (160 + 93 * Math.cos(ang)).toFixed(1), y: (160 + 93 * Math.sin(ang) + 6).toFixed(1), "text-anchor": "middle", "font-size": 16, "font-weight": 700, fill: burgundy, "font-family": "Open Sans, Arial, sans-serif" }, A.charAt(i));
+      inner.push(t); wheel.appendChild(t);
+    }
+    wheel.appendChild(svgEl("text", { x: 160, y: 156, "text-anchor": "middle", "font-size": 13, fill: ink, "font-family": "Open Sans, Arial, sans-serif" }, "outer: plain"));
+    wheel.appendChild(svgEl("text", { x: 160, y: 174, "text-anchor": "middle", "font-size": 13, fill: burgundy, "font-family": "Open Sans, Arial, sans-serif" }, "inner: becomes"));
+  }
+  function current() { var id = sel.value; return MESSAGES.filter(function (m) { return m.id === id; })[0]; }
+  function paint() {
+    var n = parseInt(range.value, 10), m = current();
+    for (var i = 0; i < 26; i++) { inner[i].textContent = A.charAt((i + n) % 26); }
+    keyline.textContent = n === 0
+      ? "Key 0: every letter stays where it is. This is no encryption at all."
+      : "Key " + n + ": every letter moves " + n + " places forward, the same as " + (26 - n) + " places back. A becomes " + A.charAt(n % 26) + ".";
+    strip.textContent = "plain:    " + A + "\nbecomes:  " + shiftText(A, n);
+    intag.textContent = m.plain ? "The message (plaintext)" : "The lab's message (ciphertext)";
+    intext.textContent = m.text;
+    outtext.textContent = shiftText(m.text, n);
+  }
+  function stop() { if (timer) { clearTimeout(timer); timer = null; } }
+  function tryAll() {
+    stop();
+    clear(tries);
+    var target = outtext.textContent, list = [], t0 = performance.now();
+    for (var k = 1; k <= 25; k++) { var c = shiftText(target, k); list.push({ k: k, text: c, s: score(c) }); }
+    var ms = performance.now() - t0, best = list.reduce(function (a, b) { return b.s > a.s ? b : a; });
+    var i = 0;
+    result.textContent = "Trying all twenty-five keys...";
+    function next() {
+      var x = list[i], li = document.createElement("li");
+      li.textContent = "Key " + (x.k < 10 ? " " : "") + x.k + ": " + x.text;
+      if (x === best && best.s > 0) {
+        li.className = "best";
+        var mk = document.createElement("span"); mk.className = "mark"; mk.textContent = "✓ Readable"; li.appendChild(mk);
+      }
+      tries.appendChild(li);
+      i += 1;
+      if (i < list.length) { timer = setTimeout(next, reduce ? 0 : 70); }
+      else {
+        result.textContent = best.s > 0
+          ? "Your browser tried all twenty-five keys in " + (ms < 1.5 ? "about a millisecond or less" : Math.round(ms) + " milliseconds") + ". Key " + best.k + " gives readable English. With so few keys, the secret does not survive."
+          : "None of the twenty-five keys gives readable English. Turn the wheel to a key above 0 first, so there is something to undo.";
+      }
+    }
+    if (reduce) { while (i < list.length) { next(); stop(); } } else { next(); }
+  }
+  range.addEventListener("input", function () { stop(); clear(tries); result.textContent = ""; paint(); });
+  sel.addEventListener("change", function () { stop(); clear(tries); result.textContent = ""; range.value = current().plain ? 3 : 0; paint(); });
+  document.getElementById("back").addEventListener("click", function () { range.value = (parseInt(range.value, 10) + 25) % 26; range.dispatchEvent(new Event("input")); });
+  document.getElementById("fwd").addEventListener("click", function () { range.value = (parseInt(range.value, 10) + 1) % 26; range.dispatchEvent(new Event("input")); });
+  document.getElementById("all").addEventListener("click", tryAll);
+  buildWheel();
+  paint();
+}());
+</script>
+</body>
+</html>

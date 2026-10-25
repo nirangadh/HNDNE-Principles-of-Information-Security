@@ -1,0 +1,383 @@
+<!doctype html>
+<html lang="en-GB" data-store="hndne-pis:">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="hndne-pis-site">
+<title>Getting the key to Kandy | Day 2 | Principles of Information Security</title>
+<meta name="author" content="Niranga Dharmaratna">
+<meta name="description" content="You are the trainee analyst on duty in Taxila&#x27;s IT office. Tonight&#x27;s exam paper is encrypted, and the Kandy campus must print it in the morning.">
+<meta name="robots" content="index, follow">
+<link rel="icon" href="../../../assets/img/favicon.svg" type="image/svg+xml">
+<link rel="canonical" href="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-2/plays/p2-2-getting-the-key-to-kandy.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Principles of Information Security, HND Network Engineering Year 2">
+<meta property="og:title" content="Getting the key to Kandy">
+<meta property="og:description" content="You are the trainee analyst on duty in Taxila&#x27;s IT office. Tonight&#x27;s exam paper is encrypted, and the Kandy campus must print it in the morning.">
+<meta property="og:url" content="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-2/plays/p2-2-getting-the-key-to-kandy.html">
+<meta property="og:locale" content="en_GB">
+<meta property="og:image" content="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/assets/img/social-card.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="At Taxila College the Head of IT points to the security register on the wall: nineteen numbered items, the first outlined as the place to start. The Registrar holds a sealed transcript and the Data Protection Officer a clipboard. A lecturer turns to welcome two students arriving with a laptop and a phone.">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","author":{"@type":"Person","affiliation":{"@type":"Organization","name":"School of Computing & Engineering, National Institute of Business Management"},"name":"Niranga Dharmaratna"},"description":"You are the trainee analyst on duty in Taxila's IT office. Tonight's exam paper is encrypted, and the Kandy campus must print it in the morning.","educationalLevel":"Higher National Diploma, Year 2","inLanguage":"en-GB","interactivityType":"active","isAccessibleForFree":true,"isPartOf":{"@id":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/#course","@type":"Course","name":"Principles of Information Security, HND Network Engineering Year 2","url":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/"},"learningResourceType":"Practice activity","license":"https://opensource.org/licenses/MIT","name":"Getting the key to Kandy","url":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-2/plays/p2-2-getting-the-key-to-kandy.html"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/","name":"Principles of Information Security","position":1},{"@type":"ListItem","item":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-2/","name":"Day 2","position":2},{"@type":"ListItem","item":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-2/plays/p2-2-getting-the-key-to-kandy.html","name":"Getting the key to Kandy","position":3}]}</script>
+<link rel="stylesheet" href="../../../assets/fonts/fonts.css">
+<style>
+/* Principles of Information Security plays. MIT licence. Inlined into every play by the generator.
+   Palette variables come from assets/fonts/fonts.css; no colour literal here. Right and wrong always carry
+   a mark and a word: a drawn tick, or the fault badge with its multiplication sign (D24). Pairs as site.css. */
+*{box-sizing:border-box}
+body{margin:0;font-family:"Open Sans","Segoe UI",Roboto,Arial,sans-serif;font-size:1.0625rem;line-height:1.6;color:var(--ink);background:var(--linen);-webkit-text-size-adjust:100%}
+.wrap{max-width:46rem;margin:0 auto;padding:0 1.1rem}
+a{color:var(--burgundy);font-weight:600}
+:focus-visible{outline:3px solid var(--burgundy);outline-offset:2px;border-radius:4px}
+.skip{position:absolute;left:-999px;top:0;background:var(--ink);color:var(--snow);padding:.5rem 1rem}
+.skip:focus{left:1rem}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+code{font-family:"Courier New",Consolas,"DejaVu Sans Mono",monospace;font-size:.92em;background:var(--rose-wash);padding:.08em .3em;border-radius:5px;overflow-wrap:anywhere}
+.play-header{background:var(--ink);color:var(--snow);padding:1.4rem 0 1.2rem}
+.play-header .eyebrow{margin:0;color:var(--rule);font-size:.85rem;font-weight:600;letter-spacing:.04em}
+.play-header .eyebrow a{color:var(--rule)}
+.play-header h1{margin:.3rem 0 0;font-size:clamp(1.4rem,4vw,1.9rem);line-height:1.2;font-weight:800}
+.play-header :focus-visible{outline-color:var(--rose)}
+.bars{display:flex;gap:6px;margin-top:.8rem}
+.bars i{display:block;height:6px;border-radius:2px}
+.bars i:first-child{width:56px;background:var(--rose)}
+.bars i:last-child{width:26px;background:var(--blush)}
+main.wrap{padding:1.3rem 1.1rem 2.5rem}
+.meta{display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:.8rem}
+.badge{display:inline-block;color:var(--snow);background:var(--burgundy);font-weight:700;font-size:.8rem;line-height:1;padding:.38rem .55rem;border-radius:4px}
+.intro{margin:.2rem 0 1rem}
+.howto{background:var(--snow);border:1px solid var(--rule);border-left:5px solid var(--ink);border-radius:0 12px 12px 0;padding:.6rem 1rem;margin:0 0 1.2rem}
+.howto summary{font-weight:800;font-size:.8rem;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;min-height:32px;display:flex;align-items:center}
+.howto ol{margin:.3rem 0 .4rem;padding-left:1.3rem}
+.box{background:var(--snow);border:1px solid var(--rule);border-left:5px solid var(--signal-vermilion);padding:.8rem 1rem}
+#play{background:var(--snow);border:1px solid var(--rule);border-top:5px solid var(--burgundy);border-radius:14px;padding:1.1rem 1.2rem 1.3rem;min-height:8rem}
+#play:empty{display:none}
+#play:focus{outline:none}
+.count{margin:0;font-size:.78rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--burgundy)}
+h2.q{margin:.3rem 0 .9rem;font-size:1.2rem;line-height:1.4}
+.opts,.bins{display:grid;gap:.55rem}
+@media (min-width:36rem){.bins{grid-template-columns:repeat(auto-fit,minmax(9rem,1fr))}}
+.opt{display:flex;align-items:flex-start;gap:.7rem;width:100%;min-height:48px;text-align:left;font:inherit;color:var(--ink);background:var(--snow);border:2px solid var(--taupe);border-radius:10px;padding:.6rem .8rem;cursor:pointer}
+.opt:hover:not(:disabled){border-color:var(--ink);background:var(--rose-wash)}
+.opt:disabled{cursor:default;color:var(--ink);border-color:var(--rule)}
+.opt .n{flex:none;display:grid;place-items:center;width:1.6rem;height:1.6rem;border-radius:6px;background:var(--rose-tint);font-weight:800;font-size:.85rem}
+.opt.right{border-color:var(--burgundy);background:var(--rose-tint)}
+.opt.wrong{border-color:var(--signal-vermilion);border-style:dashed}
+.opt .verdict{margin-left:auto;padding-left:.5rem}
+.verdict{font-size:.8rem;font-weight:800;letter-spacing:.04em;white-space:nowrap}
+.verdict.ok{color:var(--ink);background:var(--rose);border-radius:5px;padding:.1rem .4rem}
+.verdict.no{color:var(--ink);background:var(--snow);border:2px solid var(--signal-vermilion);border-radius:5px;padding:.02rem .4rem}
+.why{margin:.8rem 0 0;padding:.6rem .8rem;background:var(--rose-wash);border-left:4px solid var(--burgundy);border-radius:0 8px 8px 0}
+.actions{display:flex;flex-wrap:wrap;gap:.6rem;margin:1rem 0 0}
+.btn{font:inherit;font-weight:700;color:var(--snow);background:var(--burgundy);border:2px solid var(--burgundy);border-radius:9px;padding:.5rem 1rem;min-height:44px;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center}
+.btn:hover:not(:disabled){background:var(--burgundy-deep);border-color:var(--burgundy-deep)}
+.btn:disabled{background:var(--snow);color:var(--taupe);border-color:var(--rule);cursor:default}
+.btn.ghost{background:var(--snow);color:var(--ink);border-color:var(--ink)}
+.btn.small{min-height:44px;font-size:.9rem;padding:.3rem .8rem}
+.bar{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:.5rem;margin:0 0 .9rem;font-weight:700}
+.clock{font-variant-numeric:tabular-nums}
+.card,.narration{font-size:1.15rem;line-height:1.5;margin:.4rem 0 1rem}
+.card{background:var(--rose-wash);border-radius:10px;padding:.9rem 1rem;font-weight:600}
+.last{margin-top:1.1rem;border-top:1px dashed var(--rule);padding-top:.6rem}
+.last:empty{display:none}
+.last-q{margin:0}
+.prompt{margin:0 0 .7rem;font-weight:600}
+/* rank */
+.rank-list{list-style:none;margin:0;padding:0;display:grid;gap:.5rem}
+.rank-item{display:flex;align-items:center;gap:.7rem;background:var(--snow);border:2px solid var(--taupe);border-radius:10px;padding:.4rem .5rem .4rem .7rem;min-height:52px}
+.rank-item.lifted{border-color:var(--ink);background:var(--rose-tint);outline:2px dashed var(--burgundy);outline-offset:2px}
+.rank-item .n{flex:none;display:grid;place-items:center;width:1.7rem;height:1.7rem;border-radius:4px;background:var(--rose);font-weight:800;font-size:.9rem}
+.rank-text{flex:1}
+.rank-move{display:flex;gap:.3rem}
+.mv{width:44px;height:44px;font:inherit;font-weight:800;font-size:1.1rem;color:var(--ink);background:var(--snow);border:2px solid var(--ink);border-radius:8px;cursor:pointer}
+.mv:disabled{border-color:var(--rule);color:var(--rule);cursor:default}
+.views{display:grid;gap:.8rem;margin-top:.6rem}
+@media (min-width:40rem){.views{grid-template-columns:repeat(auto-fit,minmax(13rem,1fr))}}
+.view{background:var(--snow);border:1px solid var(--rule);border-top:4px solid var(--ink);border-radius:10px;padding:.6rem .9rem .8rem}
+.view.yours{border-top-color:var(--rose)}
+.view h3{margin:.2rem 0 .3rem;font-size:1rem}
+.view ol{margin:0;padding-left:1.2rem;font-size:.95rem}
+/* ladder */
+.rungs{list-style:none;display:flex;gap:.4rem;margin:.4rem 0 .2rem;padding:0}
+.rungs li{font-size:.75rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;padding:.15rem .6rem;border-radius:999px;border:2px solid var(--rule);color:var(--taupe)}
+.rungs li.on{border-color:var(--ink);background:var(--ink);color:var(--snow)}
+.rungs li.past{border-color:var(--rose);background:var(--rose-tint);color:var(--ink)}
+.use{margin:0 0 1rem;padding:.7rem 1rem;background:var(--rose-wash);border-left:4px solid var(--ink);border-radius:0 8px 8px 0;font-style:italic}
+/* builder */
+.slots{display:grid;gap:.7rem}
+@media (min-width:36rem){.slots{grid-template-columns:repeat(auto-fit,minmax(10rem,1fr))}}
+.slot label{display:block;font-size:.78rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--burgundy);margin-bottom:.2rem}
+.slot select{width:100%;min-height:44px;font:inherit;color:var(--ink);background:var(--snow);border:2px solid var(--taupe);border-radius:8px;padding:.3rem .5rem}
+.preview-line{margin:1rem 0 0}
+.preview{display:block;margin-top:.3rem;background:var(--ink-deep);color:var(--rose);padding:.7rem .9rem;border-radius:8px;font-size:.95rem}
+.out{margin-top:.9rem}
+.out code{background:none}
+/* story */
+.meter{background:var(--signal-amber);border-radius:8px;padding:.4rem .8rem;font-size:.92rem}
+.scene.has-cast{display:grid;grid-template-columns:6.5rem 1fr;gap:1rem;align-items:start}
+.cast svg{display:block;width:100%;height:auto}
+.cast p{margin:.2rem 0 0;font-size:.78rem;font-weight:700;text-align:center;color:var(--taupe)}
+@media (max-width:30rem){.scene.has-cast{grid-template-columns:4.2rem 1fr;gap:.8rem}.narration{font-size:1.05rem}}
+.outcome{margin-top:1rem;border-top:1px dashed var(--rule);padding-top:.7rem}
+.outcome p{margin:.2rem 0}
+.cost{display:inline-block;font-size:.8rem;font-weight:800;background:var(--signal-amber);border-radius:5px;padding:.05rem .4rem;white-space:nowrap}
+.path{padding-left:1.3rem}
+/* spot */
+.hint{margin:.2rem 0 .7rem;font-size:.93rem;color:var(--taupe)}
+.exhibit-scroll{overflow-x:auto;border-radius:10px;background:var(--ink-deep);padding:.5rem}
+.exhibit{display:grid;gap:3px;min-width:min-content;font-family:"Courier New",Consolas,"DejaVu Sans Mono",monospace;font-size:.9rem}
+.exhibit.table,.exhibit.log{min-width:calc(var(--cols,2) * 7rem + 11rem)}
+.ex-row{display:grid;grid-template-columns:repeat(var(--cols,1),minmax(0,1fr)) 10.5rem;gap:.2rem .9rem;align-items:center;width:100%;min-height:44px;text-align:left;font:inherit;color:var(--snow);background:var(--ink-raised);border:2px solid var(--ink-raised);border-radius:6px;padding:.3rem .7rem;white-space:pre-wrap}
+button.ex-row{cursor:pointer}
+button.ex-row:hover:not(:disabled){border-color:var(--blush)}
+button.ex-row:focus-visible{outline-color:var(--rose)}
+.ex-head{background:none;border-color:transparent;color:var(--blush);font-weight:700;min-height:0;font-family:"Open Sans",Arial,sans-serif;font-size:.78rem;letter-spacing:.06em;text-transform:uppercase}
+.ex-row .flag{visibility:hidden;font-family:"Open Sans",Arial,sans-serif;font-size:.75rem;font-weight:800;color:var(--ink);background:var(--signal-amber);border-radius:5px;padding:.05rem .4rem;white-space:nowrap}
+.ex-row[aria-pressed="true"]{border-color:var(--signal-amber)}
+.ex-row[aria-pressed="true"] .flag{visibility:visible}
+.ex-row:disabled{color:var(--snow);cursor:default}
+.ex-row:disabled .flag{display:none}
+.ex-row.right{border-color:var(--rose);border-width:3px}
+.ex-row.missed,.ex-row.wrong{border-color:var(--signal-vermilion);border-style:dashed}
+.ex-row .verdict{font-family:"Open Sans",Arial,sans-serif;justify-self:end}
+.ex-row>span{overflow-wrap:anywhere}
+.notes{list-style:none;padding:0;display:grid;gap:.8rem}
+.round-score{font-weight:700;margin:1rem 0 .2rem}
+/* result */
+.result{background:var(--snow);border:2px solid var(--ink);border-radius:14px;padding:1rem 1.2rem 1.3rem;margin-top:1.2rem}
+.result h2{margin:.1rem 0 .2rem;font-size:1.3rem}
+.result h2:focus{outline:none}
+.result h3{margin:1.2rem 0 .3rem;font-size:1.05rem}
+.score{margin:.1rem 0;font-size:1.3rem}
+.score strong{font-size:2.2rem;font-weight:800}
+.best{margin:0;font-size:.9rem;color:var(--taupe)}
+.misses{padding-left:1.3rem}
+.misses li,.path li{margin:.9rem 0}
+.misses p,.path p,.notes p{margin:.2rem 0}
+.m-q{font-weight:600}
+.clean{font-weight:600}
+.back{margin:1.2rem 0 0}
+.study{display:none}
+.site-footer{border-top:1px solid var(--rule);color:var(--taupe);font-size:.85rem;padding:1.2rem 0 2rem;text-align:center}
+.site-footer p{margin:.3rem 0}
+.site-footer .author{color:var(--taupe)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+@media print{
+  html{filter:grayscale(1)}
+  body{background:var(--snow);font-size:11pt}
+  .play-header{background:var(--snow);color:var(--ink);border-bottom:2px solid var(--ink)}
+  .play-header .eyebrow,.play-header .eyebrow a{color:var(--taupe)}
+  #play,.result,.bars,.skip,.back,.howto,noscript{display:none!important}
+  .study{display:block}
+  .study li{break-inside:avoid;margin:.8rem 0}
+}
+
+/* marks: a drawn tick and the fault badge; chevrons for moving an item; the flag mark (Open Sans has none of these glyphs) */
+.mk{display:inline-block;vertical-align:middle;margin-right:.35rem}
+.mk.tick{width:.42em;height:.78em;margin-left:.1em;border:solid currentColor;border-width:0 .17em .17em 0;transform:rotate(45deg) translateY(-.1em)}
+.mk.fault{display:inline-grid;place-items:center;width:1.15rem;height:1.15rem;background:var(--signal-vermilion);color:var(--ink);font-weight:800;font-size:.9rem;line-height:1;border-radius:2px}
+.verdict.no{border-style:dashed}
+.chev{display:inline-block;width:.6rem;height:.6rem;border:solid currentColor;border-width:.18rem .18rem 0 0}
+.chev.up{transform:translateY(.12rem) rotate(-45deg)}.chev.down{transform:translateY(-.12rem) rotate(135deg)}
+.flag-mark{display:inline-block;width:.55rem;height:.7rem;margin-right:.3rem;border-left:2px solid var(--ink);background:linear-gradient(var(--ink),var(--ink)) left top/100% 55% no-repeat;vertical-align:-.05rem}
+.exhibit.code .ex-row{grid-template-columns:2rem minmax(0,1fr) 10.5rem}
+.ex-row .ln{color:var(--blush);text-align:right}
+.exhibit.headers .ex-row,.exhibit.code .ex-row{white-space:pre}
+.fixq{margin-top:1.1rem;border-top:1px dashed var(--rule);padding-top:.7rem}
+.fixq .q{margin:.2rem 0 .7rem}
+.voice-badge{display:inline-grid;place-items:center;min-width:1.9rem;height:1.9rem;padding:0 .3rem;border-radius:999px;color:var(--snow);font-weight:800;font-size:.72rem;vertical-align:middle;margin-right:.4rem}
+.v-registrar{background:var(--burgundy)}.v-head_of_it{background:var(--taupe)}.v-dpo{background:var(--burgundy-deep)}
+</style>
+</head>
+<body class="play engine-story">
+<a class="skip" href="#play">Skip to the play</a>
+<header class="play-header"><div class="wrap">
+<p class="eyebrow"><a href="../index.html">Day 2</a> | 10 minutes</p>
+<h1>Getting the key to Kandy</h1>
+<div class="bars" aria-hidden="true"><i></i><i></i></div>
+</div></header>
+<main class="wrap">
+<div class="meta"><span class="badge" title="Learning outcome 2">LO2</span></div>
+<p class="intro">You are the trainee analyst on duty in Taxila's IT office. Tonight's exam paper is encrypted, and the Kandy campus must print it in the morning.</p>
+<details class="howto" open><summary>How to play</summary><ol><li>Read the situation and choose what to do. Every choice takes time and shows what happens next.</li><li>There are several endings. Only one of them gets the paper to Kandy with nothing secret exposed.</li></ol></details>
+<noscript><p class="box">This play needs JavaScript. The questions and reasons are still in the notes for this day.</p></noscript>
+<div id="play" tabindex="-1"></div>
+<div id="live" class="sr" aria-live="polite"></div>
+<section id="result" class="result" hidden aria-labelledby="h-result"></section>
+<p class="back"><a href="../index.html">Back to Day 2</a></p>
+</main>
+<footer class="site-footer"><div class="wrap">
+<p class="author">&copy; Niranga Dharmaratna, School of Computing &amp; Engineering, National Institute of Business Management</p>
+<p>Content licensed <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener">CC BY-NC-SA 4.0</a>; code licensed MIT; Open Sans under the SIL Open Font Licence.</p>
+<p>Dates and submissions are announced for your cohort. Taxila College is fictional.</p>
+<p>Your answers stay on this device.</p>
+</div></footer>
+<template id="cast-head_of_it"><svg viewBox="0 0 120 322" role="img" aria-label="Head of IT"><ellipse cx="60" cy="316" rx="38" ry="5" fill="#2A1A1D" opacity=".12"/><path d="M38 182 L60 182 L58 302 L42 302 Z" fill="#2A1A1D"/><path d="M60 182 L82 182 L78 302 L62 302 Z" fill="#231618"/><path d="M60 190 L60 240" stroke="#1D1214" stroke-width="1.2"/><path d="M36 300 L58 300 L59 312 Q59 316 55 316 L30 316 Q27 316 29 311 Z" fill="#1C1114"/><path d="M62 300 L84 300 L91 311 Q93 316 90 316 L65 316 Q61 316 61 312 Z" fill="#1C1114"/><path d="M36 98 Q26 140 30 176" stroke="#F3E2E4" stroke-width="14" stroke-linecap="round" fill="none"/><ellipse cx="30" cy="182" rx="7" ry="7" fill="#A8705A"/><path d="M84 98 Q110 104 128 84" stroke="#DACBCD" stroke-width="14" stroke-linecap="round" fill="none"/><ellipse cx="136" cy="78" rx="7.5" ry="7.5" fill="#A8705A"/><path d="M136 76 L149 69" stroke="#A8705A" stroke-width="4.5" stroke-linecap="round"/><rect x="51" y="66" width="18" height="24" rx="6" fill="#8C5843"/><path d="M33 98 Q33 86 47 84 L73 84 Q87 86 87 98 L84 140 Q82 162 84 186 L36 186 Q38 162 36 140 Z" fill="#F3E2E4"/><path d="M50 84 L60 100 L70 84" fill="none" stroke="#BDB0B1" stroke-width="2"/><path d="M60 100 L60 180" stroke="#C7B9BA" stroke-width="1.4"/><ellipse cx="60" cy="116" rx="1.6" ry="1.6" fill="#AA9E9F"/><ellipse cx="60" cy="136" rx="1.6" ry="1.6" fill="#AA9E9F"/><ellipse cx="60" cy="156" rx="1.6" ry="1.6" fill="#AA9E9F"/><rect x="35" y="180" width="50" height="6" fill="#190F11"/><path d="M50 86 L56 140 M70 86 L64 140" stroke="#9C2C3A" stroke-width="3"/><rect x="51" y="138" width="18" height="24" rx="2.5" fill="#FFFBFB" stroke="#BFA6A8" stroke-width="1"/><rect x="54" y="142" width="12" height="7" fill="#802833"/><rect x="54" y="152" width="12" height="2" fill="#BFA6A8"/><rect x="54" y="156" width="8" height="2" fill="#BFA6A8"/><ellipse cx="38" cy="46" rx="5" ry="7" fill="#8C5843"/><ellipse cx="82" cy="46" rx="5" ry="7" fill="#8C5843"/><ellipse cx="60" cy="42" rx="22" ry="26" fill="#A8705A"/><path d="M37 42 C33 4 86 2 84 40 C82 30 76 24 66 23 C58 30 46 30 40 34 Z" fill="#1E1A1A"/><ellipse cx="51" cy="44" rx="2.3" ry="2.9" fill="#1C1114"/><ellipse cx="69" cy="44" rx="2.3" ry="2.9" fill="#1C1114"/><path d="M46 37 Q51 34 55 36 M65 36 Q69 34 74 37" stroke="#1E1A1A" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M59 49 Q57 55 60 56 Q62 56 63 54" stroke="#5E3A2B" stroke-width="1.5" fill="none" stroke-linecap="round" opacity=".8"/><path d="M53 61 Q60 67 67 61" stroke="#5E3A2B" stroke-width="2" fill="none" stroke-linecap="round"/><ellipse cx="51" cy="44" rx="7" ry="7" fill="none" stroke="#2A1A1D" stroke-width="1.8"/><ellipse cx="69" cy="44" rx="7" ry="7" fill="none" stroke="#2A1A1D" stroke-width="1.8"/><path d="M58 44 L62 44 M44 43 L38 41 M76 43 L82 41" stroke="#2A1A1D" stroke-width="1.8"/></svg></template><template id="cast-registrar"><svg viewBox="0 0 120 322" role="img" aria-label="Registrar"><ellipse cx="60" cy="316" rx="38" ry="5" fill="#2A1A1D" opacity=".12"/><path d="M38 182 L82 182 L92 306 L28 306 Z" fill="#9C2C3A"/><path d="M52 200 L49.0 304" stroke="#7C232E" stroke-width="1.6"/><path d="M58 200 L58.0 304" stroke="#7C232E" stroke-width="1.6"/><path d="M64 200 L67.0 304" stroke="#7C232E" stroke-width="1.6"/><path d="M30 294 L90 294 L92 306 L28 306 Z" fill="#E4D5D5"/><path d="M36 306 L56 306 L56 316 L32 316 Z" fill="#3E2A2F"/><path d="M64 306 L84 306 L88 316 L64 316 Z" fill="#3E2A2F"/><ellipse cx="60" cy="66" rx="19" ry="10" fill="#1E1A1A"/><path d="M44 64 Q60 72 76 64" stroke="#4A4444" stroke-width="1.2" fill="none" opacity=".6"/><path d="M36 98 Q26 140 30 176" stroke="#C68B6E" stroke-width="12" stroke-linecap="round" fill="none"/><path d="M36 98 Q26 140 30 176" pathLength="100" stroke-dasharray="26 200" stroke="#9C2C3A" stroke-width="15" stroke-linecap="round" fill="none"/><ellipse cx="30" cy="182" rx="7" ry="7" fill="#C68B6E"/><rect x="51" y="66" width="18" height="24" rx="6" fill="#A9704F"/><path d="M33 98 Q33 86 47 84 L73 84 Q87 86 87 98 L84 140 Q82 162 84 186 L36 186 Q38 162 36 140 Z" fill="#9C2C3A"/><path d="M33 98 Q33 86 47 84 L73 84 Q87 86 87 98 L85.5 146 L34.5 146 Z" fill="#9C2C3A"/><path d="M48 84 Q60 100 72 84" fill="#A9704F"/><path d="M42 182 L53 182 L88 98 Q86 88 79 85 Z" fill="#8C2734"/><path d="M47.5 182 L83.5 91" stroke="#79222D" stroke-width="1.4"/><path d="M53 182 L88 98 M42 182 L79 85" stroke="#E4D5D5" stroke-width="2.6"/><path d="M76 85 Q90 84 93 98 L91 108 Q86 96 78 93 Z" fill="#9C2C3A"/><path d="M35 176 L85 176 L86.5 191 Q81.2 198 75.9 191 Q70.6 198 65.3 191 Q60 198 54.7 191 Q49.4 198 44.1 191 Q38.8 198 33.5 191 Z" fill="#8C2734"/><path d="M86.5 191 Q81.2 198 75.9 191 Q70.6 198 65.3 191 Q60 198 54.7 191 Q49.4 198 44.1 191 Q38.8 198 33.5 191" stroke="#E4D5D5" stroke-width="2.6" fill="none"/><path d="M41 178 L39.9 191" stroke="#79222D" stroke-width="1.2"/><path d="M50 178 L49.4 191" stroke="#79222D" stroke-width="1.2"/><path d="M60 178 L60.0 191" stroke="#79222D" stroke-width="1.2"/><path d="M70 178 L70.6 191" stroke="#79222D" stroke-width="1.2"/><path d="M79 178 L80.1 191" stroke="#79222D" stroke-width="1.2"/><path d="M35 176 L85 176" stroke="#75212B" stroke-width="2"/><path d="M84 98 Q96 128 88 146 Q60 150 56 140" stroke="#A9704F" stroke-width="12" stroke-linecap="round" fill="none"/><path d="M84 98 Q96 128 88 146 Q60 150 56 140" pathLength="100" stroke-dasharray="26 200" stroke="#8C2734" stroke-width="15" stroke-linecap="round" fill="none"/><ellipse cx="54" cy="138" rx="7.5" ry="7.5" fill="#C68B6E"/><g transform="rotate(-6 59 142)"><rect x="40" y="112" width="38" height="56" rx="1.5" fill="#FFFBFB" stroke="#BFA6A8" stroke-width="1"/><rect x="45" y="119" width="22" height="3" fill="#2A1A1D"/><rect x="45" y="127" width="26" height="2.5" fill="#E4D5D5"/><rect x="45" y="133" width="20" height="2.5" fill="#E4D5D5"/><rect x="45" y="139" width="24" height="2.5" fill="#E4D5D5"/><path d="M58 156 A8 8 0 1 0 74 156 A8 8 0 1 0 58 156 Z" fill="#9C2C3A"/><path d="M62 156 A4 4 0 1 0 70 156 A4 4 0 1 0 62 156 Z" fill="none" stroke="#E8A0AA" stroke-width="1.4"/><path d="M62 162 L60 170 L64 168 L66 172 L66 163" fill="#802833"/></g><ellipse cx="79" cy="150" rx="6.5" ry="7.5" fill="#C68B6E"/><path d="M76 146 l6 -2" stroke="#A9704F" stroke-width="2" stroke-linecap="round"/><ellipse cx="38" cy="46" rx="5" ry="7" fill="#A9704F"/><ellipse cx="82" cy="46" rx="5" ry="7" fill="#A9704F"/><ellipse cx="60" cy="42" rx="22" ry="26" fill="#C68B6E"/><ellipse cx="37" cy="55" rx="2.4" ry="2.4" fill="#E8A0AA"/><ellipse cx="83" cy="55" rx="2.4" ry="2.4" fill="#E8A0AA"/><path d="M37 48 C34 30 40 12 60 12 C80 12 86 30 83 48 C80 36 73 28 60 28 C47 28 40 36 37 48 Z" fill="#1E1A1A"/><path d="M60 13 L60 27" stroke="#4A4444" stroke-width="1.4" stroke-linecap="round"/><path d="M42 34 Q48 20 59 15 M78 34 Q72 20 61 15" stroke="#4A4444" stroke-width="1" fill="none" opacity=".6"/><ellipse cx="51" cy="44" rx="2.3" ry="2.9" fill="#1C1114"/><ellipse cx="69" cy="44" rx="2.3" ry="2.9" fill="#1C1114"/><path d="M46 37 Q51 34 55 36 M65 36 Q69 34 74 37" stroke="#1E1A1A" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M59 49 Q57 55 60 56 Q62 56 63 54" stroke="#7A4B36" stroke-width="1.5" fill="none" stroke-linecap="round" opacity=".8"/><path d="M53 61 Q60 67 67 61" stroke="#7A4B36" stroke-width="2" fill="none" stroke-linecap="round"/></svg></template><template id="cast-student_a"><svg viewBox="0 0 120 322" role="img" aria-label="You"><ellipse cx="60" cy="316" rx="38" ry="5" fill="#2A1A1D" opacity=".12"/><path d="M38 182 L60 182 L58 302 L42 302 Z" fill="#3E2A2F"/><path d="M60 182 L82 182 L78 302 L62 302 Z" fill="#342327"/><path d="M60 190 L60 240" stroke="#2B1D20" stroke-width="1.2"/><path d="M36 300 L58 300 L59 312 Q59 316 55 316 L30 316 Q27 316 29 311 Z" fill="#1C1114"/><path d="M62 300 L84 300 L91 311 Q93 316 90 316 L65 316 Q61 316 61 312 Z" fill="#1C1114"/><path d="M35 44 C33 16 87 16 85 44 L87 90 Q81 97 75 90 L45 90 Q39 97 33 90 Z" fill="#1E1A1A"/><rect x="51" y="66" width="18" height="24" rx="6" fill="#8C5843"/><path d="M33 98 Q33 86 47 84 L73 84 Q87 86 87 98 L84 140 Q82 162 84 186 L36 186 Q38 162 36 140 Z" fill="#E8A0AA"/><path d="M50 84 Q60 96 70 84" fill="none" stroke="#AE787F" stroke-width="2.4"/><rect x="35" y="180" width="50" height="6" fill="#25191C"/><path d="M36 98 Q21 130 33 152" stroke="#A8705A" stroke-width="12" stroke-linecap="round" fill="none"/><path d="M36 98 Q21 130 33 152" pathLength="100" stroke-dasharray="26 200" stroke="#E8A0AA" stroke-width="15" stroke-linecap="round" fill="none"/><path d="M84 98 Q99 130 87 152" stroke="#8C5843" stroke-width="12" stroke-linecap="round" fill="none"/><path d="M84 98 Q99 130 87 152" pathLength="100" stroke-dasharray="26 200" stroke="#D09099" stroke-width="15" stroke-linecap="round" fill="none"/><path d="M30 136 L90 136 L85 178 L35 178 Z" fill="#BFA6A8"/><path d="M34 140 L86 140 L81.5 174 L38.5 174 Z" fill="#2A1A1D"/><rect x="44" y="148" width="20" height="3" fill="#E8A0AA"/><rect x="44" y="155" width="30" height="3" fill="#6C5353"/><rect x="44" y="162" width="14" height="3" fill="#6C5353"/><ellipse cx="32.5" cy="156" rx="6.5" ry="8.5" fill="#A8705A"/><path d="M34.5 151 l6 1 M34.5 156 l6 0.6 M34.5 161 l5.5 0" stroke="#8C5843" stroke-width="2.2" stroke-linecap="round"/><ellipse cx="87.5" cy="156" rx="6.5" ry="8.5" fill="#A8705A"/><path d="M85.5 151 l-6 1 M85.5 156 l-6 0.6 M85.5 161 l-5.5 0" stroke="#8C5843" stroke-width="2.2" stroke-linecap="round"/><ellipse cx="38" cy="46" rx="5" ry="7" fill="#8C5843"/><ellipse cx="82" cy="46" rx="5" ry="7" fill="#8C5843"/><ellipse cx="60" cy="42" rx="22" ry="26" fill="#A8705A"/><ellipse cx="37" cy="55" rx="2.4" ry="2.4" fill="#E8A0AA"/><ellipse cx="83" cy="55" rx="2.4" ry="2.4" fill="#E8A0AA"/><path d="M36 50 C33 30 40 12 60 12 C80 12 87 30 84 48 C80 34 72 27 58 28 C50 31 43 38 36 50 Z" fill="#1E1A1A"/><path d="M58 28 Q50 33 44 42 M64 14 Q60 20 58 28" stroke="#4A4444" stroke-width="1.1" fill="none" opacity=".6"/><ellipse cx="51" cy="44" rx="2.3" ry="2.9" fill="#1C1114"/><ellipse cx="69" cy="44" rx="2.3" ry="2.9" fill="#1C1114"/><path d="M46 37 Q51 34 55 36 M65 36 Q69 34 74 37" stroke="#1E1A1A" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M59 49 Q57 55 60 56 Q62 56 63 54" stroke="#5E3A2B" stroke-width="1.5" fill="none" stroke-linecap="round" opacity=".8"/><path d="M53 61 Q60 67 67 61" stroke="#5E3A2B" stroke-width="2" fill="none" stroke-linecap="round"/></svg></template>
+<script type="application/json" id="play-data">{"_site":{"initials":{"dpo":"DPO","head_of_it":"IT","registrar":"R"},"short":"Taxila","store":"hndne-pis:","voices":{"dpo":"Data Protection Officer","head_of_it":"Head of IT","registrar":"Registrar"}},"best_path":[0,0,0,0,0],"cast_label":{"head_of_it":"Head of IT","registrar":"Registrar","student_a":"You"},"day":2,"draws_on":["notes 4: the key distribution problem","notes 5: asymmetric keys and the hybrid pattern","demo: public-private-pair","lab segment 4: the hybrid idea"],"endings":{"costly-method":{"text":"The paper arrived safely, but half an hour went on changing a method that never needed to be secret.","verdict":"costly"},"costly-phone":{"text":"The paper arrived, but its key was spoken aloud, and the next twenty papers face the same problem.","verdict":"costly"},"good-end":{"text":"Kandy prints tonight's paper, and nothing secret ever travelled unlocked. The college can use the same pattern for every paper.","verdict":"good"},"key-with-paper":{"text":"Anyone who copies the email holds the paper and its key. Tonight's paper must be treated as read.","verdict":"bad"},"leaked-private":{"text":"Kandy's private key travelled in an email, so anything locked for Kandy can be opened by whoever copied it.","verdict":"bad"},"plain-paper":{"text":"The paper travelled as plaintext. This is last semester's leaked paper again.","verdict":"bad"},"spare-key":{"text":"The unlocked spare key travels beside the paper. Locking the other copy protected nothing.","verdict":"bad"}},"engine":"story","how_to":["Read the situation and choose what to do. Every choice takes time and shows what happens next.","There are several endings. Only one of them gets the paper to Kandy with nothing secret exposed."],"id":"p2-2-getting-the-key-to-kandy","intro":"You are the trainee analyst on duty in Taxila's IT office. Tonight's exam paper is encrypted, and the Kandy campus must print it in the morning.","lo":[2],"minutes":10,"nodes":{"brief":{"cast":"head_of_it","choices":[{"label":"Ask Kandy's examinations office for its public key, and send the AES key locked with it","note":"A public key can travel openly, and only Kandy's private key will open what it locks.","time_min":5,"to":"pubkey"},{"label":"Put the key in the same email as the encrypted paper","note":"Anyone who copies that email would hold both the ciphertext and the key that opens it.","time_min":2,"to":"same-email"},{"label":"Phone Kandy's examinations office and read the key aloud","note":"A phone call is a second channel, but the key is still spoken in the open, and 64 characters are easy to get wrong.","time_min":10,"to":"phoned"}],"text":"\"Tonight's paper is encrypted with a fresh AES key,\" says the Head of IT. \"Kandy's examinations office needs the encrypted paper and the key before it prints in the morning. How do we send the key?\""},"gotpub":{"cast":"student_a","choices":[{"label":"The short AES key for tonight's paper","note":"The public key carries the short AES key; the AES key already carries the paper.","time_min":3,"to":"lockedkey"},{"label":"The whole exam paper","note":"A public key locks only a short message, a few hundred bytes at most, and slowly.","time_min":2,"to":"toolong"}],"text":"You have Kandy's public key. What do you lock with it?"},"lockedkey":{"cast":"head_of_it","choices":[{"label":"Send both by email to Kandy's examinations office","note":"Both are locked. Anyone who copies the email sees only ciphertext.","time_min":2,"to":"sent"},{"label":"Send both, and add the AES key unlocked too, in case Kandy has trouble","note":"An unlocked copy of the key undoes the whole design.","to":"spare-key"}],"text":"The locked AES key and the encrypted paper are ready. \"How do they travel?\" asks the Head of IT."},"phoned":{"cast":"student_a","choices":[{"label":"Ask for Kandy's public key, and send the key locked instead","note":"A locked key arrives exactly as sent, and nobody nearby hears it.","time_min":5,"to":"pubkey"},{"label":"Read the key again, more slowly","note":"It may work, but the key is spoken aloud a second time.","time_min":10,"to":"phoned-again"}],"text":"Kandy's examinations office writes the 64 characters down by hand. Two of them are wrong, and the paper will not open."},"phoned-again":{"cast":"head_of_it","choices":[{"label":"Agree to switch to the hybrid pattern from the next paper","note":"Better late than never. Tonight's key was still spoken in the open.","time_min":5,"to":"costly-phone"},{"label":"Keep phoning every key: it worked in the end","note":"Each spoken key is another chance for someone to overhear it.","time_min":2,"to":"costly-phone"}],"text":"It works this time. \"And next week we have twenty more papers,\" says the Head of IT. \"Anyone near either phone heard tonight's key.\""},"privsent":{"cast":"head_of_it","choices":[{"label":"Ask Kandy to make a new key pair and send only the public key","note":"The exposed pair is thrown away. Fifteen minutes lost, but the secret is safe again.","time_min":15,"to":"gotpub"},{"label":"Use it anyway: it is quicker","note":"The private key has been exposed, so what it protects is exposed too.","to":"leaked-private"}],"text":"Kandy's private key arrives by email. Anyone who copied that email can now open everything locked for Kandy."},"pubkey":{"cast":"student_a","choices":[{"label":"The public key only. Keep the private key in Kandy","note":"The public key is safe to share. The private key must never leave its owner.","time_min":2,"to":"gotpub"},{"label":"The private key, so that we can lock the paper with it","note":"A private key that travels is no longer private. And you lock with the reader's public key, not their private key.","time_min":2,"to":"privsent"}],"text":"Kandy's examinations office replies: \"We have made a key pair. Which part should we send you?\""},"same-email":{"cast":"head_of_it","choices":[{"label":"Remove the key, and ask Kandy for its public key instead","note":"Right: the key must not travel unlocked beside the paper.","time_min":5,"to":"pubkey"},{"label":"Send it anyway: the email stays inside the college","note":"Mail is copied to servers and devices along the way. Inside the college is not the same as secret.","to":"key-with-paper"}],"text":"The Head of IT reads your draft. The key sits two lines below the attachment."},"sent":{"cast":"registrar","choices":[{"label":"They would hold only ciphertext and a locked key. Only Kandy's private key opens them","note":"Right: the security rests in the keys, and the private key never left Kandy.","time_min":2,"to":"good-end"},{"label":"We should change our cipher, in case someone learnt which one we use","note":"The method may be public. Changing it costs time and adds nothing, because the key is what keeps the paper secret.","time_min":30,"to":"costly-method"}],"text":"Kandy opens the AES key with its private key, then the paper. The Registrar asks: \"What if someone copied that email?\""},"toolong":{"cast":"student_a","choices":[{"label":"Lock the AES key with the public key instead, and send the paper as AES ciphertext","note":"That is the hybrid pattern: each family does the job it is good at.","time_min":3,"to":"lockedkey"},{"label":"Send the paper unencrypted, since it will not fit","note":"An unencrypted paper is exactly what leaked last semester.","to":"plain-paper"}],"text":"The tool refuses. The paper is far too long for the public key."}},"start":"brief","title":"Getting the key to Kandy"}</script>
+<script>
+/* Principles of Information Security plays: shared shell. MIT licence. No network, nothing leaves the device.
+   An engine calls Play.start(function (P) {...}) and, when the student has finished,
+   P.finish(score, max, misses). The audit drives a play through window.__play.
+   This shell writes no HTML string into the page (D37): text goes in with textContent, the small Markdown
+   the data may use is built as nodes, and drawings are copies of <template> elements the generator wrote.
+   Module words (the storage prefix, the scenario's short name, the voices) arrive in the play data as _site. */
+(function () {
+  "use strict";
+  var D = JSON.parse(document.getElementById("play-data").textContent);
+  var SITE = D._site || {};
+  var root = document.getElementById("play"), live = document.getElementById("live"), result = document.getElementById("result");
+  var state = { done: false, score: 0, max: 0 }, solver = null, starter = null;
+  var BEST = (SITE.store || "play:") + "best:" + D.id;
+
+  /* the small Markdown the data may use: `code`, **bold**, *emphasis*. Returns nodes, never markup. */
+  function md(s) {
+    var frag = document.createDocumentFragment(), str = String(s == null ? "" : s);
+    var rx = /`([^`]+)`|\*\*([^*]+)\*\*|\*([^*]+)\*/g, last = 0, m;
+    while ((m = rx.exec(str)) !== null) {
+      if (m.index > last) { frag.appendChild(document.createTextNode(str.slice(last, m.index))); }
+      var tag = m[1] !== undefined ? "code" : (m[2] !== undefined ? "strong" : "em");
+      var n = document.createElement(tag);
+      n.textContent = m[1] !== undefined ? m[1] : (m[2] !== undefined ? m[2] : m[3]);
+      frag.appendChild(n);
+      last = rx.lastIndex;
+    }
+    if (last < str.length) { frag.appendChild(document.createTextNode(str.slice(last))); }
+    return frag;
+  }
+  /* h(tag, attrs, kids): attrs.text sets plain text, attrs.md sets the small Markdown, attrs.on adds listeners. */
+  function h(tag, attrs, kids) {
+    var n = document.createElement(tag), k;
+    for (k in (attrs || {})) {
+      if (k === "text") { n.textContent = attrs[k]; }
+      else if (k === "md") { n.appendChild(md(attrs[k])); }
+      else if (k === "on") { for (var e in attrs.on) { n.addEventListener(e, attrs.on[e]); } }
+      else if (attrs[k] !== null && attrs[k] !== undefined && attrs[k] !== false) { n.setAttribute(k, attrs[k] === true ? "" : attrs[k]); }
+    }
+    (kids || []).forEach(function (c) { if (c) { n.appendChild(typeof c === "string" ? document.createTextNode(c) : c); } });
+    return n;
+  }
+  function tpl(id) { var t = document.getElementById(id); return t && t.content ? t.content.cloneNode(true) : null; }
+  function btn(label, cls, fn) { return h("button", { type: "button", "class": cls || "btn", md: label, on: { click: fn } }); }
+  /* a numbered answer button: the number, then the answer */
+  function opt(k, label, fn, cls) {
+    return h("button", { type: "button", "class": cls || "opt", on: { click: fn } }, [h("span", { "class": "n", text: String(k + 1) }), h("span", { md: label })]);
+  }
+  function say(t) { live.textContent = ""; window.setTimeout(function () { live.textContent = t; }, 40); }
+  function clear(n) { while (n.firstChild) { n.removeChild(n.firstChild); } }
+  function shuffle(a) { a = a.slice(); for (var i = a.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)), t = a[i]; a[i] = a[j]; a[j] = t; } return a; }
+  function store(fn, fb) { try { return fn(window.localStorage); } catch (e) { return fb; } }
+  /* a verdict is always a mark and a word, never colour alone: a drawn tick, or the fault badge with its multiplication sign */
+  function mark(ok) { return h("span", { "class": ok ? "mk tick" : "mk fault", "aria-hidden": "true", text: ok ? "" : "×" }); }
+  function verdict(ok, word) { return h("span", { "class": "verdict " + (ok ? "ok" : "no") }, [mark(ok), word || (ok ? "Right" : "Not quite")]); }
+  function why(text, label) { return h("p", { "class": "why" }, [h("b", { text: (label || "Why") + ":" }), " ", md(text)]); }
+  function labelled(label, text, cls) { return h("p", { "class": cls || "" }, [h("b", { text: label }), " ", md(text)]); }
+  function progress(i, n, what) { return h("p", { "class": "count", text: (what || "Question") + " " + i + " of " + n }); }
+
+  function finish(score, max, misses, extra) {
+    state = { done: true, score: score, max: max };
+    var prev = store(function (s) { return parseInt(s.getItem(BEST), 10); }, NaN);
+    var best = isNaN(prev) ? score : Math.max(prev, score);
+    store(function (s) { s.setItem(BEST, String(best)); });
+    clear(result);
+    result.appendChild(h("h2", { id: "h-result", tabindex: "-1", text: "Your result" }));
+    result.appendChild(h("p", { "class": "score" }, [h("strong", { text: String(score) }), " of " + max]));
+    result.appendChild(h("p", { "class": "best", text: "Best on this device: " + best + " of " + max + "." }));
+    if (extra) { result.appendChild(extra); }
+    if (misses && misses.length) {
+      result.appendChild(h("h3", { text: "Check these again" }));
+      result.appendChild(h("ol", { "class": "misses" }, misses.map(function (m) {
+        return h("li", {}, [h("p", { "class": "m-q", md: m.q }),
+          m.yours ? labelled("You chose:", m.yours, "m-yours") : null,
+          m.right ? labelled("Better:", m.right, "m-right") : null,
+          why(m.why)]);
+      })));
+    } else if (score >= max) {
+      result.appendChild(h("p", { "class": "clean", text: "Nothing to check again: every answer held." }));
+    }
+    result.appendChild(h("p", { "class": "actions" }, [btn("Play again", "btn", function () { begin(); root.focus(); }),
+      h("a", { "class": "btn ghost", href: "../index.html", text: "Back to the day" })]));
+    result.hidden = false;
+    document.getElementById("h-result").focus();
+    say("Finished. You scored " + score + " of " + max + ".");
+  }
+
+  /* the print view: questions and reasons as a study sheet */
+  function study(rows) {
+    var old = document.getElementById("study");
+    if (old) { old.parentNode.removeChild(old); }
+    var sec = h("section", { id: "study", "class": "study" }, [h("h2", { text: "Study sheet" }),
+      h("ol", {}, rows.map(function (r) {
+        return h("li", {}, [h("p", { "class": "m-q", md: r.q }), r.a ? labelled("Answer:", r.a) : null, r.why ? why(r.why) : null]);
+      }))]);
+    result.parentNode.insertBefore(sec, result.nextSibling);
+  }
+
+  function begin() {
+    state = { done: false, score: 0, max: 0 };
+    result.hidden = true;
+    clear(root);
+    solver = null;
+    starter(api);
+  }
+  var api = { data: D, site: SITE, root: root, h: h, md: md, tpl: tpl, btn: btn, opt: opt, say: say, clear: clear, shuffle: shuffle,
+    verdict: verdict, why: why, labelled: labelled, progress: progress, finish: finish, study: study, hook: function (fn) { solver = fn; } };
+  window.Play = { start: function (fn) { starter = fn; begin(); } };
+  /* test hook: solve() plays the keyed answers through the real handlers; state() reports the outcome */
+  window.__play = { solve: function () { if (solver) { solver(); } return state; }, state: function () { return state; } };
+})();
+/* story: you are the trainee analyst on duty. Each choice takes time and shows its reason before you go on.
+   The play ends at an ending that is good, costly or bad. Choices cost time only, never money (D37).
+   Figures are copies of the <template id="cast-ROLE"> elements the generator wrote. */
+Play.start(function (P) {
+  "use strict";
+  var D = P.data, at = D.start, mins = 0, path = [], buttons = [], cont = null;
+  var WORD = { good: "A good ending", costly: "A costly ending", bad: "A bad ending" };
+  var rows = [], k;
+  for (k in D.nodes) { D.nodes[k].choices.forEach(function (c) { rows.push({ q: D.nodes[k].text + " Choice: " + c.label, why: c.note }); }); }
+  P.study(rows);
+  var meter = P.h("p", { "class": "bar meter", role: "status" });
+  var stage = P.h("div", { "class": "stage" });
+  function minutes(n) { return n + (n === 1 ? " minute" : " minutes"); }
+  function paintMeter() { meter.textContent = "Time so far: " + minutes(mins) + ". Step " + (path.length + 1) + "."; }
+  function end(id) {
+    var e = D.endings[id], good = e.verdict === "good";
+    var extra = P.h("div", {}, [P.h("p", {}, [P.verdict(good, WORD[e.verdict])]), P.h("p", { md: e.text }),
+      P.h("p", { text: "Your path took " + minutes(mins) + ", in " + path.length + " steps." }),
+      P.h("h3", { text: "Your path" }),
+      P.h("ol", { "class": "path" }, path.map(function (p) { return P.h("li", {}, [P.h("p", { "class": "m-yours" }, [P.h("b", { md: p.label })]), P.why(p.note)]); }))]);
+    P.clear(P.root);
+    P.finish(good ? 1 : 0, 1, [], extra);
+  }
+  function choose(c) {
+    mins += c.time_min || 0;
+    path.push(c);
+    buttons.forEach(function (b) { b.disabled = true; });
+    var spent = c.time_min ? minutes(c.time_min) : "No time";
+    stage.appendChild(P.h("div", { "class": "outcome" }, [P.h("p", {}, [P.h("b", { text: "You chose:" }), " ", P.h("span", { md: c.label }), " ", P.h("span", { "class": "cost", text: spent })]), P.why(c.note, "What happens")]));
+    cont = P.btn(D.endings[c.to] ? "See how it ends" : "Go on", "btn", function () { if (D.endings[c.to]) { end(c.to); } else { at = c.to; show(); } });
+    stage.appendChild(P.h("p", { "class": "actions" }, [cont]));
+    cont.focus();
+    P.say(c.note);
+  }
+  function show() {
+    var n = D.nodes[at];
+    P.clear(stage);
+    paintMeter();
+    var art = n.cast ? P.tpl("cast-" + n.cast) : null;
+    var fig = art ? P.h("div", { "class": "cast" }, [art, P.h("p", { text: (D.cast_label || {})[n.cast] || "" })]) : null;
+    stage.appendChild(P.h("div", { "class": "scene" + (fig ? " has-cast" : "") }, [fig, P.h("p", { "class": "narration", md: n.text })]));
+    buttons = n.choices.map(function (c, j) { return P.opt(j, c.label, function () { choose(c); }); });
+    stage.appendChild(P.h("div", { "class": "opts" }, buttons));
+  }
+  P.root.appendChild(meter);
+  P.root.appendChild(stage);
+  P.hook(function () { D.best_path.forEach(function (j) { buttons[j].click(); cont.click(); }); });
+  show();
+});
+</script>
+</body>
+</html>
