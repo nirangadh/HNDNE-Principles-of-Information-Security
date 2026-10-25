@@ -1,4 +1,4 @@
-# Group tabletop exercise: an incident at Lumora College
+# Group tabletop exercise: an incident at Taxila College
 
 This brief explains the group exercise: how your group prepares across Days 6 to 9, what happens in the live round on Day 10 morning, what you submit afterwards, and how it is marked.
 
@@ -9,7 +9,7 @@ This brief explains the group exercise: how your group prepares across Days 6 to
 
 A tabletop exercise is how real organisations practise for a bad day: the team sits round a table, someone describes an incident as it unfolds, and the team decides what to do, step by step, before it happens for real.
 
-Your group is the security team at Lumora College. Before Day 10 you prepare: you list Lumora's risks and the controls that answer them. On Day 10 your lecturer runs a live incident for your group. New events arrive every few minutes. You decide what to do, write each action and its reason in your action log, and keep the college running.
+Your group is the security team at Taxila College. Before Day 10 you prepare: you list Taxila's risks and the controls that answer them. On Day 10 your lecturer runs a live incident for your group. New events arrive every few minutes. You decide what to do, write each action and its reason in your action log, and keep the college running.
 
 ## 2. Roles
 
@@ -28,8 +28,8 @@ In a group of three, the incident lead also leads communications. In a group of 
 
 Build these two items as you go; each day's afternoon gives you material for them.
 
-1. **A risk register for Lumora** of at least ten risks. For each risk: the asset, the threat, the vulnerability, likelihood and impact, the property most at stake (confidentiality, integrity, availability, authenticity or accountability), and the treatment you choose.
-2. **A controls map**: Lumora's security register, with each control you rely on, the risks it answers, and whether it prevents, detects or corrects.
+1. **A risk register for Taxila** of at least ten risks. For each risk: the asset, the threat, the vulnerability, likelihood and impact, the property most at stake (confidentiality, integrity, availability, authenticity or accountability), and the treatment you choose.
+2. **A controls map**: Taxila's security register, with each control you rely on, the risks it answers, and whether it prevents, detects or corrects.
 
 Bring both to the live round, printed or on one laptop. They are submitted at the start of the round.
 
@@ -41,7 +41,7 @@ About 45 minutes per group. Your lecturer reads out the incident and then adds e
 
 Within the period announced for your cohort, the group submits:
 
-1. **An after-action report** of no more than 1,500 words: what happened, what you did and why, what went well, what you would change, and which items in Lumora's security register helped or failed.
+1. **An after-action report** of no more than 1,500 words: what happened, what you did and why, what went well, what you would change, and which items in Taxila's security register helped or failed.
 2. **An updated continuity plan** for the services the incident touched: their priority, recovery time objective (RTO) and recovery point objective (RPO), and the steps to bring each back.
 3. **A contribution statement** signed by all members.
 
@@ -49,7 +49,7 @@ Within the period announced for your cohort, the group submits:
 
 | Criterion | Weight | Full marks look like |
 |---|---|---|
-| Preparation | 30% | Risks are specific to Lumora; every risk names its property and a sensible treatment; every control is placed and classified correctly |
+| Preparation | 30% | Risks are specific to Taxila; every risk names its property and a sensible treatment; every control is placed and classified correctly |
 | Live round | 30% | Actions are timely, follow priorities, and are justified in the log; the group uses its own register and map |
 | After-action report and continuity plan | 25% | Honest about what failed; RTO and RPO argued from the scenario; recovery steps in a workable order |
 | Individual question | 15% | Each member answers correctly about a role other than their own |

@@ -6,4 +6,4 @@ You may share and adapt this material for non-commercial purposes, provided you 
 
 Interactive demos, practice plays and code are licensed separately under MIT; see LICENSE. The Open Sans typeface (assets/fonts/) is used under the SIL Open Font License 1.1.
 
-Lumora College is a fictional organisation. Product and tool names used in this material (for example Kali Linux, VirtualBox, Wireshark and CyberChef) belong to their owners; this material is not affiliated with or endorsed by any of them.
+Taxila College is a fictional organisation. Product and tool names used in this material (for example Kali Linux, VirtualBox, Wireshark and CyberChef) belong to their owners; this material is not affiliated with or endorsed by any of them.
