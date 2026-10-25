@@ -32,11 +32,11 @@ a:hover{color:var(--burgundy-deep)}
 
 /* Header band on ink, with the two-bar motif (rose over blush): the deck's dark-ground look */
 .site-header{background:var(--ink);color:var(--snow);padding:1.6rem 0 1.4rem}
-.site-header .eyebrow{margin:0;color:var(--blush);font-size:.85rem;font-weight:600;letter-spacing:.04em}
-.site-header .eyebrow a{color:var(--blush);font-weight:600;text-decoration:none}
+.site-header .eyebrow{margin:0;color:var(--rule);font-size:.85rem;font-weight:600;letter-spacing:.04em}
+.site-header .eyebrow a{color:var(--rule);font-weight:600;text-decoration:none}
 .site-header .eyebrow a:hover{color:var(--snow);text-decoration:underline}
 .site-header h1{margin:.35rem 0 0;font-size:clamp(1.45rem,4vw,2rem);line-height:1.2;font-weight:800}
-.site-header p.sub{margin:.4rem 0 0;color:var(--blush);font-size:.95rem}
+.site-header p.sub{margin:.4rem 0 0;color:var(--linen);font-size:.95rem}
 .site-header :focus-visible{outline-color:var(--rose)}
 .with-aside{display:flex;align-items:center;justify-content:space-between;gap:1.5rem}
 .qr{flex:none;width:8.2rem;text-align:center}
@@ -216,6 +216,9 @@ figure.art .full{white-space:nowrap}
 .hero-narrow{display:none}
 @media (max-width:40rem){.hero-wide{display:none}.hero-narrow{display:block}}
 .intro{font-size:1.08rem;max-width:var(--measure)}
+/* The home page's opening paragraph: one left-aligned column, wider than the reading measure so it sits
+   better under the wide hero, at a slightly larger size so a line stays readable (D46) */
+.intro.lead{max-width:54rem;font-size:1.12rem}
 .quicklinks{display:flex;flex-wrap:wrap;gap:.6rem;margin:1rem 0 1.6rem;padding:0;list-style:none}
 .quicklinks li{margin:0}
 .quicklinks a{display:inline-flex;align-items:center;min-height:44px;background:var(--snow);border:2px solid var(--taupe);border-radius:999px;padding:.3rem 1rem;text-decoration:none}
