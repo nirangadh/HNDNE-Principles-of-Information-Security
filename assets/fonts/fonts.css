@@ -1,0 +1,23 @@
+/* Open Sans, self-hosted. SIL Open Font License 1.1, see OFL.txt in this folder.
+   Written by the portal generator from the module's style specification (its web tokens); do not edit. */
+@font-face { font-family: "Open Sans"; font-style: normal; font-weight: 400; font-display: swap;
+  src: url("OpenSans-Regular.woff2") format("woff2"); }
+@font-face { font-family: "Open Sans"; font-style: italic; font-weight: 400; font-display: swap;
+  src: url("OpenSans-Italic.woff2") format("woff2"); }
+@font-face { font-family: "Open Sans"; font-style: normal; font-weight: 600; font-display: swap;
+  src: url("OpenSans-SemiBold.woff2") format("woff2"); }
+@font-face { font-family: "Open Sans"; font-style: normal; font-weight: 700; font-display: swap;
+  src: url("OpenSans-Bold.woff2") format("woff2"); }
+@font-face { font-family: "Open Sans"; font-style: normal; font-weight: 800; font-display: swap;
+  src: url("OpenSans-ExtraBold.woff2") format("woff2"); }
+
+:root {
+  --burgundy: #9C2C3A; --snow: #FFFBFB; --linen: #FBF6F6; --blush: #E4D5D5; --taupe: #6C5353;
+  --ink: #2A1A1D; --ink-raised: #3E2A2F; --ink-deep: #1C1114; --rule: #BFA6A8;
+  --burgundy-deep: #802833; --rose-tint: #F3E2E4; --rose-wash: #F9EFEF; --rose: #E8A0AA;
+  --signal-amber: #E9B44C; --signal-vermilion: #E0663C;
+  --prop-c: #203A61; --prop-i: #1E7657; --prop-a: #7D4C15; --prop-au: #6E3A99; --prop-ac: #445A67;
+  --font-heading: "Open Sans", Arial, sans-serif;
+  --font-body: "Open Sans", Arial, sans-serif;
+  --font-code: "Courier New", monospace;
+}
