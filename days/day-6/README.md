@@ -23,7 +23,7 @@ Files appear here before the teaching day.
 - Pfleeger and Pfleeger, program and web security; the Open Worldwide Application Security Project (OWASP) Top 10 on the portal
 - Pfleeger and Pfleeger, injection and cross-site scripting defences
 
-**Practice question:** Practice question 6, posted with the day's materials.
+**Practice question:** Practice question 6, posted in [practice](../../practice/).
 
 **Tasks:**
 

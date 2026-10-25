@@ -25,6 +25,6 @@ Files appear here before the teaching day.
 - Pfleeger and Pfleeger, the cryptography chapter, up to public-key methods
 - Pfleeger and Pfleeger, symmetric and public-key encryption
 
-**Practice question:** Practice question 2, posted with the day's materials.
+**Practice question:** Practice question 2, posted in [practice](../../practice/).
 
 **Evidence pack 2** is due before the next teaching day, on the date announced for your cohort. See the [evidence packs brief](../../coursework/evidence-packs-brief.md).

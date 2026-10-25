@@ -1,0 +1,419 @@
+<!doctype html>
+<html lang="en-GB" data-store="hndne-pis:">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="hndne-pis-site">
+<title>Which property is lost? | Day 1 | Principles of Information Security</title>
+<meta name="author" content="Niranga Dharmaratna">
+<meta name="description" content="Fifteen things go wrong, at Taxila and in other places. Sort each one by the security property it loses first. A 8-minute practice play for Day 1.">
+<meta name="robots" content="index, follow">
+<link rel="icon" href="../../../assets/img/favicon.svg" type="image/svg+xml">
+<link rel="canonical" href="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-1/plays/p1-1-which-property-is-lost.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Principles of Information Security, HND Network Engineering Year 2">
+<meta property="og:title" content="Which property is lost?">
+<meta property="og:description" content="Fifteen things go wrong, at Taxila and in other places. Sort each one by the security property it loses first. A 8-minute practice play for Day 1.">
+<meta property="og:url" content="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-1/plays/p1-1-which-property-is-lost.html">
+<meta property="og:locale" content="en_GB">
+<meta property="og:image" content="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/assets/img/social-card.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="At Taxila College the Head of IT points to the security register on the wall: nineteen numbered items, the first outlined as the place to start. The Registrar holds a sealed transcript and the Data Protection Officer a clipboard. A lecturer turns to welcome two students arriving with a laptop and a phone.">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","author":{"@type":"Person","affiliation":{"@type":"Organization","name":"School of Computing & Engineering, National Institute of Business Management"},"name":"Niranga Dharmaratna"},"description":"Fifteen things go wrong, at Taxila and in other places. Sort each one by the security property it loses first. A 8-minute practice play for Day 1.","educationalLevel":"Higher National Diploma, Year 2","inLanguage":"en-GB","interactivityType":"active","isAccessibleForFree":true,"isPartOf":{"@id":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/#course","@type":"Course","name":"Principles of Information Security, HND Network Engineering Year 2","url":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/"},"learningResourceType":"Practice activity","license":"https://opensource.org/licenses/MIT","name":"Which property is lost?","url":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-1/plays/p1-1-which-property-is-lost.html"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/","name":"Principles of Information Security","position":1},{"@type":"ListItem","item":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-1/","name":"Day 1","position":2},{"@type":"ListItem","item":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-1/plays/p1-1-which-property-is-lost.html","name":"Which property is lost?","position":3}]}</script>
+<link rel="stylesheet" href="../../../assets/fonts/fonts.css">
+<style>
+/* Principles of Information Security plays. MIT licence. Inlined into every play by the generator.
+   Palette variables come from assets/fonts/fonts.css; no colour literal here. Right and wrong always carry
+   a mark and a word: a drawn tick, or the fault badge with its multiplication sign (D24). Pairs as site.css. */
+*{box-sizing:border-box}
+body{margin:0;font-family:"Open Sans","Segoe UI",Roboto,Arial,sans-serif;font-size:1.0625rem;line-height:1.6;color:var(--ink);background:var(--linen);-webkit-text-size-adjust:100%}
+.wrap{max-width:46rem;margin:0 auto;padding:0 1.1rem}
+a{color:var(--burgundy);font-weight:600}
+:focus-visible{outline:3px solid var(--burgundy);outline-offset:2px;border-radius:4px}
+.skip{position:absolute;left:-999px;top:0;background:var(--ink);color:var(--snow);padding:.5rem 1rem}
+.skip:focus{left:1rem}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+code{font-family:"Courier New",Consolas,"DejaVu Sans Mono",monospace;font-size:.92em;background:var(--rose-wash);padding:.08em .3em;border-radius:5px;overflow-wrap:anywhere}
+.play-header{background:var(--ink);color:var(--snow);padding:1.4rem 0 1.2rem}
+.play-header .eyebrow{margin:0;color:var(--rule);font-size:.85rem;font-weight:600;letter-spacing:.04em}
+.play-header .eyebrow a{color:var(--rule)}
+.play-header h1{margin:.3rem 0 0;font-size:clamp(1.4rem,4vw,1.9rem);line-height:1.2;font-weight:800}
+.play-header :focus-visible{outline-color:var(--rose)}
+.bars{display:flex;gap:6px;margin-top:.8rem}
+.bars i{display:block;height:6px;border-radius:2px}
+.bars i:first-child{width:56px;background:var(--rose)}
+.bars i:last-child{width:26px;background:var(--blush)}
+main.wrap{padding:1.3rem 1.1rem 2.5rem}
+.meta{display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:.8rem}
+.badge{display:inline-block;color:var(--snow);background:var(--burgundy);font-weight:700;font-size:.8rem;line-height:1;padding:.38rem .55rem;border-radius:4px}
+.intro{margin:.2rem 0 1rem}
+.howto{background:var(--snow);border:1px solid var(--rule);border-left:5px solid var(--ink);border-radius:0 12px 12px 0;padding:.6rem 1rem;margin:0 0 1.2rem}
+.howto summary{font-weight:800;font-size:.8rem;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;min-height:32px;display:flex;align-items:center}
+.howto ol{margin:.3rem 0 .4rem;padding-left:1.3rem}
+.box{background:var(--snow);border:1px solid var(--rule);border-left:5px solid var(--signal-vermilion);padding:.8rem 1rem}
+#play{background:var(--snow);border:1px solid var(--rule);border-top:5px solid var(--burgundy);border-radius:14px;padding:1.1rem 1.2rem 1.3rem;min-height:8rem}
+#play:empty{display:none}
+#play:focus{outline:none}
+.count{margin:0;font-size:.78rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--burgundy)}
+h2.q{margin:.3rem 0 .9rem;font-size:1.2rem;line-height:1.4}
+.opts,.bins{display:grid;gap:.55rem}
+@media (min-width:36rem){.bins{grid-template-columns:repeat(auto-fit,minmax(9rem,1fr))}}
+.opt{display:flex;align-items:flex-start;gap:.7rem;width:100%;min-height:48px;text-align:left;font:inherit;color:var(--ink);background:var(--snow);border:2px solid var(--taupe);border-radius:10px;padding:.6rem .8rem;cursor:pointer}
+.opt:hover:not(:disabled){border-color:var(--ink);background:var(--rose-wash)}
+.opt:disabled{cursor:default;color:var(--ink);border-color:var(--rule)}
+.opt .n{flex:none;display:grid;place-items:center;width:1.6rem;height:1.6rem;border-radius:6px;background:var(--rose-tint);font-weight:800;font-size:.85rem}
+.opt.right{border-color:var(--burgundy);background:var(--rose-tint)}
+.opt.wrong{border-color:var(--signal-vermilion);border-style:dashed}
+.opt .verdict{margin-left:auto;padding-left:.5rem}
+.verdict{font-size:.8rem;font-weight:800;letter-spacing:.04em;white-space:nowrap}
+.verdict.ok{color:var(--ink);background:var(--rose);border-radius:5px;padding:.1rem .4rem}
+.verdict.no{color:var(--ink);background:var(--snow);border:2px solid var(--signal-vermilion);border-radius:5px;padding:.02rem .4rem}
+.why{margin:.8rem 0 0;padding:.6rem .8rem;background:var(--rose-wash);border-left:4px solid var(--burgundy);border-radius:0 8px 8px 0}
+.actions{display:flex;flex-wrap:wrap;gap:.6rem;margin:1rem 0 0}
+.btn{font:inherit;font-weight:700;color:var(--snow);background:var(--burgundy);border:2px solid var(--burgundy);border-radius:9px;padding:.5rem 1rem;min-height:44px;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center}
+.btn:hover:not(:disabled){background:var(--burgundy-deep);border-color:var(--burgundy-deep)}
+.btn:disabled{background:var(--snow);color:var(--taupe);border-color:var(--rule);cursor:default}
+.btn.ghost{background:var(--snow);color:var(--ink);border-color:var(--ink)}
+.btn.small{min-height:44px;font-size:.9rem;padding:.3rem .8rem}
+.bar{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:.5rem;margin:0 0 .9rem;font-weight:700}
+.clock{font-variant-numeric:tabular-nums}
+.card,.narration{font-size:1.15rem;line-height:1.5;margin:.4rem 0 1rem}
+.card{background:var(--rose-wash);border-radius:10px;padding:.9rem 1rem;font-weight:600}
+.last{margin-top:1.1rem;border-top:1px dashed var(--rule);padding-top:.6rem}
+.last:empty{display:none}
+.last-q{margin:0}
+.prompt{margin:0 0 .7rem;font-weight:600}
+/* rank */
+.rank-list{list-style:none;margin:0;padding:0;display:grid;gap:.5rem}
+.rank-item{display:flex;align-items:center;gap:.7rem;background:var(--snow);border:2px solid var(--taupe);border-radius:10px;padding:.4rem .5rem .4rem .7rem;min-height:52px}
+.rank-item.lifted{border-color:var(--ink);background:var(--rose-tint);outline:2px dashed var(--burgundy);outline-offset:2px}
+.rank-item .n{flex:none;display:grid;place-items:center;width:1.7rem;height:1.7rem;border-radius:4px;background:var(--rose);font-weight:800;font-size:.9rem}
+.rank-text{flex:1}
+.rank-move{display:flex;gap:.3rem}
+.mv{width:44px;height:44px;font:inherit;font-weight:800;font-size:1.1rem;color:var(--ink);background:var(--snow);border:2px solid var(--ink);border-radius:8px;cursor:pointer}
+.mv:disabled{border-color:var(--rule);color:var(--rule);cursor:default}
+.views{display:grid;gap:.8rem;margin-top:.6rem}
+@media (min-width:40rem){.views{grid-template-columns:repeat(auto-fit,minmax(13rem,1fr))}}
+.view{background:var(--snow);border:1px solid var(--rule);border-top:4px solid var(--ink);border-radius:10px;padding:.6rem .9rem .8rem}
+.view.yours{border-top-color:var(--rose)}
+.view h3{margin:.2rem 0 .3rem;font-size:1rem}
+.view ol{margin:0;padding-left:1.2rem;font-size:.95rem}
+/* ladder */
+.rungs{list-style:none;display:flex;gap:.4rem;margin:.4rem 0 .2rem;padding:0}
+.rungs li{font-size:.75rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;padding:.15rem .6rem;border-radius:999px;border:2px solid var(--rule);color:var(--taupe)}
+.rungs li.on{border-color:var(--ink);background:var(--ink);color:var(--snow)}
+.rungs li.past{border-color:var(--rose);background:var(--rose-tint);color:var(--ink)}
+.use{margin:0 0 1rem;padding:.7rem 1rem;background:var(--rose-wash);border-left:4px solid var(--ink);border-radius:0 8px 8px 0;font-style:italic}
+/* builder */
+.slots{display:grid;gap:.7rem}
+@media (min-width:36rem){.slots{grid-template-columns:repeat(auto-fit,minmax(10rem,1fr))}}
+.slot label{display:block;font-size:.78rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--burgundy);margin-bottom:.2rem}
+.slot select{width:100%;min-height:44px;font:inherit;color:var(--ink);background:var(--snow);border:2px solid var(--taupe);border-radius:8px;padding:.3rem .5rem}
+.preview-line{margin:1rem 0 0}
+.preview{display:block;margin-top:.3rem;background:var(--ink-deep);color:var(--rose);padding:.7rem .9rem;border-radius:8px;font-size:.95rem}
+.out{margin-top:.9rem}
+.out code{background:none}
+/* story */
+.meter{background:var(--signal-amber);border-radius:8px;padding:.4rem .8rem;font-size:.92rem}
+.scene.has-cast{display:grid;grid-template-columns:6.5rem 1fr;gap:1rem;align-items:start}
+.cast svg{display:block;width:100%;height:auto}
+.cast p{margin:.2rem 0 0;font-size:.78rem;font-weight:700;text-align:center;color:var(--taupe)}
+@media (max-width:30rem){.scene.has-cast{grid-template-columns:4.2rem 1fr;gap:.8rem}.narration{font-size:1.05rem}}
+.outcome{margin-top:1rem;border-top:1px dashed var(--rule);padding-top:.7rem}
+.outcome p{margin:.2rem 0}
+.cost{display:inline-block;font-size:.8rem;font-weight:800;background:var(--signal-amber);border-radius:5px;padding:.05rem .4rem;white-space:nowrap}
+.path{padding-left:1.3rem}
+/* spot */
+.hint{margin:.2rem 0 .7rem;font-size:.93rem;color:var(--taupe)}
+.exhibit-scroll{overflow-x:auto;border-radius:10px;background:var(--ink-deep);padding:.5rem}
+.exhibit{display:grid;gap:3px;min-width:min-content;font-family:"Courier New",Consolas,"DejaVu Sans Mono",monospace;font-size:.9rem}
+.exhibit.table,.exhibit.log{min-width:calc(var(--cols,2) * 7rem + 11rem)}
+.ex-row{display:grid;grid-template-columns:repeat(var(--cols,1),minmax(0,1fr)) 10.5rem;gap:.2rem .9rem;align-items:center;width:100%;min-height:44px;text-align:left;font:inherit;color:var(--snow);background:var(--ink-raised);border:2px solid var(--ink-raised);border-radius:6px;padding:.3rem .7rem;white-space:pre-wrap}
+button.ex-row{cursor:pointer}
+button.ex-row:hover:not(:disabled){border-color:var(--blush)}
+button.ex-row:focus-visible{outline-color:var(--rose)}
+.ex-head{background:none;border-color:transparent;color:var(--blush);font-weight:700;min-height:0;font-family:"Open Sans",Arial,sans-serif;font-size:.78rem;letter-spacing:.06em;text-transform:uppercase}
+.ex-row .flag{visibility:hidden;font-family:"Open Sans",Arial,sans-serif;font-size:.75rem;font-weight:800;color:var(--ink);background:var(--signal-amber);border-radius:5px;padding:.05rem .4rem;white-space:nowrap}
+.ex-row[aria-pressed="true"]{border-color:var(--signal-amber)}
+.ex-row[aria-pressed="true"] .flag{visibility:visible}
+.ex-row:disabled{color:var(--snow);cursor:default}
+.ex-row:disabled .flag{display:none}
+.ex-row.right{border-color:var(--rose);border-width:3px}
+.ex-row.missed,.ex-row.wrong{border-color:var(--signal-vermilion);border-style:dashed}
+.ex-row .verdict{font-family:"Open Sans",Arial,sans-serif;justify-self:end}
+.ex-row>span{overflow-wrap:anywhere}
+.notes{list-style:none;padding:0;display:grid;gap:.8rem}
+.round-score{font-weight:700;margin:1rem 0 .2rem}
+/* result */
+.result{background:var(--snow);border:2px solid var(--ink);border-radius:14px;padding:1rem 1.2rem 1.3rem;margin-top:1.2rem}
+.result h2{margin:.1rem 0 .2rem;font-size:1.3rem}
+.result h2:focus{outline:none}
+.result h3{margin:1.2rem 0 .3rem;font-size:1.05rem}
+.score{margin:.1rem 0;font-size:1.3rem}
+.score strong{font-size:2.2rem;font-weight:800}
+.best{margin:0;font-size:.9rem;color:var(--taupe)}
+.misses{padding-left:1.3rem}
+.misses li,.path li{margin:.9rem 0}
+.misses p,.path p,.notes p{margin:.2rem 0}
+.m-q{font-weight:600}
+.clean{font-weight:600}
+.back{margin:1.2rem 0 0}
+.study{display:none}
+.site-footer{border-top:1px solid var(--rule);color:var(--taupe);font-size:.85rem;padding:1.2rem 0 2rem;text-align:center}
+.site-footer p{margin:.3rem 0}
+.site-footer .author{color:var(--taupe)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+@media print{
+  html{filter:grayscale(1)}
+  body{background:var(--snow);font-size:11pt}
+  .play-header{background:var(--snow);color:var(--ink);border-bottom:2px solid var(--ink)}
+  .play-header .eyebrow,.play-header .eyebrow a{color:var(--taupe)}
+  #play,.result,.bars,.skip,.back,.howto,noscript{display:none!important}
+  .study{display:block}
+  .study li{break-inside:avoid;margin:.8rem 0}
+}
+
+/* marks: a drawn tick and the fault badge; chevrons for moving an item; the flag mark (Open Sans has none of these glyphs) */
+.mk{display:inline-block;vertical-align:middle;margin-right:.35rem}
+.mk.tick{width:.42em;height:.78em;margin-left:.1em;border:solid currentColor;border-width:0 .17em .17em 0;transform:rotate(45deg) translateY(-.1em)}
+.mk.fault{display:inline-grid;place-items:center;width:1.15rem;height:1.15rem;background:var(--signal-vermilion);color:var(--ink);font-weight:800;font-size:.9rem;line-height:1;border-radius:2px}
+.verdict.no{border-style:dashed}
+.chev{display:inline-block;width:.6rem;height:.6rem;border:solid currentColor;border-width:.18rem .18rem 0 0}
+.chev.up{transform:translateY(.12rem) rotate(-45deg)}.chev.down{transform:translateY(-.12rem) rotate(135deg)}
+.flag-mark{display:inline-block;width:.55rem;height:.7rem;margin-right:.3rem;border-left:2px solid var(--ink);background:linear-gradient(var(--ink),var(--ink)) left top/100% 55% no-repeat;vertical-align:-.05rem}
+.exhibit.code .ex-row{grid-template-columns:2rem minmax(0,1fr) 10.5rem}
+.ex-row .ln{color:var(--blush);text-align:right}
+.exhibit.headers .ex-row,.exhibit.code .ex-row{white-space:pre}
+.fixq{margin-top:1.1rem;border-top:1px dashed var(--rule);padding-top:.7rem}
+.fixq .q{margin:.2rem 0 .7rem}
+.voice-badge{display:inline-grid;place-items:center;min-width:1.9rem;height:1.9rem;padding:0 .3rem;border-radius:999px;color:var(--snow);font-weight:800;font-size:.72rem;vertical-align:middle;margin-right:.4rem}
+.v-registrar{background:var(--burgundy)}.v-head_of_it{background:var(--taupe)}.v-dpo{background:var(--burgundy-deep)}
+</style>
+</head>
+<body class="play engine-triage">
+<a class="skip" href="#play">Skip to the play</a>
+<header class="play-header"><div class="wrap">
+<p class="eyebrow"><a href="../index.html">Day 1</a> | 8 minutes</p>
+<h1>Which property is lost?</h1>
+<div class="bars" aria-hidden="true"><i></i><i></i></div>
+</div></header>
+<main class="wrap">
+<div class="meta"><span class="badge" title="Learning outcome 1">LO1</span></div>
+<p class="intro">Fifteen things go wrong, at Taxila and in other places. Sort each one by the security property it loses first.</p>
+<details class="howto" open><summary>How to play</summary><ol><li>Choose a property for each card. You can switch the timer off before you start.</li><li>Then decide between pairs that look alike. Every answer shows its reason.</li></ol></details>
+<noscript><p class="box">This play needs JavaScript. The questions and reasons are still in the notes for this day.</p></noscript>
+<div id="play" tabindex="-1"></div>
+<div id="live" class="sr" aria-live="polite"></div>
+<section id="result" class="result" hidden aria-labelledby="h-result"></section>
+<p class="back"><a href="../index.html">Back to Day 1</a></p>
+</main>
+<footer class="site-footer"><div class="wrap">
+<p class="author">&copy; Niranga Dharmaratna, School of Computing &amp; Engineering, National Institute of Business Management</p>
+<p>Content licensed <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener">CC BY-NC-SA 4.0</a>; code licensed MIT; Open Sans under the SIL Open Font Licence.</p>
+<p>Dates and submissions are announced for your cohort. Taxila College is fictional.</p>
+<p>Your answers stay on this device.</p>
+</div></footer>
+
+<script type="application/json" id="play-data">{"_site":{"initials":{"dpo":"DPO","head_of_it":"IT","registrar":"R"},"short":"Taxila","store":"hndne-pis:","voices":{"dpo":"Data Protection Officer","head_of_it":"Head of IT","registrar":"Registrar"}},"bins":[{"id":"c","label":"C: Confidentiality"},{"id":"i","label":"I: Integrity"},{"id":"a","label":"A: Availability"},{"id":"au","label":"Au: Authenticity"},{"id":"ac","label":"Ac: Accountability"}],"cards":[{"bin":"c","recall":true,"text":"A draft exam paper appears on a student messaging group","why":"People read what they had no right to read. The paper itself was not changed."},{"bin":"c","text":"A clinic's list of patients' phone numbers is posted in a public group","why":"Personal data was read by people with no right to it."},{"bin":"c","text":"A staff member reads the whole salary list, though their job needs only their own payslip","why":"Reading beyond what you are authorised to read loses confidentiality, even inside the college."},{"bin":"c","text":"A copy of a grade is taken from the network on its way to the records system","why":"The grade still arrives unchanged and on time, but someone else has read it."},{"bin":"i","recall":true,"text":"A student's final grade is higher than the lecturer entered","why":"Data was changed without permission."},{"bin":"i","text":"Patients arrive at the wrong hour because booking times were changed","why":"The bookings were altered without permission; they are wrong, not missing."},{"bin":"i","text":"The course catalogue on the website shows the wrong fee","why":"Public data needs no secrecy, but it must still be correct."},{"bin":"a","recall":true,"text":"The fee payment page stops responding on the last evening for fees","why":"Nothing was read or changed; the service was not there when needed."},{"bin":"a","text":"A ride-hailing app will not load on a busy evening","why":"The service is unreachable when people need it."},{"bin":"a","text":"The learning system is down on the night coursework is due","why":"The submissions are safe and correct, but students cannot reach them."},{"bin":"au","recall":true,"text":"Staff receive an email that seems to come from the Registrar, but did not","why":"The message does not come from who it claims to come from."},{"bin":"au","text":"A text message claims to be from a microfinance cooperative and asks for a PIN","why":"The message lies about its sender. The first three properties may all hold."},{"bin":"ac","recall":true,"text":"Twelve bookings were cancelled and the system does not say by whom","why":"The action happened, but nobody can prove who did it."},{"bin":"ac","text":"A land officer denies approving a deed change, and no record shows who approved it","why":"Without a record that names the person, the denial cannot be checked."},{"bin":"ac","text":"Several staff share one account, so the log shows only that account's name","why":"The log cannot tell the staff apart, so no single person can be held to account."}],"day":1,"draws_on":["notes 2: confidentiality, integrity and availability","notes 3: authenticity and accountability","demo: cia-channel","demo: beyond-cia"],"engine":"triage","how_to":["Choose a property for each card. You can switch the timer off before you start.","Then decide between pairs that look alike. Every answer shows its reason."],"id":"p1-1-which-property-is-lost","intro":"Fifteen things go wrong, at Taxila and in other places. Sort each one by the security property it loses first.","lo":[1],"minutes":8,"pairs":[{"a":"A grade is changed without permission","answer":"b","b":"A grade is changed and nothing records who changed it","q":"Which one loses accountability, not only integrity?","why":"Any unauthorised change loses integrity. Accountability is lost when nobody can prove who made the change."},{"a":"A message pretends to be from the Registrar","answer":"b","b":"A copy of the Registrar's real message is read on its way","q":"Which one loses confidentiality rather than authenticity?","why":"Reading what you should not read loses confidentiality. A message that lies about its sender loses authenticity."},{"a":"The fee page shows the wrong amount","answer":"b","b":"The fee page does not respond","q":"Which one loses availability?","why":"A wrong amount loses integrity. A page that cannot be reached loses availability."}],"timer_s":240,"title":"Which property is lost?"}</script>
+<script>
+/* Principles of Information Security plays: shared shell. MIT licence. No network, nothing leaves the device.
+   An engine calls Play.start(function (P) {...}) and, when the student has finished,
+   P.finish(score, max, misses). The audit drives a play through window.__play.
+   This shell writes no HTML string into the page (D37): text goes in with textContent, the small Markdown
+   the data may use is built as nodes, and drawings are copies of <template> elements the generator wrote.
+   Module words (the storage prefix, the scenario's short name, the voices) arrive in the play data as _site. */
+(function () {
+  "use strict";
+  var D = JSON.parse(document.getElementById("play-data").textContent);
+  var SITE = D._site || {};
+  var root = document.getElementById("play"), live = document.getElementById("live"), result = document.getElementById("result");
+  var state = { done: false, score: 0, max: 0 }, solver = null, starter = null;
+  var BEST = (SITE.store || "play:") + "best:" + D.id;
+
+  /* the small Markdown the data may use: `code`, **bold**, *emphasis*. Returns nodes, never markup. */
+  function md(s) {
+    var frag = document.createDocumentFragment(), str = String(s == null ? "" : s);
+    var rx = /`([^`]+)`|\*\*([^*]+)\*\*|\*([^*]+)\*/g, last = 0, m;
+    while ((m = rx.exec(str)) !== null) {
+      if (m.index > last) { frag.appendChild(document.createTextNode(str.slice(last, m.index))); }
+      var tag = m[1] !== undefined ? "code" : (m[2] !== undefined ? "strong" : "em");
+      var n = document.createElement(tag);
+      n.textContent = m[1] !== undefined ? m[1] : (m[2] !== undefined ? m[2] : m[3]);
+      frag.appendChild(n);
+      last = rx.lastIndex;
+    }
+    if (last < str.length) { frag.appendChild(document.createTextNode(str.slice(last))); }
+    return frag;
+  }
+  /* h(tag, attrs, kids): attrs.text sets plain text, attrs.md sets the small Markdown, attrs.on adds listeners. */
+  function h(tag, attrs, kids) {
+    var n = document.createElement(tag), k;
+    for (k in (attrs || {})) {
+      if (k === "text") { n.textContent = attrs[k]; }
+      else if (k === "md") { n.appendChild(md(attrs[k])); }
+      else if (k === "on") { for (var e in attrs.on) { n.addEventListener(e, attrs.on[e]); } }
+      else if (attrs[k] !== null && attrs[k] !== undefined && attrs[k] !== false) { n.setAttribute(k, attrs[k] === true ? "" : attrs[k]); }
+    }
+    (kids || []).forEach(function (c) { if (c) { n.appendChild(typeof c === "string" ? document.createTextNode(c) : c); } });
+    return n;
+  }
+  function tpl(id) { var t = document.getElementById(id); return t && t.content ? t.content.cloneNode(true) : null; }
+  function btn(label, cls, fn) { return h("button", { type: "button", "class": cls || "btn", md: label, on: { click: fn } }); }
+  /* a numbered answer button: the number, then the answer */
+  function opt(k, label, fn, cls) {
+    return h("button", { type: "button", "class": cls || "opt", on: { click: fn } }, [h("span", { "class": "n", text: String(k + 1) }), h("span", { md: label })]);
+  }
+  function say(t) { live.textContent = ""; window.setTimeout(function () { live.textContent = t; }, 40); }
+  function clear(n) { while (n.firstChild) { n.removeChild(n.firstChild); } }
+  function shuffle(a) { a = a.slice(); for (var i = a.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)), t = a[i]; a[i] = a[j]; a[j] = t; } return a; }
+  function store(fn, fb) { try { return fn(window.localStorage); } catch (e) { return fb; } }
+  /* a verdict is always a mark and a word, never colour alone: a drawn tick, or the fault badge with its multiplication sign */
+  function mark(ok) { return h("span", { "class": ok ? "mk tick" : "mk fault", "aria-hidden": "true", text: ok ? "" : "×" }); }
+  function verdict(ok, word) { return h("span", { "class": "verdict " + (ok ? "ok" : "no") }, [mark(ok), word || (ok ? "Right" : "Not quite")]); }
+  function why(text, label) { return h("p", { "class": "why" }, [h("b", { text: (label || "Why") + ":" }), " ", md(text)]); }
+  function labelled(label, text, cls) { return h("p", { "class": cls || "" }, [h("b", { text: label }), " ", md(text)]); }
+  function progress(i, n, what) { return h("p", { "class": "count", text: (what || "Question") + " " + i + " of " + n }); }
+
+  function finish(score, max, misses, extra) {
+    state = { done: true, score: score, max: max };
+    var prev = store(function (s) { return parseInt(s.getItem(BEST), 10); }, NaN);
+    var best = isNaN(prev) ? score : Math.max(prev, score);
+    store(function (s) { s.setItem(BEST, String(best)); });
+    clear(result);
+    result.appendChild(h("h2", { id: "h-result", tabindex: "-1", text: "Your result" }));
+    result.appendChild(h("p", { "class": "score" }, [h("strong", { text: String(score) }), " of " + max]));
+    result.appendChild(h("p", { "class": "best", text: "Best on this device: " + best + " of " + max + "." }));
+    if (extra) { result.appendChild(extra); }
+    if (misses && misses.length) {
+      result.appendChild(h("h3", { text: "Check these again" }));
+      result.appendChild(h("ol", { "class": "misses" }, misses.map(function (m) {
+        return h("li", {}, [h("p", { "class": "m-q", md: m.q }),
+          m.yours ? labelled("You chose:", m.yours, "m-yours") : null,
+          m.right ? labelled("Better:", m.right, "m-right") : null,
+          why(m.why)]);
+      })));
+    } else if (score >= max) {
+      result.appendChild(h("p", { "class": "clean", text: "Nothing to check again: every answer held." }));
+    }
+    result.appendChild(h("p", { "class": "actions" }, [btn("Play again", "btn", function () { begin(); root.focus(); }),
+      h("a", { "class": "btn ghost", href: "../index.html", text: "Back to the day" })]));
+    result.hidden = false;
+    document.getElementById("h-result").focus();
+    say("Finished. You scored " + score + " of " + max + ".");
+  }
+
+  /* the print view: questions and reasons as a study sheet */
+  function study(rows) {
+    var old = document.getElementById("study");
+    if (old) { old.parentNode.removeChild(old); }
+    var sec = h("section", { id: "study", "class": "study" }, [h("h2", { text: "Study sheet" }),
+      h("ol", {}, rows.map(function (r) {
+        return h("li", {}, [h("p", { "class": "m-q", md: r.q }), r.a ? labelled("Answer:", r.a) : null, r.why ? why(r.why) : null]);
+      }))]);
+    result.parentNode.insertBefore(sec, result.nextSibling);
+  }
+
+  function begin() {
+    state = { done: false, score: 0, max: 0 };
+    result.hidden = true;
+    clear(root);
+    solver = null;
+    starter(api);
+  }
+  var api = { data: D, site: SITE, root: root, h: h, md: md, tpl: tpl, btn: btn, opt: opt, say: say, clear: clear, shuffle: shuffle,
+    verdict: verdict, why: why, labelled: labelled, progress: progress, finish: finish, study: study, hook: function (fn) { solver = fn; } };
+  window.Play = { start: function (fn) { starter = fn; begin(); } };
+  /* test hook: solve() plays the keyed answers through the real handlers; state() reports the outcome */
+  window.__play = { solve: function () { if (solver) { solver(); } return state; }, state: function () { return state; } };
+})();
+/* triage: sort each card into a bin against a timer, then an optional pairs round for look-alikes.
+   Keys 1 to 5 choose the bin. The timer can be switched off; the reasons matter more than the clock. */
+Play.start(function (P) {
+  "use strict";
+  var D = P.data, cards = P.shuffle(D.cards), pairs = D.pairs || [], i = 0, score = 0, misses = [];
+  var left = D.timer_s, timed = true, tick = null, binButtons = [], phase = "cards", pairButtons = [];
+  var max = cards.length + pairs.length;
+  var label = {};
+  D.bins.forEach(function (b) { label[b.id] = b.label; });
+  P.study(D.cards.map(function (c) { return { q: c.text, a: label[c.bin], why: c.why }; })
+    .concat(pairs.map(function (p) { return { q: p.q, a: p[p.answer], why: p.why }; })));
+
+  var clock = P.h("span", { "class": "clock", role: "timer" });
+  var toggle = P.btn("Play without the timer", "btn ghost small", function () {
+    timed = !timed;
+    toggle.textContent = timed ? "Play without the timer" : "Turn the timer on";
+    paintClock();
+  });
+  var last = P.h("div", { "class": "last" });
+  var stage = P.h("div", { "class": "stage" });
+  function paintClock() { clock.textContent = timed ? "Time left: " + Math.floor(left / 60) + ":" + ("0" + (left % 60)).slice(-2) : "No timer"; }
+  function stop() { if (tick) { window.clearInterval(tick); tick = null; } }
+  function end() {
+    stop();
+    if (phase === "cards") { cards.slice(i).forEach(function (c) { misses.push({ q: c.text, yours: "not sorted in time", right: label[c.bin], why: c.why }); }); }
+    P.clear(P.root);
+    P.finish(score, max, misses);
+  }
+  function feedback(ok, q, right, reason) {
+    P.clear(last);
+    last.appendChild(P.h("p", { "class": "last-q" }, [P.verdict(ok), " ", P.h("span", { md: q }), ": ", P.h("b", { md: right })]));
+    last.appendChild(P.why(reason));
+    P.say((ok ? "Right. " : "Not quite: " + right + ". ") + reason);
+  }
+  function sort(binId) {
+    var c = cards[i], ok = c.bin === binId;
+    if (ok) { score++; } else { misses.push({ q: c.text, yours: label[binId], right: label[c.bin], why: c.why }); }
+    feedback(ok, c.text, label[c.bin], c.why);
+    i++;
+    show();
+  }
+  function pick(side) {
+    var p = pairs[i], ok = p.answer === side;
+    if (ok) { score++; } else { misses.push({ q: p.q, yours: p[side], right: p[p.answer], why: p.why }); }
+    feedback(ok, p.q, p[p.answer], p.why);
+    i++;
+    show();
+  }
+  function show() {
+    P.clear(stage);
+    if (phase === "cards" && i >= cards.length) { phase = "pairs"; i = 0; stop(); }
+    if (phase === "pairs" && i >= pairs.length) { return end(); }
+    if (phase === "cards") {
+      stage.appendChild(P.progress(i + 1, cards.length, "Card"));
+      stage.appendChild(P.h("p", { "class": "card", md: cards[i].text }));
+      binButtons = D.bins.map(function (b, k) {
+        return P.opt(k, b.label, function () { sort(b.id); }, "opt bin");
+      });
+      stage.appendChild(P.h("div", { "class": "bins" }, binButtons));
+    } else {
+      var p = pairs[i];
+      stage.appendChild(P.progress(i + 1, pairs.length, "Look-alike pair"));
+      stage.appendChild(P.h("p", { "class": "card", md: p.q }));
+      pairButtons = ["a", "b"].map(function (s, k) {
+        return P.opt(k, p[s], function () { pick(s); }, "opt bin");
+      });
+      stage.appendChild(P.h("div", { "class": "bins two" }, pairButtons));
+    }
+  }
+  document.onkeydown = function (ev) {
+    var k = parseInt(ev.key, 10), set = phase === "cards" ? binButtons : pairButtons;
+    if (k >= 1 && k <= set.length && P.root.contains(set[0]) && !ev.ctrlKey && !ev.metaKey && !ev.altKey) { set[k - 1].click(); }
+  };
+  P.root.appendChild(P.h("p", { "class": "bar" }, [clock, toggle]));
+  P.root.appendChild(stage);
+  P.root.appendChild(last);
+  paintClock();
+  tick = window.setInterval(function () { if (!timed) { return; } left--; paintClock(); if (left <= 0) { end(); } }, 1000);
+  P.hook(function () {
+    timed = false;
+    while (phase === "cards" && i < cards.length) { sort(cards[i].bin); }
+    while (phase === "pairs" && i < pairs.length) { pick(pairs[i].answer); }
+  });
+  show();
+});
+</script>
+</body>
+</html>

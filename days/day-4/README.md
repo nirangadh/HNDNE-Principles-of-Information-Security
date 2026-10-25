@@ -23,6 +23,6 @@ Files appear here before the teaching day.
 - Pfleeger and Pfleeger, public-key infrastructure and digital signatures
 - Pfleeger and Pfleeger, certificates and the handshake
 
-**Practice question:** Practice question 4, posted with the day's materials.
+**Practice question:** Practice question 4, posted in [practice](../../practice/).
 
 **Evidence pack 4** is due before the next teaching day, on the date announced for your cohort. See the [evidence packs brief](../../coursework/evidence-packs-brief.md).
