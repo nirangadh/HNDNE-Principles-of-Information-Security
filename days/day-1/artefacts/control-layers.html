@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Control layers</title>
+<meta name="description" content="Sort seven Taxila controls by what they do and how they work, then stack layers on the exam paper store and see what happens when one fails.">
+<link rel="stylesheet" href="../../../assets/fonts/fonts.css">
+<style>
+  body{margin:0;font-family:var(--font-body);background:var(--linen);color:var(--ink);line-height:1.6}
+  main{max-width:54rem;margin:0 auto;padding:1.5rem 1rem 2.5rem}
+  h1{font-size:1.6rem;line-height:1.25;margin:0 0 .4rem}
+  h2{font-size:1.15rem;margin:1.8rem 0 .5rem}
+  .bars{display:flex;gap:6px;margin:.3rem 0 1.1rem}.bars i{display:block;height:6px;border-radius:2px}
+  .bars i:first-child{width:56px;background:var(--burgundy)}.bars i:last-child{width:26px;background:var(--blush)}
+  .lead{margin:0 0 1rem}
+  button{font:inherit;border-radius:8px;padding:.5rem .8rem;min-height:44px;cursor:pointer;color:var(--ink);background:var(--snow);border:2px solid var(--taupe);text-align:left}
+  button[aria-pressed="true"]{background:var(--ink);color:var(--snow);border-color:var(--ink)}
+  button[disabled]{cursor:default;opacity:.55}
+  button:focus-visible{outline:3px solid var(--burgundy);outline-offset:2px}
+  .act{font-weight:700;color:var(--snow);background:var(--burgundy);border:0}
+  .tray{display:grid;grid-template-columns:repeat(auto-fit,minmax(14rem,1fr));gap:.5rem;margin:.5rem 0}
+  .tray button.placed{text-decoration:line-through}
+  .board{display:grid;grid-template-columns:7rem repeat(3,1fr);gap:4px;margin:.8rem 0}
+  .board .hd{font-weight:800;font-size:.85rem;padding:.3rem;display:flex;align-items:flex-end}
+  .board .rh{font-weight:800;font-size:.85rem;padding:.3rem;display:flex;align-items:center}
+  .cell{min-height:6rem;display:flex;flex-direction:column;justify-content:flex-start;gap:.3rem;font-size:.85rem;background:var(--rose-wash);border:2px dashed var(--rule)}
+  .cell.over{border-color:var(--burgundy)}
+  .cell .got{display:block;background:var(--snow);border:1px solid var(--ink);border-radius:6px;padding:.2rem .4rem;font-size:.82rem;line-height:1.3}
+  .cell .hint{color:var(--taupe);font-size:.78rem}
+  .panel{background:var(--snow);border:1px solid var(--rule);border-left:6px solid var(--burgundy);border-radius:0 12px 12px 0;padding:.8rem 1rem;margin:.6rem 0}
+  .panel.bad{border-left:6px dashed var(--signal-vermilion)}
+  .panel .tag{display:block;font-size:.78rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--burgundy)}
+  .panel.bad .tag{color:var(--ink)}
+  .panel p{margin:.2rem 0 0}
+  .layers{display:grid;gap:.5rem;margin:.5rem 0}
+  .store{margin:.6rem 0;padding:.8rem;border-radius:12px;background:var(--snow);border:2px solid var(--ink);text-align:center;font-weight:700}
+  .stack{display:grid;gap:4px;margin:.4rem 0}
+  .ring{padding:.35rem .8rem;border-radius:8px;font-size:.9rem;border:2px solid var(--ink);background:var(--rose-tint)}
+  .ring.off{border:2px dotted var(--rule);background:none;color:var(--taupe)}
+  .ring.fail{border:2px dashed var(--signal-vermilion);background:none}
+  ul.res{margin:.4rem 0 0;padding-left:1.2rem}
+  .note{font-size:.9rem;color:var(--taupe);margin-top:1.4rem}
+  @media (max-width:38rem){.board{grid-template-columns:1fr}.board .hd.blank{display:none}.board .hd{display:none}.board .rh{background:var(--ink);color:var(--snow);border-radius:6px}.cell .hint{font-weight:700;color:var(--ink)}}
+</style>
+<!-- portal head: written by the portal generator from this demo's title and description; do not edit -->
+<meta name="robots" content="index, follow">
+<link rel="icon" href="../../../assets/img/favicon.svg" type="image/svg+xml">
+<link rel="canonical" href="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-1/artefacts/control-layers.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Principles of Information Security, HND Network Engineering Year 2">
+<meta property="og:title" content="Control layers | Day 1">
+<meta property="og:description" content="Sort seven Taxila controls by what they do and how they work, then stack layers on the exam paper store and see what happens when one fails.">
+<meta property="og:url" content="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-1/artefacts/control-layers.html">
+<meta property="og:locale" content="en_GB">
+<meta property="og:image" content="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/assets/img/social-card.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="At Taxila College the Head of IT points to the security register on the wall: nineteen numbered items, the first outlined as the place to start. The Registrar holds a sealed transcript and the Data Protection Officer a clipboard. A lecturer turns to welcome two students arriving with a laptop and a phone.">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","author":{"@type":"Person","affiliation":{"@type":"Organization","name":"School of Computing & Engineering, National Institute of Business Management"},"name":"Niranga Dharmaratna"},"description":"Sort seven Taxila controls by what they do and how they work, then stack layers on the exam paper store and see what happens when one fails.","educationalLevel":"Higher National Diploma, Year 2","inLanguage":"en-GB","interactivityType":"active","isAccessibleForFree":true,"isPartOf":{"@id":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/#course","@type":"Course","name":"Principles of Information Security, HND Network Engineering Year 2","url":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/"},"learningResourceType":"Interactive demonstration","license":"https://opensource.org/licenses/MIT","name":"Control layers | Day 1","url":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-1/artefacts/control-layers.html"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/","name":"Principles of Information Security","position":1},{"@type":"ListItem","item":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-1/","name":"Day 1","position":2},{"@type":"ListItem","item":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-1/artefacts/control-layers.html","name":"Control layers","position":3}]}</script>
+<!-- /portal head -->
+</head>
+<body>
+<main>
+<h1>Control layers</h1>
+<div class="bars" aria-hidden="true"><i></i><i></i></div>
+<p class="lead">A control is anything that lowers a risk. Each control is sorted two ways: by what it does (preventive, detective, corrective) and by how it works (technical, administrative, physical).</p>
+
+<h2>1. Put each control in its box</h2>
+<p>Choose a control, then choose its box. You can also drag a control onto a box.</p>
+<div class="tray" id="tray" role="group" aria-label="Controls to place"></div>
+<div class="board" id="board">
+  <div class="hd blank"></div><div class="hd">Technical</div><div class="hd">Administrative</div><div class="hd">Physical</div>
+</div>
+<div class="panel" id="sort-panel" aria-live="polite"><span class="tag" id="sort-tag">Placed 0 of 7</span><p id="sort-text">Choose a control first.</p></div>
+
+<h2>2. Build the layers around the exam paper store</h2>
+<p>Switch on the layers you want. Then let the preventive layer fail, and see what still protects the papers.</p>
+<div class="layers" id="layers"></div>
+<div class="store" aria-hidden="true">
+  <div class="stack" id="stack"></div>
+  Exam papers before the exam (restricted)
+</div>
+<button type="button" class="act" id="fail">A staff member's sign-in leaks</button>
+<div class="panel" id="layer-panel" aria-live="polite"><span class="tag" id="layer-tag">Ready</span><p id="layer-text">Choose your layers, then press the button.</p><ul class="res" id="res"></ul></div>
+
+<p class="note">The controls are prepared examples at Taxila College, which is fictional. Nothing on this page sends anything anywhere.</p>
+</main>
+<script>
+(function () {
+  "use strict";
+  var FN = [["p", "Preventive"], ["d", "Detective"], ["c", "Corrective"]];
+  var TY = [["t", "Technical"], ["a", "Administrative"], ["ph", "Physical"]];
+  var CONTROLS = [
+    {id: 1, text: "A locked server-room door", fn: "p", ty: "ph", why: "A lock stops entry before harm happens, and it is a physical thing."},
+    {id: 2, text: "A camera at the server-room door", fn: "d", ty: "ph", why: "A camera does not stop anyone; it notices who came in. It is physical."},
+    {id: 3, text: "A record of who changed each grade", fn: "d", ty: "t", why: "The record notices and names a change after it happens. It is built into the system, so it is technical."},
+    {id: 4, text: "The weekly backup to an external disk", fn: "c", ty: "t", why: "A backup repairs the damage by bringing data back. It is a technical copy."},
+    {id: 5, text: "A plan to call the Head of IT and restore service", fn: "c", ty: "a", why: "The plan repairs things after harm. It is a procedure people follow, so it is administrative."},
+    {id: 6, text: "A rule that exam papers go only in the examinations office's folder", fn: "p", ty: "a", why: "The rule aims to stop a leak before it happens. It is a rule, so it is administrative."},
+    {id: 7, text: "A fire extinguisher in the server room", fn: "c", ty: "ph", why: "It limits damage once a fire has started, so it corrects. It is physical."}
+  ];
+  var $ = function (id) { return document.getElementById(id); };
+  function el(tag, cls, text) { var n = document.createElement(tag); if (cls) { n.className = cls; } if (text !== undefined) { n.textContent = text; } return n; }
+  var chosen = null, placed = 0, btns = {}, cells = {};
+  CONTROLS.forEach(function (c) {
+    var b = el("button", "", c.text); b.type = "button"; b.setAttribute("aria-pressed", "false"); b.draggable = true;
+    b.addEventListener("click", function () { choose(c); });
+    b.addEventListener("dragstart", function (e) { choose(c); try { e.dataTransfer.setData("text/plain", String(c.id)); } catch (err) { /* ignore */ } });
+    $("tray").appendChild(b); btns[c.id] = b;
+  });
+  FN.forEach(function (f) {
+    $("board").appendChild(el("div", "rh", f[1]));
+    TY.forEach(function (t) {
+      var cell = el("button", "cell"); cell.type = "button";
+      cell.setAttribute("aria-label", f[1] + " and " + t[1]);
+      cell.appendChild(el("span", "hint", f[1] + ", " + t[1].toLowerCase()));
+      cell.addEventListener("click", function () { drop(f[0], t[0]); });
+      cell.addEventListener("dragover", function (e) { e.preventDefault(); cell.className = "cell over"; });
+      cell.addEventListener("dragleave", function () { cell.className = "cell"; });
+      cell.addEventListener("drop", function (e) { e.preventDefault(); cell.className = "cell"; drop(f[0], t[0]); });
+      $("board").appendChild(cell); cells[f[0] + t[0]] = cell;
+    });
+  });
+  function name(list, k) { for (var i = 0; i < list.length; i++) { if (list[i][0] === k) { return list[i][1].toLowerCase(); } } return ""; }
+  function say(ok, tag, text) { $("sort-panel").className = "panel" + (ok ? "" : " bad"); $("sort-tag").textContent = tag; $("sort-text").textContent = text; }
+  function choose(c) {
+    if (btns[c.id].disabled) { return; }
+    chosen = c;
+    Object.keys(btns).forEach(function (k) { btns[k].setAttribute("aria-pressed", String(+k === c.id)); });
+    say(true, "Placed " + placed + " of 7", "Now choose the box for: " + c.text + ".");
+  }
+  function drop(fn, ty) {
+    if (!chosen) { say(true, "Placed " + placed + " of 7", "Choose a control first."); return; }
+    var c = chosen;
+    if (c.fn === fn && c.ty === ty) {
+      cells[fn + ty].appendChild(el("span", "got", c.text));
+      btns[c.id].disabled = true; btns[c.id].className = "placed"; btns[c.id].setAttribute("aria-pressed", "false");
+      placed += 1; chosen = null;
+      say(true, placed === 7 ? "All seven placed" : "Placed " + placed + " of 7", "Right. " + c.why);
+    } else {
+      say(false, "× Not that box", c.text + " is not " + name(FN, fn) + " and " + name(TY, ty) + ". Ask two questions: does it stop, notice or repair? Is it built into a system, a rule for people, or a physical thing?");
+    }
+  }
+
+  var LAYERS = [
+    {k: "prev", label: "Preventive: only the examinations staff can open the folder"},
+    {k: "same", label: "A second lock that uses the same staff sign-in"},
+    {k: "det", label: "Detective: a record of each time a paper is opened, and by whom"},
+    {k: "cor", label: "Corrective: a spare paper is ready, so a leaked paper can be replaced"}
+  ];
+  var on = {prev: true, same: false, det: false, cor: false};
+  var lb = {};
+  LAYERS.forEach(function (L) {
+    var b = el("button", "", L.label); b.type = "button";
+    b.addEventListener("click", function () { on[L.k] = !on[L.k]; paintLayers(false); });
+    $("layers").appendChild(b); lb[L.k] = b;
+  });
+  function paintLayers(failed) {
+    var stack = $("stack"); while (stack.firstChild) { stack.removeChild(stack.firstChild); }
+    LAYERS.forEach(function (L) {
+      lb[L.k].setAttribute("aria-pressed", on[L.k] ? "true" : "false");
+      var bad = failed && (L.k === "prev" || L.k === "same");
+      stack.appendChild(el("div", "ring" + (on[L.k] ? (bad ? " fail" : "") : " off"), (on[L.k] ? (bad ? "× failed: " : "") : "off: ") + L.label));
+    });
+    if (!failed) { $("layer-panel").className = "panel"; $("layer-tag").textContent = "Ready"; $("layer-text").textContent = "Press the button to let the preventive layer fail."; var r = $("res"); while (r.firstChild) { r.removeChild(r.firstChild); } }
+  }
+  $("fail").addEventListener("click", function () {
+    paintLayers(true);
+    var lines = [];
+    lines.push(on.prev ? "Preventive layer: fails. The leaked sign-in opens the folder." : "No preventive layer: the folder was open to anyone already.");
+    if (on.same) { lines.push("Second lock: fails too. It uses the same sign-in, so it opens with the same leak. Two tools, one layer."); }
+    lines.push(on.det ? "Detective layer: still works. The record shows the paper was opened at 23:10 by the leaked account, and the examinations office is told in the morning." : "No detective layer: nobody notices that the paper was opened.");
+    lines.push(on.cor ? "Corrective layer: still works. The spare paper is used, so the exam goes ahead fairly." : "No corrective layer: the paper must be rewritten overnight, as happened last semester.");
+    var working = (on.det ? 1 : 0) + (on.cor ? 1 : 0);
+    var r = $("res"); while (r.firstChild) { r.removeChild(r.firstChild); }
+    lines.forEach(function (t) { r.appendChild(el("li", "", t)); });
+    $("layer-panel").className = "panel" + (working ? "" : " bad");
+    $("layer-tag").textContent = working ? "Layers still working: " + working : "× Nothing left";
+    $("layer-text").textContent = working
+      ? "Defence in depth: one layer failed, and independent layers behind it still noticed or repaired the harm."
+      : "Every layer you chose failed for the same reason. More tools do not help unless each is an independent control.";
+  });
+  paintLayers(false);
+}());
+</script>
+</body>
+</html>

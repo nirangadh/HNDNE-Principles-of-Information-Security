@@ -27,7 +27,7 @@ Files appear here before the teaching day.
 - Pfleeger and Pfleeger, network security
 - Pfleeger and Pfleeger, firewalls and intrusion detection
 
-**Practice question:** Practice question 8, posted with the day's materials.
+**Practice question:** Practice question 8, posted in [practice](../../practice/).
 
 **Tasks:**
 

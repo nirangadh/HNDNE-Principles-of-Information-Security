@@ -1,0 +1,456 @@
+<!doctype html>
+<html lang="en-GB" data-store="hndne-pis:">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="hndne-pis-site">
+<title>Check the risk rows | Day 1 | Principles of Information Security</title>
+<meta name="author" content="Niranga Dharmaratna">
+<meta name="description" content="Another trainee wrote Taxila&#x27;s first risk rows. Some are right and some are not. Find the faulty rows, then choose how to fix each one.">
+<meta name="robots" content="index, follow">
+<link rel="icon" href="../../../assets/img/favicon.svg" type="image/svg+xml">
+<link rel="canonical" href="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-1/plays/p1-2-check-the-risk-rows.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Principles of Information Security, HND Network Engineering Year 2">
+<meta property="og:title" content="Check the risk rows">
+<meta property="og:description" content="Another trainee wrote Taxila&#x27;s first risk rows. Some are right and some are not. Find the faulty rows, then choose how to fix each one.">
+<meta property="og:url" content="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-1/plays/p1-2-check-the-risk-rows.html">
+<meta property="og:locale" content="en_GB">
+<meta property="og:image" content="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/assets/img/social-card.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="At Taxila College the Head of IT points to the security register on the wall: nineteen numbered items, the first outlined as the place to start. The Registrar holds a sealed transcript and the Data Protection Officer a clipboard. A lecturer turns to welcome two students arriving with a laptop and a phone.">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","author":{"@type":"Person","affiliation":{"@type":"Organization","name":"School of Computing & Engineering, National Institute of Business Management"},"name":"Niranga Dharmaratna"},"description":"Another trainee wrote Taxila's first risk rows. Some are right and some are not. Find the faulty rows, then choose how to fix each one.","educationalLevel":"Higher National Diploma, Year 2","inLanguage":"en-GB","interactivityType":"active","isAccessibleForFree":true,"isPartOf":{"@id":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/#course","@type":"Course","name":"Principles of Information Security, HND Network Engineering Year 2","url":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/"},"learningResourceType":"Practice activity","license":"https://opensource.org/licenses/MIT","name":"Check the risk rows","url":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-1/plays/p1-2-check-the-risk-rows.html"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/","name":"Principles of Information Security","position":1},{"@type":"ListItem","item":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-1/","name":"Day 1","position":2},{"@type":"ListItem","item":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-1/plays/p1-2-check-the-risk-rows.html","name":"Check the risk rows","position":3}]}</script>
+<link rel="stylesheet" href="../../../assets/fonts/fonts.css">
+<style>
+/* Principles of Information Security plays. MIT licence. Inlined into every play by the generator.
+   Palette variables come from assets/fonts/fonts.css; no colour literal here. Right and wrong always carry
+   a mark and a word: a drawn tick, or the fault badge with its multiplication sign (D24). Pairs as site.css. */
+*{box-sizing:border-box}
+body{margin:0;font-family:"Open Sans","Segoe UI",Roboto,Arial,sans-serif;font-size:1.0625rem;line-height:1.6;color:var(--ink);background:var(--linen);-webkit-text-size-adjust:100%}
+.wrap{max-width:46rem;margin:0 auto;padding:0 1.1rem}
+a{color:var(--burgundy);font-weight:600}
+:focus-visible{outline:3px solid var(--burgundy);outline-offset:2px;border-radius:4px}
+.skip{position:absolute;left:-999px;top:0;background:var(--ink);color:var(--snow);padding:.5rem 1rem}
+.skip:focus{left:1rem}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+code{font-family:"Courier New",Consolas,"DejaVu Sans Mono",monospace;font-size:.92em;background:var(--rose-wash);padding:.08em .3em;border-radius:5px;overflow-wrap:anywhere}
+.play-header{background:var(--ink);color:var(--snow);padding:1.4rem 0 1.2rem}
+.play-header .eyebrow{margin:0;color:var(--rule);font-size:.85rem;font-weight:600;letter-spacing:.04em}
+.play-header .eyebrow a{color:var(--rule)}
+.play-header h1{margin:.3rem 0 0;font-size:clamp(1.4rem,4vw,1.9rem);line-height:1.2;font-weight:800}
+.play-header :focus-visible{outline-color:var(--rose)}
+.bars{display:flex;gap:6px;margin-top:.8rem}
+.bars i{display:block;height:6px;border-radius:2px}
+.bars i:first-child{width:56px;background:var(--rose)}
+.bars i:last-child{width:26px;background:var(--blush)}
+main.wrap{padding:1.3rem 1.1rem 2.5rem}
+.meta{display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:.8rem}
+.badge{display:inline-block;color:var(--snow);background:var(--burgundy);font-weight:700;font-size:.8rem;line-height:1;padding:.38rem .55rem;border-radius:4px}
+.intro{margin:.2rem 0 1rem}
+.howto{background:var(--snow);border:1px solid var(--rule);border-left:5px solid var(--ink);border-radius:0 12px 12px 0;padding:.6rem 1rem;margin:0 0 1.2rem}
+.howto summary{font-weight:800;font-size:.8rem;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;min-height:32px;display:flex;align-items:center}
+.howto ol{margin:.3rem 0 .4rem;padding-left:1.3rem}
+.box{background:var(--snow);border:1px solid var(--rule);border-left:5px solid var(--signal-vermilion);padding:.8rem 1rem}
+#play{background:var(--snow);border:1px solid var(--rule);border-top:5px solid var(--burgundy);border-radius:14px;padding:1.1rem 1.2rem 1.3rem;min-height:8rem}
+#play:empty{display:none}
+#play:focus{outline:none}
+.count{margin:0;font-size:.78rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--burgundy)}
+h2.q{margin:.3rem 0 .9rem;font-size:1.2rem;line-height:1.4}
+.opts,.bins{display:grid;gap:.55rem}
+@media (min-width:36rem){.bins{grid-template-columns:repeat(auto-fit,minmax(9rem,1fr))}}
+.opt{display:flex;align-items:flex-start;gap:.7rem;width:100%;min-height:48px;text-align:left;font:inherit;color:var(--ink);background:var(--snow);border:2px solid var(--taupe);border-radius:10px;padding:.6rem .8rem;cursor:pointer}
+.opt:hover:not(:disabled){border-color:var(--ink);background:var(--rose-wash)}
+.opt:disabled{cursor:default;color:var(--ink);border-color:var(--rule)}
+.opt .n{flex:none;display:grid;place-items:center;width:1.6rem;height:1.6rem;border-radius:6px;background:var(--rose-tint);font-weight:800;font-size:.85rem}
+.opt.right{border-color:var(--burgundy);background:var(--rose-tint)}
+.opt.wrong{border-color:var(--signal-vermilion);border-style:dashed}
+.opt .verdict{margin-left:auto;padding-left:.5rem}
+.verdict{font-size:.8rem;font-weight:800;letter-spacing:.04em;white-space:nowrap}
+.verdict.ok{color:var(--ink);background:var(--rose);border-radius:5px;padding:.1rem .4rem}
+.verdict.no{color:var(--ink);background:var(--snow);border:2px solid var(--signal-vermilion);border-radius:5px;padding:.02rem .4rem}
+.why{margin:.8rem 0 0;padding:.6rem .8rem;background:var(--rose-wash);border-left:4px solid var(--burgundy);border-radius:0 8px 8px 0}
+.actions{display:flex;flex-wrap:wrap;gap:.6rem;margin:1rem 0 0}
+.btn{font:inherit;font-weight:700;color:var(--snow);background:var(--burgundy);border:2px solid var(--burgundy);border-radius:9px;padding:.5rem 1rem;min-height:44px;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center}
+.btn:hover:not(:disabled){background:var(--burgundy-deep);border-color:var(--burgundy-deep)}
+.btn:disabled{background:var(--snow);color:var(--taupe);border-color:var(--rule);cursor:default}
+.btn.ghost{background:var(--snow);color:var(--ink);border-color:var(--ink)}
+.btn.small{min-height:44px;font-size:.9rem;padding:.3rem .8rem}
+.bar{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:.5rem;margin:0 0 .9rem;font-weight:700}
+.clock{font-variant-numeric:tabular-nums}
+.card,.narration{font-size:1.15rem;line-height:1.5;margin:.4rem 0 1rem}
+.card{background:var(--rose-wash);border-radius:10px;padding:.9rem 1rem;font-weight:600}
+.last{margin-top:1.1rem;border-top:1px dashed var(--rule);padding-top:.6rem}
+.last:empty{display:none}
+.last-q{margin:0}
+.prompt{margin:0 0 .7rem;font-weight:600}
+/* rank */
+.rank-list{list-style:none;margin:0;padding:0;display:grid;gap:.5rem}
+.rank-item{display:flex;align-items:center;gap:.7rem;background:var(--snow);border:2px solid var(--taupe);border-radius:10px;padding:.4rem .5rem .4rem .7rem;min-height:52px}
+.rank-item.lifted{border-color:var(--ink);background:var(--rose-tint);outline:2px dashed var(--burgundy);outline-offset:2px}
+.rank-item .n{flex:none;display:grid;place-items:center;width:1.7rem;height:1.7rem;border-radius:4px;background:var(--rose);font-weight:800;font-size:.9rem}
+.rank-text{flex:1}
+.rank-move{display:flex;gap:.3rem}
+.mv{width:44px;height:44px;font:inherit;font-weight:800;font-size:1.1rem;color:var(--ink);background:var(--snow);border:2px solid var(--ink);border-radius:8px;cursor:pointer}
+.mv:disabled{border-color:var(--rule);color:var(--rule);cursor:default}
+.views{display:grid;gap:.8rem;margin-top:.6rem}
+@media (min-width:40rem){.views{grid-template-columns:repeat(auto-fit,minmax(13rem,1fr))}}
+.view{background:var(--snow);border:1px solid var(--rule);border-top:4px solid var(--ink);border-radius:10px;padding:.6rem .9rem .8rem}
+.view.yours{border-top-color:var(--rose)}
+.view h3{margin:.2rem 0 .3rem;font-size:1rem}
+.view ol{margin:0;padding-left:1.2rem;font-size:.95rem}
+/* ladder */
+.rungs{list-style:none;display:flex;gap:.4rem;margin:.4rem 0 .2rem;padding:0}
+.rungs li{font-size:.75rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;padding:.15rem .6rem;border-radius:999px;border:2px solid var(--rule);color:var(--taupe)}
+.rungs li.on{border-color:var(--ink);background:var(--ink);color:var(--snow)}
+.rungs li.past{border-color:var(--rose);background:var(--rose-tint);color:var(--ink)}
+.use{margin:0 0 1rem;padding:.7rem 1rem;background:var(--rose-wash);border-left:4px solid var(--ink);border-radius:0 8px 8px 0;font-style:italic}
+/* builder */
+.slots{display:grid;gap:.7rem}
+@media (min-width:36rem){.slots{grid-template-columns:repeat(auto-fit,minmax(10rem,1fr))}}
+.slot label{display:block;font-size:.78rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--burgundy);margin-bottom:.2rem}
+.slot select{width:100%;min-height:44px;font:inherit;color:var(--ink);background:var(--snow);border:2px solid var(--taupe);border-radius:8px;padding:.3rem .5rem}
+.preview-line{margin:1rem 0 0}
+.preview{display:block;margin-top:.3rem;background:var(--ink-deep);color:var(--rose);padding:.7rem .9rem;border-radius:8px;font-size:.95rem}
+.out{margin-top:.9rem}
+.out code{background:none}
+/* story */
+.meter{background:var(--signal-amber);border-radius:8px;padding:.4rem .8rem;font-size:.92rem}
+.scene.has-cast{display:grid;grid-template-columns:6.5rem 1fr;gap:1rem;align-items:start}
+.cast svg{display:block;width:100%;height:auto}
+.cast p{margin:.2rem 0 0;font-size:.78rem;font-weight:700;text-align:center;color:var(--taupe)}
+@media (max-width:30rem){.scene.has-cast{grid-template-columns:4.2rem 1fr;gap:.8rem}.narration{font-size:1.05rem}}
+.outcome{margin-top:1rem;border-top:1px dashed var(--rule);padding-top:.7rem}
+.outcome p{margin:.2rem 0}
+.cost{display:inline-block;font-size:.8rem;font-weight:800;background:var(--signal-amber);border-radius:5px;padding:.05rem .4rem;white-space:nowrap}
+.path{padding-left:1.3rem}
+/* spot */
+.hint{margin:.2rem 0 .7rem;font-size:.93rem;color:var(--taupe)}
+.exhibit-scroll{overflow-x:auto;border-radius:10px;background:var(--ink-deep);padding:.5rem}
+.exhibit{display:grid;gap:3px;min-width:min-content;font-family:"Courier New",Consolas,"DejaVu Sans Mono",monospace;font-size:.9rem}
+.exhibit.table,.exhibit.log{min-width:calc(var(--cols,2) * 7rem + 11rem)}
+.ex-row{display:grid;grid-template-columns:repeat(var(--cols,1),minmax(0,1fr)) 10.5rem;gap:.2rem .9rem;align-items:center;width:100%;min-height:44px;text-align:left;font:inherit;color:var(--snow);background:var(--ink-raised);border:2px solid var(--ink-raised);border-radius:6px;padding:.3rem .7rem;white-space:pre-wrap}
+button.ex-row{cursor:pointer}
+button.ex-row:hover:not(:disabled){border-color:var(--blush)}
+button.ex-row:focus-visible{outline-color:var(--rose)}
+.ex-head{background:none;border-color:transparent;color:var(--blush);font-weight:700;min-height:0;font-family:"Open Sans",Arial,sans-serif;font-size:.78rem;letter-spacing:.06em;text-transform:uppercase}
+.ex-row .flag{visibility:hidden;font-family:"Open Sans",Arial,sans-serif;font-size:.75rem;font-weight:800;color:var(--ink);background:var(--signal-amber);border-radius:5px;padding:.05rem .4rem;white-space:nowrap}
+.ex-row[aria-pressed="true"]{border-color:var(--signal-amber)}
+.ex-row[aria-pressed="true"] .flag{visibility:visible}
+.ex-row:disabled{color:var(--snow);cursor:default}
+.ex-row:disabled .flag{display:none}
+.ex-row.right{border-color:var(--rose);border-width:3px}
+.ex-row.missed,.ex-row.wrong{border-color:var(--signal-vermilion);border-style:dashed}
+.ex-row .verdict{font-family:"Open Sans",Arial,sans-serif;justify-self:end}
+.ex-row>span{overflow-wrap:anywhere}
+.notes{list-style:none;padding:0;display:grid;gap:.8rem}
+.round-score{font-weight:700;margin:1rem 0 .2rem}
+/* result */
+.result{background:var(--snow);border:2px solid var(--ink);border-radius:14px;padding:1rem 1.2rem 1.3rem;margin-top:1.2rem}
+.result h2{margin:.1rem 0 .2rem;font-size:1.3rem}
+.result h2:focus{outline:none}
+.result h3{margin:1.2rem 0 .3rem;font-size:1.05rem}
+.score{margin:.1rem 0;font-size:1.3rem}
+.score strong{font-size:2.2rem;font-weight:800}
+.best{margin:0;font-size:.9rem;color:var(--taupe)}
+.misses{padding-left:1.3rem}
+.misses li,.path li{margin:.9rem 0}
+.misses p,.path p,.notes p{margin:.2rem 0}
+.m-q{font-weight:600}
+.clean{font-weight:600}
+.back{margin:1.2rem 0 0}
+.study{display:none}
+.site-footer{border-top:1px solid var(--rule);color:var(--taupe);font-size:.85rem;padding:1.2rem 0 2rem;text-align:center}
+.site-footer p{margin:.3rem 0}
+.site-footer .author{color:var(--taupe)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+@media print{
+  html{filter:grayscale(1)}
+  body{background:var(--snow);font-size:11pt}
+  .play-header{background:var(--snow);color:var(--ink);border-bottom:2px solid var(--ink)}
+  .play-header .eyebrow,.play-header .eyebrow a{color:var(--taupe)}
+  #play,.result,.bars,.skip,.back,.howto,noscript{display:none!important}
+  .study{display:block}
+  .study li{break-inside:avoid;margin:.8rem 0}
+}
+
+/* marks: a drawn tick and the fault badge; chevrons for moving an item; the flag mark (Open Sans has none of these glyphs) */
+.mk{display:inline-block;vertical-align:middle;margin-right:.35rem}
+.mk.tick{width:.42em;height:.78em;margin-left:.1em;border:solid currentColor;border-width:0 .17em .17em 0;transform:rotate(45deg) translateY(-.1em)}
+.mk.fault{display:inline-grid;place-items:center;width:1.15rem;height:1.15rem;background:var(--signal-vermilion);color:var(--ink);font-weight:800;font-size:.9rem;line-height:1;border-radius:2px}
+.verdict.no{border-style:dashed}
+.chev{display:inline-block;width:.6rem;height:.6rem;border:solid currentColor;border-width:.18rem .18rem 0 0}
+.chev.up{transform:translateY(.12rem) rotate(-45deg)}.chev.down{transform:translateY(-.12rem) rotate(135deg)}
+.flag-mark{display:inline-block;width:.55rem;height:.7rem;margin-right:.3rem;border-left:2px solid var(--ink);background:linear-gradient(var(--ink),var(--ink)) left top/100% 55% no-repeat;vertical-align:-.05rem}
+.exhibit.code .ex-row{grid-template-columns:2rem minmax(0,1fr) 10.5rem}
+.ex-row .ln{color:var(--blush);text-align:right}
+.exhibit.headers .ex-row,.exhibit.code .ex-row{white-space:pre}
+.fixq{margin-top:1.1rem;border-top:1px dashed var(--rule);padding-top:.7rem}
+.fixq .q{margin:.2rem 0 .7rem}
+.voice-badge{display:inline-grid;place-items:center;min-width:1.9rem;height:1.9rem;padding:0 .3rem;border-radius:999px;color:var(--snow);font-weight:800;font-size:.72rem;vertical-align:middle;margin-right:.4rem}
+.v-registrar{background:var(--burgundy)}.v-head_of_it{background:var(--taupe)}.v-dpo{background:var(--burgundy-deep)}
+</style>
+</head>
+<body class="play engine-spot">
+<a class="skip" href="#play">Skip to the play</a>
+<header class="play-header"><div class="wrap">
+<p class="eyebrow"><a href="../index.html">Day 1</a> | 10 minutes</p>
+<h1>Check the risk rows</h1>
+<div class="bars" aria-hidden="true"><i></i><i></i></div>
+</div></header>
+<main class="wrap">
+<div class="meta"><span class="badge" title="Learning outcome 1">LO1</span><span class="badge" title="Learning outcome 5">LO5</span></div>
+<p class="intro">Another trainee wrote Taxila's first risk rows. Some are right and some are not. Find the faulty rows, then choose how to fix each one.</p>
+<details class="howto" open><summary>How to play</summary><ol><li>Press a row to flag it, press again to clear it. Then check your flags.</li><li>For each fault you find, choose the fix. A correct row flagged by mistake costs a point.</li></ol></details>
+<noscript><p class="box">This play needs JavaScript. The questions and reasons are still in the notes for this day.</p></noscript>
+<div id="play" tabindex="-1"></div>
+<div id="live" class="sr" aria-live="polite"></div>
+<section id="result" class="result" hidden aria-labelledby="h-result"></section>
+<p class="back"><a href="../index.html">Back to Day 1</a></p>
+</main>
+<footer class="site-footer"><div class="wrap">
+<p class="author">&copy; Niranga Dharmaratna, School of Computing &amp; Engineering, National Institute of Business Management</p>
+<p>Content licensed <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener">CC BY-NC-SA 4.0</a>; code licensed MIT; Open Sans under the SIL Open Font Licence.</p>
+<p>Dates and submissions are announced for your cohort. Taxila College is fictional.</p>
+<p>Your answers stay on this device.</p>
+</div></footer>
+
+<script type="application/json" id="play-data">{"_site":{"initials":{"dpo":"DPO","head_of_it":"IT","registrar":"R"},"short":"Taxila","store":"hndne-pis:","voices":{"dpo":"Data Protection Officer","head_of_it":"Head of IT","registrar":"Registrar"}},"day":1,"draws_on":["notes 4: asset, threat, vulnerability and risk","lab segment 3: write the first risk-register rows","demo: risk-equation"],"engine":"spot","how_to":["Press a row to flag it, press again to clear it. Then check your flags.","For each fault you find, choose the fix. A correct row flagged by mistake costs a point."],"id":"p1-2-check-the-risk-rows","intro":"Another trainee wrote Taxila's first risk rows. Some are right and some are not. Find the faulty rows, then choose how to fix each one.","lo":[1,5],"minutes":10,"rounds":[{"brief":"Three rows from the trainee's register. Each row needs an asset, a threat, a vulnerability, scores that multiply correctly and one property.","clean":[{"target":0,"why":"Asset, threat, vulnerability, correct arithmetic and one property: this is the template's example row."}],"exhibit":{"header":["Asset","Threat","Vulnerability","Score","Property"],"kind":"table","lines":[["Exam papers before the exam","A curious student","A folder anyone at the college can open","3 x 5 = 15","Confidentiality"],["Exam papers before the exam","(none written)","The folder keeps no record of who opens it","2 x 5 = 10","Confidentiality"],["Grades","Someone with grade-changing access","Changes are not recorded with who made them","3 x 5 = 8","Integrity"]]},"flags":[{"fault":"The row has a weakness but no threat.","fixes":[{"label":"Name the threat that could use the weakness","right":true,"why":"With a threat and a vulnerability both written, the row describes a real risk."},{"label":"Raise the impact to 5 so the score looks serious","why":"The impact was already 5. A score without a threat still describes no risk."}],"target":1,"why":"Risk needs both halves. Without a threat that could use the weakness, the row is not a risk yet."},{"fault":"The score does not equal likelihood times impact.","fixes":[{"label":"Correct the score to 15","right":true,"why":"The score must be likelihood times impact, so 3 x 5 = 15."},{"label":"Lower the impact until the score fits 8","why":"The impact is a judgement about harm. Change the arithmetic, not the judgement."}],"target":2,"why":"Likelihood 3 times impact 5 is 15, not 8. A wrong score puts the row in the wrong place when the Head of IT sorts the list."}],"title":"Rows for exam papers and grades"},{"brief":"The trainee named a property in each row. Is each one the property most at stake?","clean":[{"target":2,"why":"Reading salaries beyond your job is a confidentiality risk, and the row is complete."}],"exhibit":{"header":["Asset","Threat","Vulnerability","Score","Property"],"kind":"table","lines":[["The fee payment page","Hundreds of students paying at once","The page stops responding under heavy load","4 x 4 = 16","Confidentiality"],["Staff bank details","A false message from \"the Registrar\"","Staff not shown how to check a sender","3 x 4 = 12","Authentication"],["Staff salaries","A staff member reading beyond their job","Every staff account can read all salaries","2 x 4 = 8","Confidentiality"]]},"flags":[{"fault":"The property is wrong: a page that stops responding loses availability.","fixes":[{"label":"Change the property to availability","right":true,"why":"The risk is that students cannot reach the page on the night they need it."},{"label":"Change the property to integrity","why":"Integrity is about data changed without permission. No record changes here."}],"target":0,"why":"Nothing is read on the fee night. The harm is that the service is not there when needed."},{"fault":"Authentication is a process, not one of the five properties.","fixes":[{"label":"Change it to authenticity","right":true,"why":"The false message lies about who sent it, which is authenticity."},{"label":"Change it to accountability","why":"Accountability is proving who did what. The harm here is believing a message from the wrong sender."}],"target":1,"why":"The properties and the processes are separate lists. The property at stake is authenticity."}],"title":"Rows about properties"},{"brief":"Last three rows. Check that each threat is something that could cause harm, and each vulnerability is a weakness.","clean":[{"target":2,"why":"A deadline-night load against a system that cannot carry it is an availability risk, written correctly."}],"exhibit":{"header":["Asset","Threat","Vulnerability","Score","Property"],"kind":"table","lines":[["National identity card numbers","A shared folder with no password","A curious student","2 x 5 = 10","Confidentiality"],["Grades","Someone who wants a higher grade","A careless lecturer","2 x 5 = 10","Integrity"],["Coursework submissions","Every student submitting at the same hour","The learning system cannot carry the load","3 x 4 = 12","Availability"]]},"flags":[{"fault":"The threat and the vulnerability are the wrong way round.","fixes":[{"label":"Swap the two cells","right":true,"why":"Now the threat is the student and the vulnerability is the open folder."},{"label":"Leave it, because both cells are filled","why":"Both cells are filled, but each holds the other's idea. The row would mislead the person fixing it."}],"target":0,"why":"The student is what could cause harm; the open folder is the weakness the student could use."},{"fault":"A person is written as the vulnerability.","fixes":[{"label":"Write the weakness, such as grade changes that nobody reviews","right":true,"why":"A weakness in the system or the process is what a control can close."},{"label":"Name the lecturer, to make the row more exact","why":"Naming a person does not describe a weakness, and blames before anything is known."}],"target":1,"why":"A person is a possible threat. The vulnerability is the weakness that lets the harm happen."}],"title":"Threats and weaknesses in the right cells"}],"title":"Check the risk rows"}</script>
+<script>
+/* Principles of Information Security plays: shared shell. MIT licence. No network, nothing leaves the device.
+   An engine calls Play.start(function (P) {...}) and, when the student has finished,
+   P.finish(score, max, misses). The audit drives a play through window.__play.
+   This shell writes no HTML string into the page (D37): text goes in with textContent, the small Markdown
+   the data may use is built as nodes, and drawings are copies of <template> elements the generator wrote.
+   Module words (the storage prefix, the scenario's short name, the voices) arrive in the play data as _site. */
+(function () {
+  "use strict";
+  var D = JSON.parse(document.getElementById("play-data").textContent);
+  var SITE = D._site || {};
+  var root = document.getElementById("play"), live = document.getElementById("live"), result = document.getElementById("result");
+  var state = { done: false, score: 0, max: 0 }, solver = null, starter = null;
+  var BEST = (SITE.store || "play:") + "best:" + D.id;
+
+  /* the small Markdown the data may use: `code`, **bold**, *emphasis*. Returns nodes, never markup. */
+  function md(s) {
+    var frag = document.createDocumentFragment(), str = String(s == null ? "" : s);
+    var rx = /`([^`]+)`|\*\*([^*]+)\*\*|\*([^*]+)\*/g, last = 0, m;
+    while ((m = rx.exec(str)) !== null) {
+      if (m.index > last) { frag.appendChild(document.createTextNode(str.slice(last, m.index))); }
+      var tag = m[1] !== undefined ? "code" : (m[2] !== undefined ? "strong" : "em");
+      var n = document.createElement(tag);
+      n.textContent = m[1] !== undefined ? m[1] : (m[2] !== undefined ? m[2] : m[3]);
+      frag.appendChild(n);
+      last = rx.lastIndex;
+    }
+    if (last < str.length) { frag.appendChild(document.createTextNode(str.slice(last))); }
+    return frag;
+  }
+  /* h(tag, attrs, kids): attrs.text sets plain text, attrs.md sets the small Markdown, attrs.on adds listeners. */
+  function h(tag, attrs, kids) {
+    var n = document.createElement(tag), k;
+    for (k in (attrs || {})) {
+      if (k === "text") { n.textContent = attrs[k]; }
+      else if (k === "md") { n.appendChild(md(attrs[k])); }
+      else if (k === "on") { for (var e in attrs.on) { n.addEventListener(e, attrs.on[e]); } }
+      else if (attrs[k] !== null && attrs[k] !== undefined && attrs[k] !== false) { n.setAttribute(k, attrs[k] === true ? "" : attrs[k]); }
+    }
+    (kids || []).forEach(function (c) { if (c) { n.appendChild(typeof c === "string" ? document.createTextNode(c) : c); } });
+    return n;
+  }
+  function tpl(id) { var t = document.getElementById(id); return t && t.content ? t.content.cloneNode(true) : null; }
+  function btn(label, cls, fn) { return h("button", { type: "button", "class": cls || "btn", md: label, on: { click: fn } }); }
+  /* a numbered answer button: the number, then the answer */
+  function opt(k, label, fn, cls) {
+    return h("button", { type: "button", "class": cls || "opt", on: { click: fn } }, [h("span", { "class": "n", text: String(k + 1) }), h("span", { md: label })]);
+  }
+  function say(t) { live.textContent = ""; window.setTimeout(function () { live.textContent = t; }, 40); }
+  function clear(n) { while (n.firstChild) { n.removeChild(n.firstChild); } }
+  function shuffle(a) { a = a.slice(); for (var i = a.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)), t = a[i]; a[i] = a[j]; a[j] = t; } return a; }
+  function store(fn, fb) { try { return fn(window.localStorage); } catch (e) { return fb; } }
+  /* a verdict is always a mark and a word, never colour alone: a drawn tick, or the fault badge with its multiplication sign */
+  function mark(ok) { return h("span", { "class": ok ? "mk tick" : "mk fault", "aria-hidden": "true", text: ok ? "" : "×" }); }
+  function verdict(ok, word) { return h("span", { "class": "verdict " + (ok ? "ok" : "no") }, [mark(ok), word || (ok ? "Right" : "Not quite")]); }
+  function why(text, label) { return h("p", { "class": "why" }, [h("b", { text: (label || "Why") + ":" }), " ", md(text)]); }
+  function labelled(label, text, cls) { return h("p", { "class": cls || "" }, [h("b", { text: label }), " ", md(text)]); }
+  function progress(i, n, what) { return h("p", { "class": "count", text: (what || "Question") + " " + i + " of " + n }); }
+
+  function finish(score, max, misses, extra) {
+    state = { done: true, score: score, max: max };
+    var prev = store(function (s) { return parseInt(s.getItem(BEST), 10); }, NaN);
+    var best = isNaN(prev) ? score : Math.max(prev, score);
+    store(function (s) { s.setItem(BEST, String(best)); });
+    clear(result);
+    result.appendChild(h("h2", { id: "h-result", tabindex: "-1", text: "Your result" }));
+    result.appendChild(h("p", { "class": "score" }, [h("strong", { text: String(score) }), " of " + max]));
+    result.appendChild(h("p", { "class": "best", text: "Best on this device: " + best + " of " + max + "." }));
+    if (extra) { result.appendChild(extra); }
+    if (misses && misses.length) {
+      result.appendChild(h("h3", { text: "Check these again" }));
+      result.appendChild(h("ol", { "class": "misses" }, misses.map(function (m) {
+        return h("li", {}, [h("p", { "class": "m-q", md: m.q }),
+          m.yours ? labelled("You chose:", m.yours, "m-yours") : null,
+          m.right ? labelled("Better:", m.right, "m-right") : null,
+          why(m.why)]);
+      })));
+    } else if (score >= max) {
+      result.appendChild(h("p", { "class": "clean", text: "Nothing to check again: every answer held." }));
+    }
+    result.appendChild(h("p", { "class": "actions" }, [btn("Play again", "btn", function () { begin(); root.focus(); }),
+      h("a", { "class": "btn ghost", href: "../index.html", text: "Back to the day" })]));
+    result.hidden = false;
+    document.getElementById("h-result").focus();
+    say("Finished. You scored " + score + " of " + max + ".");
+  }
+
+  /* the print view: questions and reasons as a study sheet */
+  function study(rows) {
+    var old = document.getElementById("study");
+    if (old) { old.parentNode.removeChild(old); }
+    var sec = h("section", { id: "study", "class": "study" }, [h("h2", { text: "Study sheet" }),
+      h("ol", {}, rows.map(function (r) {
+        return h("li", {}, [h("p", { "class": "m-q", md: r.q }), r.a ? labelled("Answer:", r.a) : null, r.why ? why(r.why) : null]);
+      }))]);
+    result.parentNode.insertBefore(sec, result.nextSibling);
+  }
+
+  function begin() {
+    state = { done: false, score: 0, max: 0 };
+    result.hidden = true;
+    clear(root);
+    solver = null;
+    starter(api);
+  }
+  var api = { data: D, site: SITE, root: root, h: h, md: md, tpl: tpl, btn: btn, opt: opt, say: say, clear: clear, shuffle: shuffle,
+    verdict: verdict, why: why, labelled: labelled, progress: progress, finish: finish, study: study, hook: function (fn) { solver = fn; } };
+  window.Play = { start: function (fn) { starter = fn; begin(); } };
+  /* test hook: solve() plays the keyed answers through the real handlers; state() reports the outcome */
+  window.__play = { solve: function () { if (solver) { solver(); } return state; }, state: function () { return state; } };
+})();
+/* spot: find the faults in an exhibit (a table, a log, email headers, command output, a policy or a few lines of code),
+   then choose the fix for each fault you found (D37). Each line is a toggle: flag the lines you think are wrong,
+   then check. A clean line flagged by mistake costs a point. A fault that carries fixes scores a second point
+   when its right fix is chosen. Nothing here asks the student to write an attack: they find and fix. */
+Play.start(function (P) {
+  "use strict";
+  var rounds = P.data.rounds, i = 0, score = 0, max = 0, misses = [], lines = [], check, next = null, fixRight = [];
+  rounds.forEach(function (r) { r.flags.forEach(function (f) { max += 1 + (f.fixes ? 1 : 0); }); });
+  function lineText(r, k) { var l = r.exhibit.lines[k]; return Array.isArray(l) ? l.join(" | ") : l; }
+  function where(r, k) { return (r.title ? r.title + ": " : "") + "`" + lineText(r, k) + "`"; }
+  function rightFix(f) { return (f.fixes || []).filter(function (o) { return o.right; })[0]; }
+  var rows = [];
+  rounds.forEach(function (r) {
+    r.flags.forEach(function (f) {
+      var fx = rightFix(f);
+      rows.push({ q: where(r, f.target), a: f.fault + (fx ? " Fix: " + fx.label : ""), why: f.why + (fx ? " " + fx.why : "") });
+    });
+  });
+  P.study(rows);
+  function done() {
+    next = P.btn(i + 1 < rounds.length ? "Next exhibit" : "See your result", "btn", function () { i++; show(); });
+    P.root.appendChild(P.h("p", { "class": "actions" }, [next]));
+    next.focus();
+  }
+  function askFixes(r, found) {
+    var waiting = found.filter(function (f) { return f.fixes; });
+    fixRight = [];
+    if (!waiting.length) { return done(); }
+    var left = waiting.length;
+    waiting.forEach(function (f) {
+      var box = P.h("div", { "class": "fixq", role: "group", "aria-label": "Choose the fix" });
+      box.appendChild(P.h("p", { "class": "q" }, [P.h("b", { text: "Choose the fix: " }), P.h("span", { md: f.fault })]));
+      var opts = P.shuffle(f.fixes), buttons = [];
+      opts.forEach(function (o, k) {
+        var b = P.opt(k, o.label, function () {
+          buttons.forEach(function (x) { x.disabled = true; });
+          var fx = rightFix(f);
+          if (o.right) { score++; b.classList.add("right"); b.appendChild(P.verdict(true, "Right fix")); }
+          else {
+            b.classList.add("wrong"); b.appendChild(P.verdict(false, "Not this fix"));
+            misses.push({ q: "The fix for " + where(r, f.target), yours: o.label, right: fx.label, why: o.why + " " + fx.why });
+          }
+          box.appendChild(P.why(o.why));
+          if (!o.right) { box.appendChild(P.labelled("The fix:", fx.label + ". " + fx.why, "why")); }
+          P.say((o.right ? "Right fix. " : "Not this fix. ") + o.why);
+          left--;
+          if (!left) { done(); }
+        });
+        if (o.right) { fixRight.push(b); }
+        buttons.push(b);
+      });
+      box.appendChild(P.h("div", { "class": "opts" }, buttons));
+      P.root.appendChild(box);
+    });
+    P.root.querySelector(".fixq .opt").focus();
+  }
+  function run() {
+    var r = rounds[i], faults = {}, clean = {}, found = [], alarms = 0, notes = P.h("ul", { "class": "notes" });
+    r.flags.forEach(function (f) { faults[f.target] = f; });
+    (r.clean || []).forEach(function (c) { clean[c.target] = c; });
+    lines.forEach(function (b, k) {
+      var on = b.getAttribute("aria-pressed") === "true", f = faults[k];
+      b.disabled = true;
+      if (f && on) { found.push(f); b.classList.add("right"); b.appendChild(P.verdict(true, "Fault found")); notes.appendChild(P.h("li", {}, [P.verdict(true, "Found"), " ", P.h("span", { md: f.fault }), P.why(f.why)])); }
+      else if (f) {
+        b.classList.add("missed"); b.appendChild(P.verdict(false, "Fault missed"));
+        var fx = rightFix(f);
+        notes.appendChild(P.h("li", {}, [P.verdict(false, "Missed"), " ", P.h("span", { md: f.fault }), P.why(f.why), fx ? P.labelled("The fix:", fx.label + ". " + fx.why, "why") : null]));
+        misses.push({ q: where(r, k), yours: "not flagged", right: f.fault + (fx ? " Fix: " + fx.label : ""), why: f.why });
+      }
+      else if (on) { alarms++; b.classList.add("wrong"); b.appendChild(P.verdict(false, "This line is fine"));
+        var w = clean[k] ? clean[k].why : "Nothing is wrong with this line.";
+        notes.appendChild(P.h("li", {}, [P.verdict(false, "False alarm"), " ", P.h("code", { text: lineText(r, k) }), P.why(w)]));
+        misses.push({ q: where(r, k), yours: "flagged as a fault", right: "this line is fine", why: w }); }
+    });
+    var got = Math.max(0, found.length - alarms);
+    score += got;
+    check.disabled = true;
+    P.root.appendChild(P.h("p", { "class": "round-score", text: "Faults this round: " + got + " of " + r.flags.length + (alarms ? " (" + found.length + " found, less " + alarms + " false alarm" + (alarms > 1 ? "s" : "") + ")" : "") + "." }));
+    P.root.appendChild(notes);
+    P.say("Faults this round: " + got + " of " + r.flags.length + ".");
+    askFixes(r, found);
+  }
+  function show() {
+    if (i >= rounds.length) { P.clear(P.root); return P.finish(score, max, misses); }
+    var r = rounds[i], ex = r.exhibit, grid = ex.kind === "table" || ex.kind === "log";
+    P.clear(P.root);
+    P.root.appendChild(P.progress(i + 1, rounds.length, "Exhibit"));
+    if (r.title) { P.root.appendChild(P.h("h2", { "class": "q", md: r.title })); }
+    if (r.brief) { P.root.appendChild(P.h("p", { md: r.brief })); }
+    P.root.appendChild(P.h("p", { "class": "hint", text: "Flag " + (r.flags.length === 1 ? "the one fault" : "the " + r.flags.length + " faults") + ". Press a line to flag it, press again to clear it." }));
+    var cols = grid ? ex.header.length : 1;
+    var box = P.h("div", { "class": "exhibit " + ex.kind, role: "group", "aria-label": "Exhibit", style: "--cols:" + cols });
+    if (grid) { box.appendChild(P.h("div", { "class": "ex-row ex-head", style: "--cols:" + cols }, ex.header.map(function (c) { return P.h("span", { text: c }); }))); }
+    lines = ex.lines.map(function (l, k) {
+      var cells = (Array.isArray(l) ? l : [l]).map(function (c) { return P.h("span", { text: c }); });
+      if (ex.kind === "code") { cells.unshift(P.h("span", { "class": "ln", "aria-hidden": "true", text: String(k + 1) })); }
+      var b = P.h("button", { type: "button", "class": "ex-row", "aria-pressed": "false", style: "--cols:" + cols, on: { click: function () {
+        var on = b.getAttribute("aria-pressed") !== "true";
+        b.setAttribute("aria-pressed", on ? "true" : "false");
+      }, keydown: function (ev) {
+        var d = ev.key === "ArrowDown" ? 1 : ev.key === "ArrowUp" ? -1 : 0;
+        if (d && lines[k + d]) { ev.preventDefault(); lines[k + d].focus(); }
+      } } }, cells);
+      b.appendChild(P.h("span", { "class": "flag" }, [P.h("span", { "class": "flag-mark", "aria-hidden": "true" }), "Flagged"]));
+      return b;
+    });
+    lines.forEach(function (b) { box.appendChild(b); });
+    P.root.appendChild(P.h("div", { "class": "exhibit-scroll", tabindex: "0" }, [box]));
+    check = P.btn("Check my flags", "btn", run);
+    P.root.appendChild(P.h("p", { "class": "actions" }, [check]));
+  }
+  P.hook(function () {
+    while (i < rounds.length) {
+      rounds[i].flags.forEach(function (f) { lines[f.target].click(); });
+      check.click();
+      fixRight.slice().forEach(function (b) { b.click(); });
+      next.click();
+    }
+  });
+  show();
+});
+</script>
+</body>
+</html>

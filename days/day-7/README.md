@@ -23,7 +23,7 @@ Files appear here before the teaching day.
 - Pfleeger and Pfleeger, email and database security; the Personal Data Protection Act, No. 9 of 2022
 - Pfleeger and Pfleeger, email headers and database auditing
 
-**Practice question:** Practice question 7, posted with the day's materials.
+**Practice question:** Practice question 7, posted in [practice](../../practice/).
 
 **Tasks:**
 

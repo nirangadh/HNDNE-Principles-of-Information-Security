@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Read, change, block</title>
+<meta name="description" content="Send a grade across a network with one problem at a time: a copy, a change or an overload. See which property is lost each time.">
+<link rel="stylesheet" href="../../../assets/fonts/fonts.css">
+<style>
+  body{margin:0;font-family:var(--font-body);background:var(--linen);color:var(--ink);line-height:1.6}
+  main{max-width:50rem;margin:0 auto;padding:1.5rem 1rem 2.5rem}
+  h1{font-size:1.6rem;line-height:1.25;margin:0 0 .4rem}
+  h2{font-size:1.1rem;margin:1.6rem 0 .5rem}
+  .bars{display:flex;gap:6px;margin:.3rem 0 1.1rem}.bars i{display:block;height:6px;border-radius:2px}
+  .bars i:first-child{width:56px;background:var(--burgundy)}.bars i:last-child{width:26px;background:var(--blush)}
+  .lead{margin:0 0 1rem}
+  code{font-family:var(--font-code);font-size:.95em}
+  button{font:inherit;font-weight:700;border-radius:8px;padding:.5rem .9rem;min-height:44px;cursor:pointer}
+  button:focus-visible{outline:3px solid var(--burgundy);outline-offset:2px}
+  .go{color:var(--snow);background:var(--burgundy);border:0}
+  .go[disabled]{background:var(--blush);color:var(--taupe);cursor:wait}
+  .modes{display:grid;grid-template-columns:repeat(auto-fit,minmax(10.5rem,1fr));gap:.5rem;margin:.4rem 0 .8rem}
+  .mode{color:var(--ink);background:var(--snow);border:2px solid var(--taupe);text-align:left}
+  .mode[aria-pressed="true"]{background:var(--ink);color:var(--snow);border-color:var(--ink)}
+  .mode small{display:block;font-weight:400;font-size:.85rem}
+  .wire{position:relative;height:180px;margin:1rem 0;background:var(--snow);border:1px solid var(--rule);border-radius:12px;overflow:hidden}
+  .node{position:absolute;top:28px;width:28%;padding:.5rem;border:2px solid var(--ink);border-radius:10px;background:var(--linen);font-weight:700;font-size:.9rem;line-height:1.3;text-align:center;box-sizing:border-box}
+  .node span{display:block;font-weight:400;font-size:.8rem;color:var(--taupe)}
+  .node.from{left:2%}.node.to{right:2%}
+  .line{position:absolute;top:58px;left:30%;right:30%;height:4px;background:var(--taupe);border-radius:2px}
+  .point{position:absolute;top:38px;left:calc(50% - 22px);width:44px;height:44px;border:3px dashed var(--signal-vermilion);border-radius:50%;background:var(--snow);display:none;align-items:center;justify-content:center;font-weight:800}
+  .point.show{display:flex}
+  .pkt{position:absolute;top:46px;left:36%;padding:.1rem .5rem;border-radius:6px;background:var(--burgundy);color:var(--snow);font-family:var(--font-code);font-size:.85rem;white-space:nowrap;opacity:0;transform:translateX(-50%)}
+  .pkt.changed{background:var(--signal-vermilion);color:var(--ink)}
+  .pkt.copy{background:var(--blush);color:var(--ink)}
+  .noise{position:absolute;top:50px;width:14px;height:14px;border-radius:3px;background:var(--rule);transform:translateX(-50%)}
+  .stash{position:absolute;bottom:12px;left:calc(50% - 7rem);width:14rem;text-align:center;font-size:.85rem;border:2px dashed var(--signal-vermilion);border-radius:10px;padding:.3rem .5rem;background:var(--linen);display:none;box-sizing:border-box}
+  .stash.show{display:block}
+  .chips{display:grid;grid-template-columns:repeat(auto-fit,minmax(13rem,1fr));gap:.5rem;margin:.6rem 0}
+  .chip{display:flex;align-items:center;gap:.6rem;background:var(--snow);border:2px solid var(--rule);border-radius:10px;padding:.45rem .6rem}
+  .chip b.l{flex:none;width:2.2rem;height:2.2rem;border-radius:8px;display:flex;align-items:center;justify-content:center;color:var(--snow);font-size:1rem}
+  .chip .t{line-height:1.25}.chip .t span{display:block;font-size:.78rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--taupe)}
+  .chip.held{border-color:var(--ink)}.chip.held .t span{color:var(--ink)}
+  .chip.lost{border:2px dashed var(--signal-vermilion)}
+  .chip.lost .t span{color:var(--ink)}
+  .chip .x{margin-left:auto;width:1.6rem;height:1.6rem;border-radius:4px;background:var(--signal-vermilion);color:var(--ink);font-weight:800;display:none;align-items:center;justify-content:center}
+  .chip.lost .x{display:flex}
+  .c b.l{background:var(--prop-c)}.i b.l{background:var(--prop-i)}.a b.l{background:var(--prop-a)}
+  .panel{background:var(--snow);border:1px solid var(--rule);border-left:6px solid var(--burgundy);border-radius:0 12px 12px 0;padding:.8rem 1rem;margin:.6rem 0}
+  .panel .tag{display:block;font-size:.78rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--burgundy)}
+  .panel p{margin:.2rem 0 0}
+  ol.log{font-family:var(--font-code);font-size:.85rem;background:var(--ink);color:var(--linen);border-radius:10px;padding:.7rem 1rem .7rem 2.2rem;margin:.4rem 0;min-height:2.5rem;overflow-wrap:anywhere}
+  .note{font-size:.9rem;color:var(--taupe);margin-top:1.4rem}
+  @media (max-width:30rem){.node{font-size:.78rem;width:31%}.line{left:33%;right:33%}.stash{width:12rem;left:calc(50% - 6rem)}}
+</style>
+<!-- portal head: written by the portal generator from this demo's title and description; do not edit -->
+<meta name="robots" content="index, follow">
+<link rel="icon" href="../../../assets/img/favicon.svg" type="image/svg+xml">
+<link rel="canonical" href="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-1/artefacts/cia-channel.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Principles of Information Security, HND Network Engineering Year 2">
+<meta property="og:title" content="Read, change, block | Day 1">
+<meta property="og:description" content="Send a grade across a network with one problem at a time: a copy, a change or an overload. See which property is lost each time.">
+<meta property="og:url" content="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-1/artefacts/cia-channel.html">
+<meta property="og:locale" content="en_GB">
+<meta property="og:image" content="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/assets/img/social-card.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="At Taxila College the Head of IT points to the security register on the wall: nineteen numbered items, the first outlined as the place to start. The Registrar holds a sealed transcript and the Data Protection Officer a clipboard. A lecturer turns to welcome two students arriving with a laptop and a phone.">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","author":{"@type":"Person","affiliation":{"@type":"Organization","name":"School of Computing & Engineering, National Institute of Business Management"},"name":"Niranga Dharmaratna"},"description":"Send a grade across a network with one problem at a time: a copy, a change or an overload. See which property is lost each time.","educationalLevel":"Higher National Diploma, Year 2","inLanguage":"en-GB","interactivityType":"active","isAccessibleForFree":true,"isPartOf":{"@id":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/#course","@type":"Course","name":"Principles of Information Security, HND Network Engineering Year 2","url":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/"},"learningResourceType":"Interactive demonstration","license":"https://opensource.org/licenses/MIT","name":"Read, change, block | Day 1","url":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-1/artefacts/cia-channel.html"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/","name":"Principles of Information Security","position":1},{"@type":"ListItem","item":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-1/","name":"Day 1","position":2},{"@type":"ListItem","item":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-1/artefacts/cia-channel.html","name":"Read, change, block","position":3}]}</script>
+<!-- /portal head -->
+</head>
+<body>
+<main>
+<h1>Read, change, block</h1>
+<div class="bars" aria-hidden="true"><i></i><i></i></div>
+<p class="lead">A lecturer sends a final grade from a laptop to the Student Information System (SIS). Choose one problem on the line, then send the grade. Watch what arrives, and which property is lost.</p>
+
+<h2 id="h-mode">1. Choose what happens on the line</h2>
+<div class="modes" role="group" aria-labelledby="h-mode">
+  <button class="mode" type="button" data-mode="none" aria-pressed="true">Nothing goes wrong<small>the line works as it should</small></button>
+  <button class="mode" type="button" data-mode="copy" aria-pressed="false">An unknown copy point<small>someone reads a copy</small></button>
+  <button class="mode" type="button" data-mode="change" aria-pressed="false">A change in transit<small>the value is altered</small></button>
+  <button class="mode" type="button" data-mode="flood" aria-pressed="false">An overload<small>the service is flooded</small></button>
+</div>
+<button class="go" id="go" type="button">2. Send the grade</button>
+
+<div class="wire" id="wire" aria-hidden="true">
+  <div class="node from">Lecturer's laptop<span>sends 78</span></div>
+  <div class="line"></div>
+  <div class="point" id="point">?</div>
+  <div class="node to">Student Information System<span id="rx">waiting</span></div>
+  <div class="pkt" id="pkt">78</div>
+  <div class="pkt copy" id="cpy">78</div>
+  <div class="stash" id="stash">An unknown copy: grade 78 for <code>student01</code></div>
+</div>
+
+<h2>3. What the defender sees</h2>
+<div class="chips" id="chips">
+  <div class="chip c" id="ch-c"><b class="l">C</b><div class="t">Confidentiality<span>not tested yet</span></div><b class="x" aria-hidden="true">&times;</b></div>
+  <div class="chip i" id="ch-i"><b class="l">I</b><div class="t">Integrity<span>not tested yet</span></div><b class="x" aria-hidden="true">&times;</b></div>
+  <div class="chip a" id="ch-a"><b class="l">A</b><div class="t">Availability<span>not tested yet</span></div><b class="x" aria-hidden="true">&times;</b></div>
+</div>
+<div class="panel" aria-live="polite">
+  <span class="tag" id="verdict">Waiting</span>
+  <p id="explain">Choose a problem, then send the grade.</p>
+</div>
+<ol class="log" id="log" aria-label="The system's log" role="log"></ol>
+
+<p class="note">Nothing here touches a real network. The line, the grade and the account <code>student01</code> are prepared examples at Taxila College, which is fictional.</p>
+</main>
+<script>
+(function () {
+  "use strict";
+  var STORY = {
+    none:   {lost: null, verdict: "All three properties held",
+             explain: "The grade arrived, unchanged, and nobody else read it. Confidentiality, integrity and availability all held.",
+             log: ["Received: grade 78 for student01.", "Copies seen on the line: none."]},
+    copy:   {lost: "c", verdict: "Confidentiality lost",
+             explain: "The grade still arrived, and it is still 78. But a copy was read by someone who had no right to read it. Integrity and availability held; confidentiality did not.",
+             log: ["Received: grade 78 for student01.", "Copies seen on the line: 1, at an unknown point.", "The receiver cannot tell from the grade itself that it was read."]},
+    change: {lost: "i", verdict: "Integrity lost",
+             explain: "The grade arrived on time, but it says 98, not the 78 the lecturer sent. Nobody needed to read anything they should not. Integrity was lost.",
+             log: ["Sent by the laptop: grade 78 for student01.", "Received: grade 98 for student01.", "The two values differ."]},
+    flood:  {lost: "a", verdict: "Availability lost",
+             explain: "No record was read or changed. The grade never arrived, because the service was flooded and stopped responding. Availability was lost.",
+             log: ["Requests waiting: 9,000 and rising.", "The service did not respond.", "Grade for student01: not delivered."]}
+  };
+  var mode = "none", busy = false;
+  var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var $ = function (id) { return document.getElementById(id); };
+  var pkt = $("pkt"), cpy = $("cpy"), point = $("point"), stash = $("stash"), wire = $("wire"), rx = $("rx"), go = $("go");
+  var modes = Array.prototype.slice.call(document.querySelectorAll(".mode"));
+  function setChip(k, state) {
+    var c = $("ch-" + k);
+    c.className = "chip " + k + (state === "Lost" ? " lost" : state === "Holds" ? " held" : "");
+    c.querySelector(".t span").textContent = state;
+  }
+  function resetChips() { ["c", "i", "a"].forEach(function (k) { setChip(k, "not tested yet"); }); }
+  function clearNoise() { Array.prototype.slice.call(wire.querySelectorAll(".noise")).forEach(function (n) { wire.removeChild(n); }); }
+  function place(el, pct, topPx) { el.style.left = pct + "%"; if (topPx !== undefined) { el.style.top = topPx + "px"; } }
+  function animate(dur, frame, done) {
+    if (reduce) { frame(1); done(); return; }
+    var t0 = null;
+    function step(t) { if (t0 === null) { t0 = t; } var p = Math.min(1, (t - t0) / dur); frame(p); if (p < 1) { requestAnimationFrame(step); } else { done(); } }
+    requestAnimationFrame(step);
+  }
+  function finish() {
+    var s = STORY[mode], log = $("log");
+    while (log.firstChild) { log.removeChild(log.firstChild); }
+    s.log.forEach(function (t) { var li = document.createElement("li"); li.textContent = t; log.appendChild(li); });
+    ["c", "i", "a"].forEach(function (k) { setChip(k, s.lost === k ? "Lost" : "Holds"); });
+    $("verdict").textContent = s.verdict;
+    $("explain").textContent = s.explain;
+    busy = false; go.disabled = false;
+  }
+  function send() {
+    if (busy) { return; }
+    busy = true; go.disabled = true;
+    resetChips(); clearNoise();
+    $("verdict").textContent = "Sending"; $("explain").textContent = "The grade is on its way.";
+    rx.textContent = "waiting";
+    pkt.className = "pkt"; pkt.textContent = "78"; pkt.style.opacity = "1"; place(pkt, 36, 46);
+    cpy.style.opacity = "0"; stash.className = "stash";
+    point.className = "point" + (mode === "copy" || mode === "change" ? " show" : "");
+    if (mode === "flood") {
+      for (var n = 0; n < 14; n++) { var d = document.createElement("div"); d.className = "noise"; place(d, 32 + n * 2.6, 48 + (n % 3) * 8); wire.appendChild(d); }
+      animate(1600, function (p) { place(pkt, 36 + 8 * p); }, function () {
+        pkt.style.opacity = "0.35"; rx.textContent = "not responding"; finish();
+      });
+      return;
+    }
+    animate(2200, function (p) {
+      var x = 36 + 28 * p; place(pkt, x);
+      if (mode === "change" && p > 0.5 && pkt.textContent === "78") { pkt.textContent = "98"; pkt.className = "pkt changed"; }
+      if (mode === "copy" && p > 0.5) {
+        cpy.style.opacity = "1"; place(cpy, 50, 46 + Math.min(1, (p - 0.5) * 2) * 70);
+      }
+    }, function () {
+      if (mode === "copy") { stash.className = "stash show"; cpy.style.opacity = "0"; }
+      rx.textContent = "received " + pkt.textContent; pkt.style.opacity = "0";
+      finish();
+    });
+  }
+  modes.forEach(function (b) {
+    b.addEventListener("click", function () {
+      if (busy) { return; }
+      mode = b.getAttribute("data-mode");
+      modes.forEach(function (o) { o.setAttribute("aria-pressed", o === b ? "true" : "false"); });
+      resetChips(); clearNoise(); point.className = "point"; stash.className = "stash"; pkt.style.opacity = "0"; cpy.style.opacity = "0"; rx.textContent = "waiting";
+      $("verdict").textContent = "Ready"; $("explain").textContent = "Now send the grade.";
+    });
+  });
+  go.addEventListener("click", send);
+}());
+</script>
+</body>
+</html>

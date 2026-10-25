@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Data, information and knowledge</title>
+<meta name="description" content="Type a value, give it a label, then see it beside others: a raw value becomes information, then knowledge, and gains a class.">
+<link rel="stylesheet" href="../../../assets/fonts/fonts.css">
+<style>
+  body{margin:0;font-family:var(--font-body);background:var(--linen);color:var(--ink);line-height:1.6}
+  main{max-width:46rem;margin:0 auto;padding:1.5rem 1rem 2.5rem}
+  h1{font-size:1.6rem;line-height:1.25;margin:0 0 .4rem}
+  h2{font-size:1.1rem;margin:1.6rem 0 .5rem}
+  .bars{display:flex;gap:6px;margin:.3rem 0 1.1rem}.bars i{display:block;height:6px;border-radius:2px}
+  .bars i:first-child{width:56px;background:var(--burgundy)}.bars i:last-child{width:26px;background:var(--blush)}
+  .lead{margin:0 0 1rem}
+  .step{font-size:.78rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--burgundy);margin:1.2rem 0 .3rem;display:block}
+  label{display:block;font-weight:700;margin:.2rem 0 .3rem}
+  input,select{font:inherit;color:var(--ink);background:var(--snow);border:2px solid var(--taupe);border-radius:8px;padding:.5rem .7rem;min-height:44px;width:100%;box-sizing:border-box}
+  input:focus-visible,select:focus-visible,button:focus-visible{outline:3px solid var(--burgundy);outline-offset:2px}
+  button{font:inherit;font-weight:700;color:var(--snow);background:var(--burgundy);border:0;border-radius:8px;padding:.55rem 1rem;min-height:44px;cursor:pointer}
+  button[disabled]{background:var(--blush);color:var(--taupe);cursor:not-allowed}
+  .ladder{display:flex;gap:.4rem;flex-wrap:wrap;margin:1.2rem 0 .6rem;padding:0;list-style:none}
+  .ladder li{flex:1 1 8rem;text-align:center;padding:.5rem .4rem;border:2px dotted var(--rule);border-radius:10px;background:var(--snow);color:var(--taupe);font-weight:700}
+  .ladder li.on{border:2px solid var(--burgundy);color:var(--ink);background:var(--rose-wash)}
+  .ladder li span{display:block;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;font-weight:800}
+  .card{margin-top:.6rem;background:var(--snow);border:1px solid var(--rule);border-left:6px solid var(--burgundy);border-radius:0 12px 12px 0;padding:1rem 1.2rem}
+  .tag{display:block;font-size:.78rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--burgundy)}
+  .value{font-family:var(--font-code);font-size:1.4rem;overflow-wrap:anywhere}
+  .meaning{margin:.4rem 0 0}
+  .class{display:inline-block;margin-top:.6rem;padding:.2rem .7rem;border-radius:999px;border:2px solid var(--ink);font-weight:700;font-size:.9rem}
+  .class:empty{display:none}
+  .others{margin:.6rem 0 0;padding-left:1.2rem}
+  .others:empty{display:none}
+  .know{margin:.6rem 0 0;padding:.6rem .8rem;background:var(--rose-wash);border-radius:8px}
+  .know:empty{display:none}
+  .note{font-size:.9rem;color:var(--taupe);margin-top:1.4rem}
+</style>
+<!-- portal head: written by the portal generator from this demo's title and description; do not edit -->
+<meta name="robots" content="index, follow">
+<link rel="icon" href="../../../assets/img/favicon.svg" type="image/svg+xml">
+<link rel="canonical" href="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-1/artefacts/data-vs-information.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Principles of Information Security, HND Network Engineering Year 2">
+<meta property="og:title" content="Data, information and knowledge | Day 1">
+<meta property="og:description" content="Type a value, give it a label, then see it beside others: a raw value becomes information, then knowledge, and gains a class.">
+<meta property="og:url" content="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-1/artefacts/data-vs-information.html">
+<meta property="og:locale" content="en_GB">
+<meta property="og:image" content="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/assets/img/social-card.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="At Taxila College the Head of IT points to the security register on the wall: nineteen numbered items, the first outlined as the place to start. The Registrar holds a sealed transcript and the Data Protection Officer a clipboard. A lecturer turns to welcome two students arriving with a laptop and a phone.">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","author":{"@type":"Person","affiliation":{"@type":"Organization","name":"School of Computing & Engineering, National Institute of Business Management"},"name":"Niranga Dharmaratna"},"description":"Type a value, give it a label, then see it beside others: a raw value becomes information, then knowledge, and gains a class.","educationalLevel":"Higher National Diploma, Year 2","inLanguage":"en-GB","interactivityType":"active","isAccessibleForFree":true,"isPartOf":{"@id":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/#course","@type":"Course","name":"Principles of Information Security, HND Network Engineering Year 2","url":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/"},"learningResourceType":"Interactive demonstration","license":"https://opensource.org/licenses/MIT","name":"Data, information and knowledge | Day 1","url":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-1/artefacts/data-vs-information.html"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/","name":"Principles of Information Security","position":1},{"@type":"ListItem","item":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-1/","name":"Day 1","position":2},{"@type":"ListItem","item":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-1/artefacts/data-vs-information.html","name":"Data, information and knowledge","position":3}]}</script>
+<!-- /portal head -->
+</head>
+<body>
+<main>
+<h1>Data, information and knowledge</h1>
+<div class="bars" aria-hidden="true"><i></i><i></i></div>
+<p class="lead">A raw value carries no meaning on its own. Give it a label and it becomes information. Put it beside other information and use it, and it becomes knowledge. Watch the same value climb.</p>
+
+<ol class="ladder" aria-label="How far the value has climbed">
+  <li id="r-data" class="on"><span>Step 1</span>Data</li>
+  <li id="r-info"><span>Step 2</span>Information</li>
+  <li id="r-know"><span>Step 3</span>Knowledge</li>
+</ol>
+
+<span class="step">Step 1</span>
+<label for="v">Type a value</label>
+<input id="v" type="text" value="78" maxlength="40" autocomplete="off" spellcheck="false">
+
+<span class="step">Step 2</span>
+<label for="l">Choose a label (the context)</label>
+<select id="l">
+  <option value="">No label</option>
+  <option value="grade">A student's final grade in one module</option>
+  <option value="room">A room number on the Colombo campus</option>
+  <option value="fee">Minutes the fee payment page did not respond</option>
+</select>
+
+<span class="step">Step 3</span>
+<button id="b" type="button" disabled>See it beside other information</button>
+
+<div class="card" aria-live="polite">
+  <span class="tag" id="tag">Data</span>
+  <div class="value" id="out"></div>
+  <p class="meaning" id="meaning"></p>
+  <span class="class" id="cls"></span>
+  <ul class="others" id="others"></ul>
+  <p class="know" id="know"></p>
+</div>
+
+<p class="note">What you type is shown back as plain text and goes nowhere else: it never leaves this page. The other values in step 3 are prepared examples from Taxila College, which is fictional.</p>
+</main>
+<script>
+(function () {
+  "use strict";
+  var LABELS = {
+    grade: {
+      name: "A student's final grade in one module",
+      cls: "Class at Taxila: confidential (it belongs to one student)",
+      others: ["Same student, first module: 86", "Same student, second module: 81", "Same student, third module: 74", "Same student, this module: the value you typed"],
+      know: function (v) {
+        var n = parseFloat(v);
+        if (isNaN(n)) { return "Knowledge needs a number here. Type a grade, such as 70, to compare it with the earlier ones."; }
+        return n < 74
+          ? "Knowledge: this student's grades fall in every module: 86, 81, 74, then " + v + ". A lecturer can now act: offer help before the final exams."
+          : "Knowledge: this student's grades fell for three modules, then rose to " + v + ". A lecturer can now see that the student has started to recover.";
+      }
+    },
+    room: {
+      name: "A room number on the Colombo campus",
+      cls: "Class at Taxila: internal (room bookings are not for publication, but harmless if leaked)",
+      others: ["Room booking: first-year networking class, 10:00 to 12:00", "Room booking: second-year design class, 10:00 to 12:00"],
+      know: function (v) { return "Knowledge: room " + v + " is booked by two classes at the same hour. One class needs another room."; }
+    },
+    fee: {
+      name: "Minutes the fee payment page did not respond",
+      cls: "Class at Taxila: internal (useful to staff, harmless if leaked)",
+      others: ["An ordinary evening: 0 minutes", "Another ordinary evening: 0 minutes", "The last evening for fees: the value you typed"],
+      know: function (v) { return "Knowledge: the page fails only on the deadline night, when everyone pays at once (" + v + " minutes). The Head of IT now knows where to look."; }
+    }
+  };
+  var v = document.getElementById("v"), l = document.getElementById("l"), b = document.getElementById("b");
+  var out = document.getElementById("out"), tag = document.getElementById("tag"), meaning = document.getElementById("meaning");
+  var cls = document.getElementById("cls"), others = document.getElementById("others"), know = document.getElementById("know");
+  var rData = document.getElementById("r-data"), rInfo = document.getElementById("r-info"), rKnow = document.getElementById("r-know");
+  var shown = false;
+  function val() { return v.value.trim() || "(nothing yet)"; }
+  function clear(node) { while (node.firstChild) { node.removeChild(node.firstChild); } }
+  function paint() {
+    var lab = LABELS[l.value];
+    out.textContent = val();
+    clear(others);
+    know.textContent = "";
+    if (!lab) {
+      shown = false;
+      tag.textContent = "Data";
+      meaning.textContent = "A value with no label. It could be a grade, a room number or a time. On its own it means nothing.";
+      cls.textContent = "";
+      b.disabled = true;
+      rInfo.className = ""; rKnow.className = "";
+      return;
+    }
+    b.disabled = false;
+    rInfo.className = "on";
+    tag.textContent = shown ? "Knowledge" : "Information";
+    meaning.textContent = lab.name + ": " + val() + ". Now the value means something.";
+    cls.textContent = lab.cls;
+    if (shown) {
+      rKnow.className = "on";
+      lab.others.forEach(function (t) { var li = document.createElement("li"); li.textContent = t; others.appendChild(li); });
+      know.textContent = lab.know(val());
+    } else {
+      rKnow.className = "";
+    }
+  }
+  v.addEventListener("input", paint);
+  l.addEventListener("change", function () { shown = false; paint(); });
+  b.addEventListener("click", function () { shown = true; paint(); });
+  paint();
+}());
+</script>
+</body>
+</html>

@@ -1,0 +1,294 @@
+<!doctype html>
+<html lang="en-GB" data-store="hndne-pis:">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="hndne-pis-site">
+<title>Day 1: What we protect, and from what | Principles of Information Security</title>
+<meta name="author" content="Niranga Dharmaratna">
+<meta name="description" content="Day 1 morning notes: Day 1: What we protect, and from what. These notes cover the Day 1 morning: what Taxila College must protect, the five security...">
+<meta name="robots" content="index, follow">
+<link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml">
+<link rel="canonical" href="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-1/notes.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Principles of Information Security, HND Network Engineering Year 2">
+<meta property="og:title" content="Day 1: What we protect, and from what">
+<meta property="og:description" content="Day 1 morning notes: Day 1: What we protect, and from what. These notes cover the Day 1 morning: what Taxila College must protect, the five security...">
+<meta property="og:url" content="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-1/notes.html">
+<meta property="og:locale" content="en_GB">
+<meta property="og:image" content="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/assets/img/social-card.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="At Taxila College the Head of IT points to the security register on the wall: nineteen numbered items, the first outlined as the place to start. The Registrar holds a sealed transcript and the Data Protection Officer a clipboard. A lecturer turns to welcome two students arriving with a laptop and a phone.">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","author":{"@type":"Person","affiliation":{"@type":"Organization","name":"School of Computing & Engineering, National Institute of Business Management"},"name":"Niranga Dharmaratna"},"description":"Day 1 morning notes: Day 1: What we protect, and from what. These notes cover the Day 1 morning: what Taxila College must protect, the five security...","educationalLevel":"Higher National Diploma, Year 2","inLanguage":"en-GB","interactivityType":"expository","isAccessibleForFree":true,"isPartOf":{"@id":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/#course","@type":"Course","name":"Principles of Information Security, HND Network Engineering Year 2","url":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/"},"learningResourceType":"Lecture notes","license":"https://creativecommons.org/licenses/by-nc-sa/4.0/","name":"Day 1: What we protect, and from what","url":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-1/notes.html"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/","name":"Principles of Information Security","position":1},{"@type":"ListItem","item":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-1/","name":"Day 1","position":2},{"@type":"ListItem","item":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-1/notes.html","name":"Day 1: What we protect, and from what","position":3}]}</script>
+<link rel="stylesheet" href="../../assets/fonts/fonts.css">
+<link rel="stylesheet" href="../../assets/css/site.css">
+<script>document.documentElement.className = "js";</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to the content</a>
+<header class="site-header"><div class="wrap"><div><p class="eyebrow"><a href="../../index.html">Principles of Information Security | HND Network Engineering, Year 2</a></p><h1>Day 1: What we protect, and from what</h1><p class="sub">Day 1, morning notes</p><div class="bars" aria-hidden="true"><i></i><i></i></div></div></div></header>
+<main id="main">
+<div class="wrap prose">
+<div class="meta"><span class="badge" title="Learning outcome 1">LO1</span><span class="badge" title="Learning outcome 5">LO5</span></div>
+<p>These notes cover the Day 1 morning: what Taxila College must protect, the five security properties, the words for <a class="term" data-term="risk" href="../../glossary.html#risk">risk</a>, and the controls and law that answer it.</p>
+<div class="box recall"><p class="box-label">Recall</p><p>In Year 1 you learnt that data crosses a network as messages sent between devices.</p></div>
+<p>Today you join the information technology (IT) office of Taxila College as a trainee security analyst. Taxila is a fictional private college with a main campus in Colombo and a branch in Kandy. Last semester, four things went wrong:</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>What happened</th>
+<th>In one line</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A leaked paper</td>
+<td>A draft exam paper appeared on a student messaging group two days before the exam.</td>
+</tr>
+<tr>
+<td>A changed grade</td>
+<td>A final grade in the student records was higher than the lecturer entered, and nothing showed who changed it.</td>
+</tr>
+<tr>
+<td>A dead deadline night</td>
+<td>On the last evening for fees, the fee payment page stopped responding for three hours.</td>
+</tr>
+<tr>
+<td>A message from "the Registrar"</td>
+<td>Staff received an email that seemed to come from the Registrar, asking them to update their bank details. Two people did.</td>
+</tr>
+</tbody>
+</table></div>
+<p>Each idea this morning gives you a word for part of what went wrong. By the end you can name each problem exactly, which is the first step to fixing it.</p>
+<h2 id="1-data-information-and-knowledge">1. Data, information and knowledge</h2>
+<p>Try the demo first: <a href="artefacts/data-vs-information.html">Data, information and knowledge</a>. Type a value, add a label, and watch it gain a meaning.</p>
+<p>A raw value carries no meaning on its own. The value <code>78</code> could be a grade, a room number or a speed. Add context, such as "final grade for one student", and the value becomes <strong>information</strong>. Put information together and apply it, such as "this student's grades fell in every module this year", and it becomes <strong>knowledge</strong>.</p>
+<div class="box know"><p class="box-label">You already know this</p><p>A parcel sits in a sorting office. Its label gives an address, so the post office knows where it goes. A worker who sees several parcels with the same address knows they belong to one family.</p><p class="map-row"><span class="map-label">Mapping</span>the parcel = data; the address on the label = the context that makes it information; knowing which parcels travel together = knowledge.</p></div>
+<p>Data comes in three shapes:</p>
+<ul>
+<li><strong>Structured</strong> data sits in fixed rows and columns. The Student Information System (SIS) holds structured records: every student has the same fields.</li>
+<li><strong>Semi-structured</strong> data carries labels but no fixed table. The header lines of an email (From, To, Subject) are labelled, but each message has a different set.</li>
+<li><strong>Unstructured</strong> data is free text, pictures or sound. The body of an email in a mailbox is unstructured.</li>
+</ul>
+<p>Data also moves through a <strong>lifecycle</strong>: it is created, stored, processed, shared, archived and finally destroyed. Every stage can be attacked. Follow one grade. It is created when the lecturer enters it, stored in the SIS and processed into a transcript. It is shared with the student, archived after graduation, and destroyed when the college no longer needs it.</p>
+<figure class="art"><svg aria-labelledby="lc-t lc-d" role="img" style="min-width:640px" viewbox="0 0 640 330"><title id="lc-t">The data lifecycle, followed by one grade</title><desc id="lc-d">Six numbered stages in order: create (the lecturer enters 78), store (kept in the Student Information System), process (printed on a transcript), share (sent to the student), archive (kept after graduation) and destroy (deleted when no longer needed). A note says every stage can be attacked, and that store and share are where a grade is most exposed.</desc><rect fill="#FFFBFB" height="330" width="640"></rect><text fill="#6C5353" font-family="Open Sans, Arial, sans-serif" font-size="14" font-weight="700" x="20" y="30">ONE GRADE, FROM START TO END</text><rect fill="#FBF6F6" height="78" rx="8" stroke="#2A1A1D" stroke-width="2" width="180" x="20" y="56"></rect><circle cx="42" cy="80" fill="#9C2C3A" r="13"></circle><text fill="#FFFBFB" font-family="Open Sans, Arial, sans-serif" font-size="14" font-weight="800" text-anchor="middle" x="42" y="85">1</text><text fill="#2A1A1D" font-family="Open Sans, Arial, sans-serif" font-size="18" font-weight="700" x="64" y="86">Create</text><text fill="#6C5353" font-family="Open Sans, Arial, sans-serif" font-size="13" x="36" y="116">the lecturer enters 78</text><rect fill="#FBF6F6" height="78" rx="8" stroke="#2A1A1D" stroke-width="2" width="180" x="230" y="56"></rect><circle cx="252" cy="80" fill="#9C2C3A" r="13"></circle><text fill="#FFFBFB" font-family="Open Sans, Arial, sans-serif" font-size="14" font-weight="800" text-anchor="middle" x="252" y="85">2</text><text fill="#2A1A1D" font-family="Open Sans, Arial, sans-serif" font-size="18" font-weight="700" x="274" y="86">Store</text><text fill="#6C5353" font-family="Open Sans, Arial, sans-serif" font-size="13" x="246" y="116">saved in the records</text><rect fill="#FBF6F6" height="78" rx="8" stroke="#2A1A1D" stroke-width="2" width="180" x="440" y="56"></rect><circle cx="462" cy="80" fill="#9C2C3A" r="13"></circle><text fill="#FFFBFB" font-family="Open Sans, Arial, sans-serif" font-size="14" font-weight="800" text-anchor="middle" x="462" y="85">3</text><text fill="#2A1A1D" font-family="Open Sans, Arial, sans-serif" font-size="18" font-weight="700" x="484" y="86">Process</text><text fill="#6C5353" font-family="Open Sans, Arial, sans-serif" font-size="13" x="456" y="116">printed on a transcript</text><rect fill="#FBF6F6" height="78" rx="8" stroke="#2A1A1D" stroke-width="2" width="180" x="440" y="186"></rect><circle cx="462" cy="210" fill="#9C2C3A" r="13"></circle><text fill="#FFFBFB" font-family="Open Sans, Arial, sans-serif" font-size="14" font-weight="800" text-anchor="middle" x="462" y="215">4</text><text fill="#2A1A1D" font-family="Open Sans, Arial, sans-serif" font-size="18" font-weight="700" x="484" y="216">Share</text><text fill="#6C5353" font-family="Open Sans, Arial, sans-serif" font-size="13" x="456" y="246">sent to the student</text><rect fill="#FBF6F6" height="78" rx="8" stroke="#2A1A1D" stroke-width="2" width="180" x="230" y="186"></rect><circle cx="252" cy="210" fill="#9C2C3A" r="13"></circle><text fill="#FFFBFB" font-family="Open Sans, Arial, sans-serif" font-size="14" font-weight="800" text-anchor="middle" x="252" y="215">5</text><text fill="#2A1A1D" font-family="Open Sans, Arial, sans-serif" font-size="18" font-weight="700" x="274" y="216">Archive</text><text fill="#6C5353" font-family="Open Sans, Arial, sans-serif" font-size="13" x="246" y="246">kept after graduation</text><rect fill="#FBF6F6" height="78" rx="8" stroke="#2A1A1D" stroke-width="2" width="180" x="20" y="186"></rect><circle cx="42" cy="210" fill="#9C2C3A" r="13"></circle><text fill="#FFFBFB" font-family="Open Sans, Arial, sans-serif" font-size="14" font-weight="800" text-anchor="middle" x="42" y="215">6</text><text fill="#2A1A1D" font-family="Open Sans, Arial, sans-serif" font-size="18" font-weight="700" x="64" y="216">Destroy</text><text fill="#6C5353" font-family="Open Sans, Arial, sans-serif" font-size="13" x="36" y="246">deleted when not needed</text><path d="M200 95 L222 95" fill="none" stroke="#2A1A1D" stroke-width="2.5"></path><path d="M230 95 L221 89 L221 101 Z" fill="#2A1A1D"></path><path d="M410 95 L432 95" fill="none" stroke="#2A1A1D" stroke-width="2.5"></path><path d="M440 95 L431 89 L431 101 Z" fill="#2A1A1D"></path><path d="M530 134 L530 178" fill="none" stroke="#2A1A1D" stroke-width="2.5"></path><path d="M530 186 L524 177 L536 177 Z" fill="#2A1A1D"></path><path d="M440 225 L418 225" fill="none" stroke="#2A1A1D" stroke-width="2.5"></path><path d="M410 225 L419 219 L419 231 Z" fill="#2A1A1D"></path><path d="M230 225 L208 225" fill="none" stroke="#2A1A1D" stroke-width="2.5"></path><path d="M200 225 L209 219 L209 231 Z" fill="#2A1A1D"></path><text fill="#9C2C3A" font-family="Open Sans, Arial, sans-serif" font-size="15" font-weight="700" x="20" y="306">Every stage can be attacked.</text><text fill="#6C5353" font-family="Open Sans, Arial, sans-serif" font-size="13" x="252" y="306">For a grade, store and share are where it is most exposed.</text></svg><figcaption>The data lifecycle, followed by one grade. Every stage can be attacked. <a class="full" href="img/lifecycle.svg">Open this diagram at full size</a></figcaption></figure>
+<p>Finally, data is sorted by sensitivity, which is called <a class="term" data-term="data-classification" href="../../glossary.html#data-classification">classification</a>. Taxila uses four classes: public, internal, confidential and restricted. The test for every class is the harm a leak would cause. Section 6 holds Taxila's full classification page.</p>
+<div class="box case"><p class="box-label">Taxila College</p><p>Taxila keeps structured grades, unstructured mail and restricted exam papers, each at a different sensitivity.</p></div>
+<div class="qc"><p class="qc-label">Quick check</p><p class="qc-q">The Student Information System holds every student's national identity card number. Which class does Taxila's table give these numbers?</p><ol class="qc-opts"><li>Public</li><li>Internal</li><li data-right="">Restricted<span class="qc-key"> (answer)</span></li><li>Confidential</li></ol><p class="qc-why"><strong>Why:</strong> A leak of identity card numbers causes serious harm and may break the law, so they are restricted: the fewest people possible may read them. Confidential is tempting because they are personal data, but restricted is the class for the most serious harm.</p></div>
+<h2 id="2-confidentiality-integrity-and-availability">2. Confidentiality, integrity and availability</h2>
+<p>Try the demo first: <a href="artefacts/cia-channel.html">Read, change, block</a>. Turn on each problem in turn and see which property is lost.</p>
+<p>Three properties describe what "secure" means for data. Each is easiest to understand by what its loss looks like.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Property</th>
+<th>What it means</th>
+<th>What its loss looks like at Taxila</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong><a class="term" data-term="confidentiality" href="../../glossary.html#confidentiality">Confidentiality</a></strong></td>
+<td>Only authorised people can read the data.</td>
+<td>The exam paper was read by students before the exam.</td>
+</tr>
+<tr>
+<td><strong><a class="term" data-term="integrity" href="../../glossary.html#integrity">Integrity</a></strong></td>
+<td>The data has not been changed without permission.</td>
+<td>A grade was changed, and the record kept the new value.</td>
+</tr>
+<tr>
+<td><strong><a class="term" data-term="availability" href="../../glossary.html#availability">Availability</a></strong></td>
+<td>The data and the service are there when they are needed.</td>
+<td>The fee payment page did not respond on the last evening.</td>
+</tr>
+</tbody>
+</table></div>
+<p>Notice that one property can be lost while the others hold. On the fee night, nobody read or changed a single record. Only availability was lost, and it still cost the finance office a week of work.</p>
+<div class="box know"><p class="box-label">You already know this</p><p>Picture a post box with a sealed slot, a tamper strip across its door, and a front that is always open for posting.</p><p class="map-row"><span class="map-label">Mapping</span>the seal = confidentiality; the tamper strip = integrity; the box always open to post = availability.</p></div>
+<div class="box case"><p class="box-label">Taxila College</p><p>The leaked exam paper broke confidentiality, the changed grade broke integrity, and the dead fee-payment night broke availability.</p></div>
+<div class="qc"><p class="qc-label">Quick check</p><p class="qc-q">On the last evening for fees, the fee payment page stopped responding for three hours. No record was read and no record was changed. Which property was lost?</p><ol class="qc-opts"><li data-right="">Availability, because the service was not there when students needed it<span class="qc-key"> (answer)</span></li><li>Integrity, because students' payments were recorded late</li><li>Confidentiality, because payments go through a bank's gateway</li></ol><p class="qc-why"><strong>Why:</strong> The page was not there when it was needed, so availability was lost. Integrity is tempting because late fees followed, but no record was changed without permission.</p></div>
+<h2 id="3-authenticity-and-accountability">3. Authenticity and accountability</h2>
+<p>Try the demo first: <a href="artefacts/beyond-cia.html">Beyond the first three</a>. Read a message from an impersonated sender, then a change someone denies, and read the log.</p>
+<p>Look again at the message from "the Registrar". Nobody read it who should not have, it arrived unchanged, and it arrived on time. Confidentiality, integrity and availability all held, and two people were still deceived. Three properties are not enough.</p>
+<ul>
+<li><strong><a class="term" data-term="authenticity" href="../../glossary.html#authenticity">Authenticity</a></strong> answers one question: does this really come from who it claims to come from? The message failed authenticity: it was not from the Registrar.</li>
+<li><strong><a class="term" data-term="accountability" href="../../glossary.html#accountability">Accountability</a></strong> answers another: can you prove who did what? The changed grade failed accountability: the record showed the new grade, but not who changed it.</li>
+<li><strong><a class="term" data-term="non-repudiation" href="../../glossary.html#non-repudiation">Non-repudiation</a></strong> is the strong form of accountability. It means a person cannot later deny an action they took, because the record proves it.</li>
+</ul>
+<p>These five are the security properties: confidentiality, integrity, availability, authenticity and accountability. They describe the state you want your data to be in.</p>
+<figure class="art"><svg aria-labelledby="ip-t ip-d" role="img" style="min-width:640px" viewbox="0 0 640 330"><title id="ip-t">Which property each incident lost</title><desc id="ip-d">Four rows. A leaked exam paper lost confidentiality. A changed grade lost integrity and accountability. A dead deadline night lost availability. A message from someone pretending to be the Registrar lost authenticity.</desc><rect fill="#FFFBFB" height="330" width="640"></rect><text fill="#6C5353" font-family="Open Sans, Arial, sans-serif" font-size="14" font-weight="700" x="20" y="30">LAST SEMESTER</text><text fill="#6C5353" font-family="Open Sans, Arial, sans-serif" font-size="14" font-weight="700" x="350" y="30">PROPERTY LOST</text><rect fill="#FBF6F6" height="48" rx="6" stroke="#BFA6A8" stroke-width="1.5" width="290" x="20" y="48"></rect><text fill="#2A1A1D" font-family="Open Sans, Arial, sans-serif" font-size="16" x="36" y="78">A leaked exam paper</text><path d="M312 72 L338 72" fill="none" stroke="#2A1A1D" stroke-width="2.5"></path><path d="M346 72 L337 66 L337 78 Z" fill="#2A1A1D"></path><rect fill="#203A61" height="48" rx="6" width="270" x="350" y="48"></rect><text fill="#FFFBFB" font-family="Open Sans, Arial, sans-serif" font-size="18" font-weight="800" x="362" y="79">C</text><text fill="#FFFBFB" font-family="Open Sans, Arial, sans-serif" font-size="16" font-weight="600" x="384" y="78">Confidentiality</text><rect fill="#FBF6F6" height="48" rx="6" stroke="#BFA6A8" stroke-width="1.5" width="290" x="20" y="114"></rect><text fill="#2A1A1D" font-family="Open Sans, Arial, sans-serif" font-size="16" x="36" y="144">A changed grade</text><path d="M312 138 L338 138" fill="none" stroke="#2A1A1D" stroke-width="2.5"></path><path d="M346 138 L337 132 L337 144 Z" fill="#2A1A1D"></path><rect fill="#1E7657" height="48" rx="6" width="118" x="350" y="114"></rect><text fill="#FFFBFB" font-family="Open Sans, Arial, sans-serif" font-size="18" font-weight="800" x="362" y="145">I</text><text fill="#FFFBFB" font-family="Open Sans, Arial, sans-serif" font-size="14" font-weight="600" x="384" y="144">Integrity</text><rect fill="#445A67" height="48" rx="6" width="146" x="474" y="114"></rect><text fill="#FFFBFB" font-family="Open Sans, Arial, sans-serif" font-size="18" font-weight="800" x="486" y="145">Ac</text><text fill="#FFFBFB" font-family="Open Sans, Arial, sans-serif" font-size="14" font-weight="600" x="518" y="144">Accountability</text><rect fill="#FBF6F6" height="48" rx="6" stroke="#BFA6A8" stroke-width="1.5" width="290" x="20" y="180"></rect><text fill="#2A1A1D" font-family="Open Sans, Arial, sans-serif" font-size="16" x="36" y="210">A dead deadline night</text><path d="M312 204 L338 204" fill="none" stroke="#2A1A1D" stroke-width="2.5"></path><path d="M346 204 L337 198 L337 210 Z" fill="#2A1A1D"></path><rect fill="#7D4C15" height="48" rx="6" width="270" x="350" y="180"></rect><text fill="#FFFBFB" font-family="Open Sans, Arial, sans-serif" font-size="18" font-weight="800" x="362" y="211">A</text><text fill="#FFFBFB" font-family="Open Sans, Arial, sans-serif" font-size="16" font-weight="600" x="384" y="210">Availability</text><rect fill="#FBF6F6" height="48" rx="6" stroke="#BFA6A8" stroke-width="1.5" width="290" x="20" y="246"></rect><text fill="#2A1A1D" font-family="Open Sans, Arial, sans-serif" font-size="16" x="36" y="276">A message from “the Registrar”</text><path d="M312 270 L338 270" fill="none" stroke="#2A1A1D" stroke-width="2.5"></path><path d="M346 270 L337 264 L337 276 Z" fill="#2A1A1D"></path><rect fill="#6E3A99" height="48" rx="6" width="270" x="350" y="246"></rect><text fill="#FFFBFB" font-family="Open Sans, Arial, sans-serif" font-size="18" font-weight="800" x="362" y="277">Au</text><text fill="#FFFBFB" font-family="Open Sans, Arial, sans-serif" font-size="16" font-weight="600" x="394" y="276">Authenticity</text><text fill="#6C5353" font-family="Open Sans, Arial, sans-serif" font-size="13" x="20" y="314">The changed grade lost two: the value changed, and nothing recorded who changed it.</text></svg><figcaption>Last semester's incidents and the properties they lost. The changed grade lost two. <a class="full" href="img/incidents-properties.svg">Open this diagram at full size</a></figcaption></figure>
+<div class="box know"><p class="box-label">You already know this</p><p>A letter is signed by its writer, and a named witness notes who signed it and when.</p><p class="map-row"><span class="map-label">Mapping</span>the signature = authenticity; the witness's note of who signed = accountability; being unable to deny you signed = non-repudiation.</p></div>
+<div class="box case"><p class="box-label">Taxila College</p><p>The fake message from the Registrar failed authenticity; the grade changed with no record of who changed it failed accountability.</p></div>
+<div class="box mistake"><p class="box-label">Common mistake</p><p>"The five properties are the three processes called triple-A." They are separate lists. The properties describe the state you want. The processes are things a system does, and they come on Day 5. Keep the two lists apart from today.</p></div>
+<div class="qc"><p class="qc-label">Quick check</p><p class="qc-q">At a provincial land records office, an officer says she never approved a change to a land deed. The system shows the change, but not who approved it. Which property is missing?</p><ol class="qc-opts"><li>Authenticity, because the change may not be genuine</li><li data-right="">Accountability, because nobody can prove who approved it<span class="qc-key"> (answer)</span></li><li>Availability, because the officer cannot see the approval</li></ol><p class="qc-why"><strong>Why:</strong> The record cannot prove who did what, so her denial cannot be checked: that is accountability. Authenticity is tempting, but it asks whether something comes from who it claims, and here nothing claims to come from anyone.</p></div>
+<h2 id="4-asset-threat-vulnerability-and-risk">4. Asset, threat, vulnerability and risk</h2>
+<p>Try the demo first: <a href="artefacts/risk-equation.html">The risk equation</a>. Slide likelihood and impact, then remove the <a class="term" data-term="threat" href="../../glossary.html#threat">threat</a> or close the weakness.</p>
+<p>Four words let you describe any problem before you fix it:</p>
+<ul>
+<li>An <strong><a class="term" data-term="asset" href="../../glossary.html#asset">asset</a></strong> is anything worth protecting: data, a system, a service, the college's good name.</li>
+<li>A <strong>threat</strong> is what could cause harm.</li>
+<li>A <strong><a class="term" data-term="vulnerability" href="../../glossary.html#vulnerability">vulnerability</a></strong> is the weakness that lets the threat cause the harm.</li>
+<li><strong>Risk</strong> combines how likely the harm is with how much it would cost.</li>
+</ul>
+<p>Taxila scores both parts from 1 (low) to 5 (high), and multiplies them. A risk score is therefore between 1 and 25. Here is the example row in Taxila's risk register template. The asset is the restricted exam papers; the threat is a curious student. The vulnerability is a shared folder that anyone at the college can open. Likelihood 3, impact 5, score 15.</p>
+<p>Risk needs both a threat and a vulnerability. Remove the threat, or close the vulnerability, and the risk falls away. That is why every fix in this module either closes a weakness or keeps a threat away from it.</p>
+<figure class="art"><svg aria-labelledby="rb-t rb-d" role="img" style="min-width:640px" viewbox="0 0 640 360"><title id="rb-t">Risk needs both a threat and a vulnerability</title><desc id="rb-d">Three panels. In the first, the asset (exam papers), the threat (a curious student) and the vulnerability (a folder anyone can open) are all present, giving a risk of 3 times 5, 15. In the second the threat is removed and in the third the weakness is closed; both show no risk, and no row needed.</desc><rect fill="#FFFBFB" height="360" width="640"></rect><rect fill="#FBF6F6" height="336" rx="10" stroke="#BFA6A8" stroke-width="1.5" width="198" x="12" y="12"></rect><text fill="#2A1A1D" font-family="Open Sans, Arial, sans-serif" font-size="15" font-weight="700" text-anchor="middle" x="111" y="40">All three present</text><rect fill="#FFFBFB" height="50" rx="6" stroke="#2A1A1D" stroke-width="2" width="170" x="26" y="60"></rect><text fill="#9C2C3A" font-family="Open Sans, Arial, sans-serif" font-size="13" font-weight="800" x="38" y="81">ASSET</text><text fill="#2A1A1D" font-family="Open Sans, Arial, sans-serif" font-size="13" x="38" y="100">exam papers</text><rect fill="#FFFBFB" height="50" rx="6" stroke="#2A1A1D" stroke-width="2" width="170" x="26" y="122"></rect><text fill="#9C2C3A" font-family="Open Sans, Arial, sans-serif" font-size="13" font-weight="800" x="38" y="143">THREAT</text><text fill="#2A1A1D" font-family="Open Sans, Arial, sans-serif" font-size="13" x="38" y="162">a curious student</text><rect fill="#FFFBFB" height="50" rx="6" stroke="#2A1A1D" stroke-width="2" width="170" x="26" y="184"></rect><text fill="#9C2C3A" font-family="Open Sans, Arial, sans-serif" font-size="13" font-weight="800" x="38" y="205">VULNERABILITY</text><text fill="#2A1A1D" font-family="Open Sans, Arial, sans-serif" font-size="13" x="38" y="224">a folder anyone opens</text><path d="M111 236 L111 254" fill="none" stroke="#2A1A1D" stroke-width="2.5"></path><path d="M111 262 L105 253 L117 253 Z" fill="#2A1A1D"></path><rect fill="#9C2C3A" height="70" rx="8" width="170" x="26" y="264"></rect><text fill="#FFFBFB" font-family="Open Sans, Arial, sans-serif" font-size="17" font-weight="800" text-anchor="middle" x="111" y="294">Risk 3 x 5 = 15</text><text fill="#FFFBFB" font-family="Open Sans, Arial, sans-serif" font-size="13" text-anchor="middle" x="111" y="318">likelihood x impact</text><rect fill="#FBF6F6" height="336" rx="10" stroke="#BFA6A8" stroke-width="1.5" width="198" x="222" y="12"></rect><text fill="#2A1A1D" font-family="Open Sans, Arial, sans-serif" font-size="15" font-weight="700" text-anchor="middle" x="321" y="40">Threat removed</text><rect fill="#FFFBFB" height="50" rx="6" stroke="#2A1A1D" stroke-width="2" width="170" x="236" y="60"></rect><text fill="#9C2C3A" font-family="Open Sans, Arial, sans-serif" font-size="13" font-weight="800" x="248" y="81">ASSET</text><text fill="#2A1A1D" font-family="Open Sans, Arial, sans-serif" font-size="13" x="248" y="100">exam papers</text><rect fill="#FFFBFB" height="50" rx="6" stroke="#E0663C" stroke-dasharray="6 5" stroke-width="2" width="170" x="236" y="122"></rect><text fill="#6C5353" font-family="Open Sans, Arial, sans-serif" font-size="13" font-weight="800" x="248" y="143">THREAT</text><text fill="#6C5353" font-family="Open Sans, Arial, sans-serif" font-size="13" x="248" y="162">removed</text><rect fill="#E0663C" height="22" rx="3" width="22" x="378" y="134"></rect><text fill="#2A1A1D" font-family="Open Sans, Arial, sans-serif" font-size="16" font-weight="800" text-anchor="middle" x="389" y="151">×</text><rect fill="#FFFBFB" height="50" rx="6" stroke="#2A1A1D" stroke-width="2" width="170" x="236" y="184"></rect><text fill="#9C2C3A" font-family="Open Sans, Arial, sans-serif" font-size="13" font-weight="800" x="248" y="205">VULNERABILITY</text><text fill="#2A1A1D" font-family="Open Sans, Arial, sans-serif" font-size="13" x="248" y="224">a folder anyone opens</text><path d="M321 236 L321 254" fill="none" stroke="#2A1A1D" stroke-width="2.5"></path><path d="M321 262 L315 253 L327 253 Z" fill="#2A1A1D"></path><rect fill="#FFFBFB" height="70" rx="8" stroke="#E0663C" stroke-dasharray="6 5" stroke-width="2.5" width="170" x="236" y="264"></rect><text fill="#2A1A1D" font-family="Open Sans, Arial, sans-serif" font-size="17" font-weight="800" text-anchor="middle" x="321" y="294">No risk</text><text fill="#6C5353" font-family="Open Sans, Arial, sans-serif" font-size="13" text-anchor="middle" x="321" y="318">no row needed</text><rect fill="#FBF6F6" height="336" rx="10" stroke="#BFA6A8" stroke-width="1.5" width="198" x="432" y="12"></rect><text fill="#2A1A1D" font-family="Open Sans, Arial, sans-serif" font-size="15" font-weight="700" text-anchor="middle" x="531" y="40">Weakness closed</text><rect fill="#FFFBFB" height="50" rx="6" stroke="#2A1A1D" stroke-width="2" width="170" x="446" y="60"></rect><text fill="#9C2C3A" font-family="Open Sans, Arial, sans-serif" font-size="13" font-weight="800" x="458" y="81">ASSET</text><text fill="#2A1A1D" font-family="Open Sans, Arial, sans-serif" font-size="13" x="458" y="100">exam papers</text><rect fill="#FFFBFB" height="50" rx="6" stroke="#2A1A1D" stroke-width="2" width="170" x="446" y="122"></rect><text fill="#9C2C3A" font-family="Open Sans, Arial, sans-serif" font-size="13" font-weight="800" x="458" y="143">THREAT</text><text fill="#2A1A1D" font-family="Open Sans, Arial, sans-serif" font-size="13" x="458" y="162">a curious student</text><rect fill="#FFFBFB" height="50" rx="6" stroke="#E0663C" stroke-dasharray="6 5" stroke-width="2" width="170" x="446" y="184"></rect><text fill="#6C5353" font-family="Open Sans, Arial, sans-serif" font-size="13" font-weight="800" x="458" y="205">VULNERABILITY</text><text fill="#6C5353" font-family="Open Sans, Arial, sans-serif" font-size="13" x="458" y="224">closed</text><rect fill="#E0663C" height="22" rx="3" width="22" x="588" y="196"></rect><text fill="#2A1A1D" font-family="Open Sans, Arial, sans-serif" font-size="16" font-weight="800" text-anchor="middle" x="599" y="213">×</text><path d="M531 236 L531 254" fill="none" stroke="#2A1A1D" stroke-width="2.5"></path><path d="M531 262 L525 253 L537 253 Z" fill="#2A1A1D"></path><rect fill="#FFFBFB" height="70" rx="8" stroke="#E0663C" stroke-dasharray="6 5" stroke-width="2.5" width="170" x="446" y="264"></rect><text fill="#2A1A1D" font-family="Open Sans, Arial, sans-serif" font-size="17" font-weight="800" text-anchor="middle" x="531" y="294">No risk</text><text fill="#6C5353" font-family="Open Sans, Arial, sans-serif" font-size="13" text-anchor="middle" x="531" y="318">no row needed</text></svg><figcaption>Risk needs both a threat and a vulnerability. <a class="full" href="img/risk-needs-both.svg">Open this diagram at full size</a></figcaption></figure>
+<p>Threats come from different <strong>threat actors</strong>, and they behave differently:</p>
+<ul>
+<li>An <strong>insider</strong> is someone inside the organisation, such as a staff member who misuses access they already have.</li>
+<li>An <strong>organised criminal</strong> works with others for money, for example by tricking staff into changing bank details.</li>
+<li>An <strong>opportunist</strong> uses whatever is left open, without choosing a target first.</li>
+</ul>
+<div class="box know"><p class="box-label">You already know this</p><p>A shop keeps cash in its till, a back window is left unlocked, and a thief walks past every evening.</p><p class="map-row"><span class="map-label">Mapping</span>the cash = the asset; the thief = the threat; the unlocked window = the vulnerability; the chance and cost of a break-in = the risk.</p></div>
+<div class="box case"><p class="box-label">Taxila College</p><p>Restricted exam papers in a shared folder, with a curious student nearby, are an asset, a vulnerability and a threat together.</p></div>
+<div class="box mistake"><p class="box-label">Common mistake</p><p>"A weakness on its own is a risk." With no threat to use it, a vulnerability carries no risk. Write the threat down every time: if you cannot name one, you have not found a risk yet.</p></div>
+<div class="qc"><p class="qc-label">Quick check</p><p class="qc-q">Which of these is a risk, not only a weakness or a threat?</p><ol class="qc-opts"><li>A folder of exam papers that anyone at the college can open</li><li>A student who would like to see the exam paper early</li><li data-right="">A curious student could open papers in a folder anyone can open<span class="qc-key"> (answer)</span></li></ol><p class="qc-why"><strong>Why:</strong> A risk needs both halves: a threat that could use a weakness, against an asset. The first option is only the vulnerability, and the second is only the threat.</p></div>
+<h2 id="5-controls-the-law-and-personal-data">5. Controls, the law and personal data</h2>
+<p>Try the demo first: <a href="artefacts/control-layers.html">Control layers</a>. Place each control in its box, then build the layers and see what happens when one fails.</p>
+<p>A <strong><a class="term" data-term="control" href="../../glossary.html#control">control</a></strong> is anything that lowers a risk. Controls are sorted in two ways at once. By what they do:</p>
+<ul>
+<li><strong>Preventive</strong> controls stop the harm before it happens.</li>
+<li><strong>Detective</strong> controls notice the harm when it happens.</li>
+<li><strong>Corrective</strong> controls repair things after the harm.</li>
+</ul>
+<p>By how they work:</p>
+<ul>
+<li><strong>Technical</strong> controls are built into systems.</li>
+<li><strong>Administrative</strong> controls are rules, procedures and training.</li>
+<li><strong>Physical</strong> controls are locks, doors and cameras.</li>
+</ul>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th></th>
+<th>Technical</th>
+<th>Administrative</th>
+<th>Physical</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Preventive</strong></td>
+<td>the SIS lets lecturers change grades only</td>
+<td>exam papers go only in the examinations office's folder</td>
+<td>a locked server-room door</td>
+</tr>
+<tr>
+<td><strong>Detective</strong></td>
+<td>a record of who changed each grade</td>
+<td>staff report any odd email to the IT office</td>
+<td>a camera at the server-room door</td>
+</tr>
+<tr>
+<td><strong>Corrective</strong></td>
+<td>the weekly backup to an external disk</td>
+<td>a plan to call the Head of IT and restore service</td>
+<td>a fire extinguisher in the server room</td>
+</tr>
+</tbody>
+</table></div>
+<p>No single control is enough. So organisations use several <strong>independent</strong> layers, so that one failing does not leave the asset open. This is called <strong>defence in depth</strong>. The word that matters is independent: two controls that fail for the same reason are one layer, not two.</p>
+<div class="qc"><p class="qc-label">Quick check</p><p class="qc-q">Taxila puts a camera at the server-room door. What kind of control is it?</p><ol class="qc-opts"><li>Preventive and technical</li><li>Corrective and administrative</li><li>Preventive and physical</li><li data-right="">Detective and physical<span class="qc-key"> (answer)</span></li></ol><p class="qc-why"><strong>Why:</strong> A camera does not stop anyone entering; it notices who came in, so it is detective. It is a physical thing. Preventive and physical describes the lock on the same door.</p></div>
+<div class="box know"><p class="box-label">You already know this</p><p>A building has a locked door, a camera over the door, and a plan to call for help if someone gets in.</p><p class="map-row"><span class="map-label">Mapping</span>the lock = a preventive control; the camera = a detective control; the call-for-help plan = a corrective control; using all three = defence in depth.</p></div>
+<div class="box mistake"><p class="box-label">Common mistake</p><p>"More tools always means more security." Layers help only when each is an independent control. Two products that both trust the same password fail together when that password leaks.</p></div>
+<p>The law also draws lines in this work.</p>
+<div class="box recall"><p class="box-label">Recall</p><p>Before Day 1 you learnt that every lab uses only your own machine and the provided material, because testing a system without written permission is an offence.</p></div>
+<p>The line the law draws is permission. Testing your own systems, or systems you have written permission to test, is lawful. Anything else is an offence under Sri Lanka's Computer Crime Act, No. 24 of 2007. Under the Act it is an offence to gain access to a computer, or to the information in it, without lawful authority. It is also an offence to make a computer do something that damages or changes it without lawful authority. The penalties include fines and up to five years in prison.</p>
+<div class="box mistake"><p class="box-label">Common mistake</p><p>"Scanning a system is fine as long as you do no damage." Without permission it is an offence under the Computer Crime Act, No. 24 of 2007. Access without lawful authority is enough; damage is not needed.</p></div>
+<p>Personal data is any data about a person who can be identified from it, such as a name with a national identity card number. Sri Lanka's Personal Data Protection Act, No. 9 of 2022, places duties on any organisation that holds personal data. The college must know what personal data it holds, use it only for a stated purpose, keep it safe and correct, and keep it no longer than needed. At the time of writing, the Act's Data Protection Authority is set up, and a government order has fixed the date from which the duties on organisations apply. The Authority's own site gives the current position.</p>
+<div class="box case"><p class="box-label">Taxila College</p><p>The Data Protection Officer asks whose personal data the college holds, under the Personal Data Protection Act.</p></div>
+<h2 id="6-taxilas-classification-page">6. Taxila's classification page</h2>
+<p>This afternoon's lab uses this page. Taxila sorts its data into four classes. The test for every class is the harm a leak would cause.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Class</th>
+<th>Meaning at Taxila</th>
+<th>Examples</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Public</td>
+<td>may be published</td>
+<td>course catalogue, news, campus addresses</td>
+</tr>
+<tr>
+<td>Internal</td>
+<td>for staff and students; harmless if leaked, but not for publication</td>
+<td>timetables, staff directory, room bookings</td>
+</tr>
+<tr>
+<td>Confidential</td>
+<td>personal or business data whose leak harms a person or the college</td>
+<td>student records, grades, fee balances, staff salaries</td>
+</tr>
+<tr>
+<td>Restricted</td>
+<td>data whose leak causes serious harm or breaks the law; the fewest people possible</td>
+<td>exam papers before the exam, national identity card numbers, the administrator's sign-in details for the SIS</td>
+</tr>
+</tbody>
+</table></div>
+<p>The systems Taxila runs, and what each holds:</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>System</th>
+<th>What it holds or does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Student Information System (SIS)</td>
+<td>student records, grades, fee balances, national identity card numbers</td>
+</tr>
+<tr>
+<td>Learning Management System (LMS)</td>
+<td>course pages, coursework submissions, feedback</td>
+</tr>
+<tr>
+<td>Fee payment page</td>
+<td>lets students pay fees through a bank's payment gateway; Taxila never stores card numbers</td>
+</tr>
+<tr>
+<td>Email</td>
+<td>staff and student mailboxes at <code>taxila.example</code></td>
+</tr>
+<tr>
+<td>Exam paper store</td>
+<td>a shared folder where lecturers place exam papers before an exam</td>
+</tr>
+<tr>
+<td>Website</td>
+<td>the public course catalogue and news</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="before-the-lab">Before the lab</h2>
+<p>This afternoon you classify every kind of data on Taxila's worksheet, mark where the most sensitive kinds are exposed, and write the first ten rows of Taxila's risk register. Bring these notes, open at section 6. You need no virtual machine today.</p>
+<h2 id="reading">Reading</h2>
+<ul>
+<li>Pfleeger, C. P., Pfleeger, S. L. and Coles-Kemp, L., <em>Security in Computing</em>, 6th ed., chapter 1, sections 1.1 to 1.5: what security is, threats, harm, vulnerabilities and controls. The 4th edition, by the first two authors, has the same ideas in chapter 1.</li>
+<li>Computer Crime Act, No. 24 of 2007, Sri Lanka, sections 3 to 5.</li>
+<li>Personal Data Protection Act, No. 9 of 2022, Sri Lanka, as amended by Act No. 22 of 2025: the duties of organisations that hold personal data.</li>
+</ul>
+<p>Next: Day 2, secrecy with keys. You learn how to keep data confidential even when someone can see it.</p>
+
+<template id="term-risk"><b>Risk</b><span>How likely a harm is, combined with how much it would cost. Taxila scores likelihood and impact from 1 to 5 each and multiplies them. With no threat or no weakness, there is no risk.</span><span class="ex"><span class="ex-label">At Taxila: </span>exam papers in a folder anyone can open, with a curious student nearby: likelihood 3, impact 5, risk 15.</span></template><template id="term-data-classification"><b>Data classification</b><span>Sorting data into classes by the harm its leak would cause, so that each class gets the protection it needs. Taxila uses four classes: public, internal, confidential and restricted.</span><span class="ex"><span class="ex-label">At Taxila: </span>the course catalogue is public, while exam papers before the exam are restricted.</span></template><template id="term-confidentiality"><b>Confidentiality</b><span>The security property that only authorised people can read the data. It is lost when someone reads what they have no right to read, even if nothing is changed.</span><span class="ex"><span class="ex-label">At Taxila: </span>the draft exam paper read by students before the exam was a loss of confidentiality.</span></template><template id="term-integrity"><b>Integrity</b><span>The security property that the data has not been changed without permission. It is lost when data is altered, even if nobody reads it.</span><span class="ex"><span class="ex-label">At Taxila: </span>the final grade that was raised in the student records was a loss of integrity.</span></template><template id="term-availability"><b>Availability</b><span>The security property that the data and the service are there when they are needed. It is lost when people cannot reach them, even if nothing is read or changed.</span><span class="ex"><span class="ex-label">At Taxila: </span>the fee payment page that stopped responding on the last evening for fees was a loss of availability.</span></template><template id="term-authenticity"><b>Authenticity</b><span>The security property that something really comes from who it claims to come from. A message can be private, unchanged and on time, and still fail authenticity.</span><span class="ex"><span class="ex-label">At Taxila: </span>the email that seemed to come from the Registrar, but did not, failed authenticity.</span></template><template id="term-accountability"><b>Accountability</b><span>The security property that you can prove who did what, and when. It needs a record that names the person behind each action.</span><span class="ex"><span class="ex-label">At Taxila: </span>the changed grade failed accountability, because nothing recorded who changed it.</span></template><template id="term-non-repudiation"><b>Non-repudiation</b><span>The strong form of accountability: a person cannot later deny an action they took, because the record proves it.</span><span class="ex"><span class="ex-label">At Taxila: </span>if each grade change were recorded against the lecturer's own sign-in, a lecturer could not simply deny making it.</span></template><template id="term-threat"><b>Threat</b><span>Anything that could cause harm to an asset: a person, a group, or an event. A threat needs a weakness to use before it becomes a risk.</span><span class="ex"><span class="ex-label">At Taxila: </span>a curious student near the exam paper folder is a threat to the exam papers.</span></template><template id="term-asset"><b>Asset</b><span>Anything worth protecting: data, a system, a service, or the organisation's good name. An asset may or may not have been bought.</span><span class="ex"><span class="ex-label">At Taxila: </span>the grades in the student records are an asset; so is the college's reputation with employers.</span></template><template id="term-vulnerability"><b>Vulnerability</b><span>A weakness that lets a threat cause harm. A vulnerability is not a person; it is the gap the person could use.</span><span class="ex"><span class="ex-label">At Taxila: </span>a shared folder that anyone at the college can open is a vulnerability for the exam papers.</span></template><template id="term-control"><b>Control</b><span>Anything that lowers a risk by preventing, detecting or correcting harm. Several independent controls in layers, so that one failing does not leave the asset open, is called defence in depth.</span><span class="ex"><span class="ex-label">At Taxila: </span>a locked server-room door prevents, a camera at the door detects, and a weekly backup corrects.</span></template>
+<section class="resources" aria-labelledby="h-res"><h2 id="h-res">Everything for this morning</h2><ul><li><a href="slides/day-1-morning.pdf">Slides for this morning (PDF)</a></li><li><a href="artefacts/data-vs-information.html">Data, information and knowledge</a> (demo)</li><li><a href="artefacts/cia-channel.html">Read, change, block</a> (demo)</li><li><a href="artefacts/beyond-cia.html">Beyond the first three</a> (demo)</li><li><a href="artefacts/risk-equation.html">The risk equation</a> (demo)</li><li><a href="artefacts/control-layers.html">Control layers</a> (demo)</li><li><a href="plays/p1-words.html">Words for what Taxila protects</a> (10 minutes)</li><li><a href="plays/p1-1-which-property-is-lost.html">Which property is lost?</a> (8 minutes)</li><li><a href="plays/p1-2-check-the-risk-rows.html">Check the risk rows</a> (10 minutes)</li><li><a href="plays/p1-quiz.html">Day 1: properties, risk and controls</a> (10 minutes)</li><li><a href="../../practice/PQ1.html">Practice question 1</a></li></ul></section><div class="progress-box"><button class="btn" type="button" data-progress="d1m">Mark this morning as done</button><span class="progress-note">A record for you, saved only on this device. It never locks or unlocks anything.</span></div><nav class="pager" aria-label="Page navigation"><span>Previous: <a href="../../getting-started.html">Before Day 1</a></span><span><a href="index.html">Day 1</a></span><span>Next: <a href="../../days/day-1/lab.html">Day 1 afternoon</a></span></nav>
+</div>
+</main>
+<footer class="site-footer"><div class="wrap">
+<p class="author">&copy; Niranga Dharmaratna, School of Computing &amp; Engineering, National Institute of Business Management</p>
+<p>Content licensed <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener">CC BY-NC-SA 4.0</a>; code licensed MIT; Open Sans under the SIL Open Font Licence.</p>
+<p>Dates and submissions are announced for your cohort. Taxila College is fictional.</p>
+<p>Anything you mark as done is saved only on this device. Nothing leaves it.</p>
+</div></footer>
+<script src="../../assets/js/site.js" defer></script>
+</body>
+</html>

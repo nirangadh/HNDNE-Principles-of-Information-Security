@@ -25,7 +25,7 @@ Files appear here before the teaching day.
 - Pfleeger and Pfleeger, malware, administering security, and business continuity
 - Pfleeger and Pfleeger, risk analysis and continuity planning
 
-**Practice question:** Practice question 9, posted with the day's materials.
+**Practice question:** Practice question 9, posted in [practice](../../practice/).
 
 **Tasks:**
 

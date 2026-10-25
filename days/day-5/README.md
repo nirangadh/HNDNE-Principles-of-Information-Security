@@ -23,7 +23,7 @@ Files appear here before the teaching day.
 - Pfleeger and Pfleeger, authentication and access control
 - Pfleeger and Pfleeger, operating-system security and hardening
 
-**Practice question:** Practice question 5, posted with the day's materials.
+**Practice question:** Practice question 5, posted in [practice](../../practice/).
 
 **Tasks:**
 
