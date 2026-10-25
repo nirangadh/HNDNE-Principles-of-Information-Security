@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en-GB" data-store="hndne-pis:">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="hndne-pis-site">
+<title>Practice question 2: a school examinations board | Principles of Information Security</title>
+<meta name="author" content="Niranga Dharmaratna">
+<meta name="description" content="This practice question applies the Day 2 ideas, symmetric and asymmetric encryption and the hybrid pattern, to a school examinations board. Attempt it in...">
+<meta name="robots" content="index, follow">
+<link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
+<link rel="canonical" href="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/practice/PQ2.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Principles of Information Security, HND Network Engineering Year 2">
+<meta property="og:title" content="Practice question 2: a school examinations board">
+<meta property="og:description" content="This practice question applies the Day 2 ideas, symmetric and asymmetric encryption and the hybrid pattern, to a school examinations board. Attempt it in...">
+<meta property="og:url" content="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/practice/PQ2.html">
+<meta property="og:locale" content="en_GB">
+<meta property="og:image" content="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/assets/img/social-card.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="At Taxila College the Head of IT points to the security register on the wall: nineteen numbered items, the first outlined as the place to start. The Registrar holds a sealed transcript and the Data Protection Officer a clipboard. A lecturer turns to welcome two students arriving with a laptop and a phone.">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/","name":"Principles of Information Security","position":1},{"@type":"ListItem","item":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/practice/PQ2.html","name":"Practice question 2: a school examinations board","position":2}]}</script>
+<link rel="stylesheet" href="../assets/fonts/fonts.css">
+<link rel="stylesheet" href="../assets/css/site.css">
+<script>document.documentElement.className = "js";</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to the content</a>
+<header class="site-header"><div class="wrap"><div><p class="eyebrow"><a href="../index.html">Principles of Information Security | HND Network Engineering, Year 2</a></p><h1>Practice question 2: a school examinations board</h1><div class="bars" aria-hidden="true"><i></i><i></i></div></div></div></header>
+<main id="main">
+<div class="wrap prose">
+<p>This practice question applies the Day 2 ideas, symmetric and asymmetric encryption and the hybrid pattern, to a school examinations board. Attempt it in writing before you read the answer guidance. It carries 20 marks.</p>
+<h2 id="the-setting">The setting</h2>
+<p>A provincial school examinations board sets the papers for a national examination. The board prints nothing itself. Instead, it sends each paper as a file to 25 district centres, and each centre prints its own copies on the morning of the examination.</p>
+<p>Today, the board encrypts every paper with one symmetric key. The same key is used for all 25 centres and for every examination of the year. An officer reads the key to each centre over the phone the evening before.</p>
+<p>Last month, an officer's laptop was stolen from a car. The laptop held the encrypted papers for the next two examinations. A sticky note with the key was found in the laptop bag. The board's director says: "Nobody outside the board knows which encryption method we use, so the papers are still safe."</p>
+<h2 id="the-question">The question</h2>
+<p><strong>(a)</strong> Compare symmetric and asymmetric encryption. For each, state how many keys are used and who holds them, how fast it is, what it is typically used for, and its main weakness. <strong>(6 marks)</strong></p>
+<p><strong>(b)</strong> Design a better way for the board to send each paper to the 25 centres, using the hybrid pattern. Say which keys exist, who holds each one, what is encrypted with which key, and in what order the steps happen. A labelled diagram may be part of your answer. <strong>(8 marks)</strong></p>
+<p><strong>(c)</strong> Evaluate the director's claim that the papers are still safe. Use Kerckhoffs's principle, and say what was actually lost when the laptop was stolen. Then say what the board must now do about the two papers on the laptop, and why your design in part (b) would have limited the harm. <strong>(6 marks)</strong></p>
+<h2 id="answer-guidance">Answer guidance</h2>
+<p>Read this only after you have written your own answer.</p>
+<p><strong>Part (a).</strong> Symmetric encryption uses one shared secret key, held by every party that encrypts or decrypts. It is fast, so it is used to encrypt files, disks and network traffic. Its main weakness is the key distribution problem: the same key must reach every party without anyone intercepting it. Asymmetric encryption uses a key pair. The public key may be given to anyone; the private key is kept by its owner alone. It is much slower and can lock only short messages. So it is used to carry or agree a symmetric key, not to encrypt whole documents. A strong answer sets the two side by side, point by point.</p>
+<p><strong>Part (b).</strong> Each centre makes its own key pair and sends only its public key to the board. The private key never leaves the centre. For each paper, the board makes a fresh symmetric key, such as an Advanced Encryption Standard (AES) key, and encrypts the paper with it. The board then encrypts that symmetric key 25 times, once to each centre's public key, and sends each centre the encrypted paper and its own encrypted copy of the key. Each centre opens the key with its private key, then opens the paper with the key. Nothing secret is read over the phone. A strong answer gives the order clearly. It also says why the paper is encrypted with the symmetric key, not the public keys: the paper is long, and asymmetric encryption is slow and limited to short messages. The best answers use a fresh key for each paper, so one leaked key exposes only one paper.</p>
+<p><strong>Part (c).</strong> The claim is weak. Kerckhoffs's principle says that security must rest on the key, not on keeping the method secret. Standard methods are public anyway, and here the key was in the same bag as the ciphertext. So the thief holds both the ciphertext and the key, and both papers must be treated as read: confidentiality is lost. The board must rewrite both papers, and stop using that key everywhere, because the same key protects every examination of the year. With the design in part (b), nobody writes a key down or reads it over the phone. The board keeps each paper's key only until it has locked it to the centres' public keys. The centres' private keys never leave the centres. So a stolen laptop holds ciphertext that nobody can open, and a fresh key per paper means any one lost key would expose one paper, not the whole year. Strong answers also note that a key written beside the ciphertext defeats any method, however strong.</p>
+<nav class="pager" aria-label="Page navigation"><span></span><span><a href="../index.html">All days</a></span><span></span></nav>
+</div>
+</main>
+<footer class="site-footer"><div class="wrap">
+<p class="author">&copy; Niranga Dharmaratna, School of Computing &amp; Engineering, National Institute of Business Management</p>
+<p>Content licensed <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener">CC BY-NC-SA 4.0</a>; code licensed MIT; Open Sans under the SIL Open Font Licence. See the <a href="../LICENSE-CONTENT.html">licence notes</a>.</p>
+<p>Dates and submissions are announced for your cohort. Taxila College is fictional.</p>
+<p>Anything you mark as done is saved only on this device. Nothing leaves it.</p>
+</div></footer>
+<script src="../assets/js/site.js" defer></script>
+</body>
+</html>

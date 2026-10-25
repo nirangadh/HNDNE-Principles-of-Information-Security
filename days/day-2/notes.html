@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="en-GB" data-store="hndne-pis:">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="hndne-pis-site">
+<title>Day 2: Secrecy with keys | Principles of Information Security</title>
+<meta name="author" content="Niranga Dharmaratna">
+<meta name="description" content="Day 2 morning notes: Day 2: Secrecy with keys. These notes cover the Day 2 morning: how a key keeps data unreadable, and why hand ciphers fail. They also...">
+<meta name="robots" content="index, follow">
+<link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml">
+<link rel="canonical" href="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-2/notes.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Principles of Information Security, HND Network Engineering Year 2">
+<meta property="og:title" content="Day 2: Secrecy with keys">
+<meta property="og:description" content="Day 2 morning notes: Day 2: Secrecy with keys. These notes cover the Day 2 morning: how a key keeps data unreadable, and why hand ciphers fail. They also...">
+<meta property="og:url" content="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-2/notes.html">
+<meta property="og:locale" content="en_GB">
+<meta property="og:image" content="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/assets/img/social-card.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="At Taxila College the Head of IT points to the security register on the wall: nineteen numbered items, the first outlined as the place to start. The Registrar holds a sealed transcript and the Data Protection Officer a clipboard. A lecturer turns to welcome two students arriving with a laptop and a phone.">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","author":{"@type":"Person","affiliation":{"@type":"Organization","name":"School of Computing & Engineering, National Institute of Business Management"},"name":"Niranga Dharmaratna"},"description":"Day 2 morning notes: Day 2: Secrecy with keys. These notes cover the Day 2 morning: how a key keeps data unreadable, and why hand ciphers fail. They also...","educationalLevel":"Higher National Diploma, Year 2","inLanguage":"en-GB","interactivityType":"expository","isAccessibleForFree":true,"isPartOf":{"@id":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/#course","@type":"Course","name":"Principles of Information Security, HND Network Engineering Year 2","url":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/"},"learningResourceType":"Lecture notes","license":"https://creativecommons.org/licenses/by-nc-sa/4.0/","name":"Day 2: Secrecy with keys","url":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-2/notes.html"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/","name":"Principles of Information Security","position":1},{"@type":"ListItem","item":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-2/","name":"Day 2","position":2},{"@type":"ListItem","item":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-2/notes.html","name":"Day 2: Secrecy with keys","position":3}]}</script>
+<link rel="stylesheet" href="../../assets/fonts/fonts.css">
+<link rel="stylesheet" href="../../assets/css/site.css">
+<script>document.documentElement.className = "js";</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to the content</a>
+<header class="site-header"><div class="wrap"><div><p class="eyebrow"><a href="../../index.html">Principles of Information Security | HND Network Engineering, Year 2</a></p><h1>Day 2: Secrecy with keys</h1><p class="sub">Day 2, morning notes</p><div class="bars" aria-hidden="true"><i></i><i></i></div></div></div></header>
+<main id="main">
+<div class="wrap prose">
+<div class="meta"><span class="badge" title="Learning outcome 2">LO2</span></div>
+<p>These notes cover the Day 2 morning: how a key keeps data unreadable, and why hand ciphers fail. They also show how encrypting differs from encoding and hiding, and the two families of modern encryption.</p>
+<div class="box recall"><p class="box-label">Recall</p><p>Confidentiality means only authorised people can read the data; that is the property this day serves.</p></div>
+<p>Last semester a draft exam paper leaked from Taxila's exam paper store. The Registrar now has a rule: every paper in the store must be unreadable to anyone without the key, even if the folder leaks again. Then the college's Head of IT (information technology) adds a problem. The Kandy campus prints its own copies of each paper. So the key must reach Kandy, and nobody else may read it on the way.</p>
+<p>This morning gives you the ideas behind both parts of the answer. Item 3 on Taxila's security register is the encrypted exam paper store, which you build this afternoon. Item 4 is the key exchange with the Kandy campus, which you meet as an idea today.</p>
+<h2 id="1-plaintext-key-and-ciphertext">1. Plaintext, key and ciphertext</h2>
+<p>Try the demo first: <a href="artefacts/caesar-wheel.html">The Caesar wheel</a>. Turn the wheel to encrypt a message, then press the button that tries every key, and watch how fast the message falls.</p>
+<p>Four words describe every kind of encryption:</p>
+<ul>
+<li><strong><a class="term" data-term="plaintext" href="../../glossary.html#plaintext">Plaintext</a></strong> is the readable message.</li>
+<li><strong><a class="term" data-term="ciphertext" href="../../glossary.html#ciphertext">Ciphertext</a></strong> is its scrambled form, which you cannot read.</li>
+<li>The <strong><a class="term" data-term="key" href="../../glossary.html#key">key</a></strong> is the secret value that turns plaintext into ciphertext, and back again.</li>
+<li>The <strong>algorithm</strong> is the method that uses the key. Another word for it is a <strong><a class="term" data-term="cipher" href="../../glossary.html#cipher">cipher</a></strong>.</li>
+</ul>
+<p>Turning plaintext into ciphertext is <strong>encryption</strong>. Turning ciphertext back into plaintext is <strong>decryption</strong>, and it needs the key.</p>
+<p>The oldest example is the Caesar shift. Its method is: move every letter a fixed number of places along the alphabet. The key is how many places. With the key 3, <code>TAXILA</code> becomes <code>WDALOD</code>. To decrypt, you move each letter 3 places back.</p>
+<p>Here is the surprising part. The method does not need to be secret. The method may be public, as long as the key stays secret. This is <strong><a class="term" data-term="kerckhoffss-principle" href="../../glossary.html#kerckhoffss-principle">Kerckhoffs's principle</a></strong>, named after the scholar who first wrote it down. Every modern cipher follows it, for three reasons:</p>
+<ul>
+<li>A public method can be checked by many experts, so its weaknesses are found and fixed.</li>
+<li>A secret method cannot be changed once it leaks, and then everything it ever protected is open.</li>
+<li>A leaked key can be replaced in minutes, and the method can go on being used.</li>
+</ul>
+<p>So the strength of encryption must sit in the key. The Caesar shift fails that test. It has only twenty-five keys, because a shift of 26 brings every letter back to itself. A computer tries all twenty-five in an instant.</p>
+<div class="box know"><p class="box-label">You already know this</p><p>A combination lock comes in a box. The design of its mechanism is printed on the box, for anyone to read. The lock is still safe, because only you know the combination.</p><p class="map-row"><span class="map-label">Mapping</span>the lock's mechanism = the algorithm, which is public; the combination = the key, which stays secret.</p></div>
+<div class="box case"><p class="box-label">Taxila College</p><p>The exam paper store must stay unreadable even if everyone knows it uses a standard algorithm.</p></div>
+<div class="box mistake"><p class="box-label">Common mistake</p><p>"Keeping the method secret is what makes it strong." Security rests in the key; the method can be public. A secret method gives a false sense of safety, and it cannot be replaced once someone learns it.</p></div>
+<div class="qc"><p class="qc-label">Quick check</p><p class="qc-q">Taxila's exam paper store uses the Advanced Encryption Standard, which is published for anyone to read. What must stay secret for the papers to be safe?</p><ol class="qc-opts"><li>The name of the cipher the store uses</li><li data-right="">The key that encrypts the papers<span class="qc-key"> (answer)</span></li><li>The steps the cipher follows inside</li></ol><p class="qc-why"><strong>Why:</strong> By Kerckhoffs's principle, the method may be public and the key alone must stay secret. Hiding the cipher's name or steps is tempting, but a method that leaks cannot be changed, while a key can be.</p></div>
+<h2 id="2-why-hand-ciphers-fail">2. Why hand ciphers fail</h2>
+<p>Try the demo first: <a href="artefacts/frequency-bars.html">Counting letters</a>. Choose a ciphertext, or paste one in, and watch the bars line up with the commonest letters in English.</p>
+<p>Before computers, people encrypted by hand. These <strong>classical hand ciphers</strong> fail in two ways.</p>
+<p>The first is a small <strong>key space</strong>. The key space is the set of all possible keys. Trying every key, one after another, is called <strong>brute force</strong>. It works whenever the key space is small:</p>
+<ul>
+<li>The <strong>Caesar shift</strong> has twenty-five keys.</li>
+<li><strong>ROT13 (rotate, or shift, by thirteen)</strong> is one Caesar shift with the key 13. Applying it twice gives back the message, so it hides nothing from anyone who knows it.</li>
+<li>The <strong>Vigenere cipher</strong> uses a keyword. Each letter of the keyword gives a different shift, used in turn. This is harder to break by hand, but the keyword repeats, and the repeats can be counted.</li>
+</ul>
+<p>The second way is <strong><a class="term" data-term="frequency-analysis" href="../../glossary.html#frequency-analysis">frequency analysis</a></strong>. You count how often each symbol appears in the ciphertext. Languages are not random: in English, the commonest letter is usually e, then t, a and o. A shift cipher moves every e to the same new letter. So the tallest bar in your count is probably e in disguise, and the distance from e gives you the key.</p>
+<p>A longer message is easier to break, not harder. It has more letters to count, so the bars settle into the shape of the language. A short message may mislead you, because a few words can by chance repeat an unusual letter.</p>
+<div class="box know"><p class="box-label">You already know this</p><p>You keep a tally of how often each symbol appears in the message: one stroke for each time you see it. The tallest column of strokes stands out at once.</p><p class="map-row"><span class="map-label">Mapping</span>the tallest bar in the tally = the commonest ciphertext symbol, which is probably the letter e.</p></div>
+<div class="box case"><p class="box-label">Taxila College</p><p>A home-made cipher for passing answers would not survive one evening of counting.</p></div>
+<div class="qc"><p class="qc-label">Quick check</p><p class="qc-q">Two lecturers invent a letter-swap code, where every letter has its own partner, to pass answers in a long note. What would read the note fastest?</p><ol class="qc-opts"><li data-right="">Counting the letters and matching the tallest bar to e<span class="qc-key"> (answer)</span></li><li>Trying all twenty-five shifts of the alphabet</li><li>Asking for the method, since it is kept secret</li></ol><p class="qc-why"><strong>Why:</strong> A letter-swap code keeps every letter's count, so frequency analysis names the letters, and a long note gives plenty to count. Trying twenty-five shifts is tempting, but it only works for a shift cipher, where every letter moves by the same amount.</p></div>
+<h2 id="3-encoding-hiding-and-encrypting">3. Encoding, hiding and encrypting</h2>
+<p>Try the demo first: <a href="artefacts/encode-vs-encrypt-vs-hide.html">Encode, encrypt, hide</a>. Run the same text through all three, then try to get it back without a key.</p>
+<p>Three different things can make a message look unreadable. Only one of them protects it.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th></th>
+<th>What it does</th>
+<th>Needs a key?</th>
+<th>Who can get the message back?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong><a class="term" data-term="encoding" href="../../glossary.html#encoding">Encoding</a></strong></td>
+<td>changes the form of data so it travels safely, such as Base64</td>
+<td>no</td>
+<td>anyone who knows the encoding</td>
+</tr>
+<tr>
+<td><strong><a class="term" data-term="steganography" href="../../glossary.html#steganography">Steganography</a></strong></td>
+<td>hides that a message exists at all, for example inside a picture</td>
+<td>no</td>
+<td>anyone who knows where to look</td>
+</tr>
+<tr>
+<td><strong>Encryption</strong></td>
+<td>scrambles the message with a key</td>
+<td>yes</td>
+<td>only someone with the key</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Encoding</strong> is not secrecy. Base64 turns any data into letters, digits and two symbols, so it can travel inside text such as an email. The word <code>Taxila</code> in Base64 is <code>VGF4aWxh</code>. It looks scrambled, but every tool that knows Base64 turns it straight back, with no key.</p>
+<p><strong>Steganography</strong> hides the message in something ordinary. A picture can carry a message in tiny changes to its colours that no eye can see. The hiding works only while nobody looks. Once someone knows where the message is, they can read it.</p>
+<p><strong>Encryption</strong> is the only one of the three that needs a key. Without the key, the ciphertext stays unreadable even when everyone knows the method. The three can be combined: you can encrypt a message and then hide it. Then even if the hiding is found, the content is still protected.</p>
+<div class="box know"><p class="box-label">You already know this</p><p>A note can be written in shorthand, hidden inside a book, or locked in a safe.</p><p class="map-row"><span class="map-label">Mapping</span>shorthand = encoding, which anyone fluent reads; the hidden note = steganography; the safe = encryption, where you need the key.</p></div>
+<div class="box case"><p class="box-label">Taxila College</p><p>A value written in Base64 in a configuration file protects nothing.</p></div>
+<div class="box mistake"><p class="box-label">Common mistake</p><p>"Base64 is a kind of encryption." Base64 has no key and anyone can reverse it. If a file says a password is "encrypted", but it is only letters and digits, perhaps ending in an equals sign, check whether it is Base64.</p></div>
+<div class="qc"><p class="qc-label">Quick check</p><p class="qc-q">The Head of IT finds the line <code>password: cGFzc3dvcmQ=</code> in a configuration file labelled "encrypted". What is it?</p><ol class="qc-opts"><li>Ciphertext, which needs the key to read</li><li>A hidden message, which needs a picture to carry it</li><li data-right="">Base64 encoding, which anyone can reverse<span class="qc-key"> (answer)</span></li></ol><p class="qc-why"><strong>Why:</strong> Letters, digits and a closing equals sign are the mark of Base64, and it reverses with no key: this one says <code>password</code>. Calling it encrypted is tempting because it looks scrambled, but only encryption needs a key.</p></div>
+<h2 id="4-symmetric-encryption-and-the-key-problem">4. Symmetric encryption and the key problem</h2>
+<p>Try the demo first: <a href="artefacts/symmetric-key.html">One key, both ways</a>. Encrypt a message, decrypt it with the right key, then try a wrong key, and then two hundred wrong keys.</p>
+<div class="box recall"><p class="box-label">Recall</p><p>The key is the secret value that turns plaintext into ciphertext, and back again.</p></div>
+<p><strong><a class="term" data-term="symmetric-encryption" href="../../glossary.html#symmetric-encryption">Symmetric encryption</a></strong> uses one shared key for both directions. The same key encrypts and decrypts. Symmetric ciphers are fast, so they are used for large amounts of data: files, disks and network traffic.</p>
+<p>The modern choice is the <strong>Advanced Encryption Standard (AES)</strong>. Its keys are 128, 192 or 256 bits long. The older <strong>Data Encryption Standard (DES)</strong> used a key of only 56 bits. Computers can now try every DES key, so DES is kept only as history.</p>
+<p>Key length matters because each extra bit doubles the number of possible keys. A 128-bit key does not have a few more keys than a 56-bit key: it has 72 more doublings. Trying every AES key is far beyond any computer, now or for many years to come.</p>
+<p>AES encrypts data in blocks of 16 bytes. How the blocks are joined is called the <strong>mode</strong>:</p>
+<ul>
+<li><strong>Electronic code book (ECB)</strong> is the simplest mode. It encrypts each block on its own, so two identical plaintext blocks give two identical ciphertext blocks. The pattern of the message leaks through.</li>
+<li><strong>Cipher block chaining (CBC)</strong> mixes each block with the ciphertext of the block before it. The first block is mixed with a <strong>starting value</strong>, which tools call the initialisation vector (IV). Identical plaintext blocks now come out different, and the pattern is hidden.</li>
+</ul>
+<figure class="art"><svg aria-labelledby="ec-t ec-d" role="img" style="min-width:640px" viewbox="0 0 640 360"><title id="ec-t">Same block in, same block out</title><desc id="ec-d">Four plaintext blocks, three of them identical. In electronic code book mode each block is encrypted alone, so the three identical blocks give three identical ciphertext blocks and the pattern shows. In cipher block chaining mode each block is mixed with the ciphertext of the block before, so all four ciphertext blocks differ.</desc><rect fill="#FFFBFB" height="360" width="640"></rect><text fill="#6C5353" font-family="Open Sans, Arial, sans-serif" font-size="14" font-weight="700" text-anchor="start" x="20" y="30">THE SAME FOUR BLOCKS OF PLAINTEXT</text><text fill="#2A1A1D" font-family="Open Sans, Arial, sans-serif" font-size="15" font-weight="700" text-anchor="start" x="20" y="74">Plaintext</text><rect fill="#FBF6F6" height="46" rx="6" stroke="#2A1A1D" stroke-width="1.5" width="96" x="168" y="44"></rect><text fill="#2A1A1D" font-family="Courier New, monospace" font-size="17" font-weight="700" text-anchor="middle" x="216" y="73">EXAM</text><rect fill="#FBF6F6" height="46" rx="6" stroke="#2A1A1D" stroke-width="1.5" width="96" x="280" y="44"></rect><text fill="#2A1A1D" font-family="Courier New, monospace" font-size="17" font-weight="700" text-anchor="middle" x="328" y="73">EXAM</text><rect fill="#FBF6F6" height="46" rx="6" stroke="#2A1A1D" stroke-width="1.5" width="96" x="392" y="44"></rect><text fill="#2A1A1D" font-family="Courier New, monospace" font-size="17" font-weight="700" text-anchor="middle" x="440" y="73">PART</text><rect fill="#FBF6F6" height="46" rx="6" stroke="#2A1A1D" stroke-width="1.5" width="96" x="504" y="44"></rect><text fill="#2A1A1D" font-family="Courier New, monospace" font-size="17" font-weight="700" text-anchor="middle" x="552" y="73">EXAM</text><text fill="#2A1A1D" font-family="Open Sans, Arial, sans-serif" font-size="15" font-weight="700" text-anchor="start" x="20" y="180">ECB gives</text><rect fill="#F3E2E4" height="46" rx="6" stroke="#9C2C3A" stroke-width="3" width="96" x="168" y="150"></rect><text fill="#2A1A1D" font-family="Courier New, monospace" font-size="17" font-weight="700" text-anchor="middle" x="216" y="179">7f3a</text><rect fill="#F3E2E4" height="46" rx="6" stroke="#9C2C3A" stroke-width="3" width="96" x="280" y="150"></rect><text fill="#2A1A1D" font-family="Courier New, monospace" font-size="17" font-weight="700" text-anchor="middle" x="328" y="179">7f3a</text><rect fill="#FBF6F6" height="46" rx="6" stroke="#2A1A1D" stroke-width="1.5" width="96" x="392" y="150"></rect><text fill="#2A1A1D" font-family="Courier New, monospace" font-size="17" font-weight="700" text-anchor="middle" x="440" y="179">c2e1</text><rect fill="#F3E2E4" height="46" rx="6" stroke="#9C2C3A" stroke-width="3" width="96" x="504" y="150"></rect><text fill="#2A1A1D" font-family="Courier New, monospace" font-size="17" font-weight="700" text-anchor="middle" x="552" y="179">7f3a</text><text fill="#2A1A1D" font-family="Open Sans, Arial, sans-serif" font-size="15" font-weight="700" text-anchor="start" x="20" y="286">CBC gives</text><rect fill="#FBF6F6" height="46" rx="6" stroke="#2A1A1D" stroke-width="1.5" width="96" x="168" y="256"></rect><text fill="#2A1A1D" font-family="Courier New, monospace" font-size="17" font-weight="700" text-anchor="middle" x="216" y="285">7f3a</text><rect fill="#FBF6F6" height="46" rx="6" stroke="#2A1A1D" stroke-width="1.5" width="96" x="280" y="256"></rect><text fill="#2A1A1D" font-family="Courier New, monospace" font-size="17" font-weight="700" text-anchor="middle" x="328" y="285">91bd</text><rect fill="#FBF6F6" height="46" rx="6" stroke="#2A1A1D" stroke-width="1.5" width="96" x="392" y="256"></rect><text fill="#2A1A1D" font-family="Courier New, monospace" font-size="17" font-weight="700" text-anchor="middle" x="440" y="285">04ce</text><rect fill="#FBF6F6" height="46" rx="6" stroke="#2A1A1D" stroke-width="1.5" width="96" x="504" y="256"></rect><text fill="#2A1A1D" font-family="Courier New, monospace" font-size="17" font-weight="700" text-anchor="middle" x="552" y="285">e85f</text><path d="M264 279 L278 279" stroke="#9C2C3A" stroke-width="3"></path><path d="M280 279 L272 273 L272 285 Z" fill="#9C2C3A"></path><path d="M376 279 L390 279" stroke="#9C2C3A" stroke-width="3"></path><path d="M392 279 L384 273 L384 285 Z" fill="#9C2C3A"></path><path d="M488 279 L502 279" stroke="#9C2C3A" stroke-width="3"></path><path d="M504 279 L496 273 L496 285 Z" fill="#9C2C3A"></path><text fill="#6C5353" font-family="Open Sans, Arial, sans-serif" font-size="12" font-weight="400" text-anchor="start" x="20" y="196">each block alone</text><text fill="#6C5353" font-family="Open Sans, Arial, sans-serif" font-size="12" font-weight="400" text-anchor="start" x="20" y="302">each block mixed</text><text fill="#6C5353" font-family="Open Sans, Arial, sans-serif" font-size="12" font-weight="400" text-anchor="start" x="20" y="317">with the one before</text><text fill="#6C5353" font-family="Open Sans, Arial, sans-serif" font-size="13" font-weight="700" text-anchor="start" x="168" y="128">Encrypt the same four blocks in two modes:</text><text fill="#9C2C3A" font-family="Open Sans, Arial, sans-serif" font-size="13" font-weight="700" text-anchor="start" x="168" y="226">same in, same out: the pattern shows</text><text fill="#2A1A1D" font-family="Open Sans, Arial, sans-serif" font-size="13" font-weight="700" text-anchor="start" x="168" y="330">every block different: no pattern shows</text></svg><figcaption>Same block in, same block out: ECB shows the pattern, CBC hides it. <a class="full" href="img/ecb-cbc.svg">Open this diagram at full size</a></figcaption></figure>
+<p>Symmetric encryption has one hard part. Both sides need the same key, and it must stay secret. If Colombo encrypts a paper with a key, Kandy needs that exact key to open it. How does the key get to Kandy safely? Post it, email it or phone it, and someone could intercept it on the way. This is the <strong><a class="term" data-term="key-distribution-problem" href="../../glossary.html#key-distribution-problem">key distribution problem</a></strong>.</p>
+<div class="box know"><p class="box-label">You already know this</p><p>A locksmith cuts one key twice, so that two people can open the same door. You keep one copy and post the other.</p><p class="map-row"><span class="map-label">Mapping</span>the single cut key = the symmetric key; posting a copy without it being intercepted = the key distribution problem.</p></div>
+<div class="box case"><p class="box-label">Taxila College</p><p>Colombo and Kandy both need the paper's key; how is it shared without interception? This is item 4 on the security register.</p></div>
+<div class="qc"><p class="qc-label">Quick check</p><p class="qc-q">A courier company encrypts its delivery lists with one AES key, shared by its head office and twenty branches. Which part is the hard problem?</p><ol class="qc-opts"><li>AES is too slow for long delivery lists</li><li>A longer key would make the lists unreadable to the branches</li><li>The method must be kept secret from the branches</li><li data-right="">Getting the one key to every branch without anyone intercepting it<span class="qc-key"> (answer)</span></li></ol><p class="qc-why"><strong>Why:</strong> Symmetric encryption is fast and strong, but every branch needs the same secret key: that is the key distribution problem. Speed is tempting, but speed is symmetric encryption's strength, not its weakness.</p></div>
+<h2 id="5-asymmetric-keys-and-the-hybrid-pattern">5. Asymmetric keys and the hybrid pattern</h2>
+<p>Try the demo first: <a href="artefacts/public-private-pair.html">The public padlock</a>. Close the padlock with the public key, try to open it with the public key, open it with the private key, then try the hybrid pass.</p>
+<div class="box recall"><p class="box-label">Recall</p><p>The key distribution problem is getting one shared key to the other side without anyone intercepting it.</p></div>
+<p><strong><a class="term" data-term="asymmetric-encryption" href="../../glossary.html#asymmetric-encryption">Asymmetric encryption</a></strong> uses two keys, made together as a pair. The <strong>public key</strong> can be given to anyone. The <strong>private key</strong> is kept by its owner and never shared. You encrypt to someone's public key, and only their private key opens it.</p>
+<p>This removes the key distribution problem for secrecy. Colombo makes a key pair and publishes the public key. Kandy uses it to lock a message. Only Colombo, who holds the private key, can open it. Nothing secret ever travels.</p>
+<p>The best-known asymmetric method is the <strong>Rivest, Shamir and Adleman method (RSA)</strong>, named after the three people who published it. It rests on a fact about numbers: multiplying two prime numbers is easy, but finding them again from the answer is very hard. A toy example with tiny numbers shows the idea:</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th></th>
+<th>Toy value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Two secret primes</td>
+<td>3 and 11</td>
+</tr>
+<tr>
+<td>Their product, which is public</td>
+<td>33</td>
+</tr>
+<tr>
+<td>Public key</td>
+<td>3 and 33</td>
+</tr>
+<tr>
+<td>Private key</td>
+<td>7 and 33</td>
+</tr>
+<tr>
+<td>Plaintext</td>
+<td>4</td>
+</tr>
+<tr>
+<td>Encrypt: 4 x 4 x 4 = 64; divide by 33 and keep the remainder</td>
+<td>31</td>
+</tr>
+<tr>
+<td>Decrypt: 31 multiplied by itself 7 times; divide by 33 and keep the remainder</td>
+<td>4 again</td>
+</tr>
+</tbody>
+</table></div>
+<p>The private 7 can be worked out by anyone who can split 33 into 3 x 11. With 33 that takes a second. Real keys use numbers over six hundred digits long, and nobody can split those. That is what keeps the private key private.</p>
+<p>A second idea solves the problem another way. <strong>Diffie-Hellman</strong> lets two sides agree a shared key in the open. Each side keeps a secret number and sends a public value made from it. Each side then combines the other's public value with its own secret, and both reach the same key. Someone who sees only the public values cannot work the key out.</p>
+<p>Asymmetric encryption has a cost. It is much slower than symmetric encryption, and an RSA key can lock only a short message, a few hundred bytes at most. So real systems use both families together. This is the <strong><a class="term" data-term="hybrid-encryption" href="../../glossary.html#hybrid-encryption">hybrid pattern</a></strong>. Asymmetric methods set up a fast symmetric key, by carrying it or by agreeing it in the open. Then the symmetric key carries the data:</p>
+<ul>
+<li>Carrying the key: encrypt a fresh AES key to the receiver's public key, and encrypt the message with that AES key. You do exactly this in this afternoon's lab.</li>
+<li>Agreeing the key: the Diffie-Hellman idea. Secure web traffic agrees its key this way, as Day 4 shows.</li>
+</ul>
+<figure class="art"><svg aria-labelledby="hy-t hy-d" role="img" style="min-width:640px" viewbox="0 0 640 400"><title id="hy-t">Two keys, one paper: the hybrid pattern</title><desc id="hy-d">Kandy on the left, Colombo on the right. Colombo has a key pair and sends only the public key to Kandy; the private key stays in Colombo. Kandy makes a fresh AES key, locks the AES key with Colombo's public key and locks the paper with the AES key, and sends both. Colombo opens the AES key with the private key, then opens the paper with the AES key.</desc><rect fill="#FFFBFB" height="400" width="640"></rect><rect fill="#FBF6F6" height="304" rx="10" stroke="#BFA6A8" stroke-width="1.5" width="212" x="12" y="12"></rect><rect fill="#FBF6F6" height="304" rx="10" stroke="#BFA6A8" stroke-width="1.5" width="212" x="416" y="12"></rect><text fill="#2A1A1D" font-family="Open Sans, Arial, sans-serif" font-size="15" font-weight="800" text-anchor="middle" x="118" y="40">KANDY</text><text fill="#2A1A1D" font-family="Open Sans, Arial, sans-serif" font-size="15" font-weight="800" text-anchor="middle" x="522" y="40">COLOMBO</text><rect fill="#FFFBFB" height="94" rx="6" stroke="#2A1A1D" stroke-width="1.5" width="184" x="430" y="58"></rect><text fill="#2A1A1D" font-family="Open Sans, Arial, sans-serif" font-size="13" font-weight="700" text-anchor="start" x="442" y="78">Colombo's key pair</text><path d="M450.8 92.8 L450.8 85.6 Q456.4 77.6 462 85.6 L462 88.8" fill="none" stroke="#9C2C3A" stroke-width="2.8"></path><rect fill="#9C2C3A" height="16" rx="2.4" width="20.8" x="446" y="96"></rect><text fill="#2A1A1D" font-family="Open Sans, Arial, sans-serif" font-size="12" font-weight="400" text-anchor="start" x="476" y="110">public: given away</text><circle cx="449" cy="131" fill="none" r="6" stroke="#2A1A1D" stroke-width="3"></circle><path d="M455 131 L472 131 M467 131 L467 136 M472 131 L472 136" fill="none" stroke="#2A1A1D" stroke-width="3"></path><text fill="#2A1A1D" font-family="Open Sans, Arial, sans-serif" font-size="12" font-weight="400" text-anchor="start" x="476" y="136">private: kept here</text><path d="M430 102 L234 102" fill="none" stroke="#9C2C3A" stroke-dasharray="7 5" stroke-width="2.5"></path><path d="M226 102 L235 96 L235 108 Z" fill="#9C2C3A"></path><text fill="#9C2C3A" font-family="Open Sans, Arial, sans-serif" font-size="13" font-weight="700" text-anchor="middle" x="328" y="94">1. public key</text><rect fill="#FFFBFB" height="50" rx="6" stroke="#9C2C3A" stroke-width="2" width="184" x="26" y="78"></rect><path d="M42.8 102.8 L42.8 95.6 Q48.4 87.6 54 95.6 L54 98.8" fill="none" stroke="#9C2C3A" stroke-width="2.8"></path><rect fill="#9C2C3A" height="16" rx="2.4" width="20.8" x="38" y="106"></rect><text fill="#2A1A1D" font-family="Open Sans, Arial, sans-serif" font-size="12" font-weight="400" text-anchor="start" x="68" y="108">Colombo's</text><text fill="#2A1A1D" font-family="Open Sans, Arial, sans-serif" font-size="12" font-weight="400" text-anchor="start" x="68" y="122">public key</text><rect fill="#FFFBFB" height="50" rx="6" stroke="#2A1A1D" stroke-width="1.5" width="184" x="26" y="150"></rect><circle cx="45" cy="175" fill="none" r="6" stroke="#2A1A1D" stroke-width="3"></circle><path d="M51 175 L68 175 M63 175 L63 180 M68 175 L68 180" fill="none" stroke="#2A1A1D" stroke-width="3"></path><text fill="#2A1A1D" font-family="Open Sans, Arial, sans-serif" font-size="13" font-weight="700" text-anchor="start" x="76" y="172">a fresh AES key</text><text fill="#6C5353" font-family="Open Sans, Arial, sans-serif" font-size="12" font-weight="400" text-anchor="start" x="76" y="190">fast, symmetric</text><rect fill="#FFFBFB" height="50" rx="6" stroke="#2A1A1D" stroke-width="1.5" width="184" x="26" y="222"></rect><text fill="#2A1A1D" font-family="Open Sans, Arial, sans-serif" font-size="13" font-weight="700" text-anchor="start" x="38" y="252">the exam paper</text><text fill="#6C5353" font-family="Open Sans, Arial, sans-serif" font-size="12" font-weight="400" text-anchor="start" x="38" y="266">long</text><rect fill="#F3E2E4" height="58" rx="6" stroke="#9C2C3A" stroke-width="2" width="144" x="248" y="166"></rect><text fill="#2A1A1D" font-family="Open Sans, Arial, sans-serif" font-size="13" font-weight="700" text-anchor="middle" x="320" y="188">2. the AES key,</text><text fill="#2A1A1D" font-family="Open Sans, Arial, sans-serif" font-size="12" font-weight="400" text-anchor="middle" x="320" y="206">locked with the</text><text fill="#2A1A1D" font-family="Open Sans, Arial, sans-serif" font-size="12" font-weight="400" text-anchor="middle" x="320" y="220">public key</text><rect fill="#F3E2E4" height="58" rx="6" stroke="#2A1A1D" stroke-width="2" width="144" x="248" y="246"></rect><text fill="#2A1A1D" font-family="Open Sans, Arial, sans-serif" font-size="13" font-weight="700" text-anchor="middle" x="320" y="268">3. the paper,</text><text fill="#2A1A1D" font-family="Open Sans, Arial, sans-serif" font-size="12" font-weight="400" text-anchor="middle" x="320" y="286">locked with the</text><text fill="#2A1A1D" font-family="Open Sans, Arial, sans-serif" font-size="12" font-weight="400" text-anchor="middle" x="320" y="300">AES key</text><path d="M210 194 L238 194" fill="none" stroke="#2A1A1D" stroke-width="2.5"></path><path d="M246 194 L237 188 L237 200 Z" fill="#2A1A1D"></path><path d="M392 194 L420 194" fill="none" stroke="#2A1A1D" stroke-width="2.5"></path><path d="M428 194 L419 188 L419 200 Z" fill="#2A1A1D"></path><path d="M210 274 L238 274" fill="none" stroke="#2A1A1D" stroke-width="2.5"></path><path d="M246 274 L237 268 L237 280 Z" fill="#2A1A1D"></path><path d="M392 274 L420 274" fill="none" stroke="#2A1A1D" stroke-width="2.5"></path><path d="M428 274 L419 268 L419 280 Z" fill="#2A1A1D"></path><rect fill="#FFFBFB" height="58" rx="6" stroke="#2A1A1D" stroke-width="1.5" width="184" x="430" y="166"></rect><text fill="#2A1A1D" font-family="Open Sans, Arial, sans-serif" font-size="13" font-weight="700" text-anchor="start" x="442" y="188">opens the AES key</text><text fill="#2A1A1D" font-family="Open Sans, Arial, sans-serif" font-size="12" font-weight="400" text-anchor="start" x="442" y="206">with the private key</text><rect fill="#FFFBFB" height="58" rx="6" stroke="#2A1A1D" stroke-width="1.5" width="184" x="430" y="246"></rect><text fill="#2A1A1D" font-family="Open Sans, Arial, sans-serif" font-size="13" font-weight="700" text-anchor="start" x="442" y="268">opens the paper</text><text fill="#2A1A1D" font-family="Open Sans, Arial, sans-serif" font-size="12" font-weight="400" text-anchor="start" x="442" y="286">with the AES key</text><path d="M522 224 L522 236" fill="none" stroke="#2A1A1D" stroke-width="2.5"></path><path d="M522 244 L516 235 L528 235 Z" fill="#2A1A1D"></path><text fill="#9C2C3A" font-family="Open Sans, Arial, sans-serif" font-size="13" font-weight="700" text-anchor="start" x="20" y="344">The slow public-key step carries only a short key. The fast AES key carries the long paper.</text><text fill="#6C5353" font-family="Open Sans, Arial, sans-serif" font-size="13" font-weight="400" text-anchor="start" x="20" y="368">Nothing secret travels unlocked, and the private key never leaves Colombo.</text></svg><figcaption>The hybrid pattern: the public key carries a short key, and that key carries the paper. <a class="full" href="img/hybrid.svg">Open this diagram at full size</a></figcaption></figure>
+<p>The two families side by side:</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th></th>
+<th>Symmetric</th>
+<th>Asymmetric</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Keys</td>
+<td>one shared secret key</td>
+<td>a public key and a private key</td>
+</tr>
+<tr>
+<td>Speed</td>
+<td>fast</td>
+<td>much slower</td>
+</tr>
+<tr>
+<td>Typical use</td>
+<td>encrypting files, disks and traffic</td>
+<td>carrying or agreeing a symmetric key</td>
+</tr>
+<tr>
+<td>Main weakness</td>
+<td>the key distribution problem</td>
+<td>slow, and limited to short messages</td>
+</tr>
+</tbody>
+</table></div>
+<div class="box know"><p class="box-label">You already know this</p><p>You hand out padlocks that are already open. Anyone can snap one shut on a box. Only you have the key that opens them.</p><p class="map-row"><span class="map-label">Mapping</span>the open padlock = the public key, which anyone can snap shut; the one key you keep = the private key, which only you open with.</p></div>
+<div class="box case"><p class="box-label">Taxila College</p><p>Kandy locks the paper with Colombo's public padlock; only Colombo can open it.</p></div>
+<div class="box mistake"><p class="box-label">Common mistake</p><p>"The public key can also decrypt." Only the matching private key decrypts what the public key locked. That is the whole point: the public key is safe to give away because it cannot open anything.</p></div>
+<div class="qc"><p class="qc-label">Quick check</p><p class="qc-q">Kandy wants to send Colombo tonight's paper so that only Colombo can read it. Which key does Kandy lock it with?</p><ol class="qc-opts"><li>Kandy's own private key</li><li data-right="">Colombo's public key<span class="qc-key"> (answer)</span></li><li>Colombo's private key</li></ol><p class="qc-why"><strong>Why:</strong> Anything locked with Colombo's public key opens only with Colombo's private key, which never leaves Colombo. Kandy's private key is tempting, but anything it locks opens with Kandy's public key, which anyone may have.</p></div>
+<h2 id="before-the-lab">Before the lab</h2>
+<p>This afternoon you break a shift cipher by hand, then encrypt your own index number with AES and watch a wrong key fail. Then you encrypt to a public key that you cannot open yourself. Bring these notes, open at sections 4 and 5. Full-tier students: start your Kali virtual machine before the session, so the snapshot is quick.</p>
+<h2 id="reading">Reading</h2>
+<ul>
+<li>Pfleeger, C. P., Pfleeger, S. L. and Coles-Kemp, L., <em>Security in Computing</em>, 6th ed., section 2.3, cryptography; then chapter 12, sections 12.2 and 12.3, symmetric and asymmetric encryption. The 4th edition, by the first two authors, covers the same ideas in chapter 2.</li>
+</ul>
+<p>Next: Day 3, fingerprints: hashing and integrity. You learn how to tell whether data has changed, even by one character.</p>
+
+<template id="term-plaintext"><b>Plaintext</b><span>The readable form of a message, before it is encrypted or after it is decrypted. Anyone who sees plaintext can read it.</span><span class="ex"><span class="ex-label">At Taxila: </span>the draft exam paper, as the lecturer wrote it, is plaintext.</span></template><template id="term-ciphertext"><b>Ciphertext</b><span>The scrambled form of a message after encryption. Without the key it cannot be read, even by someone who knows the method used.</span><span class="ex"><span class="ex-label">At Taxila: </span>in the encrypted exam paper store, every paper is kept as ciphertext.</span></template><template id="term-key"><b>Key</b><span>The secret value that turns plaintext into ciphertext and back. All the possible keys make the key space; trying every one is brute force, so the key space must be too large to try.</span><span class="ex"><span class="ex-label">At Taxila: </span>a Caesar shift's twenty-five keys fall at once; a 256-bit key for the Advanced Encryption Standard (AES) does not.</span></template><template id="term-cipher"><b>Cipher</b><span>The method, or algorithm, that uses a key to encrypt and decrypt. The Caesar shift is a hand cipher; the Advanced Encryption Standard (AES) is a modern one.</span><span class="ex"><span class="ex-label">At Taxila: </span>the exam paper store uses a standard, public cipher with a secret key.</span></template><template id="term-kerckhoffss-principle"><b>Kerckhoffs&#x27;s principle</b><span>The rule that a cipher must stay secure even when everything about it, except the key, is public. Security rests in the key, not in keeping the method secret.</span><span class="ex"><span class="ex-label">At Taxila: </span>anyone may know that the exam paper store uses the Advanced Encryption Standard (AES); only its key must stay secret.</span></template><template id="term-frequency-analysis"><b>Frequency analysis</b><span>Breaking a hand cipher by counting how often each symbol appears, and matching the counts to the language. In English the commonest letter is usually e.</span><span class="ex"><span class="ex-label">At Taxila: </span>a home-made letter-swap code for passing answers would fall to one evening of counting.</span></template><template id="term-encoding"><b>Encoding</b><span>Changing the form of data so that it can be stored or sent, with no key. Base64 is an example. Anyone who knows the encoding can reverse it, so it protects nothing.</span><span class="ex"><span class="ex-label">At Taxila: </span>a password written in Base64 in a configuration file is as readable as plain text.</span></template><template id="term-steganography"><b>Steganography</b><span>Hiding the fact that a message exists, for example in tiny changes to a picture's colours. It needs no key, so the message can be read once someone knows where to look.</span><span class="ex"><span class="ex-label">At Taxila: </span>a note hidden inside a campus photograph stays secret only while nobody looks for it.</span></template><template id="term-symmetric-encryption"><b>Symmetric encryption</b><span>Encryption that uses one shared key both to encrypt and to decrypt. It is fast, so it suits large data. The Advanced Encryption Standard (AES) is the modern choice.</span><span class="ex"><span class="ex-label">At Taxila: </span>Colombo and Kandy can both open a paper encrypted with the one AES key they share.</span></template><template id="term-key-distribution-problem"><b>Key distribution problem</b><span>The difficulty of getting one shared symmetric key to the other side without anyone intercepting it on the way.</span><span class="ex"><span class="ex-label">At Taxila: </span>Kandy needs the key to tonight's paper, but posting, emailing or phoning it could let someone else read it.</span></template><template id="term-asymmetric-encryption"><b>Asymmetric encryption</b><span>Encryption that uses a pair of keys: anyone may encrypt with the public key, and only the matching private key decrypts. Rivest, Shamir and Adleman (RSA) is the best-known method.</span><span class="ex"><span class="ex-label">At Taxila: </span>Kandy locks a message with Colombo's public key, and only Colombo can open it.</span></template><template id="term-hybrid-encryption"><b>Hybrid encryption</b><span>Using both families together. Asymmetric methods set up a fast symmetric key, by carrying it or agreeing it, and the symmetric key then encrypts the data.</span><span class="ex"><span class="ex-label">At Taxila: </span>Kandy encrypts the paper with a fresh key for the Advanced Encryption Standard (AES), then locks that key with Colombo's public key.</span></template>
+<section class="resources" aria-labelledby="h-res"><h2 id="h-res">Everything for this morning</h2><ul><li><a href="slides/day-2-morning.pdf">Slides for this morning (PDF)</a></li><li><a href="artefacts/caesar-wheel.html">The Caesar wheel</a> (demo)</li><li><a href="artefacts/frequency-bars.html">Counting letters</a> (demo)</li><li><a href="artefacts/encode-vs-encrypt-vs-hide.html">Encode, encrypt, hide</a> (demo)</li><li><a href="artefacts/symmetric-key.html">One key, both ways</a> (demo)</li><li><a href="artefacts/public-private-pair.html">The public padlock</a> (demo)</li><li><a href="plays/p2-words.html">Words for keeping data secret</a> (10 minutes)</li><li><a href="plays/p2-1-which-key-opens-it.html">Which key opens it?</a> (8 minutes)</li><li><a href="plays/p2-2-getting-the-key-to-kandy.html">Getting the key to Kandy</a> (10 minutes)</li><li><a href="plays/p2-quiz.html">Day 2: keys, ciphers and the hybrid pattern</a> (10 minutes)</li><li><a href="../../practice/PQ2.html">Practice question 2</a></li></ul></section><div class="progress-box"><button class="btn" type="button" data-progress="d2m">Mark this morning as done</button><span class="progress-note">A record for you, saved only on this device. It never locks or unlocks anything.</span></div><nav class="pager" aria-label="Page navigation"><span>Previous: <a href="../../days/day-1/lab.html">Day 1 afternoon</a></span><span><a href="index.html">Day 2</a></span><span>Next: <a href="../../days/day-2/lab.html">Day 2 afternoon</a></span></nav>
+</div>
+</main>
+<footer class="site-footer"><div class="wrap">
+<p class="author">&copy; Niranga Dharmaratna, School of Computing &amp; Engineering, National Institute of Business Management</p>
+<p>Content licensed <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener">CC BY-NC-SA 4.0</a>; code licensed MIT; Open Sans under the SIL Open Font Licence.</p>
+<p>Dates and submissions are announced for your cohort. Taxila College is fictional.</p>
+<p>Anything you mark as done is saved only on this device. Nothing leaves it.</p>
+</div></footer>
+<script src="../../assets/js/site.js" defer></script>
+</body>
+</html>

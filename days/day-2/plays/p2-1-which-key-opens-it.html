@@ -1,0 +1,412 @@
+<!doctype html>
+<html lang="en-GB" data-store="hndne-pis:">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="hndne-pis-site">
+<title>Which key opens it? | Day 2 | Principles of Information Security</title>
+<meta name="author" content="Niranga Dharmaratna">
+<meta name="description" content="Four jobs between Taxila&#x27;s two campuses. For each one, build the rule: who locks the message, with which key, and who opens it, with which key.">
+<meta name="robots" content="index, follow">
+<link rel="icon" href="../../../assets/img/favicon.svg" type="image/svg+xml">
+<link rel="canonical" href="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-2/plays/p2-1-which-key-opens-it.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Principles of Information Security, HND Network Engineering Year 2">
+<meta property="og:title" content="Which key opens it?">
+<meta property="og:description" content="Four jobs between Taxila&#x27;s two campuses. For each one, build the rule: who locks the message, with which key, and who opens it, with which key.">
+<meta property="og:url" content="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-2/plays/p2-1-which-key-opens-it.html">
+<meta property="og:locale" content="en_GB">
+<meta property="og:image" content="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/assets/img/social-card.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="At Taxila College the Head of IT points to the security register on the wall: nineteen numbered items, the first outlined as the place to start. The Registrar holds a sealed transcript and the Data Protection Officer a clipboard. A lecturer turns to welcome two students arriving with a laptop and a phone.">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","author":{"@type":"Person","affiliation":{"@type":"Organization","name":"School of Computing & Engineering, National Institute of Business Management"},"name":"Niranga Dharmaratna"},"description":"Four jobs between Taxila's two campuses. For each one, build the rule: who locks the message, with which key, and who opens it, with which key.","educationalLevel":"Higher National Diploma, Year 2","inLanguage":"en-GB","interactivityType":"active","isAccessibleForFree":true,"isPartOf":{"@id":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/#course","@type":"Course","name":"Principles of Information Security, HND Network Engineering Year 2","url":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/"},"learningResourceType":"Practice activity","license":"https://opensource.org/licenses/MIT","name":"Which key opens it?","url":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-2/plays/p2-1-which-key-opens-it.html"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/","name":"Principles of Information Security","position":1},{"@type":"ListItem","item":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-2/","name":"Day 2","position":2},{"@type":"ListItem","item":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-2/plays/p2-1-which-key-opens-it.html","name":"Which key opens it?","position":3}]}</script>
+<link rel="stylesheet" href="../../../assets/fonts/fonts.css">
+<style>
+/* Principles of Information Security plays. MIT licence. Inlined into every play by the generator.
+   Palette variables come from assets/fonts/fonts.css; no colour literal here. Right and wrong always carry
+   a mark and a word: a drawn tick, or the fault badge with its multiplication sign (D24). Pairs as site.css. */
+*{box-sizing:border-box}
+body{margin:0;font-family:"Open Sans","Segoe UI",Roboto,Arial,sans-serif;font-size:1.0625rem;line-height:1.6;color:var(--ink);background:var(--linen);-webkit-text-size-adjust:100%}
+.wrap{max-width:46rem;margin:0 auto;padding:0 1.1rem}
+a{color:var(--burgundy);font-weight:600}
+:focus-visible{outline:3px solid var(--burgundy);outline-offset:2px;border-radius:4px}
+.skip{position:absolute;left:-999px;top:0;background:var(--ink);color:var(--snow);padding:.5rem 1rem}
+.skip:focus{left:1rem}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+code{font-family:"Courier New",Consolas,"DejaVu Sans Mono",monospace;font-size:.92em;background:var(--rose-wash);padding:.08em .3em;border-radius:5px;overflow-wrap:anywhere}
+.play-header{background:var(--ink);color:var(--snow);padding:1.4rem 0 1.2rem}
+.play-header .eyebrow{margin:0;color:var(--rule);font-size:.85rem;font-weight:600;letter-spacing:.04em}
+.play-header .eyebrow a{color:var(--rule)}
+.play-header h1{margin:.3rem 0 0;font-size:clamp(1.4rem,4vw,1.9rem);line-height:1.2;font-weight:800}
+.play-header :focus-visible{outline-color:var(--rose)}
+.bars{display:flex;gap:6px;margin-top:.8rem}
+.bars i{display:block;height:6px;border-radius:2px}
+.bars i:first-child{width:56px;background:var(--rose)}
+.bars i:last-child{width:26px;background:var(--blush)}
+main.wrap{padding:1.3rem 1.1rem 2.5rem}
+.meta{display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:.8rem}
+.badge{display:inline-block;color:var(--snow);background:var(--burgundy);font-weight:700;font-size:.8rem;line-height:1;padding:.38rem .55rem;border-radius:4px}
+.intro{margin:.2rem 0 1rem}
+.howto{background:var(--snow);border:1px solid var(--rule);border-left:5px solid var(--ink);border-radius:0 12px 12px 0;padding:.6rem 1rem;margin:0 0 1.2rem}
+.howto summary{font-weight:800;font-size:.8rem;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;min-height:32px;display:flex;align-items:center}
+.howto ol{margin:.3rem 0 .4rem;padding-left:1.3rem}
+.box{background:var(--snow);border:1px solid var(--rule);border-left:5px solid var(--signal-vermilion);padding:.8rem 1rem}
+#play{background:var(--snow);border:1px solid var(--rule);border-top:5px solid var(--burgundy);border-radius:14px;padding:1.1rem 1.2rem 1.3rem;min-height:8rem}
+#play:empty{display:none}
+#play:focus{outline:none}
+.count{margin:0;font-size:.78rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--burgundy)}
+h2.q{margin:.3rem 0 .9rem;font-size:1.2rem;line-height:1.4}
+.opts,.bins{display:grid;gap:.55rem}
+@media (min-width:36rem){.bins{grid-template-columns:repeat(auto-fit,minmax(9rem,1fr))}}
+.opt{display:flex;align-items:flex-start;gap:.7rem;width:100%;min-height:48px;text-align:left;font:inherit;color:var(--ink);background:var(--snow);border:2px solid var(--taupe);border-radius:10px;padding:.6rem .8rem;cursor:pointer}
+.opt:hover:not(:disabled){border-color:var(--ink);background:var(--rose-wash)}
+.opt:disabled{cursor:default;color:var(--ink);border-color:var(--rule)}
+.opt .n{flex:none;display:grid;place-items:center;width:1.6rem;height:1.6rem;border-radius:6px;background:var(--rose-tint);font-weight:800;font-size:.85rem}
+.opt.right{border-color:var(--burgundy);background:var(--rose-tint)}
+.opt.wrong{border-color:var(--signal-vermilion);border-style:dashed}
+.opt .verdict{margin-left:auto;padding-left:.5rem}
+.verdict{font-size:.8rem;font-weight:800;letter-spacing:.04em;white-space:nowrap}
+.verdict.ok{color:var(--ink);background:var(--rose);border-radius:5px;padding:.1rem .4rem}
+.verdict.no{color:var(--ink);background:var(--snow);border:2px solid var(--signal-vermilion);border-radius:5px;padding:.02rem .4rem}
+.why{margin:.8rem 0 0;padding:.6rem .8rem;background:var(--rose-wash);border-left:4px solid var(--burgundy);border-radius:0 8px 8px 0}
+.actions{display:flex;flex-wrap:wrap;gap:.6rem;margin:1rem 0 0}
+.btn{font:inherit;font-weight:700;color:var(--snow);background:var(--burgundy);border:2px solid var(--burgundy);border-radius:9px;padding:.5rem 1rem;min-height:44px;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center}
+.btn:hover:not(:disabled){background:var(--burgundy-deep);border-color:var(--burgundy-deep)}
+.btn:disabled{background:var(--snow);color:var(--taupe);border-color:var(--rule);cursor:default}
+.btn.ghost{background:var(--snow);color:var(--ink);border-color:var(--ink)}
+.btn.small{min-height:44px;font-size:.9rem;padding:.3rem .8rem}
+.bar{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:.5rem;margin:0 0 .9rem;font-weight:700}
+.clock{font-variant-numeric:tabular-nums}
+.card,.narration{font-size:1.15rem;line-height:1.5;margin:.4rem 0 1rem}
+.card{background:var(--rose-wash);border-radius:10px;padding:.9rem 1rem;font-weight:600}
+.last{margin-top:1.1rem;border-top:1px dashed var(--rule);padding-top:.6rem}
+.last:empty{display:none}
+.last-q{margin:0}
+.prompt{margin:0 0 .7rem;font-weight:600}
+/* rank */
+.rank-list{list-style:none;margin:0;padding:0;display:grid;gap:.5rem}
+.rank-item{display:flex;align-items:center;gap:.7rem;background:var(--snow);border:2px solid var(--taupe);border-radius:10px;padding:.4rem .5rem .4rem .7rem;min-height:52px}
+.rank-item.lifted{border-color:var(--ink);background:var(--rose-tint);outline:2px dashed var(--burgundy);outline-offset:2px}
+.rank-item .n{flex:none;display:grid;place-items:center;width:1.7rem;height:1.7rem;border-radius:4px;background:var(--rose);font-weight:800;font-size:.9rem}
+.rank-text{flex:1}
+.rank-move{display:flex;gap:.3rem}
+.mv{width:44px;height:44px;font:inherit;font-weight:800;font-size:1.1rem;color:var(--ink);background:var(--snow);border:2px solid var(--ink);border-radius:8px;cursor:pointer}
+.mv:disabled{border-color:var(--rule);color:var(--rule);cursor:default}
+.views{display:grid;gap:.8rem;margin-top:.6rem}
+@media (min-width:40rem){.views{grid-template-columns:repeat(auto-fit,minmax(13rem,1fr))}}
+.view{background:var(--snow);border:1px solid var(--rule);border-top:4px solid var(--ink);border-radius:10px;padding:.6rem .9rem .8rem}
+.view.yours{border-top-color:var(--rose)}
+.view h3{margin:.2rem 0 .3rem;font-size:1rem}
+.view ol{margin:0;padding-left:1.2rem;font-size:.95rem}
+/* ladder */
+.rungs{list-style:none;display:flex;gap:.4rem;margin:.4rem 0 .2rem;padding:0}
+.rungs li{font-size:.75rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;padding:.15rem .6rem;border-radius:999px;border:2px solid var(--rule);color:var(--taupe)}
+.rungs li.on{border-color:var(--ink);background:var(--ink);color:var(--snow)}
+.rungs li.past{border-color:var(--rose);background:var(--rose-tint);color:var(--ink)}
+.use{margin:0 0 1rem;padding:.7rem 1rem;background:var(--rose-wash);border-left:4px solid var(--ink);border-radius:0 8px 8px 0;font-style:italic}
+/* builder */
+.slots{display:grid;gap:.7rem}
+@media (min-width:36rem){.slots{grid-template-columns:repeat(auto-fit,minmax(10rem,1fr))}}
+.slot label{display:block;font-size:.78rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--burgundy);margin-bottom:.2rem}
+.slot select{width:100%;min-height:44px;font:inherit;color:var(--ink);background:var(--snow);border:2px solid var(--taupe);border-radius:8px;padding:.3rem .5rem}
+.preview-line{margin:1rem 0 0}
+.preview{display:block;margin-top:.3rem;background:var(--ink-deep);color:var(--rose);padding:.7rem .9rem;border-radius:8px;font-size:.95rem}
+.out{margin-top:.9rem}
+.out code{background:none}
+/* story */
+.meter{background:var(--signal-amber);border-radius:8px;padding:.4rem .8rem;font-size:.92rem}
+.scene.has-cast{display:grid;grid-template-columns:6.5rem 1fr;gap:1rem;align-items:start}
+.cast svg{display:block;width:100%;height:auto}
+.cast p{margin:.2rem 0 0;font-size:.78rem;font-weight:700;text-align:center;color:var(--taupe)}
+@media (max-width:30rem){.scene.has-cast{grid-template-columns:4.2rem 1fr;gap:.8rem}.narration{font-size:1.05rem}}
+.outcome{margin-top:1rem;border-top:1px dashed var(--rule);padding-top:.7rem}
+.outcome p{margin:.2rem 0}
+.cost{display:inline-block;font-size:.8rem;font-weight:800;background:var(--signal-amber);border-radius:5px;padding:.05rem .4rem;white-space:nowrap}
+.path{padding-left:1.3rem}
+/* spot */
+.hint{margin:.2rem 0 .7rem;font-size:.93rem;color:var(--taupe)}
+.exhibit-scroll{overflow-x:auto;border-radius:10px;background:var(--ink-deep);padding:.5rem}
+.exhibit{display:grid;gap:3px;min-width:min-content;font-family:"Courier New",Consolas,"DejaVu Sans Mono",monospace;font-size:.9rem}
+.exhibit.table,.exhibit.log{min-width:calc(var(--cols,2) * 7rem + 11rem)}
+.ex-row{display:grid;grid-template-columns:repeat(var(--cols,1),minmax(0,1fr)) 10.5rem;gap:.2rem .9rem;align-items:center;width:100%;min-height:44px;text-align:left;font:inherit;color:var(--snow);background:var(--ink-raised);border:2px solid var(--ink-raised);border-radius:6px;padding:.3rem .7rem;white-space:pre-wrap}
+button.ex-row{cursor:pointer}
+button.ex-row:hover:not(:disabled){border-color:var(--blush)}
+button.ex-row:focus-visible{outline-color:var(--rose)}
+.ex-head{background:none;border-color:transparent;color:var(--blush);font-weight:700;min-height:0;font-family:"Open Sans",Arial,sans-serif;font-size:.78rem;letter-spacing:.06em;text-transform:uppercase}
+.ex-row .flag{visibility:hidden;font-family:"Open Sans",Arial,sans-serif;font-size:.75rem;font-weight:800;color:var(--ink);background:var(--signal-amber);border-radius:5px;padding:.05rem .4rem;white-space:nowrap}
+.ex-row[aria-pressed="true"]{border-color:var(--signal-amber)}
+.ex-row[aria-pressed="true"] .flag{visibility:visible}
+.ex-row:disabled{color:var(--snow);cursor:default}
+.ex-row:disabled .flag{display:none}
+.ex-row.right{border-color:var(--rose);border-width:3px}
+.ex-row.missed,.ex-row.wrong{border-color:var(--signal-vermilion);border-style:dashed}
+.ex-row .verdict{font-family:"Open Sans",Arial,sans-serif;justify-self:end}
+.ex-row>span{overflow-wrap:anywhere}
+.notes{list-style:none;padding:0;display:grid;gap:.8rem}
+.round-score{font-weight:700;margin:1rem 0 .2rem}
+/* result */
+.result{background:var(--snow);border:2px solid var(--ink);border-radius:14px;padding:1rem 1.2rem 1.3rem;margin-top:1.2rem}
+.result h2{margin:.1rem 0 .2rem;font-size:1.3rem}
+.result h2:focus{outline:none}
+.result h3{margin:1.2rem 0 .3rem;font-size:1.05rem}
+.score{margin:.1rem 0;font-size:1.3rem}
+.score strong{font-size:2.2rem;font-weight:800}
+.best{margin:0;font-size:.9rem;color:var(--taupe)}
+.misses{padding-left:1.3rem}
+.misses li,.path li{margin:.9rem 0}
+.misses p,.path p,.notes p{margin:.2rem 0}
+.m-q{font-weight:600}
+.clean{font-weight:600}
+.back{margin:1.2rem 0 0}
+.study{display:none}
+.site-footer{border-top:1px solid var(--rule);color:var(--taupe);font-size:.85rem;padding:1.2rem 0 2rem;text-align:center}
+.site-footer p{margin:.3rem 0}
+.site-footer .author{color:var(--taupe)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+@media print{
+  html{filter:grayscale(1)}
+  body{background:var(--snow);font-size:11pt}
+  .play-header{background:var(--snow);color:var(--ink);border-bottom:2px solid var(--ink)}
+  .play-header .eyebrow,.play-header .eyebrow a{color:var(--taupe)}
+  #play,.result,.bars,.skip,.back,.howto,noscript{display:none!important}
+  .study{display:block}
+  .study li{break-inside:avoid;margin:.8rem 0}
+}
+
+/* marks: a drawn tick and the fault badge; chevrons for moving an item; the flag mark (Open Sans has none of these glyphs) */
+.mk{display:inline-block;vertical-align:middle;margin-right:.35rem}
+.mk.tick{width:.42em;height:.78em;margin-left:.1em;border:solid currentColor;border-width:0 .17em .17em 0;transform:rotate(45deg) translateY(-.1em)}
+.mk.fault{display:inline-grid;place-items:center;width:1.15rem;height:1.15rem;background:var(--signal-vermilion);color:var(--ink);font-weight:800;font-size:.9rem;line-height:1;border-radius:2px}
+.verdict.no{border-style:dashed}
+.chev{display:inline-block;width:.6rem;height:.6rem;border:solid currentColor;border-width:.18rem .18rem 0 0}
+.chev.up{transform:translateY(.12rem) rotate(-45deg)}.chev.down{transform:translateY(-.12rem) rotate(135deg)}
+.flag-mark{display:inline-block;width:.55rem;height:.7rem;margin-right:.3rem;border-left:2px solid var(--ink);background:linear-gradient(var(--ink),var(--ink)) left top/100% 55% no-repeat;vertical-align:-.05rem}
+.exhibit.code .ex-row{grid-template-columns:2rem minmax(0,1fr) 10.5rem}
+.ex-row .ln{color:var(--blush);text-align:right}
+.exhibit.headers .ex-row,.exhibit.code .ex-row{white-space:pre}
+.fixq{margin-top:1.1rem;border-top:1px dashed var(--rule);padding-top:.7rem}
+.fixq .q{margin:.2rem 0 .7rem}
+.voice-badge{display:inline-grid;place-items:center;min-width:1.9rem;height:1.9rem;padding:0 .3rem;border-radius:999px;color:var(--snow);font-weight:800;font-size:.72rem;vertical-align:middle;margin-right:.4rem}
+.v-registrar{background:var(--burgundy)}.v-head_of_it{background:var(--taupe)}.v-dpo{background:var(--burgundy-deep)}
+</style>
+</head>
+<body class="play engine-builder">
+<a class="skip" href="#play">Skip to the play</a>
+<header class="play-header"><div class="wrap">
+<p class="eyebrow"><a href="../index.html">Day 2</a> | 8 minutes</p>
+<h1>Which key opens it?</h1>
+<div class="bars" aria-hidden="true"><i></i><i></i></div>
+</div></header>
+<main class="wrap">
+<div class="meta"><span class="badge" title="Learning outcome 2">LO2</span></div>
+<p class="intro">Four jobs between Taxila's two campuses. For each one, build the rule: who locks the message, with which key, and who opens it, with which key.</p>
+<details class="howto" open><summary>How to play</summary><ol><li>Choose a value for each slot to complete the rule, then check it.</li><li>A rule is valid, risky or wrong, and every verdict says why. You score when your first check of a job is valid.</li></ol></details>
+<noscript><p class="box">This play needs JavaScript. The questions and reasons are still in the notes for this day.</p></noscript>
+<div id="play" tabindex="-1"></div>
+<div id="live" class="sr" aria-live="polite"></div>
+<section id="result" class="result" hidden aria-labelledby="h-result"></section>
+<p class="back"><a href="../index.html">Back to Day 2</a></p>
+</main>
+<footer class="site-footer"><div class="wrap">
+<p class="author">&copy; Niranga Dharmaratna, School of Computing &amp; Engineering, National Institute of Business Management</p>
+<p>Content licensed <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener">CC BY-NC-SA 4.0</a>; code licensed MIT; Open Sans under the SIL Open Font Licence.</p>
+<p>Dates and submissions are announced for your cohort. Taxila College is fictional.</p>
+<p>Your answers stay on this device.</p>
+</div></footer>
+
+<script type="application/json" id="play-data">{"_site":{"initials":{"dpo":"DPO","head_of_it":"IT","registrar":"R"},"short":"Taxila","store":"hndne-pis:","voices":{"dpo":"Data Protection Officer","head_of_it":"Head of IT","registrar":"Registrar"}},"day":2,"draws_on":["notes 4: symmetric encryption and the key problem","notes 5: asymmetric keys and the hybrid pattern","lab segment 4: encrypt to a public key","demo: public-private-pair"],"engine":"builder","how_to":["Choose a value for each slot to complete the rule, then check it.","A rule is valid, risky or wrong, and every verdict says why. You score when your first check of a job is valid."],"id":"p2-1-which-key-opens-it","intro":"Four jobs between Taxila's two campuses. For each one, build the rule: who locks the message, with which key, and who opens it, with which key.","lo":[2],"minutes":8,"rules":[{"target":"to-colombo","verdict":"valid","when":{"lock":"c_pub","open":"c_priv","reader":"colombo","sender":"kandy"},"why":"Anyone may lock with Colombo's public key, and only Colombo's private key opens it. Nothing secret travels."},{"target":"to-colombo","verdict":"wrong","when":{"lock":"c_priv"},"why":"Kandy never has Colombo's private key. It stays in Colombo, and it is not the key for locking a secret message to Colombo."},{"target":"to-colombo","verdict":"wrong","when":{"lock":"k_priv"},"why":"What Kandy's private key locks opens with Kandy's public key, which anyone may have. The private key is not for keeping a message secret."},{"target":"to-colombo","verdict":"wrong","when":{"open":"c_pub"},"why":"A public key cannot open what it locked. Only the matching private key can."},{"target":"to-colombo","verdict":"risky","when":{"lock":"aes"},"why":"It works only if the two campuses already share the AES key safely. Getting it there is the key distribution problem."},{"target":"to-colombo","verdict":"wrong","when":{},"why":"The job is Kandy sending to Colombo so that only Colombo can read it. Check who locks, who opens, and that the keys are a matching pair."},{"target":"to-kandy","verdict":"valid","when":{"lock":"k_pub","open":"k_priv","reader":"kandy","sender":"colombo"},"why":"Colombo locks with Kandy's public key, and only Kandy's private key opens it."},{"target":"to-kandy","verdict":"wrong","when":{"lock":"c_priv"},"why":"What Colombo's private key locks opens with Colombo's public key, which anyone may have. It does not keep the message secret."},{"target":"to-kandy","verdict":"wrong","when":{"lock":"c_pub"},"why":"Colombo's public key makes a message only Colombo can open. The job is a message only Kandy can read."},{"target":"to-kandy","verdict":"risky","when":{"lock":"aes"},"why":"It works only if the AES key is already safely shared. For a message to Kandy alone, Kandy's public key needs no shared secret at all."},{"target":"to-kandy","verdict":"wrong","when":{},"why":"The job is Colombo sending to Kandy so that only Kandy can read it. Lock with the reader's public key; the reader opens with their own private key."},{"target":"daily-files","verdict":"valid","when":{"lock":"aes","open":"aes","reader":"kandy"},"why":"Large files need fast symmetric encryption, and the AES key is already safely shared, so the key distribution problem is solved."},{"target":"daily-files","verdict":"risky","when":{"lock":"k_pub","open":"k_priv"},"why":"The keys match, but asymmetric encryption is much slower and locks only short messages. Large files need the shared AES key."},{"target":"daily-files","verdict":"wrong","when":{"reader":"anyone"},"why":"Exam files must be readable only by the other campus, never by anyone."},{"target":"daily-files","verdict":"wrong","when":{},"why":"The job is fast encryption with a key both campuses already share. Lock and open with the same AES key."},{"target":"whole-paper","verdict":"valid","when":{"lock":"aes","open":"aes","reader":"colombo"},"why":"The hybrid pattern: the public key already carried the short AES key, so the fast AES key now carries the long paper."},{"target":"whole-paper","verdict":"risky","when":{"lock":"c_pub","open":"c_priv"},"why":"Right pair of keys, but the paper is far too long: a public key locks only a few hundred bytes, and slowly. Use the AES key you already sent."},{"target":"whole-paper","verdict":"wrong","when":{},"why":"The job is sending the long paper now that Colombo holds tonight's AES key. Lock and open it with that AES key."},{"verdict":"wrong","when":{},"why":"This rule does not fit the job."}],"slots":[{"id":"sender","label":"Who locks it","options":[{"id":"kandy","label":"Kandy"},{"id":"colombo","label":"Colombo"}]},{"id":"lock","label":"Locks with","options":[{"id":"c_pub","label":"Colombo's public key"},{"id":"c_priv","label":"Colombo's private key"},{"id":"k_pub","label":"Kandy's public key"},{"id":"k_priv","label":"Kandy's private key"},{"id":"aes","label":"the AES key they share"}]},{"id":"reader","label":"Who opens it","options":[{"id":"colombo","label":"only Colombo"},{"id":"kandy","label":"only Kandy"},{"id":"anyone","label":"anyone"}]},{"id":"open","label":"Opens with","options":[{"id":"c_priv","label":"Colombo's private key"},{"id":"c_pub","label":"Colombo's public key"},{"id":"k_priv","label":"Kandy's private key"},{"id":"aes","label":"the AES key they share"}]}],"targets":[{"brief":"Kandy sends Colombo a list of the printed copies, so that only Colombo can read it.","id":"to-colombo","solution":{"lock":"c_pub","open":"c_priv","reader":"colombo","sender":"kandy"}},{"brief":"Colombo sends Kandy a short message about tonight's paper, so that only Kandy can read it.","id":"to-kandy","solution":{"lock":"k_pub","open":"k_priv","reader":"kandy","sender":"colombo"}},{"brief":"Colombo sends Kandy the large daily exam files, fast. The two campuses already share an AES key, sent safely last week.","id":"daily-files","solution":{"lock":"aes","open":"aes","reader":"kandy","sender":"colombo"}},{"brief":"Kandy sends Colombo the long exam paper itself. Colombo already holds tonight's AES key, which Kandy sent locked with Colombo's public key.","id":"whole-paper","solution":{"lock":"aes","open":"aes","reader":"colombo","sender":"kandy"}}],"template":"{sender} locks it with {lock}, so that {reader} can open it with {open}.","title":"Which key opens it?"}</script>
+<script>
+/* Principles of Information Security plays: shared shell. MIT licence. No network, nothing leaves the device.
+   An engine calls Play.start(function (P) {...}) and, when the student has finished,
+   P.finish(score, max, misses). The audit drives a play through window.__play.
+   This shell writes no HTML string into the page (D37): text goes in with textContent, the small Markdown
+   the data may use is built as nodes, and drawings are copies of <template> elements the generator wrote.
+   Module words (the storage prefix, the scenario's short name, the voices) arrive in the play data as _site. */
+(function () {
+  "use strict";
+  var D = JSON.parse(document.getElementById("play-data").textContent);
+  var SITE = D._site || {};
+  var root = document.getElementById("play"), live = document.getElementById("live"), result = document.getElementById("result");
+  var state = { done: false, score: 0, max: 0 }, solver = null, starter = null;
+  var BEST = (SITE.store || "play:") + "best:" + D.id;
+
+  /* the small Markdown the data may use: `code`, **bold**, *emphasis*. Returns nodes, never markup. */
+  function md(s) {
+    var frag = document.createDocumentFragment(), str = String(s == null ? "" : s);
+    var rx = /`([^`]+)`|\*\*([^*]+)\*\*|\*([^*]+)\*/g, last = 0, m;
+    while ((m = rx.exec(str)) !== null) {
+      if (m.index > last) { frag.appendChild(document.createTextNode(str.slice(last, m.index))); }
+      var tag = m[1] !== undefined ? "code" : (m[2] !== undefined ? "strong" : "em");
+      var n = document.createElement(tag);
+      n.textContent = m[1] !== undefined ? m[1] : (m[2] !== undefined ? m[2] : m[3]);
+      frag.appendChild(n);
+      last = rx.lastIndex;
+    }
+    if (last < str.length) { frag.appendChild(document.createTextNode(str.slice(last))); }
+    return frag;
+  }
+  /* h(tag, attrs, kids): attrs.text sets plain text, attrs.md sets the small Markdown, attrs.on adds listeners. */
+  function h(tag, attrs, kids) {
+    var n = document.createElement(tag), k;
+    for (k in (attrs || {})) {
+      if (k === "text") { n.textContent = attrs[k]; }
+      else if (k === "md") { n.appendChild(md(attrs[k])); }
+      else if (k === "on") { for (var e in attrs.on) { n.addEventListener(e, attrs.on[e]); } }
+      else if (attrs[k] !== null && attrs[k] !== undefined && attrs[k] !== false) { n.setAttribute(k, attrs[k] === true ? "" : attrs[k]); }
+    }
+    (kids || []).forEach(function (c) { if (c) { n.appendChild(typeof c === "string" ? document.createTextNode(c) : c); } });
+    return n;
+  }
+  function tpl(id) { var t = document.getElementById(id); return t && t.content ? t.content.cloneNode(true) : null; }
+  function btn(label, cls, fn) { return h("button", { type: "button", "class": cls || "btn", md: label, on: { click: fn } }); }
+  /* a numbered answer button: the number, then the answer */
+  function opt(k, label, fn, cls) {
+    return h("button", { type: "button", "class": cls || "opt", on: { click: fn } }, [h("span", { "class": "n", text: String(k + 1) }), h("span", { md: label })]);
+  }
+  function say(t) { live.textContent = ""; window.setTimeout(function () { live.textContent = t; }, 40); }
+  function clear(n) { while (n.firstChild) { n.removeChild(n.firstChild); } }
+  function shuffle(a) { a = a.slice(); for (var i = a.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)), t = a[i]; a[i] = a[j]; a[j] = t; } return a; }
+  function store(fn, fb) { try { return fn(window.localStorage); } catch (e) { return fb; } }
+  /* a verdict is always a mark and a word, never colour alone: a drawn tick, or the fault badge with its multiplication sign */
+  function mark(ok) { return h("span", { "class": ok ? "mk tick" : "mk fault", "aria-hidden": "true", text: ok ? "" : "×" }); }
+  function verdict(ok, word) { return h("span", { "class": "verdict " + (ok ? "ok" : "no") }, [mark(ok), word || (ok ? "Right" : "Not quite")]); }
+  function why(text, label) { return h("p", { "class": "why" }, [h("b", { text: (label || "Why") + ":" }), " ", md(text)]); }
+  function labelled(label, text, cls) { return h("p", { "class": cls || "" }, [h("b", { text: label }), " ", md(text)]); }
+  function progress(i, n, what) { return h("p", { "class": "count", text: (what || "Question") + " " + i + " of " + n }); }
+
+  function finish(score, max, misses, extra) {
+    state = { done: true, score: score, max: max };
+    var prev = store(function (s) { return parseInt(s.getItem(BEST), 10); }, NaN);
+    var best = isNaN(prev) ? score : Math.max(prev, score);
+    store(function (s) { s.setItem(BEST, String(best)); });
+    clear(result);
+    result.appendChild(h("h2", { id: "h-result", tabindex: "-1", text: "Your result" }));
+    result.appendChild(h("p", { "class": "score" }, [h("strong", { text: String(score) }), " of " + max]));
+    result.appendChild(h("p", { "class": "best", text: "Best on this device: " + best + " of " + max + "." }));
+    if (extra) { result.appendChild(extra); }
+    if (misses && misses.length) {
+      result.appendChild(h("h3", { text: "Check these again" }));
+      result.appendChild(h("ol", { "class": "misses" }, misses.map(function (m) {
+        return h("li", {}, [h("p", { "class": "m-q", md: m.q }),
+          m.yours ? labelled("You chose:", m.yours, "m-yours") : null,
+          m.right ? labelled("Better:", m.right, "m-right") : null,
+          why(m.why)]);
+      })));
+    } else if (score >= max) {
+      result.appendChild(h("p", { "class": "clean", text: "Nothing to check again: every answer held." }));
+    }
+    result.appendChild(h("p", { "class": "actions" }, [btn("Play again", "btn", function () { begin(); root.focus(); }),
+      h("a", { "class": "btn ghost", href: "../index.html", text: "Back to the day" })]));
+    result.hidden = false;
+    document.getElementById("h-result").focus();
+    say("Finished. You scored " + score + " of " + max + ".");
+  }
+
+  /* the print view: questions and reasons as a study sheet */
+  function study(rows) {
+    var old = document.getElementById("study");
+    if (old) { old.parentNode.removeChild(old); }
+    var sec = h("section", { id: "study", "class": "study" }, [h("h2", { text: "Study sheet" }),
+      h("ol", {}, rows.map(function (r) {
+        return h("li", {}, [h("p", { "class": "m-q", md: r.q }), r.a ? labelled("Answer:", r.a) : null, r.why ? why(r.why) : null]);
+      }))]);
+    result.parentNode.insertBefore(sec, result.nextSibling);
+  }
+
+  function begin() {
+    state = { done: false, score: 0, max: 0 };
+    result.hidden = true;
+    clear(root);
+    solver = null;
+    starter(api);
+  }
+  var api = { data: D, site: SITE, root: root, h: h, md: md, tpl: tpl, btn: btn, opt: opt, say: say, clear: clear, shuffle: shuffle,
+    verdict: verdict, why: why, labelled: labelled, progress: progress, finish: finish, study: study, hook: function (fn) { solver = fn; } };
+  window.Play = { start: function (fn) { starter = fn; begin(); } };
+  /* test hook: solve() plays the keyed answers through the real handlers; state() reports the outcome */
+  window.__play = { solve: function () { if (solver) { solver(); } return state; }, state: function () { return state; } };
+})();
+/* builder: compose a rule from slots for each brief, then check it. The verdict is valid, risky or wrong,
+   each with its reason. A point is scored when the first check of a brief is valid. */
+Play.start(function (P) {
+  "use strict";
+  var D = P.data, i = 0, score = 0, misses = [], tries = 0, selects = {}, preview, out, check, next = null;
+  var WORD = { valid: "Valid", risky: "Risky", wrong: "Wrong" };
+  var optLabel = {};
+  D.slots.forEach(function (s) { optLabel[s.id] = {}; s.options.forEach(function (o) { optLabel[s.id][o.id] = o.label; }); });
+  function line(choice) {
+    return (D.template || "").replace(/\{(\w+)\}/g, function (m, k) { return choice[k] ? optLabel[k][choice[k]] : "..."; });
+  }
+  function judge(choice, t) {
+    for (var r = 0; r < D.rules.length; r++) {
+      var rule = D.rules[r], ok = true, k;
+      if (rule.target !== undefined && rule.target !== null && rule.target !== t.id) { continue; }
+      for (k in (rule.when || {})) {
+        var v = rule.when[k];
+        if ((Array.isArray(v) ? v : [v]).indexOf(choice[k]) < 0) { ok = false; }
+      }
+      if (ok) { return rule; }
+    }
+    return { verdict: "wrong", why: "No rule covers this combination." };
+  }
+  P.study(D.targets.map(function (t) { return { q: t.brief, a: "`" + line(t.solution) + "`", why: judge(t.solution, t).why }; }));
+  function current() { var c = {}, k; for (k in selects) { c[k] = selects[k].value; } return c; }
+  function paintPreview() { preview.textContent = line(current()); }
+  function run() {
+    var t = D.targets[i], c = current(), k;
+    for (k in c) { if (!c[k]) { out.textContent = "Choose a value for every slot first."; P.say(out.textContent); return; } }
+    var r = judge(c, t);
+    tries++;
+    P.clear(out);
+    out.appendChild(P.h("p", {}, [P.verdict(r.verdict === "valid", WORD[r.verdict]), P.h("code", { text: " " + line(c) })]));
+    out.appendChild(P.why(r.why));
+    P.say(WORD[r.verdict] + ". " + r.why);
+    if (r.verdict === "valid") {
+      if (tries === 1) { score++; }
+      check.disabled = true;
+      for (k in selects) { selects[k].disabled = true; }
+      next = P.btn(i + 1 < D.targets.length ? "Next brief" : "See your result", "btn", function () { i++; show(); });
+      out.appendChild(P.h("p", { "class": "actions" }, [next]));
+      next.focus();
+    } else if (tries === 1) {
+      misses.push({ q: t.brief, yours: "`" + line(c) + "` (" + WORD[r.verdict].toLowerCase() + ")", right: "`" + line(t.solution) + "`", why: r.why });
+    }
+  }
+  function show() {
+    if (i >= D.targets.length) { P.clear(P.root); return P.finish(score, D.targets.length, misses); }
+    var t = D.targets[i];
+    tries = 0;
+    selects = {};
+    P.clear(P.root);
+    P.root.appendChild(P.progress(i + 1, D.targets.length, "Brief"));
+    P.root.appendChild(P.h("h2", { "class": "q", md: t.brief }));
+    P.root.appendChild(P.h("div", { "class": "slots" }, D.slots.map(function (s) {
+      var sel = P.h("select", { id: "slot-" + s.id, on: { change: paintPreview } }, [P.h("option", { value: "", text: "Choose..." })].concat(
+        s.options.map(function (o) { return P.h("option", { value: o.id, text: o.label }); })));
+      selects[s.id] = sel;
+      return P.h("div", { "class": "slot" }, [P.h("label", { "for": "slot-" + s.id, text: s.label }), sel]);
+    })));
+    preview = P.h("code", { "class": "preview" });
+    P.root.appendChild(P.h("p", { "class": "preview-line" }, [P.h("span", { text: "Your rule: " }), preview]));
+    check = P.btn("Check this rule", "btn", run);
+    P.root.appendChild(P.h("p", { "class": "actions" }, [check]));
+    out = P.h("div", { "class": "out", role: "status" });
+    P.root.appendChild(out);
+    paintPreview();
+  }
+  P.hook(function () {
+    while (i < D.targets.length) {
+      var sol = D.targets[i].solution, k;
+      for (k in sol) { selects[k].value = sol[k]; }
+      check.click();
+      next.click();
+    }
+  });
+  show();
+});
+</script>
+</body>
+</html>

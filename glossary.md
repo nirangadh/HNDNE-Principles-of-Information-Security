@@ -63,3 +63,65 @@ How likely a harm is, combined with how much it would cost. Taxila scores likeli
 Anything that lowers a risk by preventing, detecting or correcting harm. Several independent controls in layers, so that one failing does not leave the asset open, is called defence in depth.
 
 *Taxila example:* a locked server-room door prevents, a camera at the door detects, and a weekly backup corrects.
+
+## Day 2
+
+### Plaintext
+The readable form of a message, before it is encrypted or after it is decrypted. Anyone who sees plaintext can read it.
+
+*Taxila example:* the draft exam paper, as the lecturer wrote it, is plaintext.
+
+### Ciphertext
+The scrambled form of a message after encryption. Without the key it cannot be read, even by someone who knows the method used.
+
+*Taxila example:* in the encrypted exam paper store, every paper is kept as ciphertext.
+
+### Key
+The secret value that turns plaintext into ciphertext and back. All the possible keys make the key space; trying every one is brute force, so the key space must be too large to try.
+
+*Taxila example:* a Caesar shift's twenty-five keys fall at once; a 256-bit key for the Advanced Encryption Standard (AES) does not.
+
+### Cipher
+The method, or algorithm, that uses a key to encrypt and decrypt. The Caesar shift is a hand cipher; the Advanced Encryption Standard (AES) is a modern one.
+
+*Taxila example:* the exam paper store uses a standard, public cipher with a secret key.
+
+### Kerckhoffs's principle
+The rule that a cipher must stay secure even when everything about it, except the key, is public. Security rests in the key, not in keeping the method secret.
+
+*Taxila example:* anyone may know that the exam paper store uses the Advanced Encryption Standard (AES); only its key must stay secret.
+
+### Frequency analysis
+Breaking a hand cipher by counting how often each symbol appears, and matching the counts to the language. In English the commonest letter is usually e.
+
+*Taxila example:* a home-made letter-swap code for passing answers would fall to one evening of counting.
+
+### Encoding
+Changing the form of data so that it can be stored or sent, with no key. Base64 is an example. Anyone who knows the encoding can reverse it, so it protects nothing.
+
+*Taxila example:* a password written in Base64 in a configuration file is as readable as plain text.
+
+### Steganography
+Hiding the fact that a message exists, for example in tiny changes to a picture's colours. It needs no key, so the message can be read once someone knows where to look.
+
+*Taxila example:* a note hidden inside a campus photograph stays secret only while nobody looks for it.
+
+### Symmetric encryption
+Encryption that uses one shared key both to encrypt and to decrypt. It is fast, so it suits large data. The Advanced Encryption Standard (AES) is the modern choice.
+
+*Taxila example:* Colombo and Kandy can both open a paper encrypted with the one AES key they share.
+
+### Key distribution problem
+The difficulty of getting one shared symmetric key to the other side without anyone intercepting it on the way.
+
+*Taxila example:* Kandy needs the key to tonight's paper, but posting, emailing or phoning it could let someone else read it.
+
+### Asymmetric encryption
+Encryption that uses a pair of keys: anyone may encrypt with the public key, and only the matching private key decrypts. Rivest, Shamir and Adleman (RSA) is the best-known method.
+
+*Taxila example:* Kandy locks a message with Colombo's public key, and only Colombo can open it.
+
+### Hybrid encryption
+Using both families together. Asymmetric methods set up a fast symmetric key, by carrying it or agreeing it, and the symmetric key then encrypts the data.
+
+*Taxila example:* Kandy encrypts the paper with a fresh key for the Advanced Encryption Standard (AES), then locks that key with Colombo's public key.

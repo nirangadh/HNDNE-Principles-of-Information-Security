@@ -69,6 +69,43 @@
 <h3 id="control">Control</h3>
 <p>Anything that lowers a risk by preventing, detecting or correcting harm. Several independent controls in layers, so that one failing does not leave the asset open, is called defence in depth.</p>
 <p><em>Taxila example:</em> a locked server-room door prevents, a camera at the door detects, and a weekly backup corrects.</p>
+<h2 id="day-2">Day 2</h2>
+<h3 id="plaintext">Plaintext</h3>
+<p>The readable form of a message, before it is encrypted or after it is decrypted. Anyone who sees plaintext can read it.</p>
+<p><em>Taxila example:</em> the draft exam paper, as the lecturer wrote it, is plaintext.</p>
+<h3 id="ciphertext">Ciphertext</h3>
+<p>The scrambled form of a message after encryption. Without the key it cannot be read, even by someone who knows the method used.</p>
+<p><em>Taxila example:</em> in the encrypted exam paper store, every paper is kept as ciphertext.</p>
+<h3 id="key">Key</h3>
+<p>The secret value that turns plaintext into ciphertext and back. All the possible keys make the key space; trying every one is brute force, so the key space must be too large to try.</p>
+<p><em>Taxila example:</em> a Caesar shift's twenty-five keys fall at once; a 256-bit key for the Advanced Encryption Standard (AES) does not.</p>
+<h3 id="cipher">Cipher</h3>
+<p>The method, or algorithm, that uses a key to encrypt and decrypt. The Caesar shift is a hand cipher; the Advanced Encryption Standard (AES) is a modern one.</p>
+<p><em>Taxila example:</em> the exam paper store uses a standard, public cipher with a secret key.</p>
+<h3 id="kerckhoffss-principle">Kerckhoffs's principle</h3>
+<p>The rule that a cipher must stay secure even when everything about it, except the key, is public. Security rests in the key, not in keeping the method secret.</p>
+<p><em>Taxila example:</em> anyone may know that the exam paper store uses the Advanced Encryption Standard (AES); only its key must stay secret.</p>
+<h3 id="frequency-analysis">Frequency analysis</h3>
+<p>Breaking a hand cipher by counting how often each symbol appears, and matching the counts to the language. In English the commonest letter is usually e.</p>
+<p><em>Taxila example:</em> a home-made letter-swap code for passing answers would fall to one evening of counting.</p>
+<h3 id="encoding">Encoding</h3>
+<p>Changing the form of data so that it can be stored or sent, with no key. Base64 is an example. Anyone who knows the encoding can reverse it, so it protects nothing.</p>
+<p><em>Taxila example:</em> a password written in Base64 in a configuration file is as readable as plain text.</p>
+<h3 id="steganography">Steganography</h3>
+<p>Hiding the fact that a message exists, for example in tiny changes to a picture's colours. It needs no key, so the message can be read once someone knows where to look.</p>
+<p><em>Taxila example:</em> a note hidden inside a campus photograph stays secret only while nobody looks for it.</p>
+<h3 id="symmetric-encryption">Symmetric encryption</h3>
+<p>Encryption that uses one shared key both to encrypt and to decrypt. It is fast, so it suits large data. The Advanced Encryption Standard (AES) is the modern choice.</p>
+<p><em>Taxila example:</em> Colombo and Kandy can both open a paper encrypted with the one AES key they share.</p>
+<h3 id="key-distribution-problem">Key distribution problem</h3>
+<p>The difficulty of getting one shared symmetric key to the other side without anyone intercepting it on the way.</p>
+<p><em>Taxila example:</em> Kandy needs the key to tonight's paper, but posting, emailing or phoning it could let someone else read it.</p>
+<h3 id="asymmetric-encryption">Asymmetric encryption</h3>
+<p>Encryption that uses a pair of keys: anyone may encrypt with the public key, and only the matching private key decrypts. Rivest, Shamir and Adleman (RSA) is the best-known method.</p>
+<p><em>Taxila example:</em> Kandy locks a message with Colombo's public key, and only Colombo can open it.</p>
+<h3 id="hybrid-encryption">Hybrid encryption</h3>
+<p>Using both families together. Asymmetric methods set up a fast symmetric key, by carrying it or agreeing it, and the symmetric key then encrypts the data.</p>
+<p><em>Taxila example:</em> Kandy encrypts the paper with a fresh key for the Advanced Encryption Standard (AES), then locks that key with Colombo's public key.</p>
 <nav class="pager" aria-label="Page navigation"><span></span><span><a href="index.html">All days</a></span><span></span></nav>
 </div>
 </main>
