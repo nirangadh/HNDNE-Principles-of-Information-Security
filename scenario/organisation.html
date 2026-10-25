@@ -1,0 +1,433 @@
+<!doctype html>
+<html lang="en-GB" data-store="hndne-pis:">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="hndne-pis-site">
+<title>Taxila College | Principles of Information Security</title>
+<meta name="author" content="Niranga Dharmaratna">
+<meta name="description" content="A fictional organisation created for teaching. Any resemblance to a real college is coincidental.">
+<meta name="robots" content="index, follow">
+<link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
+<link rel="canonical" href="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/scenario/organisation.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Principles of Information Security, HND Network Engineering Year 2">
+<meta property="og:title" content="Taxila College">
+<meta property="og:description" content="A fictional organisation created for teaching. Any resemblance to a real college is coincidental.">
+<meta property="og:url" content="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/scenario/organisation.html">
+<meta property="og:locale" content="en_GB">
+<meta property="og:image" content="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/assets/img/social-card.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="At Taxila College the Head of IT points to the security register on the wall: nineteen numbered items, the first outlined as the place to start. The Registrar holds a sealed transcript and the Data Protection Officer a clipboard. A lecturer turns to welcome two students arriving with a laptop and a phone.">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/","name":"Principles of Information Security","position":1},{"@type":"ListItem","item":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/scenario/organisation.html","name":"Taxila College","position":2}]}</script>
+<link rel="stylesheet" href="../assets/fonts/fonts.css">
+<link rel="stylesheet" href="../assets/css/site.css">
+<script>document.documentElement.className = "js";</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to the content</a>
+<header class="site-header"><div class="wrap"><div><p class="eyebrow"><a href="../index.html">Principles of Information Security | HND Network Engineering, Year 2</a></p><h1>Taxila College</h1><div class="bars" aria-hidden="true"><i></i><i></i></div></div></div></header>
+<main id="main">
+<div class="wrap prose">
+<p><em>A fictional organisation created for teaching. Any resemblance to a real college is coincidental.</em></p>
+<h2 id="1-profile">1. Profile</h2>
+<p>Taxila College is a private higher-education college in Sri Lanka. Its main campus is in Colombo and a smaller branch campus is in Kandy. About 3,200 students study for diplomas and degrees in computing, business and design, taught by about 180 staff.</p>
+<p>The college runs a handful of systems that every student already knows from the outside:</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>System</th>
+<th>What it holds or does</th>
+<th>Who uses it</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Student Information System (SIS)</td>
+<td>student records, grades, fee balances, national identity card numbers</td>
+<td>Registrar's office, lecturers (grades only), students (their own record)</td>
+</tr>
+<tr>
+<td>Learning Management System (LMS)</td>
+<td>course pages, coursework submissions, feedback</td>
+<td>lecturers and students</td>
+</tr>
+<tr>
+<td>Fee payment page</td>
+<td>lets students pay fees online through a bank's payment gateway; Taxila never stores card numbers</td>
+<td>students, the finance office</td>
+</tr>
+<tr>
+<td>Email</td>
+<td>staff and student mailboxes at <code>taxila.example</code></td>
+<td>everyone</td>
+</tr>
+<tr>
+<td>Exam paper store</td>
+<td>a shared folder where lecturers place exam papers before an exam</td>
+<td>lecturers, the examinations office</td>
+</tr>
+<tr>
+<td>Website</td>
+<td>the public course catalogue and news</td>
+<td>the public</td>
+</tr>
+<tr>
+<td>Campus networks</td>
+<td>a staff network, a student Wi-Fi network, and the server room</td>
+<td>everyone</td>
+</tr>
+</tbody>
+</table></div>
+<p>The servers sit in a small server room on the second floor of the Colombo building. The Kandy campus has one small rack and reaches the SIS over the internet. Backups go to an external disk once a week.</p>
+<h2 id="2-what-went-wrong">2. What went wrong</h2>
+<p>Last semester four things happened, and together they are the reason the college now wants a security programme.</p>
+<ol>
+<li><strong>A leaked paper.</strong> A draft exam paper appeared on a student messaging group two days before the exam. The paper had to be rewritten overnight. Nobody could say how it left the exam paper store.</li>
+<li><strong>A changed grade.</strong> A student's final grade in the SIS was found to be higher than the lecturer had entered. The SIS showed the new grade but not who had changed it, or when.</li>
+<li><strong>A dead deadline night.</strong> On the last evening of fee payment, the fee payment page stopped responding for three hours. Hundreds of students missed the deadline and the finance office spent a week sorting out late fees.</li>
+<li><strong>A message from "the Registrar".</strong> Several staff received an email that appeared to come from the Registrar, asking them to update their bank details through a link. Two people did.</li>
+</ol>
+<p>Each of the ten teaching days adds part of the answer.</p>
+<h2 id="3-the-three-voices">3. The three voices</h2>
+<p><strong>The Registrar</strong> owns student records, exams and results. Wants results that are correct, released on time, and trusted by employers. Asks: "Can we prove who changed it?"</p>
+<p><strong>The Head of IT</strong> runs every system with a team of four. Wants changes that are cheap, that the team can operate, and that do not break classes during the semester. Asks: "What do we change, and what will it break?"</p>
+<p><strong>The Data Protection Officer</strong> was appointed recently under the Personal Data Protection Act. Wants to know whose personal data the college holds, who can read it, and how the college would know if someone read it who should not. Asks: "Whose data is this, and how would we know?"</p>
+<p><strong>You</strong> join the college's IT office as a trainee security analyst. Each teaching day is one day of your placement.</p>
+<h2 id="4-requirements-that-drive-the-programme">4. Requirements that drive the programme</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Requirement</th>
+<th>Why it exists in the story</th>
+<th>Register item(s)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Know what data the college holds and how sensitive each kind is</td>
+<td>The Data Protection Officer's first question</td>
+<td>1</td>
+</tr>
+<tr>
+<td>A living list of risks with an owner for each</td>
+<td>The Head of IT cannot fix everything at once</td>
+<td>2</td>
+</tr>
+<tr>
+<td>Exam papers unreadable to anyone without the key, even if the folder leaks</td>
+<td>The leaked paper</td>
+<td>3, 4</td>
+</tr>
+<tr>
+<td>Passwords that stay safe even if the SIS database is stolen</td>
+<td>Staff and students reuse passwords</td>
+<td>5</td>
+</tr>
+<tr>
+<td>Published results that cannot be altered unnoticed</td>
+<td>The changed grade</td>
+<td>6, 7</td>
+</tr>
+<tr>
+<td>Transcripts an employer can verify without phoning the college</td>
+<td>The Registrar's reputation</td>
+<td>7</td>
+</tr>
+<tr>
+<td>The portal and the SIS reachable only over encrypted connections that prove they are genuine</td>
+<td>The fake Registrar email linked to a look-alike page</td>
+<td>8</td>
+</tr>
+<tr>
+<td>Every grade change attributable to a named person, and approved by a second person</td>
+<td>The changed grade</td>
+<td>9, 14</td>
+</tr>
+<tr>
+<td>Servers that run only what they need</td>
+<td>The Head of IT's audit found services nobody used</td>
+<td>10</td>
+</tr>
+<tr>
+<td>A portal that does not trust what users type</td>
+<td>Web applications are the most attacked part of any college</td>
+<td>11, 12</td>
+</tr>
+<tr>
+<td>Email that receiving servers can check really came from <code>taxila.example</code></td>
+<td>The fake Registrar email</td>
+<td>13</td>
+</tr>
+<tr>
+<td>A database that each account can touch only as far as its job needs</td>
+<td>The Data Protection Officer</td>
+<td>14</td>
+</tr>
+<tr>
+<td>Student Wi-Fi kept apart from staff and servers</td>
+<td>Thousands of unmanaged devices</td>
+<td>15</td>
+</tr>
+<tr>
+<td>Someone notices when something unusual happens</td>
+<td>Nobody noticed the grade change</td>
+<td>16</td>
+</tr>
+<tr>
+<td>The Kandy campus reaches the SIS privately</td>
+<td>Kandy reaches the SIS over the internet today</td>
+<td>17</td>
+</tr>
+<tr>
+<td>Staff who recognise a phishing message</td>
+<td>Two people followed the link</td>
+<td>18</td>
+</tr>
+<tr>
+<td>The fee payment page and the SIS back within a stated time after a failure, with little data lost</td>
+<td>The dead deadline night</td>
+<td>19</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="5-constraints">5. Constraints</h2>
+<ul>
+<li>A small budget and a team of four: controls must be ones a small team can run.</li>
+<li>No changes to production systems during exam weeks.</li>
+<li>Taxila never stores payment card numbers; the bank's gateway does.</li>
+<li>All lab work is done on your own laptop, on your own virtual machine and the module's provided application and files, never against Taxila's real systems (there are none) or anyone else's.</li>
+</ul>
+<h2 id="6-data-classification-used-on-day-1">6. Data classification (used on Day 1)</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Class</th>
+<th>Meaning at Taxila</th>
+<th>Examples</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Public</td>
+<td>may be published</td>
+<td>course catalogue, news, campus addresses</td>
+</tr>
+<tr>
+<td>Internal</td>
+<td>for staff and students, harmless if leaked but not for publication</td>
+<td>timetables, staff directory, room bookings</td>
+</tr>
+<tr>
+<td>Confidential</td>
+<td>personal or business data whose leak harms a person or the college</td>
+<td>student records, grades, fee balances, staff salaries</td>
+</tr>
+<tr>
+<td>Restricted</td>
+<td>data whose leak causes serious harm or breaks the law; the fewest people possible</td>
+<td>exam papers before the exam, national identity card numbers, the SIS administrator credentials</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="7-the-security-register-you-will-build">7. The security register you will build</h2>
+<p>Each day adds numbered items to Taxila's security register. The <a href="architecture.svg">register picture</a> shows where each item sits.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>No.</th>
+<th>Item</th>
+<th>Kind</th>
+<th>Mainly protects</th>
+<th>Day</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Data inventory and classification</td>
+<td>governance</td>
+<td>Confidentiality</td>
+<td>1</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Risk register</td>
+<td>governance</td>
+<td>Confidentiality, Integrity, Availability</td>
+<td>1, 9</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Encrypted exam paper store</td>
+<td>control</td>
+<td>Confidentiality</td>
+<td>2</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Key exchange with the Kandy campus</td>
+<td>control</td>
+<td>Confidentiality</td>
+<td>2</td>
+</tr>
+<tr>
+<td>5</td>
+<td>SIS password store</td>
+<td>control</td>
+<td>Confidentiality, Authenticity</td>
+<td>3</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Results file integrity</td>
+<td>control</td>
+<td>Integrity</td>
+<td>3</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Signed transcripts</td>
+<td>control</td>
+<td>Integrity, Authenticity, Accountability</td>
+<td>4</td>
+</tr>
+<tr>
+<td>8</td>
+<td>Portal certificate and TLS</td>
+<td>control</td>
+<td>Confidentiality, Authenticity</td>
+<td>4</td>
+</tr>
+<tr>
+<td>9</td>
+<td>Accounts, roles and multi-factor sign-in</td>
+<td>control</td>
+<td>Authenticity, Accountability</td>
+<td>5</td>
+</tr>
+<tr>
+<td>10</td>
+<td>Hardened server baseline</td>
+<td>control</td>
+<td>Confidentiality, Integrity, Availability</td>
+<td>5</td>
+</tr>
+<tr>
+<td>11</td>
+<td>Portal input handling</td>
+<td>control</td>
+<td>Confidentiality, Integrity</td>
+<td>6</td>
+</tr>
+<tr>
+<td>12</td>
+<td>Portal sessions and cookies</td>
+<td>control</td>
+<td>Confidentiality, Authenticity</td>
+<td>6</td>
+</tr>
+<tr>
+<td>13</td>
+<td>Email authentication for taxila.example</td>
+<td>control</td>
+<td>Authenticity</td>
+<td>7</td>
+</tr>
+<tr>
+<td>14</td>
+<td>SIS database accounts and audit log</td>
+<td>control</td>
+<td>Confidentiality, Accountability</td>
+<td>7</td>
+</tr>
+<tr>
+<td>15</td>
+<td>Firewalls and network zones</td>
+<td>control</td>
+<td>Confidentiality, Availability</td>
+<td>8</td>
+</tr>
+<tr>
+<td>16</td>
+<td>Intrusion detection and monitoring</td>
+<td>control</td>
+<td>Integrity, Accountability</td>
+<td>8</td>
+</tr>
+<tr>
+<td>17</td>
+<td>VPN between campuses</td>
+<td>control</td>
+<td>Confidentiality</td>
+<td>8</td>
+</tr>
+<tr>
+<td>18</td>
+<td>Staff awareness programme</td>
+<td>control</td>
+<td>Confidentiality, Authenticity</td>
+<td>9</td>
+</tr>
+<tr>
+<td>19</td>
+<td>Continuity plan and backups</td>
+<td>governance</td>
+<td>Availability</td>
+<td>9, 10</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="8-names-used-in-labs">8. Names used in labs</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Thing</th>
+<th>Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>College domain</td>
+<td><code>taxila.example</code> (a reserved example domain; it never resolves on the internet)</td>
+</tr>
+<tr>
+<td>Systems</td>
+<td><code>sis.taxila.example</code>, <code>lms.taxila.example</code>, <code>pay.taxila.example</code>, <code>mail.taxila.example</code>, <code>www.taxila.example</code></td>
+</tr>
+<tr>
+<td>Your virtual machine</td>
+<td><code>kali</code> (full tier)</td>
+</tr>
+<tr>
+<td>Provided web application</td>
+<td><code>taxila-portal</code> (a small application with its own test, run with Python inside your VM, full tier) or the portal's practice-application demo (floor tier)</td>
+</tr>
+<tr>
+<td>Provided database</td>
+<td><code>taxila-db</code> (a database you build in MariaDB on your own VM from the provided script, full tier)</td>
+</tr>
+<tr>
+<td>Example accounts</td>
+<td><code>registrar</code>, <code>itadmin</code>, <code>dpo</code>, <code>lecturer01</code>, <code>student01</code></td>
+</tr>
+<tr>
+<td>Your personal value</td>
+<td>your index number written without spaces or hyphens; each lab sheet says how to use it. The example used in the materials is <code>COHNDNE999X000</code>, which belongs to nobody</td>
+</tr>
+</tbody>
+</table></div>
+<nav class="pager" aria-label="Page navigation"><span></span><span><a href="../index.html">All days</a></span><span></span></nav>
+</div>
+</main>
+<footer class="site-footer"><div class="wrap">
+<p class="author">&copy; Niranga Dharmaratna, School of Computing &amp; Engineering, National Institute of Business Management</p>
+<p>Content licensed <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener">CC BY-NC-SA 4.0</a>; code licensed MIT; Open Sans under the SIL Open Font Licence. See the <a href="../LICENSE-CONTENT.html">licence notes</a>.</p>
+<p>Dates and submissions are announced for your cohort. Taxila College is fictional.</p>
+<p>Anything you mark as done is saved only on this device. Nothing leaves it.</p>
+</div></footer>
+<script src="../assets/js/site.js" defer></script>
+</body>
+</html>

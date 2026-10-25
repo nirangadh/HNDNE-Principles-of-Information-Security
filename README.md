@@ -60,4 +60,4 @@ Niranga Dharmaratna
 School of Computing & Engineering  
 National Institute of Business Management
 
-Teaching content © 2026 Niranga Dharmaratna, [CC BY-NC-SA 4.0](LICENSE-CONTENT.md). Interactive demos, plays and code, [MIT](LICENSE). Taxila College is fictional.
+Teaching content © Niranga Dharmaratna, [CC BY-NC-SA 4.0](LICENSE-CONTENT.md). Interactive demos, plays and code, [MIT](LICENSE). Taxila College is fictional.
