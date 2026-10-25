@@ -1,6 +1,10 @@
 MIT License
 
-Copyright (c) 2026 Niranga Shashi Dharmaratna
+Copyright (c) 2026 Niranga Dharmaratna
+School of Computing & Engineering
+National Institute of Business Management
+
+This licence applies to the interactive demos and practice plays (HTML files under days/) and any other code in this repository. Teaching content is licensed separately; see LICENSE-CONTENT.md. The Open Sans font files in assets/fonts/ are not covered by this licence: they are distributed under the SIL Open Font License 1.1 (assets/fonts/OFL.txt).
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
