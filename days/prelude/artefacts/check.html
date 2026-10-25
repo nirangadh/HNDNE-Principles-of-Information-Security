@@ -1,0 +1,332 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Check your laptop</title>
+<meta name="description" content="Checks that your browser can run the floor tier: built-in cryptography, the module's font, saving on this device and the offline copy.">
+<link rel="stylesheet" href="../../../assets/fonts/fonts.css">
+<style>
+  body{margin:0;font-family:var(--font-body);background:var(--linen);color:var(--ink);line-height:1.6}
+  main{max-width:46rem;margin:0 auto;padding:1.5rem 1rem 2.5rem}
+  h1{font-size:1.6rem;line-height:1.25;margin:0 0 .4rem}
+  h2{font-size:1.1rem;margin:1.8rem 0 .5rem}
+  .bars{display:flex;gap:6px;margin:.3rem 0 1.1rem}.bars i{display:block;height:6px;border-radius:2px}
+  .bars i:first-child{width:56px;background:var(--burgundy)}.bars i:last-child{width:26px;background:var(--blush)}
+  .lead{margin:0 0 1rem}
+  code{font-family:var(--font-code);font-size:.95em;overflow-wrap:anywhere}
+  .checks{list-style:none;margin:0;padding:0;display:grid;gap:.7rem}
+  .check{display:grid;grid-template-columns:2.2rem 1fr;gap:.2rem .8rem;align-items:start;background:var(--snow);
+    border:1px solid var(--rule);border-left:6px solid var(--taupe);border-radius:0 12px 12px 0;padding:.8rem 1rem}
+  .badge{grid-row:1 / span 3;width:2rem;height:2rem;border-radius:50%;display:flex;align-items:center;justify-content:center;
+    font-weight:800;font-size:1.05rem;background:var(--blush);color:var(--ink)}
+  .name{font-weight:700;margin:0}
+  .state{display:block;font-size:.78rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--taupe)}
+  .detail{margin:.15rem 0 0}
+  .fix{margin:.35rem 0 0;padding:.45rem .7rem;background:var(--rose-wash);border-radius:8px}
+  .fix:empty{display:none}
+  .check.pass{border-left-color:var(--burgundy)}
+  .check.pass .badge{background:var(--burgundy);color:var(--snow)}
+  .check.pass .state{color:var(--burgundy)}
+  .check.note{border-left-color:var(--signal-amber)}
+  .check.note .badge{background:var(--signal-amber);color:var(--ink)}
+  .check.fail{border-left:6px dashed var(--signal-vermilion)}
+  .check.fail .badge{background:var(--signal-vermilion);color:var(--ink)}
+  .check.fail .state{color:var(--ink)}
+  .summary{margin-top:1.4rem;background:var(--ink);color:var(--snow);border-radius:12px;padding:1rem 1.2rem}
+  .summary .state{color:var(--rose)}
+  .summary p{margin:.2rem 0 0}
+  .summary strong{font-size:1.35rem;display:block;line-height:1.3}
+  .summary.fail{border-left:8px dashed var(--signal-vermilion)}
+  .row{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1rem}
+  button{font:inherit;font-weight:700;color:var(--snow);background:var(--burgundy);border:0;border-radius:8px;padding:.55rem 1rem;min-height:44px;cursor:pointer}
+  button:focus-visible,a:focus-visible{outline:3px solid var(--burgundy);outline-offset:2px}
+  a{color:var(--burgundy)}
+  .small{font-size:.9rem;color:var(--taupe)}
+  noscript p{background:var(--snow);border:1px solid var(--rule);border-left:6px dashed var(--signal-vermilion);padding:.8rem 1rem;border-radius:0 12px 12px 0}
+</style>
+<!-- portal head: written by the portal generator from this demo's title and description; do not edit -->
+<meta name="robots" content="index, follow">
+<link rel="icon" href="../../../assets/img/favicon.svg" type="image/svg+xml">
+<link rel="canonical" href="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/prelude/artefacts/check.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Principles of Information Security, HND Network Engineering Year 2">
+<meta property="og:title" content="Check your laptop | Before Day 1">
+<meta property="og:description" content="Checks that your browser can run the floor tier: built-in cryptography, the module&#x27;s font, saving on this device and the offline copy.">
+<meta property="og:url" content="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/prelude/artefacts/check.html">
+<meta property="og:locale" content="en_GB">
+<meta property="og:image" content="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/assets/img/social-card.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="At Taxila College the Head of IT points to the security register on the wall: nineteen numbered items, the first outlined as the place to start. The Registrar holds a sealed transcript and the Data Protection Officer a clipboard. A lecturer turns to welcome two students arriving with a laptop and a phone.">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","author":{"@type":"Person","affiliation":{"@type":"Organization","name":"School of Computing & Engineering, National Institute of Business Management"},"name":"Niranga Dharmaratna"},"description":"Checks that your browser can run the floor tier: built-in cryptography, the module's font, saving on this device and the offline copy.","educationalLevel":"Higher National Diploma, Year 2","inLanguage":"en-GB","interactivityType":"active","isAccessibleForFree":true,"isPartOf":{"@id":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/#course","@type":"Course","name":"Principles of Information Security, HND Network Engineering Year 2","url":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/"},"learningResourceType":"Interactive demonstration","license":"https://opensource.org/licenses/MIT","name":"Check your laptop | Before Day 1","url":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/prelude/artefacts/check.html"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/","name":"Principles of Information Security","position":1},{"@type":"ListItem","item":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/prelude/artefacts/check.html","name":"Check your laptop","position":2}]}</script>
+<!-- /portal head -->
+</head>
+<body>
+<main>
+<h1>Check your laptop</h1>
+<div class="bars" aria-hidden="true"><i></i><i></i></div>
+<p class="lead">This page tests your browser for what the module's demos need. It runs by itself when the page opens, and it sends nothing anywhere: every test happens inside your browser. Open it twice, once from the portal online and once from your offline copy.</p>
+
+<noscript><p><strong>Needs attention: JavaScript is switched off.</strong> The demos need JavaScript. Switch it on in your browser's settings for this page, or use a different browser, then open this page again.</p></noscript>
+
+<h2 id="h-checks">The checks</h2>
+<ol class="checks" id="checks" aria-labelledby="h-checks"></ol>
+
+<section class="summary" id="summary" aria-live="polite">
+  <span class="state">Result</span>
+  <strong id="summary-head">Checking...</strong>
+  <p id="summary-text">The checks take a second or two.</p>
+</section>
+
+<div class="row">
+  <button type="button" id="again">Run the checks again</button>
+</div>
+
+<h2>What the checks mean</h2>
+<p><strong>Required</strong> checks decide the result. If one fails, the demos will not work in this browser, and the check says what to do. <strong>Helpful</strong> checks do not decide the result: the demos still work, a little less well.</p>
+<p>The two cryptography tests ask your browser's own cryptography, called Web Crypto, to work out two results whose correct answers are published. You will learn what these operations are on Days 2 and 3. Here they only prove that the tool is there and gives the right answers.</p>
+<p class="small">Back to the <a href="../../../getting-started.html">getting-started guide</a>. Show this page's result at the set-up check on Day 1.</p>
+</main>
+<script>
+/* Environment check for the floor tier. Builds every node with createElement and textContent: no HTML sink. */
+(function () {
+  "use strict";
+  var list = document.getElementById("checks");
+  var KEY = "hndne-pis:check";
+
+  var CHECKS = [
+    { id: "browser", name: "Your browser", level: "Helpful" },
+    { id: "features", name: "Modern page features", level: "Required" },
+    { id: "secure", name: "A secure page", level: "Required" },
+    { id: "crypto1", name: "Web Crypto, known-answer test 1 of 2", level: "Required" },
+    { id: "crypto2", name: "Web Crypto, known-answer test 2 of 2", level: "Required" },
+    { id: "font", name: "The module's font", level: "Helpful" },
+    { id: "storage", name: "Saving on this device", level: "Helpful" },
+    { id: "where", name: "Where you opened this page", level: "Helpful" }
+  ];
+
+  function el(tag, cls, text) {
+    var n = document.createElement(tag);
+    if (cls) { n.className = cls; }
+    if (text) { n.textContent = text; }
+    return n;
+  }
+
+  var rows = {};
+  function build() {
+    while (list.firstChild) { list.removeChild(list.firstChild); }
+    CHECKS.forEach(function (c) {
+      var li = el("li", "check");
+      var badge = el("span", "badge", "...");
+      badge.setAttribute("aria-hidden", "true");
+      var head = el("p", "name");
+      var state = el("span", "state", c.level + ": checking");
+      head.appendChild(state);
+      head.appendChild(document.createTextNode(c.name));
+      var detail = el("p", "detail", "");
+      var fix = el("p", "fix", "");
+      li.appendChild(badge); li.appendChild(head); li.appendChild(detail); li.appendChild(fix);
+      list.appendChild(li);
+      rows[c.id] = { li: li, badge: badge, state: state, detail: detail, fix: fix, level: c.level, result: null };
+    });
+  }
+
+  /* outcome: "pass", "fail" or "note" (a helpful check that could be better, or a step still to do) */
+  function set(id, outcome, detail, fix) {
+    var r = rows[id];
+    r.result = outcome;
+    r.li.className = "check " + outcome;
+    r.badge.textContent = outcome === "pass" ? "✓" : (outcome === "fail" ? "×" : "!");
+    var word = outcome === "pass" ? "passed" : (outcome === "fail" ? "needs attention" : "to note");
+    r.state.textContent = r.level + ": " + word;
+    r.detail.textContent = detail;
+    r.fix.textContent = fix ? "What to do: " + fix : "";
+  }
+
+  function hex(buf) {
+    var b = new Uint8Array(buf), s = "";
+    for (var i = 0; i < b.length; i++) { s += (b[i] < 16 ? "0" : "") + b[i].toString(16); }
+    return s;
+  }
+  function bytes(h) {
+    var out = new Uint8Array(h.length / 2);
+    for (var i = 0; i < out.length; i++) { out[i] = parseInt(h.substr(i * 2, 2), 16); }
+    return out;
+  }
+
+  function browserName() {
+    var ua = navigator.userAgent, m;
+    if ((m = ua.match(/Edg\/(\d+)/))) { return "Microsoft Edge " + m[1]; }
+    if ((m = ua.match(/Firefox\/(\d+)/))) { return "Firefox " + m[1]; }
+    if ((m = ua.match(/OPR\/(\d+)/))) { return "Opera " + m[1]; }
+    if ((m = ua.match(/Chrome\/(\d+)/))) { return "Chrome " + m[1]; }
+    if ((m = ua.match(/Version\/(\d+).*Safari/))) { return "Safari " + m[1]; }
+    return "a browser this page does not recognise";
+  }
+
+  function checkBrowser() {
+    var name = browserName();
+    if (/recognise/.test(name)) {
+      set("browser", "note", "You are using " + name + ".", "use a current version of Chrome, Edge or Firefox for the module.");
+    } else {
+      set("browser", "pass", "You are using " + name + ". Keep it up to date.");
+    }
+  }
+
+  function checkFeatures() {
+    var missing = [];
+    if (!("content" in document.createElement("template"))) { missing.push("page templates"); }
+    if (typeof Promise === "undefined") { missing.push("promises"); }
+    if (typeof TextEncoder === "undefined") { missing.push("text encoding"); }
+    if (!(window.CSS && CSS.supports && CSS.supports("display", "grid"))) { missing.push("grid layout"); }
+    if (missing.length) {
+      set("features", "fail", "This browser is missing: " + missing.join(", ") + ".", "update the browser, or install a current Chrome, Edge or Firefox.");
+      return false;
+    }
+    set("features", "pass", "The browser has the features the demos and plays use.");
+    return true;
+  }
+
+  function checkSecure() {
+    if (window.isSecureContext) {
+      set("secure", "pass", "The browser treats this page as secure, so its cryptography is switched on.");
+      return true;
+    }
+    set("secure", "fail", "The browser does not treat this page as secure, so it switches its cryptography off.",
+        "open the page from the portal's own address, or from the folder of your offline copy, not from another address.");
+    return false;
+  }
+
+  function cryptoFail(ids, why) {
+    ids.forEach(function (id) {
+      set(id, "fail", why, "update the browser, or install a current Chrome, Edge or Firefox, then open this page again.");
+    });
+  }
+
+  function checkCrypto() {
+    var subtle = window.crypto && window.crypto.subtle;
+    if (!subtle || !window.crypto.getRandomValues) {
+      cryptoFail(["crypto1", "crypto2"], "Web Crypto is not available in this browser on this page.");
+      return Promise.resolve();
+    }
+    var t1 = subtle.digest("SHA-256", new TextEncoder().encode("abc")).then(function (d) {
+      var want = "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad";
+      if (hex(d) === want) {
+        set("crypto1", "pass", "Web Crypto gave the published answer.");
+      } else {
+        cryptoFail(["crypto1"], "Web Crypto answered, but not with the published answer.");
+      }
+    }, function () { cryptoFail(["crypto1"], "Web Crypto refused the first test."); });
+
+    var key = bytes("603deb1015ca71be2b73aef0857d77811f352c073b6108d72d9810a30914dff4");
+    var iv = bytes("000102030405060708090a0b0c0d0e0f");
+    var plain = bytes("6bc1bee22e409f96e93d7e117393172a");
+    var wantCt = "f58c4c04d6e5f1ba779eabfb5f7bfbd6485a5c81519cf378fa36d42b8547edc0";
+    var t2 = subtle.importKey("raw", key, { name: "AES-CBC" }, false, ["encrypt", "decrypt"]).then(function (k) {
+      return subtle.encrypt({ name: "AES-CBC", iv: iv }, k, plain).then(function (ct) {
+        if (hex(ct) !== wantCt) { throw new Error("wrong"); }
+        return subtle.decrypt({ name: "AES-CBC", iv: iv }, k, ct);
+      });
+    }).then(function (back) {
+      if (hex(back) === hex(plain)) {
+        set("crypto2", "pass", "Web Crypto gave the published answer, and reversed it exactly.");
+      } else {
+        cryptoFail(["crypto2"], "Web Crypto did not reverse its own result.");
+      }
+    }, function () { cryptoFail(["crypto2"], "Web Crypto refused the second test or gave a different answer."); });
+    return Promise.all([t1, t2]);
+  }
+
+  function checkFont() {
+    if (!document.fonts || !document.fonts.load) {
+      set("font", "note", "This browser cannot report its fonts. The pages still work.", "nothing, unless the text looks very different from the portal.");
+      return Promise.resolve();
+    }
+    return Promise.all([document.fonts.load('400 16px "Open Sans"'), document.fonts.load('700 16px "Open Sans"')]).then(function () {
+      if (document.fonts.check('400 16px "Open Sans"') && document.fonts.check('700 16px "Open Sans"')) {
+        set("font", "pass", "Open Sans, the module's font, loaded from the portal's own files.");
+      } else {
+        set("font", "note", "The module's font did not load, so a similar font is used. Everything still works.",
+            "if this is your offline copy, check that its assets folder was unzipped with everything else.");
+      }
+    }, function () {
+      set("font", "note", "The module's font did not load, so a similar font is used. Everything still works.",
+          "if this is your offline copy, check that its assets folder was unzipped with everything else.");
+    });
+  }
+
+  function checkStorage() {
+    try {
+      var probe = String(Date.now());
+      window.localStorage.setItem(KEY, probe);
+      var ok = window.localStorage.getItem(KEY) === probe;
+      window.localStorage.removeItem(KEY);
+      if (ok) {
+        set("storage", "pass", "The portal can remember what you mark as done, on this device only.");
+        return;
+      }
+    } catch (e) { /* storage blocked: reported below */ }
+    set("storage", "note", "The portal cannot save on this device, so Mark as done will forget your marks. The demos still work.",
+        "if this is a private or guest window, use a normal window.");
+  }
+
+  function checkWhere() {
+    if (location.protocol === "file:") {
+      set("where", "pass", "You opened this page from a folder on your laptop, so your offline copy works.");
+    } else {
+      set("where", "note", "You opened this page from the portal online.",
+          "open this page again from your offline copy, as the getting-started guide shows.");
+    }
+  }
+
+  function summarise() {
+    var failed = [], noted = [];
+    CHECKS.forEach(function (c) {
+      var r = rows[c.id];
+      if (r.result === "fail") { failed.push(c.name); }
+      if (r.result === "note") { noted.push(c.name); }
+    });
+    var box = document.getElementById("summary");
+    var head = document.getElementById("summary-head");
+    var text = document.getElementById("summary-text");
+    var where = location.protocol === "file:" ? "your offline copy" : "the portal online";
+    if (failed.length) {
+      box.className = "summary fail";
+      head.textContent = "Needs attention: " + failed.join("; ");
+      text.textContent = "Follow the \"What to do\" line on each check marked ×, then run the checks again. If it still fails, bring this laptop to the set-up check on Day 1. Opened from " + where + ".";
+    } else {
+      box.className = "summary";
+      head.textContent = "Floor tier ready";
+      text.textContent = "Every required check passed in " + browserName() + ", opened from " + where + "." +
+        (noted.length ? " Read the notes on: " + noted.join("; ") + "." : "");
+    }
+  }
+
+  function run() {
+    build();
+    document.getElementById("summary-head").textContent = "Checking...";
+    document.getElementById("summary-text").textContent = "The checks take a second or two.";
+    document.getElementById("summary").className = "summary";
+    checkBrowser();
+    var featuresOk = checkFeatures();
+    var secureOk = checkSecure();
+    checkStorage();
+    checkWhere();
+    var pending = [checkFont()];
+    if (featuresOk && secureOk) {
+      pending.push(checkCrypto());
+    } else {
+      cryptoFail(["crypto1", "crypto2"], "Not tested, because a check above failed.");
+    }
+    Promise.all(pending).then(summarise, summarise);
+  }
+
+  document.getElementById("again").addEventListener("click", run);
+  run();
+}());
+</script>
+</body>
+</html>
