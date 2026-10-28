@@ -1,0 +1,248 @@
+<!doctype html>
+<html lang="en-GB" data-store="hndne-pis:">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="hndne-pis-site">
+<title>Lab 3: Fingerprint your results file and store a password safely | Principles of Information Security</title>
+<meta name="author" content="Niranga Dharmaratna">
+<meta name="description" content="Day 3 afternoon lab sheet: Fingerprint your results file and store a password safely. Day 3, afternoon session. Duration 3 hours. Adds items 5 and 6 to...">
+<meta name="robots" content="index, follow">
+<link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml">
+<link rel="canonical" href="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-3/lab.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Principles of Information Security, HND Network Engineering Year 2">
+<meta property="og:title" content="Lab 3: Fingerprint your results file and store a password safely">
+<meta property="og:description" content="Day 3 afternoon lab sheet: Fingerprint your results file and store a password safely. Day 3, afternoon session. Duration 3 hours. Adds items 5 and 6 to...">
+<meta property="og:url" content="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-3/lab.html">
+<meta property="og:locale" content="en_GB">
+<meta property="og:image" content="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/assets/img/social-card.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="At Taxila College the Head of IT points to the security register on the wall: nineteen numbered items, the first outlined as the place to start. The Registrar holds a sealed transcript and the Data Protection Officer a clipboard. A lecturer turns to welcome two students arriving with a laptop and a phone.">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","author":{"@type":"Person","affiliation":{"@type":"Organization","name":"School of Computing & Engineering, National Institute of Business Management"},"name":"Niranga Dharmaratna"},"description":"Day 3 afternoon lab sheet: Fingerprint your results file and store a password safely. Day 3, afternoon session. Duration 3 hours. Adds items 5 and 6 to...","educationalLevel":"Higher National Diploma, Year 2","inLanguage":"en-GB","interactivityType":"expository","isAccessibleForFree":true,"isPartOf":{"@id":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/#course","@type":"Course","name":"Principles of Information Security, HND Network Engineering Year 2","url":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/"},"learningResourceType":"Lab sheet","license":"https://creativecommons.org/licenses/by-nc-sa/4.0/","name":"Lab 3: Fingerprint your results file and store a password safely","url":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-3/lab.html"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/","name":"Principles of Information Security","position":1},{"@type":"ListItem","item":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-3/","name":"Day 3","position":2},{"@type":"ListItem","item":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-3/lab.html","name":"Lab 3: Fingerprint your results file and store a password safely","position":3}]}</script>
+<link rel="stylesheet" href="../../assets/fonts/fonts.css">
+<link rel="stylesheet" href="../../assets/css/site.css">
+<script>document.documentElement.className = "js";</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to the content</a>
+<header class="site-header"><div class="wrap"><div><p class="eyebrow"><a href="../../index.html">Principles of Information Security | HND Network Engineering, Year 2</a></p><h1>Fingerprint your results file and store a password safely</h1><p class="sub">Day 3, afternoon lab</p><div class="bars" aria-hidden="true"><i></i><i></i></div></div></div></header>
+<main id="main">
+<div class="wrap prose">
+<div class="meta"><span class="badge" title="Learning outcome 3">LO3</span><span class="chip add" title="SIS password store">Added today: item 5</span><span class="chip add" title="Results file integrity">Added today: item 6</span><span class="chip tier-floor">Floor tier: every step</span><span class="chip tier-full">Full tier: recommended</span></div>
+<p><strong>Day 3, afternoon session. Duration 3 hours. Adds items 5 and 6 to Taxila's security register.</strong></p>
+<p>This lab sheet takes you from fingerprinting your own results file to storing a password the safe way. You will see one changed mark change the whole fingerprint, and a salt keep a password out of a lookup table.</p>
+<div class="table-wrap"><table class="meta-table">
+
+<tbody>
+<tr>
+<td>Learning outcomes</td>
+<td>LO3</td>
+</tr>
+<tr>
+<td>You need</td>
+<td>this morning's ideas: a <a class="term" data-term="hash-function" href="../../glossary.html#hash-function">hash function</a> gives a fixed-length <a class="term" data-term="digest" href="../../glossary.html#digest">digest</a> that changes completely on any edit; a <a class="term" data-term="salt" href="../../glossary.html#salt">salt</a> makes identical passwords store differently; a <a class="term" data-term="lookup-table" href="../../glossary.html#lookup-table">lookup table</a> only matches digests computed in advance; a <a class="term" data-term="slow-password-hash" href="../../glossary.html#slow-password-hash">slow password hash</a> makes each guess expensive</td>
+</tr>
+<tr>
+<td>Tiers</td>
+<td>Floor tier: every step, in the browser. Full tier: segments 1 to 3 can also run in your Kali virtual machine, with the same results</td>
+</tr>
+<tr>
+<td>Evidence pack</td>
+<td>Pack 3, due before the next teaching day</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="before-you-start">Before you start</h2>
+<ol>
+<li>Open this page and the day's notes side by side.</li>
+<li>Write down your personal value: your index number without spaces or hyphens, with its letters in capitals exactly as issued (the example in this sheet, <code>COHNDNE999X000</code>, belongs to nobody).</li>
+<li>Full tier: start your Kali virtual machine and take a snapshot named <code>day-3-start</code>, so Reset can bring it back.</li>
+<li>Floor tier: open the demos this lab uses: <code>avalanche</code> and <code>salt-shaker</code>. Open CyberChef too, from its official site or your offline copy.</li>
+<li>Download the provided file <a href="files/lookup-table.txt"><code>lookup-table.txt</code></a> and save it in your module folder. It lists common passwords beside their SHA-256 (Secure Hash Algorithm, 256 bits) digests, computed in advance.</li>
+</ol>
+<h3 id="the-idea-behind-todays-lab">The idea behind today's lab</h3>
+<div class="box recall"><p class="box-label">Recall</p><p>A hash is a fixed-length fingerprint that changes completely on any edit.</p></div>
+<div class="box recall"><p class="box-label">Recall</p><p>A salt makes identical passwords store differently.</p></div>
+<div class="box mistake"><p class="box-label">Common mistake</p><p>"A lookup table works the password out from its digest." It only matches the digest against digests computed in advance; it cannot reverse one. In segment 3 the table finds a common password at once, and finds nothing for your salted digest, because nobody computed that one in advance.</p></div>
+<div class="box mistake"><p class="box-label">Common mistake</p><p>"A salt must be kept secret." A salt need not be secret; it must be unique for each user. It is stored in plain sight, beside the digest. Its job is to make every stored value different, not to hide anything.</p></div>
+<div class="qc"><p class="qc-label">Quick check</p><p class="qc-q">You and your lab partner both write the example line <code>COHNDNE999X000,50</code>, you with <code>printf</code> and your partner with <code>echo</code>. The two lines look the same on screen. Why do your digests differ?</p><ol class="qc-opts"><li data-right=""><code>echo</code> adds an invisible line ending, so the two files differ by one byte<span class="qc-key"> (answer)</span></li><li><code>printf</code> and <code>echo</code> use different hash functions inside</li><li>The two terminals use different versions of SHA-256</li></ol><p class="qc-why"><strong>Why:</strong> The hash takes every byte, and one extra byte changes the whole digest: the avalanche effect. Blaming the hash function is tempting, but SHA-256 is the same everywhere; only the input differed.</p></div>
+<div class="qc"><p class="qc-label">Quick check</p><p class="qc-q">In segment 2 your salt goes into your evidence pack, beside your salted digest, where anyone can read it. Is that a weakness?</p><ol class="qc-opts"><li>Yes: a salt is a key and must be kept secret</li><li data-right="">No: a salt only needs to be unique, and is stored beside the digest anyway<span class="qc-key"> (answer)</span></li><li>Yes: anyone with the salt can reverse the digest</li></ol><p class="qc-why"><strong>Why:</strong> A salt's job is to make each stored value different, so no table built in advance holds it. Treating the salt as a secret key is tempting, but the further secret, kept apart from the database, is a pepper.</p></div>
+<h2 id="objective">Objective</h2>
+<p>You will show that one changed mark gives your results file a completely different fingerprint, so any change can be detected. You will also show that a salt keeps a common password out of a lookup table, and that a slow password hash makes every guess cost more. This is how Taxila keeps published results honest and its password store safe, even if the store is stolen.</p>
+<h2 id="timed-segments">Timed segments</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Segment</th>
+<th>Minutes</th>
+<th>Tier</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Fingerprint your personal results file</td>
+<td>45</td>
+<td>both</td>
+</tr>
+<tr>
+<td>Salt the password store</td>
+<td>35</td>
+<td>both</td>
+</tr>
+<tr>
+<td>See why salt and slow hashing protect passwords</td>
+<td>45</td>
+<td>both</td>
+</tr>
+<tr>
+<td>Prove it, break it, reset and write up</td>
+<td>25</td>
+<td>both</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="steps">Steps</h2>
+<p>Each step states what to do and what you should see. If you do not see it, stop and work out why before moving on.</p>
+<p class="segment"><span class="seg-name">Segment 1: Fingerprint your personal results file</span><span class="chip tier-floor">Both tiers</span></p>
+<p>Your results file is one line: your index number, a comma, then a mark. The mark comes from your index number by this rule: <strong>your mark is 50 plus the last digit of your index number</strong>. The example index ends in 0, so its mark is 50, and its results line is <code>COHNDNE999X000,50</code>. The file holds exactly that line: no space, and no new line at the end.</p>
+<ol class="steps">
+<li data-n="1">
+<p><strong>Try the example first.</strong> Work through steps 2 to 4 with the example, and check that you get these values. Then repeat them with your own index number. <span class="expect"><b class="expect-label">You should see</b> the line <code>COHNDNE999X000,50</code> has the digest <code class="long">84a521d52030ac8d64a96969eae32e2c4d3444d080b2d10efe7dc6bb0f4b4e3f</code>. The changed line <code>COHNDNE999X000,51</code> has the digest <code class="long">b2d1fd0d3c53d46bbb5db46bc922600ad8229bf70cd4840dbce892f6a8e0ef8a</code>.</span></p>
+</li>
+<li data-n="2">
+<p><strong>Write your results line.</strong> Take the last digit of your index number and add it to 50. Write your index number, a comma and your mark, with no space. <span class="expect"><b class="expect-label">You should see</b> a line such as <code>COHNDNE999X000,50</code>, with a two-digit mark from 50 to 59.</span></p>
+</li>
+<li data-n="3">
+<p><strong>Fingerprint it.</strong> Take the SHA-256 digest of your results line. <span class="expect"><b class="expect-label">You should see</b> 64 hexadecimal characters. Write them down: this is the fingerprint the Registrar would publish beside the file.</span></p>
+</li>
+<li data-n="4">
+<p><strong>Change the mark by one and fingerprint it again.</strong> Add one to your mark, so 50 becomes 51. Take the digest again and compare the two. <span class="expect"><b class="expect-label">You should see</b> a second 64-character digest that differs from the first in almost every character. You changed one character of the file; the digest changed everywhere.</span></p>
+</li>
+</ol>
+<div class="box floor"><p class="box-label">Floor path</p><p>In CyberChef, type your results line in the input box, with no space or new line after it. Add the operation <code>SHA2</code> and set its <code>Size</code> to <code>256</code>; the default is 512, which is wrong here. For step 4, change the mark in the input box and read the new digest. Then open the <code>avalanche</code> demo, type your two lines into its two boxes, and read how many characters of the two digests differ.</p></div>
+<p>Full tier, in a terminal on your Kali virtual machine. Replace the example line with your own:</p>
+<pre tabindex="0"><code class="language-bash">mkdir -p ~/lab3 &amp;&amp; cd ~/lab3
+printf '%s' COHNDNE999X000,50 &gt; results.csv
+sha256sum results.csv
+sha256sum results.csv &gt; results.csv.sha256
+sha256sum -c results.csv.sha256
+printf '%s' COHNDNE999X000,51 &gt; results.csv
+sha256sum results.csv
+sha256sum -c results.csv.sha256
+</code></pre>
+<p>The second command prints your digest, two spaces and the file name. The fourth command keeps that digest in a file, as the Registrar would keep it. The fifth checks the file against it and prints <code>results.csv: OK</code>. After you change the mark, the same check prints <code>results.csv: FAILED</code> and a warning that one checksum did not match.</p>
+<p>Use <code>printf</code>, not <code>echo</code>, to write the file. <code>echo</code> adds an invisible line ending, which changes the file and so the digest.</p>
+<p class="segment"><span class="seg-name">Segment 2: Salt the password store</span><span class="chip tier-floor">Both tiers</span></p>
+<p>Every student in this lab uses the same password: <code>password123</code>. It is a common password, and a poor one. That is the point: the whole room is now a group of staff who all chose the same password. Never type a real password of your own into any tool in this lab.</p>
+<ol class="steps" start="5">
+<li data-n="5">
+<p><strong>Hash the password with no salt.</strong> Take the SHA-256 digest of <code>password123</code>. <span class="expect"><b class="expect-label">You should see</b> <code class="long">ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f</code>. Look at your neighbour's screen: they have exactly the same value. In an unsalted store, everyone with the same password has the same stored value.</span></p>
+</li>
+<li data-n="6">
+<p><strong>Find your two salts.</strong> Take the SHA-256 digest of your index number. You made exactly this value on Day 2, where it was your Advanced Encryption Standard (AES) key. Your first salt is its first 8 characters. Your second salt is its last 8 characters. <span class="expect"><b class="expect-label">You should see</b> for the example, the digest is <code class="long">5b02a8f821835e23aa2d08921e40ddb0e0e21220f3e7d4e0a979bc9e962bb99b</code>, so the first salt is <code>5b02a8f8</code> and the second salt is <code>962bb99b</code>.</span></p>
+</li>
+<li data-n="7">
+<p><strong>Hash the password with each salt.</strong> Write the password, then your first salt straight after it, with no space: for the example, <code>password1235b02a8f8</code>. Take its SHA-256 digest. Then do the same with your second salt. <span class="expect"><b class="expect-label">You should see</b> for the example, <code class="long">a0b12530aefa1e72505b5ef0afb82d54e8fc432477b2ade85f09d1174e42b535</code> with the first salt and <code class="long">f7bbb48d2b7e71a3f0d6310b067b2e257c3a5528987183ef5d92bd7ab46c0e5b</code> with the second. The same password now gives two different stored values, and your neighbour's values differ from yours.</span></p>
+</li>
+</ol>
+<div class="box floor"><p class="box-label">Floor path</p><p>In CyberChef, use <code>SHA2</code> with <code>Size</code> <code>256</code> for every step. For step 6, put your index number in the input box. To read a salt exactly, add <code>Take bytes</code> after <code>SHA2</code>: <code>Start</code> <code>0</code> and <code>Length</code> <code>8</code> gives the first salt, and <code>Start</code> <code>56</code> and <code>Length</code> <code>8</code> gives the second. Then remove <code>Take bytes</code> again. For step 7, type the password and the salt together in the input box, with nothing between them and nothing after them.</p></div>
+<p>Full tier. Replace the example index and the example salt with your own:</p>
+<pre tabindex="0"><code class="language-bash">printf '%s' password123 | sha256sum
+printf '%s' COHNDNE999X000 | sha256sum | cut -c1-8
+printf '%s' COHNDNE999X000 | sha256sum | cut -c57-64
+printf '%s' password1235b02a8f8 | sha256sum
+printf '%s' password123962bb99b | sha256sum
+</code></pre>
+<p>The second and third commands print your two salts. <code>sha256sum</code> reads from the pipe here, so it prints a dash where a file name would be.</p>
+<p class="segment"><span class="seg-name">Segment 3: See why salt and slow hashing protect passwords</span><span class="chip tier-floor">Both tiers</span></p>
+<p>The provided <code>lookup-table.txt</code> is a small lookup table: about a hundred common passwords, each beside its SHA-256 digest, computed in advance. Real tables hold millions. You only search it; you never add to it.</p>
+<ol class="steps" start="8">
+<li data-n="8">
+<p><strong>Look up the unsalted digest.</strong> Search the table for the unsalted digest from step 5. <span class="expect"><b class="expect-label">You should see</b> found at once, on the line that ends <code>password123</code>. The table did not reverse the hash: it simply matched a digest that someone computed in advance.</span></p>
+</li>
+<li data-n="9">
+<p><strong>Look up your salted digests.</strong> Search the table for each of your two salted digests from step 7. <span class="expect"><b class="expect-label">You should see</b> not found. Nobody computed <code>password123</code> with your salt in advance, so no table holds it. To fill a table with salted values, someone would have to compute it again for every salt, which means for every user.</span></p>
+</li>
+<li data-n="10">
+<p><strong>Time a fast hash.</strong> Take the SHA-256 digest of your salted password from step 7 again, and note how long it took. <span class="expect"><b class="expect-label">You should see</b> a few milliseconds or less. That speed is good for checking files, and bad for passwords: it lets a guesser try millions of passwords a second.</span></p>
+</li>
+<li data-n="11">
+<p><strong>Time a slow password hash.</strong> Run the password through the Password-Based Key Derivation Function 2 (PBKDF2), with your first salt and 600,000 iterations. <span class="expect"><b class="expect-label">You should see</b> it takes visibly longer, often a few seconds in the browser. The output is 64 hexadecimal characters; for the example it is <code class="long">e6f049ab50546fe6d115431d29fb0db710debf27b76b9a6a5236e21525f9b416</code>. One login waits a moment, but every guess now costs the same moment, so a million guesses take far longer than before.</span></p>
+</li>
+</ol>
+<div class="box floor"><p class="box-label">Floor path</p><p>For steps 8 and 9, open the <code>salt-shaker</code> demo, go to its panel "Check a digest", and paste each digest in turn. It searches the same table as the provided file. For step 10, take <code>SHA2</code> with <code>Size</code> <code>256</code> of your salted password in CyberChef. Then read the bake time in the bar under the output: a clock symbol and a number of milliseconds. For step 11, remove <code>SHA2</code> and add <code>Derive PBKDF2 key</code>. It ignores the input box, so set each of its boxes. Set <code>Passphrase</code> to <code>password123</code>, with its dropdown at <code>UTF8</code>, <code>Key size</code> to <code>256</code> and <code>Iterations</code> to <code>600000</code>. Set <code>Hashing function</code> to <code>SHA256</code>, and <code>Salt</code> to your first salt, with its dropdown at <code>UTF8</code>. Type the iterations last, wait for the output, and read the bake time again. If you leave <code>Salt</code> empty, CyberChef picks a random salt and your output will not match.</p></div>
+<p>Full tier. Save <code>lookup-table.txt</code> in <code>~/lab3</code> first: download it in the virtual machine's browser. Then run these commands, with your own digests and salt:</p>
+<pre tabindex="0"><code class="language-bash">cd ~/lab3
+grep ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f lookup-table.txt
+grep a0b12530aefa1e72505b5ef0afb82d54e8fc432477b2ade85f09d1174e42b535 lookup-table.txt
+printf '%s' password1235b02a8f8 &gt; salted.txt
+time openssl dgst -sha256 salted.txt
+time openssl kdf -keylen 32 -kdfopt digest:SHA256 -kdfopt pass:password123 -kdfopt salt:5b02a8f8 -kdfopt iter:600000 PBKDF2
+</code></pre>
+<p>The first <code>grep</code> prints the matching line; the second prints nothing, because the table does not hold your salted digest. <code>time</code> prints how long each command took: read the line that starts <code>real</code>. Expect a few thousandths of a second for <code>openssl dgst</code>, and many times more for <code>openssl kdf</code>. OpenSSL prints the PBKDF2 output in capitals with a colon between each pair, <code>E6:F0:49:AB:...</code> for the example; it is the same value as the browser's.</p>
+<p class="segment"><span class="seg-name">Segment 4: Prove it, break it, reset and write up</span><span class="chip tier-floor">Both tiers</span></p>
+<ol class="steps" start="12">
+<li data-n="12">
+<p><strong>Collect your evidence.</strong> Fill in the evidence pack table with your values from steps 2 to 9. <span class="expect"><b class="expect-label">You should see</b> every value except the unsalted digest comes from your own index number.</span></p>
+</li>
+<li data-n="13">
+<p><strong>Draw and explain.</strong> Draw the salted-storage sketch and write your explanation, as listed under Evidence required. <span class="expect"><b class="expect-label">You should see</b> a labelled sketch and at most 120 words.</span></p>
+</li>
+</ol>
+<section class="mark prove"><h2 id="prove-it"><span class="mark-chip">PROVE IT</span> Prove it</h2>
+<p>Your results file's two digests, before and after one change, differ in almost every character, and your salted and unsalted values for the same password differ. Both match the values your lecturer's recompute tool gives, because they come from your index number. The table finds the unsalted digest and not your salted one. Copy your results line, both digests, the unsalted digest, your two salts, your two salted digests and the two lookup results into your evidence pack.</p>
+</section><section class="mark break"><h2 id="break-it"><span class="mark-chip"><span aria-hidden="true" class="fault">×</span>BREAK IT</span> Break it</h2>
+<p><strong>Fault:</strong> a single trailing space in the results file.</p>
+<ol>
+<li>Add one space at the end of your results line, after the mark, and take its digest. <strong>Symptom:</strong> a third digest, completely different from the first, although the line looks the same on the screen. For the example, <code>COHNDNE999X000,50</code> with a space after it gives <code class="long">17a67f960a43bb47094bf7a5aaeb019efa38f49d4d57846ee193600f0c3ec256</code>.</li>
+<li><strong>Evidence:</strong> the mark and the index are unchanged, so the cause must be a character you cannot see. A space is a byte like any other. The hash function takes every byte, and one changed byte changes the whole digest: the avalanche effect. On the full tier, <code>sha256sum -c</code> reports <code>FAILED</code>, and <code>wc -c results.csv</code> counts one more byte than before.</li>
+<li><strong>Fix:</strong> remove the space and take the digest again. It matches your first digest. Write down the symptom and why it happens.</li>
+</ol>
+<p>Full tier, to make and then remove the fault:</p>
+<pre tabindex="0"><code class="language-bash">printf '%s ' COHNDNE999X000,50 &gt; results.csv
+sha256sum results.csv
+wc -c results.csv
+printf '%s' COHNDNE999X000,50 &gt; results.csv
+sha256sum -c results.csv.sha256
+</code></pre>
+</section><section class="mark reset"><h2 id="reset"><span class="mark-chip">RESET</span> Reset</h2>
+<ol>
+<li>Copy your evidence into your evidence pack first.</li>
+<li>Floor tier: clear CyberChef's recipe and input. Your module folder keeps the provided table.</li>
+<li>Full tier: delete the lab folder with <code>rm -r ~/lab3</code>, then restore the <code>day-3-start</code> snapshot.</li>
+</ol>
+</section><section class="mark rules"><h2 id="rules-of-engagement"><span class="mark-chip">RULES OF ENGAGEMENT</span> Rules of engagement</h2>
+<p>No tool in this lab can affect anyone else's system. You hash only your own files and passwords and search only the provided table.</p>
+</section><section class="mark evidence"><h2 id="evidence-required"><span class="mark-chip">EVIDENCE</span> Evidence required</h2>
+<p>Submit evidence pack 3 before the next teaching day, using the <a href="../../templates/evidence-pack.html">evidence pack template</a>.</p>
+<ol>
+<li><strong>Personal values.</strong> In the template's table, with the step each comes from:
+<ul>
+<li>the two digests of your personal results file, before and after one change, with both lines (steps 2 to 4);</li>
+<li>your salted and unsalted values for one password: the unsalted digest, your two salts and your two salted digests (steps 5 to 7);</li>
+<li>the table lookup result for the unsalted digest and for your salted ones (steps 8 and 9).</li>
+</ul>
+</li>
+<li><strong>Concept sketch.</strong> Draw by hand, on paper, the salted-storage flow: the password, the salt, the hash function and the stored value. Label where the salt is added, and show what the store keeps for one user. Photograph it.</li>
+<li><strong>Explanation.</strong> In no more than 120 words: why does a salt defeat a lookup table even when two users choose the same password?</li>
+</ol>
+</section><h2 id="taxila-connection">Taxila connection</h2>
+<p>This lab answers two of Taxila's requirements. Item 6 on the security register is results file integrity: published results that cannot be altered unnoticed, because any change, even one mark, gives a different fingerprint. Item 5 is the SIS (Student Information System) password store: passwords that stay safe even if the database is stolen, because the store holds salted, slow digests rather than passwords. The Registrar will ask whether a changed grade can now be noticed: yes, if the published digest is kept where the changer cannot reach it. The Head of IT (information technology) will ask what a thief would read in a stolen password store: digests and salts, but no password, and no table that matches them.</p>
+
+<template id="term-hash-function"><b>Hash function</b><span>A method that takes an input of any size and returns a short value of fixed length, the digest. The same input always gives the same digest, and the digest cannot be turned back into the input.</span><span class="ex"><span class="ex-label">At Taxila: </span>the Registrar runs each results file through a hash function before publishing it.</span></template><template id="term-digest"><b>Digest</b><span>The fixed-length value a hash function returns. It identifies the data like a fingerprint, but does not hide it. Any change to the data, even one character, gives a completely different digest.</span><span class="ex"><span class="ex-label">At Taxila: </span>the digest published beside a results file lets anyone check that the file is unchanged.</span></template><template id="term-salt"><b>Salt</b><span>A value, different for every user, added to a password before hashing. It is stored in plain sight beside the digest and need not be secret. It makes identical passwords store differently.</span><span class="ex"><span class="ex-label">At Taxila: </span>two lecturers who chose the same password have different salts, so different stored digests.</span></template><template id="term-lookup-table"><b>Lookup table</b><span>A table of digests computed in advance, each beside the input that made it, such as common passwords. A dictionary is the word list; a rainbow table is a large, compact table. It matches digests; it never reverses one.</span><span class="ex"><span class="ex-label">At Taxila: </span>an unsalted digest of <code>password123</code> from the SIS (Student Information System) store is found in such a table at once.</span></template><template id="term-slow-password-hash"><b>Slow password hash</b><span>A hash made slow on purpose for storing passwords, by repeating its work many times. bcrypt, Argon2 and the Password-Based Key Derivation Function 2 (PBKDF2) are examples. Each guess then costs a guesser the same delay.</span><span class="ex"><span class="ex-label">At Taxila: </span>the Student Information System stores each salted password with PBKDF2 at hundreds of thousands of rounds.</span></template>
+<section class="resources" aria-labelledby="h-res"><h2 id="h-res">Everything for this afternoon</h2><ul><li><a href="slides/day-3-afternoon.pdf">Slides for this afternoon (PDF)</a></li><li><a href="files/lookup-table.txt"><code>lookup-table.txt</code></a> (provided file)</li><li><a href="plays/p3-words.html">Words for fingerprints and passwords</a> (10 minutes)</li><li><a href="plays/p3-1-which-job-does-it-do.html">Which job does it do?</a> (8 minutes)</li><li><a href="plays/p3-2-check-the-store.html">Check the store</a> (10 minutes)</li><li><a href="plays/p3-quiz.html">Day 3: digests, salts and seals</a> (10 minutes)</li><li>The <a href="../../coursework/evidence-packs-brief.html">evidence packs brief</a> and the <a href="../../templates/evidence-pack.html">evidence pack template</a> (also as a <a href="../../templates/evidence-pack.pdf">PDF form</a>)</li><li><a href="../../practice/PQ3.html">Practice question 3</a></li></ul></section><div class="progress-box"><button class="btn" type="button" data-progress="d3a">Mark this afternoon as done</button><span class="progress-note">A record for you, saved only on this device. It never locks or unlocks anything.</span></div><nav class="pager" aria-label="Page navigation"><span>Previous: <a href="../../days/day-3/notes.html">Day 3 morning</a></span><span><a href="index.html">Day 3</a></span><span></span></nav>
+</div>
+</main>
+<footer class="site-footer"><div class="wrap">
+<p class="author">&copy; Niranga Dharmaratna, School of Computing &amp; Engineering, National Institute of Business Management</p>
+<p>Content licensed <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener">CC BY-NC-SA 4.0</a>; code licensed MIT; Open Sans under the SIL Open Font Licence.</p>
+<p>Dates and submissions are announced for your cohort. Taxila College is fictional.</p>
+<p>Anything you mark as done is saved only on this device. Nothing leaves it.</p>
+</div></footer>
+<script src="../../assets/js/site.js" defer></script>
+</body>
+</html>

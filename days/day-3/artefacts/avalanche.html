@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>One change, a new fingerprint</title>
+<meta name="description" content="Change one character of a results line and see how many characters and bits of its SHA-256 digest change. Uses Web Crypto.">
+<link rel="stylesheet" href="../../../assets/fonts/fonts.css">
+<style>
+  body{margin:0;font-family:var(--font-body);background:var(--linen);color:var(--ink);line-height:1.6}
+  main{max-width:46rem;margin:0 auto;padding:1.5rem 1rem 2.5rem}
+  h1{font-size:1.6rem;line-height:1.25;margin:0 0 .4rem}
+  .bars{display:flex;gap:6px;margin:.3rem 0 1.1rem}.bars i{display:block;height:6px;border-radius:2px}
+  .bars i:first-child{width:56px;background:var(--burgundy)}.bars i:last-child{width:26px;background:var(--blush)}
+  .lead{margin:0 0 1rem}
+  .step{font-size:.78rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--burgundy);margin:1.4rem 0 .3rem;display:block}
+  label{display:block;font-weight:700;margin:.6rem 0 .3rem}
+  input[type=text]{font:inherit;font-family:var(--font-code);color:var(--ink);background:var(--snow);border:2px solid var(--taupe);border-radius:8px;padding:.5rem .7rem;min-height:44px;width:100%;box-sizing:border-box}
+  input:focus-visible,button:focus-visible{outline:3px solid var(--burgundy);outline-offset:2px}
+  button{font:inherit;font-weight:700;color:var(--snow);background:var(--burgundy);border:0;border-radius:8px;padding:.55rem 1rem;min-height:44px;cursor:pointer;margin:.4rem .3rem .2rem 0}
+  .box{background:var(--snow);border:1px solid var(--rule);border-left:6px solid var(--burgundy);border-radius:0 12px 12px 0;padding:.8rem 1rem;margin:.5rem 0}
+  .tag{display:block;font-size:.72rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--burgundy)}
+  .code{font-family:var(--font-code);font-size:.95rem;overflow-wrap:anywhere;margin:.2rem 0 .6rem;letter-spacing:.02em}
+  .code mark{background:var(--rose-tint);color:var(--ink);font-weight:700;text-decoration:underline}
+  .bytes{font-size:.85rem;color:var(--taupe);margin:-.1rem 0 .3rem}
+  .tally{display:grid;grid-template-columns:repeat(2,1fr);gap:.5rem;margin-top:.6rem}
+  .tally div{background:var(--snow);border:2px solid var(--ink);border-radius:10px;padding:.6rem;text-align:center}
+  .tally b{display:block;font-size:1.6rem;line-height:1.2}
+  .tally span{font-size:.85rem}
+  .grid{display:grid;grid-template-columns:repeat(32,minmax(0,1fr));gap:2px;margin:.6rem 0 .3rem;max-width:34rem}
+  .grid i{display:block;aspect-ratio:1/1;border:1px solid var(--rule);background:var(--snow);border-radius:2px}
+  .grid i.flip{background:var(--burgundy);border-color:var(--burgundy)}
+  .legend{font-size:.85rem;color:var(--taupe)}
+  .legend b{display:inline-block;width:.9rem;height:.9rem;vertical-align:-.1rem;border:1px solid var(--rule);background:var(--snow);margin-right:.2rem}
+  .legend b.flip{background:var(--burgundy);border-color:var(--burgundy)}
+  .msg{font-weight:700;margin:.5rem 0 0}
+  .note{font-size:.9rem;color:var(--taupe);margin-top:1.4rem}
+</style>
+<!-- portal head: written by the portal generator from this demo's title and description; do not edit -->
+<meta name="robots" content="index, follow">
+<link rel="icon" href="../../../assets/img/favicon.svg" type="image/svg+xml">
+<link rel="canonical" href="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-3/artefacts/avalanche.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Principles of Information Security, HND Network Engineering Year 2">
+<meta property="og:title" content="One change, a new fingerprint | Day 3">
+<meta property="og:description" content="Change one character of a results line and see how many characters and bits of its SHA-256 digest change. Uses Web Crypto.">
+<meta property="og:url" content="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-3/artefacts/avalanche.html">
+<meta property="og:locale" content="en_GB">
+<meta property="og:image" content="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/assets/img/social-card.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="At Taxila College the Head of IT points to the security register on the wall: nineteen numbered items, the first outlined as the place to start. The Registrar holds a sealed transcript and the Data Protection Officer a clipboard. A lecturer turns to welcome two students arriving with a laptop and a phone.">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","author":{"@type":"Person","affiliation":{"@type":"Organization","name":"School of Computing & Engineering, National Institute of Business Management"},"name":"Niranga Dharmaratna"},"description":"Change one character of a results line and see how many characters and bits of its SHA-256 digest change. Uses Web Crypto.","educationalLevel":"Higher National Diploma, Year 2","inLanguage":"en-GB","interactivityType":"active","isAccessibleForFree":true,"isPartOf":{"@id":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/#course","@type":"Course","name":"Principles of Information Security, HND Network Engineering Year 2","url":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/"},"learningResourceType":"Interactive demonstration","license":"https://opensource.org/licenses/MIT","name":"One change, a new fingerprint | Day 3","url":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-3/artefacts/avalanche.html"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/","name":"Principles of Information Security","position":1},{"@type":"ListItem","item":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-3/","name":"Day 3","position":2},{"@type":"ListItem","item":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-3/artefacts/avalanche.html","name":"One change, a new fingerprint","position":3}]}</script>
+<!-- /portal head -->
+</head>
+<body>
+<main>
+<h1>One change, a new fingerprint</h1>
+<div class="bars" aria-hidden="true"><i></i><i></i></div>
+<p class="lead">A good hash function has the avalanche effect: change one character of the input, and the digest changes completely. Here are two lines of a results file, one mark apart. Edit either line, or press the button to change one character, and compare the two SHA-256 digests.</p>
+
+<span class="step">Step 1</span>
+<label for="a">Before</label>
+<input id="a" type="text" maxlength="200" autocomplete="off" spellcheck="false" value="COHNDNE999X000,50">
+<p class="bytes" id="abytes"></p>
+<label for="b">After</label>
+<input id="b" type="text" maxlength="200" autocomplete="off" spellcheck="false" value="COHNDNE999X000,51">
+<p class="bytes" id="bbytes"></p>
+<button id="one" type="button">Change one character of After</button>
+<button id="reset" type="button">Back to the two results lines</button>
+
+<span class="step">Step 2</span>
+<div class="box">
+  <span class="tag">Digest of Before</span>
+  <p class="code" id="da"></p>
+  <span class="tag">Digest of After (characters that differ are marked)</span>
+  <p class="code" id="db"></p>
+</div>
+<div class="tally" aria-live="polite">
+  <div><b id="nchar">0</b><span>of 64 characters differ</span></div>
+  <div><b id="nbit">0</b><span>of 256 bits differ</span></div>
+</div>
+
+<span class="step">Step 3</span>
+<p>Each square below is one of the 256 bits of the digest. A filled square is a bit that flipped between Before and After.</p>
+<div class="grid" id="grid" aria-hidden="true"></div>
+<p class="legend"><b class="flip"></b>flipped &nbsp; <b></b>the same</p>
+<p class="msg" id="verdict" aria-live="polite"></p>
+
+<p class="note">This page uses your browser's own cryptography, called Web Crypto, to compute each digest. What you type stays on this page. A space is a character too: add one at the end of a line, and its size grows by one byte and its digest changes completely.</p>
+</main>
+<script>
+(function () {
+  "use strict";
+  var $ = function (id) { return document.getElementById(id); };
+  var subtle = window.crypto && window.crypto.subtle;
+  var A0 = "COHNDNE999X000,50", B0 = "COHNDNE999X000,51";
+  var cells = [];
+  for (var i = 0; i < 256; i++) { var c = document.createElement("i"); $("grid").appendChild(c); cells.push(c); }
+  function hex(buf) { return Array.prototype.map.call(new Uint8Array(buf), function (b) { return ("0" + b.toString(16)).slice(-2); }).join(""); }
+  function clear(node) { while (node.firstChild) { node.removeChild(node.firstChild); } }
+  function bits(h) { var out = ""; for (var j = 0; j < h.length; j++) { out += ("000" + parseInt(h.charAt(j), 16).toString(2)).slice(-4); } return out; }
+  var pending = 0;
+  async function update() {
+    var ticket = ++pending;
+    if (!subtle) { $("da").textContent = "Web Crypto is not available here. Open this page from the portal or from your offline copy."; return; }
+    var enc = new TextEncoder(), ta = enc.encode($("a").value), tb = enc.encode($("b").value);
+    var ha = hex(await subtle.digest("SHA-256", ta)), hb = hex(await subtle.digest("SHA-256", tb));
+    if (ticket !== pending) { return; }
+    $("abytes").textContent = ta.length + " bytes";
+    $("bbytes").textContent = tb.length + " bytes";
+    $("da").textContent = ha;
+    var db = $("db"); clear(db);
+    var nc = 0;
+    for (var k = 0; k < hb.length; k++) {
+      if (hb.charAt(k) !== ha.charAt(k)) { var m = document.createElement("mark"); m.textContent = hb.charAt(k); db.appendChild(m); nc += 1; }
+      else { db.appendChild(document.createTextNode(hb.charAt(k))); }
+    }
+    var ba = bits(ha), bb = bits(hb), nb = 0;
+    for (var n = 0; n < 256; n++) { var f = ba.charAt(n) !== bb.charAt(n); cells[n].className = f ? "flip" : ""; if (f) { nb += 1; } }
+    $("nchar").textContent = nc;
+    $("nbit").textContent = nb;
+    var same = $("a").value === $("b").value;
+    $("verdict").textContent = same
+      ? "The two inputs are the same, so the digests are the same: nothing differs."
+      : "The inputs differ, and about half of the 256 bits flipped. You cannot tell from the digests how much of the input changed, or where.";
+  }
+  $("a").addEventListener("input", update);
+  $("b").addEventListener("input", update);
+  $("one").addEventListener("click", function () {
+    var s = $("b").value;
+    if (!s.length) { $("b").value = "a"; update(); return; }
+    var pool = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    var r = new Uint32Array(2); crypto.getRandomValues(r);
+    var pos = r[0] % s.length, ch = s.charAt(pos), nc = ch;
+    while (nc === ch) { crypto.getRandomValues(r); nc = pool.charAt(r[1] % pool.length); }
+    $("b").value = s.slice(0, pos) + nc + s.slice(pos + 1);
+    update();
+  });
+  $("reset").addEventListener("click", function () { $("a").value = A0; $("b").value = B0; update(); });
+  update();
+}());
+</script>
+</body>
+</html>

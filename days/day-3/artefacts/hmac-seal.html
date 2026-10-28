@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>A keyed seal</title>
+<meta name="description" content="Seal a results file with an HMAC key, check it, change a mark, and see why nobody without the key can make a matching seal. Uses Web Crypto.">
+<link rel="stylesheet" href="../../../assets/fonts/fonts.css">
+<style>
+  body{margin:0;font-family:var(--font-body);background:var(--linen);color:var(--ink);line-height:1.6}
+  main{max-width:46rem;margin:0 auto;padding:1.5rem 1rem 2.5rem}
+  h1{font-size:1.6rem;line-height:1.25;margin:0 0 .4rem}
+  .bars{display:flex;gap:6px;margin:.3rem 0 1.1rem}.bars i{display:block;height:6px;border-radius:2px}
+  .bars i:first-child{width:56px;background:var(--burgundy)}.bars i:last-child{width:26px;background:var(--blush)}
+  .lead{margin:0 0 1rem}
+  .step{font-size:.78rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--burgundy);margin:1.6rem 0 .3rem;display:block}
+  h2{font-size:1.15rem;margin:.1rem 0 .4rem}
+  button:focus-visible{outline:3px solid var(--burgundy);outline-offset:2px}
+  button{font:inherit;font-weight:700;color:var(--snow);background:var(--burgundy);border:0;border-radius:8px;padding:.55rem 1rem;min-height:44px;cursor:pointer;margin:.4rem .3rem .2rem 0}
+  button[disabled]{background:var(--blush);color:var(--taupe);cursor:not-allowed}
+  .box{background:var(--snow);border:1px solid var(--rule);border-left:6px solid var(--burgundy);border-radius:0 12px 12px 0;padding:.8rem 1rem;margin:.5rem 0}
+  .box.fault{border-left:6px dashed var(--signal-vermilion)}
+  .tag{display:block;font-size:.72rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--burgundy)}
+  .code{font-family:var(--font-code);font-size:.9rem;overflow-wrap:anywhere;margin:.2rem 0 .5rem}
+  .file{font-family:var(--font-code);font-size:1.05rem;font-weight:700;margin:.2rem 0 .5rem}
+  .msg{font-weight:700;margin:.3rem 0 0}
+  .note{font-size:.9rem;color:var(--taupe);margin-top:1.4rem}
+</style>
+<!-- portal head: written by the portal generator from this demo's title and description; do not edit -->
+<meta name="robots" content="index, follow">
+<link rel="icon" href="../../../assets/img/favicon.svg" type="image/svg+xml">
+<link rel="canonical" href="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-3/artefacts/hmac-seal.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Principles of Information Security, HND Network Engineering Year 2">
+<meta property="og:title" content="A keyed seal | Day 3">
+<meta property="og:description" content="Seal a results file with an HMAC key, check it, change a mark, and see why nobody without the key can make a matching seal. Uses Web Crypto.">
+<meta property="og:url" content="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-3/artefacts/hmac-seal.html">
+<meta property="og:locale" content="en_GB">
+<meta property="og:image" content="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/assets/img/social-card.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="At Taxila College the Head of IT points to the security register on the wall: nineteen numbered items, the first outlined as the place to start. The Registrar holds a sealed transcript and the Data Protection Officer a clipboard. A lecturer turns to welcome two students arriving with a laptop and a phone.">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","author":{"@type":"Person","affiliation":{"@type":"Organization","name":"School of Computing & Engineering, National Institute of Business Management"},"name":"Niranga Dharmaratna"},"description":"Seal a results file with an HMAC key, check it, change a mark, and see why nobody without the key can make a matching seal. Uses Web Crypto.","educationalLevel":"Higher National Diploma, Year 2","inLanguage":"en-GB","interactivityType":"active","isAccessibleForFree":true,"isPartOf":{"@id":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/#course","@type":"Course","name":"Principles of Information Security, HND Network Engineering Year 2","url":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/"},"learningResourceType":"Interactive demonstration","license":"https://opensource.org/licenses/MIT","name":"A keyed seal | Day 3","url":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-3/artefacts/hmac-seal.html"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/","name":"Principles of Information Security","position":1},{"@type":"ListItem","item":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-3/","name":"Day 3","position":2},{"@type":"ListItem","item":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-3/artefacts/hmac-seal.html","name":"A keyed seal","position":3}]}</script>
+<!-- /portal head -->
+</head>
+<body>
+<main>
+<h1>A keyed seal</h1>
+<div class="bars" aria-hidden="true"><i></i><i></i></div>
+<p class="lead">Anyone can compute a digest, including someone who changed the file. A hash-based message authentication code (HMAC) mixes a secret key into the hash, so only a key-holder can make or check the seal. Here the examinations office seals a results file, and both its Colombo and Kandy offices hold the key.</p>
+
+<span class="step">Step 1</span>
+<h2>Seal the file</h2>
+<div class="box">
+  <span class="tag">The results file</span>
+  <p class="file" id="file">COHNDNE999X000,50</p>
+  <span class="tag">The office key, held by Colombo and by Kandy</span>
+  <p class="code" id="key">(none yet)</p>
+  <span class="tag">The seal</span>
+  <p class="code" id="seal">(none yet)</p>
+</div>
+<button id="make" type="button">Make a key and seal the file</button>
+
+<span class="step">Step 2</span>
+<h2>Check the seal with the key</h2>
+<button id="check" type="button" disabled>Check the seal</button>
+<p class="msg" id="checkout" aria-live="polite"></p>
+
+<span class="step">Step 3</span>
+<h2>Change one mark</h2>
+<button id="change" type="button" disabled>Change the mark from 50 to 51, then check the seal</button>
+<div class="box fault" id="changebox" hidden>
+  <p class="msg" id="changeout" aria-live="polite"></p>
+</div>
+
+<span class="step">Step 4</span>
+<h2>Someone without the key changes the file</h2>
+<p>They raise the mark, then try to cover the change. A plain digest is easy to remake. A seal is not.</p>
+<button id="forge" type="button" disabled>Raise the mark, remake the digest, and make a seal with another key</button>
+<div class="box fault" id="forgebox" hidden>
+  <span class="tag">A plain SHA-256 digest of the changed file</span>
+  <p class="code" id="fdig"></p>
+  <p class="msg" id="fdigout"></p>
+  <span class="tag" style="margin-top:.6rem">Their seal, made with a key that is not the office key</span>
+  <p class="code" id="fseal"></p>
+  <p class="msg" id="fsealout" aria-live="polite"></p>
+</div>
+
+<span class="step">Step 5</span>
+<h2>Who made the seal?</h2>
+<button id="who" type="button" disabled>Colombo seals the file, then Kandy seals the same file</button>
+<div class="box" id="whobox" hidden>
+  <span class="tag">Colombo's seal</span>
+  <p class="code" id="wc"></p>
+  <span class="tag">Kandy's seal</span>
+  <p class="code" id="wk"></p>
+  <p class="msg" id="whoout" aria-live="polite"></p>
+</div>
+
+<p class="note">This page uses your browser's own cryptography, called Web Crypto, for HMAC with SHA-256 and for the plain digest. The key is made fresh on this page and never leaves it. The seal hides nothing: the results file stays readable beside it.</p>
+</main>
+<script>
+(function () {
+  "use strict";
+  var $ = function (id) { return document.getElementById(id); };
+  var subtle = window.crypto && window.crypto.subtle;
+  var ORIGINAL = "COHNDNE999X000,50", CHANGED = "COHNDNE999X000,51", RAISED = "COHNDNE999X000,59";
+  var key, seal;
+  function hex(buf) { return Array.prototype.map.call(new Uint8Array(buf), function (b) { return ("0" + b.toString(16)).slice(-2); }).join(""); }
+  function enc(s) { return new TextEncoder().encode(s); }
+  async function hmacKey(raw) { return subtle.importKey("raw", raw, { name: "HMAC", hash: "SHA-256" }, false, ["sign", "verify"]); }
+  async function sealOf(k, text) { return subtle.sign("HMAC", k, enc(text)); }
+  async function check(k, sig, text) { return subtle.verify("HMAC", k, sig, enc(text)); }
+  $("make").addEventListener("click", async function () {
+    if (!subtle) { $("key").textContent = "Web Crypto is not available here. Open this page from the portal or from your offline copy."; return; }
+    var raw = crypto.getRandomValues(new Uint8Array(32));
+    key = await hmacKey(raw);
+    $("file").textContent = ORIGINAL;
+    seal = await sealOf(key, ORIGINAL);
+    $("key").textContent = hex(raw);
+    $("seal").textContent = hex(seal);
+    ["checkout", "changeout", "fdigout", "fsealout", "whoout"].forEach(function (id) { $(id).textContent = ""; });
+    ["changebox", "forgebox", "whobox"].forEach(function (id) { $(id).hidden = true; });
+    ["check", "change", "forge", "who"].forEach(function (id) { $(id).disabled = false; });
+  });
+  $("check").addEventListener("click", async function () {
+    var ok = await check(key, seal, $("file").textContent);
+    $("checkout").textContent = ok
+      ? "✓ The seal matches. The file is unchanged, and a key-holder sealed it."
+      : "✗ The seal does not match the file as it is now.";
+  });
+  $("change").addEventListener("click", async function () {
+    $("file").textContent = CHANGED;
+    var ok = await check(key, seal, CHANGED);
+    $("changebox").hidden = false;
+    $("changeout").textContent = ok
+      ? "Unexpected: the seal still matched."
+      : "✗ The seal no longer matches. One changed character, and the office knows the file is not the one it sealed. (Press step 1 again to start over.)";
+  });
+  $("forge").addEventListener("click", async function () {
+    $("file").textContent = RAISED;
+    var d = hex(await subtle.digest("SHA-256", enc(RAISED)));
+    $("fdig").textContent = d;
+    $("fdigout").textContent = "This digest matches the changed file perfectly. If the office kept only a plain digest, and it could be replaced too, the change would be hidden.";
+    var other = await hmacKey(crypto.getRandomValues(new Uint8Array(32)));
+    var fake = await sealOf(other, RAISED);
+    $("fseal").textContent = hex(fake);
+    var ok = await check(key, fake, RAISED);
+    $("forgebox").hidden = false;
+    $("fsealout").textContent = ok
+      ? "Unexpected: the seal matched."
+      : "✗ The office checks this seal with its own key, and it does not match. Without the office key, nobody can make a seal that matches.";
+  });
+  $("who").addEventListener("click", async function () {
+    $("file").textContent = ORIGINAL;
+    var c = hex(await sealOf(key, ORIGINAL)), k = hex(await sealOf(key, ORIGINAL));
+    $("wc").textContent = c;
+    $("wk").textContent = k;
+    $("whobox").hidden = false;
+    $("whoout").textContent = (c === k ? "The two seals are identical. " : "") +
+      "Both offices hold the same key, so a valid seal shows that a key-holder sealed the file, but not which one. That is why a keyed seal gives no non-repudiation. On Day 4, a signature made with a private key that only one person holds shows which one.";
+  });
+}());
+</script>
+</body>
+</html>

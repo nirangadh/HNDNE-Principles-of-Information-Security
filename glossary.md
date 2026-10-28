@@ -125,3 +125,60 @@ Encryption that uses a pair of keys: anyone may encrypt with the public key, and
 Using both families together. Asymmetric methods set up a fast symmetric key, by carrying it or agreeing it, and the symmetric key then encrypts the data.
 
 *Taxila example:* Kandy encrypts the paper with a fresh key for the Advanced Encryption Standard (AES), then locks that key with Colombo's public key.
+
+## Day 3
+
+### Hash function
+A method that takes an input of any size and returns a short value of fixed length, the digest. The same input always gives the same digest, and the digest cannot be turned back into the input.
+
+*Taxila example:* the Registrar runs each results file through a hash function before publishing it.
+
+### Digest
+The fixed-length value a hash function returns. It identifies the data like a fingerprint, but does not hide it. Any change to the data, even one character, gives a completely different digest.
+
+*Taxila example:* the digest published beside a results file lets anyone check that the file is unchanged.
+
+### SHA-256
+The Secure Hash Algorithm at 256 bits (SHA-256): the hash function in current use. Its digest is sixty-four hexadecimal characters. Older ones, MD5 (Message Digest 5) and SHA-1 (Secure Hash Algorithm 1), are deprecated.
+
+*Taxila example:* the lab fingerprints each student's results line with SHA-256.
+
+### Avalanche effect
+The property that changing one character of the input changes the digest completely: about half of its bits flip, with no visible link between the old digest and the new one.
+
+*Taxila example:* a results file changed by one mark has a digest that differs in almost every character.
+
+### Preimage resistance
+The property that, given a digest, nobody can find an input that made it. A hash function can only be run forwards; there is no key and no way back.
+
+*Taxila example:* a stolen file of password digests does not give back the passwords themselves.
+
+### Collision resistance
+The property that nobody can find two different inputs with the same digest. A hash function is retired once such pairs, called collisions, can be found.
+
+*Taxila example:* nobody can make a second results file with the same digest as the real one.
+
+### Lookup table
+A table of digests computed in advance, each beside the input that made it, such as common passwords. A dictionary is the word list; a rainbow table is a large, compact table. It matches digests; it never reverses one.
+
+*Taxila example:* an unsalted digest of `password123` from the SIS (Student Information System) store is found in such a table at once.
+
+### Salt
+A value, different for every user, added to a password before hashing. It is stored in plain sight beside the digest and need not be secret. It makes identical passwords store differently.
+
+*Taxila example:* two lecturers who chose the same password have different salts, so different stored digests.
+
+### Slow password hash
+A hash made slow on purpose for storing passwords, by repeating its work many times. bcrypt, Argon2 and the Password-Based Key Derivation Function 2 (PBKDF2) are examples. Each guess then costs a guesser the same delay.
+
+*Taxila example:* the Student Information System stores each salted password with PBKDF2 at hundreds of thousands of rounds.
+
+### Pepper
+One further secret value, the same for every user, added to each password before hashing. Unlike a salt, it is kept apart from the database, so a stolen database alone is not enough.
+
+*Taxila example:* the Student Information System keeps its pepper in the server's own settings, not in the password store.
+
+### HMAC
+A hash-based message authentication code: a keyed hash that mixes a shared secret key with a message. Only key-holders can make or check its seal. It shows the message is unchanged, not which key-holder sent it.
+
+*Taxila example:* the examinations offices in Colombo and Kandy share a key and seal each results file with it.
