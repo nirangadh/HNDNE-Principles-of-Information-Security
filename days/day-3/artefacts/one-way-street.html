@@ -1,0 +1,235 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>One way only</title>
+<meta name="description" content="Encryption comes back with its key; a digest never does. Try both, watch guessing fail, then compare MD5, SHA-1 and SHA-256. Uses Web Crypto.">
+<link rel="stylesheet" href="../../../assets/fonts/fonts.css">
+<style>
+  body{margin:0;font-family:var(--font-body);background:var(--linen);color:var(--ink);line-height:1.6}
+  main{max-width:46rem;margin:0 auto;padding:1.5rem 1rem 2.5rem}
+  h1{font-size:1.6rem;line-height:1.25;margin:0 0 .4rem}
+  .bars{display:flex;gap:6px;margin:.3rem 0 1.1rem}.bars i{display:block;height:6px;border-radius:2px}
+  .bars i:first-child{width:56px;background:var(--burgundy)}.bars i:last-child{width:26px;background:var(--blush)}
+  .lead{margin:0 0 1rem}
+  .step{font-size:.78rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--burgundy);margin:1.6rem 0 .3rem;display:block}
+  h2{font-size:1.15rem;margin:.1rem 0 .4rem}
+  label{display:block;font-weight:700;margin:.2rem 0 .3rem}
+  select{font:inherit;color:var(--ink);background:var(--snow);border:2px solid var(--taupe);border-radius:8px;padding:.5rem .7rem;min-height:44px;width:100%;box-sizing:border-box}
+  select:focus-visible,button:focus-visible{outline:3px solid var(--burgundy);outline-offset:2px}
+  button{font:inherit;font-weight:700;color:var(--snow);background:var(--burgundy);border:0;border-radius:8px;padding:.55rem 1rem;min-height:44px;cursor:pointer;margin:.4rem .3rem .2rem 0}
+  button[disabled]{background:var(--blush);color:var(--taupe);cursor:not-allowed}
+  .box{background:var(--snow);border:1px solid var(--rule);border-left:6px solid var(--burgundy);border-radius:0 12px 12px 0;padding:.8rem 1rem;margin:.5rem 0}
+  .box.fault{border-left:6px dashed var(--signal-vermilion)}
+  .tag{display:block;font-size:.72rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--burgundy)}
+  .code{font-family:var(--font-code);font-size:.9rem;overflow-wrap:anywhere;margin:.2rem 0 .5rem}
+  .code mark{background:var(--rose-tint);color:var(--ink);font-weight:700;text-decoration:underline}
+  .msg{font-weight:700;margin:.3rem 0 0}
+  .wrap{overflow-x:auto}
+  table{border-collapse:collapse;width:100%;font-size:.92rem;background:var(--snow);margin:.4rem 0}
+  th,td{border:1px solid var(--rule);padding:.4rem .5rem;text-align:left;vertical-align:top}
+  th{background:var(--rose-wash)}
+  td.dig{font-family:var(--font-code);font-size:.82rem;overflow-wrap:anywhere;min-width:11rem}
+  ol.guesses{font-family:var(--font-code);font-size:.85rem;columns:2;column-gap:1.5rem;margin:.4rem 0;padding-left:1.6rem}
+  ol.guesses li.hit{font-weight:700;text-decoration:underline}
+  .note{font-size:.9rem;color:var(--taupe);margin-top:1.4rem}
+</style>
+<!-- portal head: written by the portal generator from this demo's title and description; do not edit -->
+<meta name="robots" content="index, follow">
+<link rel="icon" href="../../../assets/img/favicon.svg" type="image/svg+xml">
+<link rel="canonical" href="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-3/artefacts/one-way-street.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Principles of Information Security, HND Network Engineering Year 2">
+<meta property="og:title" content="One way only | Day 3">
+<meta property="og:description" content="Encryption comes back with its key; a digest never does. Try both, watch guessing fail, then compare MD5, SHA-1 and SHA-256. Uses Web Crypto.">
+<meta property="og:url" content="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-3/artefacts/one-way-street.html">
+<meta property="og:locale" content="en_GB">
+<meta property="og:image" content="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/assets/img/social-card.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="At Taxila College the Head of IT points to the security register on the wall: nineteen numbered items, the first outlined as the place to start. The Registrar holds a sealed transcript and the Data Protection Officer a clipboard. A lecturer turns to welcome two students arriving with a laptop and a phone.">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","author":{"@type":"Person","affiliation":{"@type":"Organization","name":"School of Computing & Engineering, National Institute of Business Management"},"name":"Niranga Dharmaratna"},"description":"Encryption comes back with its key; a digest never does. Try both, watch guessing fail, then compare MD5, SHA-1 and SHA-256. Uses Web Crypto.","educationalLevel":"Higher National Diploma, Year 2","inLanguage":"en-GB","interactivityType":"active","isAccessibleForFree":true,"isPartOf":{"@id":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/#course","@type":"Course","name":"Principles of Information Security, HND Network Engineering Year 2","url":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/"},"learningResourceType":"Interactive demonstration","license":"https://opensource.org/licenses/MIT","name":"One way only | Day 3","url":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-3/artefacts/one-way-street.html"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/","name":"Principles of Information Security","position":1},{"@type":"ListItem","item":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-3/","name":"Day 3","position":2},{"@type":"ListItem","item":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-3/artefacts/one-way-street.html","name":"One way only","position":3}]}</script>
+<!-- /portal head -->
+</head>
+<body>
+<main>
+<h1>One way only</h1>
+<div class="bars" aria-hidden="true"><i></i><i></i></div>
+<p class="lead">On Day 2, a key turned ciphertext back into the message. A hash function works the other way: nothing turns a digest back into its input. Try both on the same line, then see the only thing left to try: guessing.</p>
+
+<span class="step">Step 1</span>
+<h2>Encryption comes back with the key</h2>
+<label for="line">Choose a line</label>
+<select id="line">
+  <option>COHNDNE999X000,50</option>
+  <option>Exam paper store: the paper for the next exam is ready.</option>
+</select>
+<button id="enc" type="button">Encrypt with a fresh key</button>
+<button id="dec" type="button" disabled>Decrypt with the key</button>
+<div class="box">
+  <span class="tag">Ciphertext</span>
+  <p class="code" id="ct">(none yet)</p>
+  <span class="tag">Decrypted with the key</span>
+  <p class="msg" id="back" aria-live="polite"></p>
+</div>
+
+<span class="step">Step 2</span>
+<h2>A digest does not come back</h2>
+<button id="hash" type="button">Fingerprint the same line</button>
+<button id="undo" type="button" disabled>Try to get the line back from the digest</button>
+<div class="box">
+  <span class="tag">SHA-256 digest</span>
+  <p class="code" id="dg">(none yet)</p>
+  <p class="msg" id="undoout" aria-live="polite"></p>
+</div>
+<div class="wrap" id="pairs" hidden>
+<table>
+  <thead><tr><th scope="col">What your browser's cryptography offers</th><th scope="col">Its way back</th></tr></thead>
+  <tbody>
+    <tr><td>encrypt, with a key</td><td>decrypt, with the same key</td></tr>
+    <tr><td>digest, with no key</td><td>none: there is no way back, for anyone</td></tr>
+  </tbody>
+</table>
+</div>
+
+<span class="step">Step 3</span>
+<h2>The only way back is to guess</h2>
+<p>Without a way back, someone with a digest can only guess: hash a likely input and see whether the digest matches. Here is a list of twenty guesses. Try it on two digests.</p>
+<button id="g1" type="button">Guess the input of a results line's digest</button>
+<button id="g2" type="button">Guess the input of a common password's digest</button>
+<ol class="guesses" id="list"></ol>
+<p class="msg" id="gout" aria-live="polite"></p>
+
+<span class="step">Step 4</span>
+<h2>Two inputs, one digest?</h2>
+<p>A collision is two different inputs with the same digest. Hash twenty thousand different inputs and find the two digests that look most alike.</p>
+<button id="hunt" type="button">Hash twenty thousand inputs</button>
+<p class="msg" id="huntout" aria-live="polite"></p>
+<div class="box" id="pairbox" hidden>
+  <span class="tag" id="pa"></span>
+  <p class="code" id="pda"></p>
+  <span class="tag" id="pb"></span>
+  <p class="code" id="pdb"></p>
+</div>
+
+<span class="step">Step 5</span>
+<h2>Older fingerprints</h2>
+<p>Hash functions are retired once collisions can be found for them. Here is the word <code>Taxila</code> through three of them.</p>
+<button id="old" type="button">Show the three digests</button>
+<div class="wrap">
+<table>
+  <thead><tr><th scope="col">Hash function</th><th scope="col">Digest of Taxila</th><th scope="col">Length</th><th scope="col">Status at the time of writing</th></tr></thead>
+  <tbody>
+    <tr><td>Message Digest 5 (MD5)</td><td class="dig" id="md5"></td><td id="l1"></td><td>deprecated: collisions can be found</td></tr>
+    <tr><td>Secure Hash Algorithm 1 (SHA-1)</td><td class="dig" id="sha1"></td><td id="l2"></td><td>deprecated: collisions have been found</td></tr>
+    <tr><td>SHA-256</td><td class="dig" id="sha256"></td><td id="l3"></td><td>the current choice</td></tr>
+  </tbody>
+</table>
+</div>
+
+<p class="note">This page uses your browser's own cryptography, called Web Crypto, for the Advanced Encryption Standard (AES), SHA-1 and SHA-256. Web Crypto does not offer MD5 at all, because MD5 is no longer trusted, so its digest here was computed in advance. Every guess on this page is from the page's own list; nothing you do leaves the page.</p>
+</main>
+<script>
+(function () {
+  "use strict";
+  var $ = function (id) { return document.getElementById(id); };
+  var subtle = window.crypto && window.crypto.subtle;
+  var GUESSES = ["password", "123456", "qwerty", "taxila123", "welcome1", "sunshine", "admin123", "letmein", "colombo123", "kandy123",
+                 "iloveyou", "football", "abc123", "monkey", "student123", "dragon", "princess", "changeme", "secret", "lanka123"];
+  var HIDDEN_LINE = "COHNDNE999X000,57", COMMON = "letmein";
+  var MD5_TAXILA = "d01a3e1d644293b0427b98e0e7b1aaa5";
+  var key, iv, ct, busy = false;
+  function hex(buf) { return Array.prototype.map.call(new Uint8Array(buf), function (b) { return ("0" + b.toString(16)).slice(-2); }).join(""); }
+  function enc(s) { return new TextEncoder().encode(s); }
+  async function sha(alg, s) { return hex(await subtle.digest(alg, enc(s))); }
+  function noCrypto(id) { $(id).textContent = "Web Crypto is not available here. Open this page from the portal or from your offline copy."; }
+  function clear(node) { while (node.firstChild) { node.removeChild(node.firstChild); } }
+  GUESSES.forEach(function (g) { var li = document.createElement("li"); li.textContent = g; $("list").appendChild(li); });
+
+  $("enc").addEventListener("click", async function () {
+    if (!subtle) { noCrypto("ct"); return; }
+    key = await subtle.generateKey({ name: "AES-CBC", length: 256 }, false, ["encrypt", "decrypt"]);
+    iv = crypto.getRandomValues(new Uint8Array(16));
+    ct = await subtle.encrypt({ name: "AES-CBC", iv: iv }, key, enc($("line").value));
+    $("ct").textContent = hex(ct);
+    $("back").textContent = "";
+    $("dec").disabled = false;
+  });
+  $("dec").addEventListener("click", async function () {
+    var out = await subtle.decrypt({ name: "AES-CBC", iv: iv }, key, ct);
+    $("back").textContent = "✓ " + new TextDecoder().decode(out) + "  (the key brought it back)";
+  });
+  $("hash").addEventListener("click", async function () {
+    if (!subtle) { noCrypto("dg"); return; }
+    $("dg").textContent = await sha("SHA-256", $("line").value);
+    $("undoout").textContent = "";
+    $("undo").disabled = false;
+  });
+  $("undo").addEventListener("click", function () {
+    $("undoout").textContent = "✗ There is no way to do this. A hash function has no key and no reverse. Your browser's cryptography can make a digest, but it has no operation that undoes one, and nor does any other tool.";
+    $("pairs").hidden = false;
+  });
+
+  async function guess(target, label) {
+    if (!subtle) { noCrypto("gout"); return; }
+    if (busy) { return; }
+    busy = true;
+    var items = $("list").children, found = -1;
+    for (var i = 0; i < items.length; i++) { items[i].className = ""; }
+    for (var j = 0; j < GUESSES.length; j++) {
+      $("gout").textContent = "Guess " + (j + 1) + " of " + GUESSES.length + ": hashing " + GUESSES[j] + " and comparing...";
+      if ((await sha("SHA-256", GUESSES[j])) === target) { found = j; items[j].className = "hit"; break; }
+      await new Promise(function (r) { setTimeout(r, 70); });
+    }
+    $("gout").textContent = found < 0
+      ? "✗ No match in " + GUESSES.length + " guesses. The " + label + " was not on the list, so guessing found nothing. The digest was never reversed; every guess was simply hashed and compared."
+      : "✓ Match at guess " + (found + 1) + ": " + GUESSES[found] + ". Guessing worked only because a common password was on the list. The digest was never reversed; a guess was hashed and compared. Section 4 of the notes shows how a salt stops this.";
+    busy = false;
+  }
+  $("g1").addEventListener("click", async function () { if (subtle) { guess(await sha("SHA-256", HIDDEN_LINE), "results line"); } else { noCrypto("gout"); } });
+  $("g2").addEventListener("click", async function () { if (subtle) { guess(await sha("SHA-256", COMMON), "password"); } else { noCrypto("gout"); } });
+
+  $("hunt").addEventListener("click", async function () {
+    if (!subtle) { noCrypto("huntout"); return; }
+    var btn = $("hunt"); btn.disabled = true;
+    var N = 20000, all = [];
+    for (var i = 1; i <= N; i++) {
+      var s = "results line " + i;
+      all.push([await sha("SHA-256", s), s]);
+      if (i % 2500 === 0) { $("huntout").textContent = "Hashed " + i + " of " + N + "..."; }
+    }
+    all.sort(function (x, y) { return x[0] < y[0] ? -1 : 1; });
+    var best = 0, bi = 0;
+    for (var k = 1; k < all.length; k++) {
+      var a = all[k - 1][0], b = all[k][0], p = 0;
+      while (p < 64 && a.charAt(p) === b.charAt(p)) { p += 1; }
+      if (p > best) { best = p; bi = k; }
+    }
+    function marked(node, d, n) {
+      clear(node);
+      var m = document.createElement("mark"); m.textContent = d.slice(0, n); node.appendChild(m);
+      node.appendChild(document.createTextNode(d.slice(n)));
+    }
+    $("pa").textContent = "Input: " + all[bi - 1][1];
+    $("pb").textContent = "Input: " + all[bi][1];
+    marked($("pda"), all[bi - 1][0], best);
+    marked($("pdb"), all[bi][0], best);
+    $("pairbox").hidden = false;
+    $("huntout").textContent = "The two closest digests share only their first " + best + " of 64 characters. A collision needs all 64 to match. For SHA-256, at the time of writing, nobody has ever found one.";
+    btn.disabled = false;
+  });
+
+  $("old").addEventListener("click", async function () {
+    if (!subtle) { noCrypto("sha256"); return; }
+    var s1 = await sha("SHA-1", "Taxila"), s2 = await sha("SHA-256", "Taxila");
+    $("md5").textContent = MD5_TAXILA; $("l1").textContent = MD5_TAXILA.length + " characters";
+    $("sha1").textContent = s1; $("l2").textContent = s1.length + " characters";
+    $("sha256").textContent = s2; $("l3").textContent = s2.length + " characters";
+  });
+}());
+</script>
+</body>
+</html>

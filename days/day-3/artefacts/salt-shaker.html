@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>A pinch of salt</title>
+<meta name="description" content="A lookup table finds an unsalted password digest at once, but not a salted one. Check a digest and time a slow hash. Uses Web Crypto.">
+<link rel="stylesheet" href="../../../assets/fonts/fonts.css">
+<style>
+  body{margin:0;font-family:var(--font-body);background:var(--linen);color:var(--ink);line-height:1.6}
+  main{max-width:46rem;margin:0 auto;padding:1.5rem 1rem 2.5rem}
+  h1{font-size:1.6rem;line-height:1.25;margin:0 0 .4rem}
+  .bars{display:flex;gap:6px;margin:.3rem 0 1.1rem}.bars i{display:block;height:6px;border-radius:2px}
+  .bars i:first-child{width:56px;background:var(--burgundy)}.bars i:last-child{width:26px;background:var(--blush)}
+  .lead{margin:0 0 1rem}
+  .step{font-size:.78rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--burgundy);margin:1.6rem 0 .3rem;display:block}
+  h2{font-size:1.15rem;margin:.1rem 0 .4rem}
+  label{display:block;font-weight:700;margin:.2rem 0 .3rem}
+  select,input[type=text]{font:inherit;color:var(--ink);background:var(--snow);border:2px solid var(--taupe);border-radius:8px;padding:.5rem .7rem;min-height:44px;width:100%;box-sizing:border-box}
+  input[type=text]{font-family:var(--font-code);font-size:.9rem}
+  select:focus-visible,input:focus-visible,button:focus-visible{outline:3px solid var(--burgundy);outline-offset:2px}
+  button{font:inherit;font-weight:700;color:var(--snow);background:var(--burgundy);border:0;border-radius:8px;padding:.55rem 1rem;min-height:44px;cursor:pointer;margin:.4rem .3rem .2rem 0}
+  button[disabled]{background:var(--blush);color:var(--taupe);cursor:not-allowed}
+  .box{background:var(--snow);border:1px solid var(--rule);border-left:6px solid var(--burgundy);border-radius:0 12px 12px 0;padding:.8rem 1rem;margin:.5rem 0}
+  .box.fault{border-left:6px dashed var(--signal-vermilion)}
+  .tag{display:block;font-size:.72rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--burgundy)}
+  .code{font-family:var(--font-code);font-size:.9rem;overflow-wrap:anywhere;margin:.2rem 0 .5rem}
+  .msg{font-weight:700;margin:.3rem 0 0}
+  .wrap{overflow-x:auto}
+  table{border-collapse:collapse;width:100%;font-size:.92rem;background:var(--snow);margin:.4rem 0}
+  th,td{border:1px solid var(--rule);padding:.4rem .5rem;text-align:left;vertical-align:top}
+  th{background:var(--rose-wash)}
+  td.dig{font-family:var(--font-code);font-size:.82rem;overflow-wrap:anywhere;min-width:11rem}
+  td.mono{font-family:var(--font-code)}
+  .tally{display:grid;grid-template-columns:repeat(2,1fr);gap:.5rem;margin-top:.6rem}
+  .tally div{background:var(--snow);border:2px solid var(--ink);border-radius:10px;padding:.6rem;text-align:center}
+  .tally b{display:block;font-size:1.4rem;line-height:1.2}
+  .tally span{font-size:.85rem}
+  .note{font-size:.9rem;color:var(--taupe);margin-top:1.4rem}
+</style>
+<!-- portal head: written by the portal generator from this demo's title and description; do not edit -->
+<meta name="robots" content="index, follow">
+<link rel="icon" href="../../../assets/img/favicon.svg" type="image/svg+xml">
+<link rel="canonical" href="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-3/artefacts/salt-shaker.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Principles of Information Security, HND Network Engineering Year 2">
+<meta property="og:title" content="A pinch of salt | Day 3">
+<meta property="og:description" content="A lookup table finds an unsalted password digest at once, but not a salted one. Check a digest and time a slow hash. Uses Web Crypto.">
+<meta property="og:url" content="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-3/artefacts/salt-shaker.html">
+<meta property="og:locale" content="en_GB">
+<meta property="og:image" content="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/assets/img/social-card.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="At Taxila College the Head of IT points to the security register on the wall: nineteen numbered items, the first outlined as the place to start. The Registrar holds a sealed transcript and the Data Protection Officer a clipboard. A lecturer turns to welcome two students arriving with a laptop and a phone.">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","author":{"@type":"Person","affiliation":{"@type":"Organization","name":"School of Computing & Engineering, National Institute of Business Management"},"name":"Niranga Dharmaratna"},"description":"A lookup table finds an unsalted password digest at once, but not a salted one. Check a digest and time a slow hash. Uses Web Crypto.","educationalLevel":"Higher National Diploma, Year 2","inLanguage":"en-GB","interactivityType":"active","isAccessibleForFree":true,"isPartOf":{"@id":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/#course","@type":"Course","name":"Principles of Information Security, HND Network Engineering Year 2","url":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/"},"learningResourceType":"Interactive demonstration","license":"https://opensource.org/licenses/MIT","name":"A pinch of salt | Day 3","url":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-3/artefacts/salt-shaker.html"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/","name":"Principles of Information Security","position":1},{"@type":"ListItem","item":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-3/","name":"Day 3","position":2},{"@type":"ListItem","item":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-3/artefacts/salt-shaker.html","name":"A pinch of salt","position":3}]}</script>
+<!-- /portal head -->
+</head>
+<body>
+<main>
+<h1>A pinch of salt</h1>
+<div class="bars" aria-hidden="true"><i></i><i></i></div>
+<p class="lead">Systems store a digest of each password, never the password. But common passwords have been hashed in advance and kept in lookup tables. This page holds a small lookup table of <span id="count">about a hundred</span> common passwords. See what it finds, and what a salt does to it.</p>
+
+<span class="step">Step 1</span>
+<h2>An unsalted digest is in the table</h2>
+<label for="pw">Choose a common password (never type a real one here)</label>
+<select id="pw">
+  <option>password123</option>
+  <option>letmein</option>
+  <option>sunshine</option>
+  <option>welcome1</option>
+  <option>taxila123</option>
+  <option>qwerty</option>
+</select>
+<button id="plain" type="button">Hash it with no salt and look it up</button>
+<div class="box">
+  <span class="tag">Stored digest, no salt</span>
+  <p class="code" id="pd">(none yet)</p>
+  <p class="msg" id="pout" aria-live="polite"></p>
+</div>
+
+<span class="step">Step 2</span>
+<h2>Two staff, one password, two salts</h2>
+<p>The lecturer and the Registrar both chose the password above. Each gets a salt of their own, chosen at random and stored beside the digest.</p>
+<button id="salt" type="button">Salt and store both passwords</button>
+<div class="wrap">
+<table>
+  <thead><tr><th scope="col">User</th><th scope="col">Salt (stored in plain sight)</th><th scope="col">Stored digest of password + salt</th><th scope="col">In the table?</th></tr></thead>
+  <tbody>
+    <tr><td class="mono">lecturer01</td><td class="mono" id="s1"></td><td class="dig" id="d1"></td><td id="f1"></td></tr>
+    <tr><td class="mono">registrar</td><td class="mono" id="s2"></td><td class="dig" id="d2"></td><td id="f2"></td></tr>
+  </tbody>
+</table>
+</div>
+<p class="msg" id="sout" aria-live="polite"></p>
+
+<span class="step">Step 3</span>
+<h2>Check a digest</h2>
+<p>Paste any SHA-256 digest, such as one from this afternoon's lab, and this page searches the same table as the lab's file <code>lookup-table.txt</code>. Only the 64 hexadecimal characters of a digest are accepted.</p>
+<label for="dig">A digest of 64 hexadecimal characters</label>
+<input id="dig" type="text" maxlength="80" autocomplete="off" spellcheck="false">
+<button id="look" type="button">Look it up</button>
+<p class="msg" id="lout" aria-live="polite"></p>
+
+<span class="step">Step 4</span>
+<h2>Slow on purpose</h2>
+<p>A fast hash lets a guesser try many passwords a second. A slow password hash, such as the Password-Based Key Derivation Function 2 (PBKDF2), repeats its work many times. Time one of each, using the lecturer's salt from step 2.</p>
+<button id="time" type="button" disabled>Time SHA-256, then PBKDF2 at 600,000 rounds</button>
+<div class="tally" aria-live="polite">
+  <div><b id="tfast">-</b><span>one SHA-256</span></div>
+  <div><b id="tslow">-</b><span>one PBKDF2</span></div>
+</div>
+<p class="msg" id="tout" aria-live="polite"></p>
+
+<p class="note">This page uses your browser's own cryptography, called Web Crypto, for every digest and for PBKDF2. The table matches digests computed in advance; it never reverses one. What you paste stays on this page and is only compared with the table. A real system chooses each salt at random, as step 2 does. In the lab, your salts come from your index number, so your lecturer can check them.</p>
+</main>
+<script>
+(function () {
+  "use strict";
+  var $ = function (id) { return document.getElementById(id); };
+  var subtle = window.crypto && window.crypto.subtle;
+  var TABLE = /*TABLE*/[["8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92","123456"],["5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8","password"],["ef797c8118f02dfb649607dd5d3f8c7623048c9c063d532cc95c5ed7a898a64f","12345678"],["65e84be33532fb784c48129675f9eff3a682b27168c0ea744b2cf58ee02337c5","qwerty"],["15e2b0d3c33891ebb0f1ef609ec419420c20e320ce94c65fbc8c3312448eb225","123456789"],["5994471abb01112afcc18159f6cc74b4f511b99806da59b3caf5a9c173cacfc5","12345"],["03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4","1234"],["bcb15f821479b4d5772bd0ca866c00ad5f926e3580720659cc80d39c9d09802a","111111"],["8bb0cf6eb9b17d0f7d22b456f121257dc1254e1f01665370476383ea776df414","1234567"],["a9c43be948c5cabd56ef2bacffb77cdaa5eec49dd5eb0cc4129cf3eda5f0e74c","dragon"],["96cae35ce8a9b0244178bf28e4966c2ce1b8385723a96a6b838858cdd6ca0a1e","123123"],["a01edad91c00abe7be5b72b5e36bf4ce3c6f26e8bce3340eba365642813ab8b6","baseball"],["6ca13d52ca70c883e0f0bb101e425a89e8624de51db2d2392593af6a84118090","abc123"],["6382deaf1f5dc6e792b76db4a4a7bf2ba468884e000b25e7928e621e27fb23cb","football"],["000c285457fc971f862a79b786476c78812c8897063c6fa9c045f579a3b2d63f","monkey"],["1c8bfe8f801d79745c4631d09fff36c82aa37fc4cce4fc946683d7b336b63032","letmein"],["0bb09d80600eec3eb9d7793a6f859bedde2a2d83899b70bd78e961ed674b32f4","shadow"],["fc613b4dfd6736a7bd268c8a0e74ed0d1c04a959f59dd74ef2874983fd443fc9","master"],["94edf28c6d6da38fd35d7ad53e485307f89fbeaf120485c8d17a43f323deee71","666666"],["9a900403ac313ba27a1bc81f0932652b8020dac92c234d98fa0b06bf0040ecfd","qwertyuiop"],["a320480f534776bddb5cdb54b1e93d210a3c7d199e80a23c1b2178497b184c76","123321"],["a92f6bdb75789bccc118adfcf704029aa58063c604bab4fcdd9cd126ef9b69af","mustang"],["c775e7b757ede630cd0aa1113bd102661ab38829ca52a6422ab782862f268646","1234567890"],["34550715062af006ac4fab288de67ecb44793c3a05c475227241535f6ef7a81b","michael"],["481f6cc0511143ccdd7e2d1b1b94faf0a700a8b49cd13922a70b5ae28acaa8c5","654321"],["73cd1b16c4fb83061ad18a0b29b9643a68d4640075a466dc9e51682f84a847f5","superman"],["059a00192592d5444bc0caad7203f98b506332e2cf7abb35d684ea9bf7c18f08","1qaz2wsx"],["8c1cdb9cb4dbac6dbb6ebd118ec8f9523d22e4e4cb8cc9df5f7e1e499bba3c10","7777777"],["3ea87a56da3844b420ec2925ae922bc731ec16a4fc44dcbeafdad49b0e61d39c","121212"],["91b4d142823f7d20c5f08df69122de43f35f057a988d9619f6d3138485c9a203","000000"],["88b1cca59060320e5e5662a7da636884eb7580f4dc7e22cfb6f88b8f99045a71","qazwsx"],["fbfb386efea67e816f2dda0a8c94a98eb203757aebb3f55f183755a192d44467","123qwe"],["203b70b5ae883932161bbd0bded9357e763e63afce98b16230be33f0b94c2cc5","trustno1"],["136c67657614311f32238751044a0a3c0294f2a521e573afa8e496992d3786ba","jordan"],["9ce8db922a8f4a7abd859adee70bd8b7a63321265487da54cf4bed6a69eb3e1b","jennifer"],["1df1854015e31ca286d015345eaff29a6c6073f70984a3a746823d4cac16b075","zxcvbnm"],["8588310a98676af6e22563c1559e1ae20f85950792bdcd0c8f334867c54581cd","asdfgh"],["e9a63a4eb15738ae85cd416221c8fcc4ccc0018fac91335b42eaa016c76e87f9","hunter"],["cbeaff314ef5ad032caa60ee2e8d8144ae52a8572c7d6f75631f3bd4080a7b16","buster"],["8f27f432fcbaa4b5180a1cc7a8fa166a93cda3c1bce6f19922dd519d02f4bb39","soccer"],["37bfdcb4c50793a6286fa0efe07b9e6bba8605b2c32e329fb9f71f225545f027","harley"],["1532e76dbe9d43d0dea98c331ca5ae8a65c5e8e8b99d3e2a42ae989356f6242a","batman"],["d979885447a413abb6d606a5d0f45c3b7809e6fde2c83f0df3426f1fc9bfed97","andrew"],["abc529a4b673cbbbc532e584706cb8137be876ad53269df3b97fbd40fc76fe57","tigger"],["a941a4c4fd0c01cddef61b8be963bf4c1e2b0811c037ce3f1835fddf6ef6c223","sunshine"],["e4ad93ca07acb8d908a3aa41e920ea4f4ef4f26e7f86cf8291c5db289780a5ae","iloveyou"],["b9dd960c1753459a78115d3cb845a57d924b6877e805b08bd01086ccdf34433c","charlie"],["4007d46292298e83da10d0763d95d5139fe0c157148d0587aa912170414ccba6","robert"],["d38681074467c0bc147b17a9a12b9efa8cc10bcf545f5b0bccccf5a93c4a2b79","thomas"],["308738b8195da46d65c96f4ee3909032e27c818d8a079bccb5a1ef62e8daaa45","hockey"],["dbc4a04327176e6577b4da46df04564150053960eba5d89587dad1f76a818d80","ranger"],["bd3dae5fb91f88a4f0978222dfd58f59a124257cb081486387cbae9df11fb879","daniel"],["74fca0325b5fdb3a34badb40a2581cfbd5344187e8d3432952a5abc0929c1246","starwars"],["b89dab808c585f889185b815fb5a704b2fcbcff4b2a32e03d584a6988d68784f","klaster"],["e0bc60c82713f64ef8a57c0c40d02ce24fd0141d5cc3086259c19b1e62a62bea","112233"],["0522a55e2d5f0993a3d66d28864b2862a7218a75ea7968b075333434404485c3","george"],["aa97302150fce811425cd84537028a5afbe37e3f1362ad45a51d467e17afdc9c","computer"],["01621148306fc8fb7c2b95eeb5c37e375f90db53cf8313ea87c9c34c05b7e0e5","michelle"],["e1fc45f7880e0505ff0b6a079b9af149f225e260f59b1d20225357a8cce8ffd8","jessica"],["8cbbcf29d9cef89675c5f5c1dcfe827d0570416a5aaba30dd0de159661ad905b","pepper"],["0ffe1abd1a08215353c233d6e009613e95eec4253832a761af28ff37ac5a150c","1111"],["e8f56862d74ef5599af4eeca73924bfa44a6773a497af0c29c48e18729ba6ff0","zxcvbn"],["af41e68e1309fa29a5044cbdc36b90a3821d8807e68c7675a6c495112bc8a55f","555555"],["ee79976c9380d5e337fc1c095ece8c8f22f91f306ceeb161fa51fecede2c4ba1","11111111"],["3fe1f7584833183e2da842b2f18123186919d4aa9828dbebdb3956429d9607bb","131313"],["13b1f7ec5beaefc781e43a3b344371cd49923a8a05edd71844b92f56f6a08d38","freedom"],["ec4c88ca7f69534f10c0611c1ecd13e7c2cdf73e1b915e9fd0cf27ac10da43fa","777777"],["d74ff0ee8da3b9806b18c877dbf29bbde50b5bd8e4dad7a3a725000feb82e8f1","pass"],["aae5be5f6474904b686f639e0fcfd2be440121cd889fa381a94b71750758345e","maggie"],["3d14c2d4e4ced81e459e4ace7c01466a700000fb94a3bbe944a55fb92693e879","159753"],["ed02457b5c41d964dbd2f2a609d63fe1bb7528dbe55e1abf5b52c249cd735797","aaaaaa"],["08ddff4ebe39249a9208cd305b7d14091b1ebabef6adfa897cc34675fa0e0848","ginger"],["04e77bf8f95cb3e1a36a59d1e93857c411930db646b46c218a0352e432023cf2","princess"],["fc52fabe94c0e037d2df4498e87481a6438960c9f73d517584a7a5c564535ac4","joshua"],["873ac9ffea4dd04fa719e8920cd6938f0c23cd678af330939cff53c3d2855f34","cheese"],["52e8e47b38e854580afce4aade15dbd5ce0c0464da711afe71da123687d5a4cd","amanda"],["e83664255c6963e962bb20f9fcfaad1b570ddf5da69f5444ed37e5260f3ef689","summer"],["686f746a95b6f836d7d70567c302c3f9ebb5ee0def3d1220ee9d4e9f34f5e131","love"],["c64975ba3cf3f9cd58459710b0a42369f34b0759c9967fb5a47eea488e8bea79","ashley"],["b54a1af8b666f61c2dd5ae8f8a543133409fd28c3b78064c5db993bf2c8e77bc","nicole"],["1ecd41c03ef78bd6daeaa6bb008896607a8413bf8ba6266be80327554b370a9e","chelsea"],["68be7550846ecd878947b4eb0ac13d3cca3cf6c4940c94d90163e0a15e947203","matthew"],["a0561fd649cdb6baa784055f051bad796ea0afef17fca38219549deeba4e8c1a","access"],["8360632a2b41498c6f979a15aced6655a2857f259533e77106228c683c4ab5af","yankees"],["8a9bcf1e51e812d0af8465a8dbcc9f741064bf0af3b3d08e6b0246437c19f7fb","987654321"],["fa2115f8d576a6ab722956697fc759c31d1cd6b93c8336bfebf73ed5cba2ff49","dallas"],["c7c1319276e936c8d64f1d5ed80cd8a0cf54e6dea7b0125533eb4163e03a2c11","austin"],["49eff747f7b66f70133bfe00aa8ac2d6b0fbee5be80e52537b0163f147d20418","thunder"],["8e924025a26c584ad4ac6365116e09b852ae6b7016da4c0851e269348d93c228","taylor"],["6e00cd562cc2d88e238dfb81d9439de7ec843ee9d0c9879d549cb1436786f975","matrix"],["0b14d501a594442a01c6859541bcb3e8164d183d32937b851835442f69d5c94e","password1"],["ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f","password123"],["280d44ab1e9f79b5cce2dd4f58f5fe91f0fbacdac9f7447dffc318ceb79f2d02","welcome"],["fcc3a23fc7232cc89c7cb0f23d8774fefb73d7dc2ab22e6a1b6b8b202b4dcc91","welcome1"],["a68349561396ec264a350847024a4521d00beaa3358660c2709a80f31c7acdd0","welcome123"],["8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918","admin"],["240be518fabd2724ddb6f04eeb1da5967448d7e831c08c8fa822809f74c720a9","admin123"],["428821350e9691491f616b754cd8315fb86d797ab35d843479e732ef90665324","login"],["14f8f4bb8c0e79a02670a5fea5682da717a5b3d3dc7b1706f7a4bab9afae18c2","abc12345"],["daaad6e5604e8e17bd9f108d91e26afe6281dac8fda0091040a7a6d7bd9b43b5","qwerty123"],["69f5b43fa4a7ec67cc1e0aac24cc739f1273dbe1579d6f6439ed78405a15326d","iloveyou1"],["284fff3bd254b48cca05a8bfc4fad69e05cad0d086513a034a66a118829e6fa4","sunshine1"],["59945da25d2521045b4bc84db7d5fd44b2c5511fe7cc247a8ce5a79bcd74a1c2","football1"],["e48443929f57ec4cb965d358a825849155b2828873c4ed2929fd711bc9f01347","monkey123"],["2e844ad651c6b9a69cbe8f887b6a74dd3b9fc489aae777701e6e2d0d523a0cfb","letmein1"],["2bb80d537b1da3e38bd30361aa855686bde0eacd7162fef6a25fe97bf527a25b","secret"],["fcf730b6d95236ecd3c9fc2d92d7b6b2bb061514961aec041d6c7a7192f592e4","secret123"],["057ba03d6c44104863dc7361fe4578965d1887360f90a0895882e58a6248fc86","changeme"],["494a715f7e9b4071aca61bac42ca858a309524e5864f0920030862a4ae7589be","changeme123"],["264c8c381bf16c982a4e59b0dd4c6f7808c51a05f64c35db42cc78a2a72875bb","student"],["703b0a3d6ad75b649a28adde7d83c6251da457549263bc7ff45ec709b0a8448b","student123"],["1ca7aaa322fbe8cd8619d8815b681f67b675dc7fbe826660444301fc591a9579","lecturer"],["cf9133f82ed65340f0d05391af16869bad57c7c579e7443da661766da5e49229","exam1234"],["d3a74d90d80953a3f3628fa7bc4a66324958fd288d6c641825abe78ff2714b9c","taxila"],["3eb9a7b7b1e56006e4fce0a001ce92db160a23e2ee0dd34028aec0743d6b7365","taxila123"],["468f3a27ec26ff3914b76ffa1837fec5963cb3fda98cfa93521add3abc0649be","colombo"],["bfbe03f601a86dda342a10017aab0169e1822ff6a8f398b1fb5687e88d597473","colombo123"],["6a99b8d90381e6e131218e9d2df29812a8475ff85572221d950359736ab00cca","kandy"],["e1fbf5376c36353f77f2fa89eeb40df6a24e8020490d934adf91813e70334862","kandy123"],["31afdbdf9379675bafcd688c3cc7fe00f508dbec272226a49866e1db5d66c4ca","srilanka"],["7e9d779a128f756447356b1b9b03c9a8741ed60e8fee2de122a70232a0e40b2d","srilanka123"],["873ef378c9b60413593df07a7b0206ac0fffa91096c550d88b2ab4bad9d813df","lanka123"]];
+  var index = {};
+  TABLE.forEach(function (row, i) { index[row[0]] = { pw: row[1], n: i + 1 }; });
+  $("count").textContent = TABLE.length;
+  var salts = null;
+  function hex(buf) { return Array.prototype.map.call(new Uint8Array(buf), function (b) { return ("0" + b.toString(16)).slice(-2); }).join(""); }
+  function enc(s) { return new TextEncoder().encode(s); }
+  async function sha(s) { return hex(await subtle.digest("SHA-256", enc(s))); }
+  function noCrypto(id) { $(id).textContent = "Web Crypto is not available here. Open this page from the portal or from your offline copy."; }
+  function verdict(d) {
+    var hit = index[d];
+    return hit ? "✓ Found, row " + hit.n + " of " + TABLE.length + ": this is the digest of " + hit.pw + "." : "✗ Not found in the table.";
+  }
+  $("plain").addEventListener("click", async function () {
+    if (!subtle) { noCrypto("pd"); return; }
+    var d = await sha($("pw").value);
+    $("pd").textContent = d;
+    $("pout").textContent = verdict(d) + " The table did not reverse the hash: it matched a digest that someone computed in advance.";
+  });
+  $("salt").addEventListener("click", async function () {
+    if (!subtle) { noCrypto("sout"); return; }
+    var pw = $("pw").value, r = crypto.getRandomValues(new Uint8Array(8));
+    salts = [hex(r.slice(0, 4)), hex(r.slice(4, 8))];
+    var d1 = await sha(pw + salts[0]), d2 = await sha(pw + salts[1]);
+    $("s1").textContent = salts[0]; $("d1").textContent = d1; $("f1").textContent = index[d1] ? "✓ found" : "✗ not found";
+    $("s2").textContent = salts[1]; $("d2").textContent = d2; $("f2").textContent = index[d2] ? "✓ found" : "✗ not found";
+    $("sout").textContent = "Same password, two different stored digests, and neither is in the table. Nobody could compute them in advance without knowing each salt, so a table would have to be built again for every user. Press again for new salts.";
+    $("time").disabled = false;
+  });
+  $("look").addEventListener("click", function () {
+    var v = $("dig").value.trim().toLowerCase();
+    if (!/^[0-9a-f]{64}$/.test(v)) {
+      $("lout").textContent = "That is not a SHA-256 digest. Paste exactly 64 characters, each 0 to 9 or a to f, with no spaces.";
+      return;
+    }
+    $("lout").textContent = verdict(v);
+  });
+  $("time").addEventListener("click", async function () {
+    var btn = $("time"); btn.disabled = true;
+    var pw = $("pw").value, salt = salts[0];
+    $("tout").textContent = "Timing...";
+    var t0 = performance.now(), runs = 200;
+    for (var i = 0; i < runs; i++) { await sha(pw + salt); }
+    var fast = (performance.now() - t0) / runs;
+    var base = await subtle.importKey("raw", enc(pw), "PBKDF2", false, ["deriveBits"]);
+    var t1 = performance.now();
+    await subtle.deriveBits({ name: "PBKDF2", salt: enc(salt), iterations: 600000, hash: "SHA-256" }, base, 256);
+    var slow = performance.now() - t1;
+    $("tfast").textContent = fast < 1 ? fast.toFixed(3) + " ms" : fast.toFixed(1) + " ms";
+    $("tslow").textContent = slow.toFixed(0) + " ms";
+    var ratio = Math.max(1, Math.round(slow / Math.max(fast, 0.001)));
+    $("tout").textContent = "On this laptop, one PBKDF2 costs about as much time as " + ratio.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " SHA-256 digests. A user signing in waits that long once. A guesser waits that long for every guess.";
+    btn.disabled = false;
+  });
+}());
+</script>
+</body>
+</html>

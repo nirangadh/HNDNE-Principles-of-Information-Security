@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Any size in, one size out</title>
+<meta name="description" content="Hash inputs from one letter to a whole megabyte, or a file of your own, and watch the SHA-256 digest stay at 64 characters. Uses Web Crypto.">
+<link rel="stylesheet" href="../../../assets/fonts/fonts.css">
+<style>
+  body{margin:0;font-family:var(--font-body);background:var(--linen);color:var(--ink);line-height:1.6}
+  main{max-width:46rem;margin:0 auto;padding:1.5rem 1rem 2.5rem}
+  h1{font-size:1.6rem;line-height:1.25;margin:0 0 .4rem}
+  .bars{display:flex;gap:6px;margin:.3rem 0 1.1rem}.bars i{display:block;height:6px;border-radius:2px}
+  .bars i:first-child{width:56px;background:var(--burgundy)}.bars i:last-child{width:26px;background:var(--blush)}
+  .lead{margin:0 0 1rem}
+  .step{font-size:.78rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--burgundy);margin:1.4rem 0 .3rem;display:block}
+  label{display:block;font-weight:700;margin:.2rem 0 .3rem}
+  select,input[type=text]{font:inherit;color:var(--ink);background:var(--snow);border:2px solid var(--taupe);border-radius:8px;padding:.5rem .7rem;min-height:44px;width:100%;box-sizing:border-box}
+  input[type=text]{font-family:var(--font-code)}
+  input[type=file]{font:inherit;max-width:100%}
+  select:focus-visible,input:focus-visible,button:focus-visible{outline:3px solid var(--burgundy);outline-offset:2px}
+  button{font:inherit;font-weight:700;color:var(--snow);background:var(--burgundy);border:0;border-radius:8px;padding:.55rem 1rem;min-height:44px;cursor:pointer;margin:.4rem .3rem .2rem 0}
+  button[disabled]{background:var(--blush);color:var(--taupe);cursor:not-allowed}
+  .box{background:var(--snow);border:1px solid var(--rule);border-left:6px solid var(--burgundy);border-radius:0 12px 12px 0;padding:.8rem 1rem;margin:.5rem 0}
+  .tag{display:block;font-size:.72rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--burgundy)}
+  .code{font-family:var(--font-code);font-size:.9rem;overflow-wrap:anywhere;margin:.2rem 0 .5rem}
+  .msg{font-weight:700;margin:.3rem 0 0}
+  .wrap{overflow-x:auto}
+  table{border-collapse:collapse;width:100%;font-size:.92rem;background:var(--snow)}
+  th,td{border:1px solid var(--rule);padding:.4rem .5rem;text-align:left;vertical-align:top}
+  th{background:var(--rose-wash)}
+  td.num{text-align:right;font-family:var(--font-code);white-space:nowrap}
+  td.dig{font-family:var(--font-code);font-size:.82rem;overflow-wrap:anywhere;min-width:12rem}
+  .note{font-size:.9rem;color:var(--taupe);margin-top:1.4rem}
+</style>
+<!-- portal head: written by the portal generator from this demo's title and description; do not edit -->
+<meta name="robots" content="index, follow">
+<link rel="icon" href="../../../assets/img/favicon.svg" type="image/svg+xml">
+<link rel="canonical" href="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-3/artefacts/fingerprint-any-size.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Principles of Information Security, HND Network Engineering Year 2">
+<meta property="og:title" content="Any size in, one size out | Day 3">
+<meta property="og:description" content="Hash inputs from one letter to a whole megabyte, or a file of your own, and watch the SHA-256 digest stay at 64 characters. Uses Web Crypto.">
+<meta property="og:url" content="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-3/artefacts/fingerprint-any-size.html">
+<meta property="og:locale" content="en_GB">
+<meta property="og:image" content="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/assets/img/social-card.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="At Taxila College the Head of IT points to the security register on the wall: nineteen numbered items, the first outlined as the place to start. The Registrar holds a sealed transcript and the Data Protection Officer a clipboard. A lecturer turns to welcome two students arriving with a laptop and a phone.">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","author":{"@type":"Person","affiliation":{"@type":"Organization","name":"School of Computing & Engineering, National Institute of Business Management"},"name":"Niranga Dharmaratna"},"description":"Hash inputs from one letter to a whole megabyte, or a file of your own, and watch the SHA-256 digest stay at 64 characters. Uses Web Crypto.","educationalLevel":"Higher National Diploma, Year 2","inLanguage":"en-GB","interactivityType":"active","isAccessibleForFree":true,"isPartOf":{"@id":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/#course","@type":"Course","name":"Principles of Information Security, HND Network Engineering Year 2","url":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/"},"learningResourceType":"Interactive demonstration","license":"https://opensource.org/licenses/MIT","name":"Any size in, one size out | Day 3","url":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-3/artefacts/fingerprint-any-size.html"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/","name":"Principles of Information Security","position":1},{"@type":"ListItem","item":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-3/","name":"Day 3","position":2},{"@type":"ListItem","item":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-3/artefacts/fingerprint-any-size.html","name":"Any size in, one size out","position":3}]}</script>
+<!-- /portal head -->
+</head>
+<body>
+<main>
+<h1>Any size in, one size out</h1>
+<div class="bars" aria-hidden="true"><i></i><i></i></div>
+<p class="lead">A hash function takes an input of any size and returns a digest of one fixed length. Here the hash function is SHA-256, the Secure Hash Algorithm at 256 bits. Its digest is always sixty-four hexadecimal characters. Fingerprint inputs of very different sizes, and watch the length of the digest.</p>
+
+<span class="step">Step 1</span>
+<label for="pick">Choose an input</label>
+<select id="pick">
+  <option value="letter">One letter: a</option>
+  <option value="line">A results line: COHNDNE999X000,50</option>
+  <option value="profile">A paragraph: Taxila College's profile</option>
+  <option value="mega">A whole megabyte: the results line repeated about sixty thousand times</option>
+</select>
+<button id="go" type="button">Fingerprint it</button>
+<div class="box">
+  <span class="tag">Size of the input</span>
+  <p class="code" id="size">(none yet)</p>
+  <span class="tag">SHA-256 digest</span>
+  <p class="code" id="digest">(none yet)</p>
+  <p class="msg" id="len" aria-live="polite"></p>
+</div>
+
+<span class="step">Step 2</span>
+<label for="own">Or type your own input (it stays on this page)</label>
+<input id="own" type="text" maxlength="1500" autocomplete="off" spellcheck="false" value="Taxila">
+<button id="goOwn" type="button">Fingerprint what I typed</button>
+<p class="note" style="margin-top:.3rem">Do not type a real password into this or any demo.</p>
+
+<span class="step">Step 3</span>
+<label for="file">Or choose any file on your laptop: a photo, a document, anything</label>
+<input id="file" type="file">
+<p class="note" style="margin-top:.3rem">The file is read by this page only. It is not uploaded and goes nowhere.</p>
+
+<span class="step">Step 4</span>
+<p>Every input you fingerprint is listed here. Compare the sizes with the digest lengths.</p>
+<button id="again" type="button" disabled>Fingerprint the last input again</button>
+<p class="msg" id="againout" aria-live="polite"></p>
+<div class="wrap">
+<table>
+  <thead><tr><th scope="col">Input</th><th scope="col">Size in bytes</th><th scope="col">Digest length</th><th scope="col">Digest</th></tr></thead>
+  <tbody id="rows"></tbody>
+</table>
+</div>
+
+<p class="note">This page uses your browser's own cryptography, called Web Crypto, to compute each SHA-256 digest. Nothing you choose, type or open leaves this page. A digest identifies its input but does not hide it: the input itself is not changed or locked.</p>
+</main>
+<script>
+(function () {
+  "use strict";
+  var $ = function (id) { return document.getElementById(id); };
+  var subtle = window.crypto && window.crypto.subtle;
+  var LINE = "COHNDNE999X000,50";
+  var PROFILE = "Taxila College is a private higher-education college in Sri Lanka. Its main campus is in Colombo and a smaller branch campus is in Kandy. About 3,200 students study for diplomas and degrees in computing, business and design, taught by about 180 staff. Taxila College is fictional.";
+  var last = null;
+  function hex(buf) { return Array.prototype.map.call(new Uint8Array(buf), function (b) { return ("0" + b.toString(16)).slice(-2); }).join(""); }
+  function bytesOf(choice) {
+    var enc = new TextEncoder();
+    if (choice === "letter") { return { label: "One letter", bytes: enc.encode("a") }; }
+    if (choice === "line") { return { label: "A results line", bytes: enc.encode(LINE) }; }
+    if (choice === "profile") { return { label: "A paragraph", bytes: enc.encode(PROFILE) }; }
+    var one = LINE + "\n", n = Math.ceil(1048576 / one.length);
+    return { label: "A whole megabyte", bytes: enc.encode(one.repeat(n)) };
+  }
+  function grouped(n) { return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","); }
+  async function show(item) {
+    if (!subtle) { $("digest").textContent = "Web Crypto is not available here. Open this page from the portal or from your offline copy."; return; }
+    var d = hex(await subtle.digest("SHA-256", item.bytes));
+    $("size").textContent = grouped(item.bytes.length) + " bytes";
+    $("digest").textContent = d;
+    $("len").textContent = "✓ " + d.length + " hexadecimal characters, which is 256 bits, whatever the size of the input.";
+    var tr = document.createElement("tr");
+    [item.label, grouped(item.bytes.length), d.length + " characters", d].forEach(function (v, i) {
+      var td = document.createElement("td");
+      td.textContent = v;
+      if (i === 1 || i === 2) { td.className = "num"; }
+      if (i === 3) { td.className = "dig"; }
+      tr.appendChild(td);
+    });
+    $("rows").appendChild(tr);
+    last = { item: item, digest: d };
+    $("again").disabled = false;
+    $("againout").textContent = "";
+  }
+  $("go").addEventListener("click", function () { show(bytesOf($("pick").value)); });
+  $("goOwn").addEventListener("click", function () {
+    show({ label: "What you typed", bytes: new TextEncoder().encode($("own").value) });
+  });
+  $("file").addEventListener("change", function () {
+    var f = this.files && this.files[0];
+    if (!f) { return; }
+    var r = new FileReader();
+    r.onload = function () { show({ label: "Your file", bytes: new Uint8Array(r.result) }); };
+    r.readAsArrayBuffer(f);
+  });
+  $("again").addEventListener("click", async function () {
+    if (!last) { return; }
+    var d = hex(await subtle.digest("SHA-256", last.item.bytes));
+    $("againout").textContent = d === last.digest
+      ? "✓ The same digest again. The same input always gives the same digest."
+      : "Unexpected: the digest changed.";
+  });
+}());
+</script>
+</body>
+</html>
