@@ -13,6 +13,7 @@
   <url><loc>https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/practice/PQ2.html</loc></url>
   <url><loc>https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/practice/PQ3.html</loc></url>
   <url><loc>https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/practice/PQ4.html</loc></url>
+  <url><loc>https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/practice/PQ5.html</loc></url>
   <url><loc>https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/practice/</loc></url>
   <url><loc>https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/scenario/</loc></url>
   <url><loc>https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/scenario/organisation.html</loc></url>
@@ -32,6 +33,8 @@
   <url><loc>https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-4/lab.html</loc></url>
   <url><loc>https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-4/notes.html</loc></url>
   <url><loc>https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-5/</loc></url>
+  <url><loc>https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-5/lab.html</loc></url>
+  <url><loc>https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-5/notes.html</loc></url>
   <url><loc>https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-6/</loc></url>
   <url><loc>https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-7/</loc></url>
   <url><loc>https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-8/</loc></url>
@@ -72,5 +75,14 @@
   <url><loc>https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-4/plays/p4-2-read-the-certificates.html</loc></url>
   <url><loc>https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-4/plays/p4-quiz.html</loc></url>
   <url><loc>https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-4/plays/p4-words.html</loc></url>
+  <url><loc>https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-5/artefacts/aaa-gates.html</loc></url>
+  <url><loc>https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-5/artefacts/access-models.html</loc></url>
+  <url><loc>https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-5/artefacts/factors-mfa.html</loc></url>
+  <url><loc>https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-5/artefacts/hardening-checklist.html</loc></url>
+  <url><loc>https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-5/artefacts/least-privilege-blast.html</loc></url>
+  <url><loc>https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-5/plays/p5-1-build-the-roles.html</loc></url>
+  <url><loc>https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-5/plays/p5-2-what-to-fix-first.html</loc></url>
+  <url><loc>https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-5/plays/p5-quiz.html</loc></url>
+  <url><loc>https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-5/plays/p5-words.html</loc></url>
   <url><loc>https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/prelude/artefacts/check.html</loc></url>
 </urlset>

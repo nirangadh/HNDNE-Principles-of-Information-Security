@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Harden the server</title>
+<meta name="description" content="Shrink a Taxila server's attack surface by turning off unused services, closing ports, patching and logging; then build your own baseline report.">
+<link rel="stylesheet" href="../../../assets/fonts/fonts.css">
+<style>
+  body{margin:0;font-family:var(--font-body);background:var(--linen);color:var(--ink);line-height:1.6}
+  main{max-width:46rem;margin:0 auto;padding:1.5rem 1rem 2.5rem}
+  h1{font-size:1.6rem;line-height:1.25;margin:0 0 .4rem}
+  .bars{display:flex;gap:6px;margin:.3rem 0 1.1rem}.bars i{display:block;height:6px;border-radius:2px}
+  .bars i:first-child{width:56px;background:var(--burgundy)}.bars i:last-child{width:26px;background:var(--blush)}
+  .lead{margin:0 0 1rem}
+  .step{font-size:.78rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--burgundy);margin:1.6rem 0 .3rem;display:block}
+  h2{font-size:1.15rem;margin:.1rem 0 .4rem}
+  h3{font-size:1rem;margin:.8rem 0 .2rem}
+  button:focus-visible,input:focus-visible{outline:3px solid var(--burgundy);outline-offset:2px}
+  button{font:inherit;font-weight:700;color:var(--snow);background:var(--burgundy);border:0;border-radius:8px;padding:.55rem 1rem;min-height:44px;cursor:pointer;margin:.4rem .3rem .2rem 0}
+  button.quiet{color:var(--burgundy);background:var(--snow);border:2px solid var(--burgundy)}
+  button[disabled]{background:var(--blush);color:var(--taupe);border-color:var(--blush);cursor:not-allowed}
+  button.fix{font-family:var(--font-code);font-weight:400;font-size:.88rem;text-align:left;overflow-wrap:anywhere}
+  .box{background:var(--snow);border:1px solid var(--rule);border-left:6px solid var(--burgundy);border-radius:0 12px 12px 0;padding:.8rem 1rem;margin:.5rem 0}
+  .box.fault{border-left:6px dashed var(--signal-vermilion)}
+  .tag{display:block;font-size:.72rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--burgundy)}
+  .row{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:.4rem;background:var(--snow);border:2px solid var(--taupe);border-radius:10px;padding:.4rem .7rem;margin:.4rem 0}
+  .row p{margin:0}
+  .row.open{border:3px dashed var(--signal-vermilion)}
+  .row .st{font-size:.75rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase}
+  .meter{font-size:1.2rem;font-weight:800;margin:.4rem 0}
+  .code{font-family:var(--font-code)}
+  pre{font-family:var(--font-code);font-size:.85rem;background:var(--ink);color:var(--linen);border-radius:10px;padding:.7rem .9rem;overflow-x:auto;white-space:pre;margin:.4rem 0}
+  pre .mark{color:var(--rose);font-weight:700}
+  label{display:block;font-weight:700;margin:.6rem 0 .2rem}
+  input[type=text]{font:inherit;font-family:var(--font-code);width:100%;max-width:22rem;box-sizing:border-box;padding:.5rem;border:2px solid var(--taupe);border-radius:8px;background:var(--snow);color:var(--ink);text-transform:none}
+  table{border-collapse:collapse;width:100%;font-size:.92rem}
+  th,td{text-align:left;vertical-align:top;padding:.35rem .5rem;border-bottom:1px solid var(--rule)}
+  th{font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;color:var(--taupe)}
+  .scroll{overflow-x:auto}
+  .note{font-size:.9rem;color:var(--taupe);margin-top:1.4rem}
+  hr{border:0;border-top:2px solid var(--blush);margin:2rem 0}
+</style>
+<!-- portal head: written by the portal generator from this demo's title and description; do not edit -->
+<meta name="robots" content="index, follow">
+<link rel="icon" href="../../../assets/img/favicon.svg" type="image/svg+xml">
+<link rel="canonical" href="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-5/artefacts/hardening-checklist.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Principles of Information Security, HND Network Engineering Year 2">
+<meta property="og:title" content="Harden the server | Day 5">
+<meta property="og:description" content="Shrink a Taxila server&#x27;s attack surface by turning off unused services, closing ports, patching and logging; then build your own baseline report.">
+<meta property="og:url" content="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-5/artefacts/hardening-checklist.html">
+<meta property="og:locale" content="en_GB">
+<meta property="og:image" content="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/assets/img/social-card.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="At Taxila College the Head of IT points to the security register on the wall: nineteen numbered items, the first outlined as the place to start. The Registrar holds a sealed transcript and the Data Protection Officer a clipboard. A lecturer turns to welcome two students arriving with a laptop and a phone.">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","author":{"@type":"Person","affiliation":{"@type":"Organization","name":"School of Computing & Engineering, National Institute of Business Management"},"name":"Niranga Dharmaratna"},"description":"Shrink a Taxila server's attack surface by turning off unused services, closing ports, patching and logging; then build your own baseline report.","educationalLevel":"Higher National Diploma, Year 2","inLanguage":"en-GB","interactivityType":"active","isAccessibleForFree":true,"isPartOf":{"@id":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/#course","@type":"Course","name":"Principles of Information Security, HND Network Engineering Year 2","url":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/"},"learningResourceType":"Interactive demonstration","license":"https://opensource.org/licenses/MIT","name":"Harden the server | Day 5","url":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-5/artefacts/hardening-checklist.html"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/","name":"Principles of Information Security","position":1},{"@type":"ListItem","item":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-5/","name":"Day 5","position":2},{"@type":"ListItem","item":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-5/artefacts/hardening-checklist.html","name":"Harden the server","position":3}]}</script>
+<!-- /portal head -->
+</head>
+<body>
+<main>
+<h1>Harden the server</h1>
+<div class="bars" aria-hidden="true"><i></i><i></i></div>
+<p class="lead">Taxila's Student Information System (SIS) server runs more than it needs. Everything an attacker could try to reach is its attack surface: running services, open ports, writable files, unpatched software. Hardening shrinks it, and much of hardening is turning things off.</p>
+
+<span class="step">Part 1</span>
+<h2>The SIS server</h2>
+<p class="meter" id="meter" aria-live="polite"></p>
+<div id="items"></div>
+<div class="box" id="out" aria-live="polite"><p id="outp">Choose a change. Each one says which of the five hardening areas it belongs to.</p></div>
+
+<hr>
+
+<span class="step" id="report">Part 2, for the afternoon lab</span>
+<h2>Your baseline report</h2>
+<p>Your lab server starts weak, with findings chosen from your index number. Type your index number in capitals, letters and digits only. It stays on this page and is never sent anywhere.</p>
+<label for="ix">Your index number</label>
+<input type="text" id="ix" maxlength="32" autocomplete="off" spellcheck="false" placeholder="COHNDNE999X000">
+<button type="button" id="build">Build my report</button>
+<p id="err" aria-live="polite"></p>
+<div id="rep" hidden>
+  <div class="box"><span class="tag">Baseline report for</span><p class="code" id="who"></p><p class="meter" id="score" aria-live="polite"></p></div>
+  <div class="scroll"><table><thead><tr><th>Finding</th><th>Area</th><th>What the audit found</th><th>State</th></tr></thead><tbody id="ft"></tbody></table></div>
+  <h3>A model of the audit's file permissions section</h3>
+  <pre id="audit"></pre>
+  <p>This is a model of what the full tier's audit prints. On a real machine the hardening index moves for many reasons; the lines that clear are the proof.</p>
+  <h3>Choose the fix for each finding</h3>
+  <div id="fixes"></div>
+  <div class="box" id="fout" aria-live="polite"><p id="foutp">Choose one fix for each of F1, F2 and F3. Write each fix's command in your notes.</p></div>
+</div>
+
+<p class="note">Part 2 computes your findings from the SHA-256 digest of your index number with your browser's own cryptography, called Web Crypto: the same recipe as the lab's script on the full tier. Everything else on this page is a prepared sample. Nothing you type leaves this page.</p>
+</main>
+<script>
+(function () {
+  "use strict";
+  var $ = function (id) { return document.getElementById(id); };
+  function clear(el) { while (el.firstChild) el.removeChild(el.firstChild); }
+  function el(tag, text, cls) { var e = document.createElement(tag); if (text !== undefined) e.textContent = text; if (cls) e.className = cls; return e; }
+
+  // ---------- Part 1: the model server ----------
+  var ITEMS = [
+    { id: "share", text: "File-sharing service, port 445. Nobody at Taxila uses it.", area: "services and open ports", fix: "Turn it off", surface: 1,
+      done: "Stopped, and set not to start at boot. Port 445 is closed. Nothing broke, because nobody used it." },
+    { id: "print", text: "Printing service, port 631. The server has no printer.", area: "services and open ports", fix: "Turn it off", surface: 1,
+      done: "Stopped. One more door closed, at no cost." },
+    { id: "old", text: "Old remote sign-in service, port 23. Sends passwords in plain text.", area: "services and open ports", fix: "Turn it off", surface: 1,
+      done: "Stopped. Staff use the encrypted remote sign-in instead, so nothing is lost." },
+    { id: "file", text: "The list of accounts can be changed by every account.", area: "file permissions", fix: "Tighten it", surface: 1,
+      done: "Now only the administrator can change it, and every account can still read it. Mode 644." },
+    { id: "patch", text: "Twelve packages have updates waiting, two of them security fixes.", area: "patching", fix: "Apply the patches", surface: 1,
+      done: "Installed. Known weaknesses in the software you keep are fixed." },
+    { id: "spare", text: "An account left by a contractor who finished last year.", area: "users and groups", fix: "Remove the account", surface: 1,
+      done: "Removed. A forgotten account with a working password is a way in that nobody is watching." },
+    { id: "log", text: "Logging is off. Nothing that happens is recorded.", area: "logging", fix: "Turn it on", surface: 0,
+      done: "Logging is on. The attack surface did not shrink: logging detects, it does not prevent. But a changed grade can now be traced to a named account." }
+  ];
+  var KEPT = "Kept running: the SIS application (port 443) and its database, which listens only inside the server. Both are needed.";
+  var fixed = {};
+  function drawServer() {
+    var box = $("items"); clear(box);
+    var open = 0;
+    ITEMS.forEach(function (it) {
+      var row = el("div", undefined, "row" + (fixed[it.id] ? "" : " open"));
+      var left = el("div");
+      left.appendChild(el("p", (fixed[it.id] ? "✓ Done" : "× Open") + ", " + it.area, "st"));
+      left.appendChild(el("p", it.text));
+      row.appendChild(left);
+      var b = el("button", fixed[it.id] ? "Done" : it.fix, "quiet"); b.type = "button"; b.disabled = !!fixed[it.id];
+      b.addEventListener("click", function () { fixed[it.id] = true; drawServer(); $("out").className = "box"; $("outp").textContent = it.done; });
+      row.appendChild(b); box.appendChild(row);
+      if (!fixed[it.id]) open += it.surface;
+    });
+    var p = el("p", KEPT); box.appendChild(p);
+    $("meter").textContent = "Attack surface: " + open + " open way" + (open === 1 ? "" : "s") + " in. Recorded: " + (fixed.log ? "yes" : "no") + ".";
+  }
+  drawServer();
+
+  // ---------- Part 2: the baseline report, the same recipe as seed-baseline.py ----------
+  var SERVICES = [["ssh", 22, "remote sign-in"], ["apache2", 80, "web server"], ["mariadb", 3306, "database server"]];
+  var FILES = [["/etc/passwd", "644", "the list of accounts"], ["/etc/group", "644", "the list of groups"],
+               ["/etc/crontab", "600", "the system's scheduled jobs"], ["/etc/ssh/sshd_config", "600", "the remote sign-in settings"]];
+  var subtle = window.crypto && window.crypto.subtle;
+  var v = null, done = {};
+  async function values(index) {
+    var d = new Uint8Array(await subtle.digest("SHA-256", new TextEncoder().encode(index)));
+    var hex = Array.prototype.map.call(d, function (b) { return ("0" + b.toString(16)).slice(-2); }).join("");
+    var s = SERVICES[d[0] % 3], f = FILES[d[1] % 4];
+    return { service: s[0], port: s[1], swhat: s[2], file: f[0], mode: f[1], fwhat: f[2], account: "lec" + hex.slice(-4) };
+  }
+  window.__baseline = values;
+  function score() { return 52 + (done.F1 ? 12 : 0) + (done.F2 ? 10 : 0) + (done.F3 ? 9 : 0); }
+  function bar(n) { var k = Math.round(n / 5); return "[" + "#".repeat(k) + " ".repeat(20 - k) + "]"; }
+  function drawReport() {
+    $("score").textContent = "Report score: " + score() + " out of 100";
+    var rows = [
+      ["F1", "services and open ports", v.service + " (" + v.swhat + ") is running, starts at every boot, and listens on port " + v.port + ". Nobody needs it.", done.F1],
+      ["F2", "file permissions", v.file + " (" + v.fwhat + ") has mode 666, so every account can change it. Safe mode " + v.mode + ".", done.F2],
+      ["F3", "logging", "The journal is set to Storage=none, so nothing that happens is recorded.", done.F3],
+      ["F4", "patching", "Some packages may have updates waiting. Read them; you do not install them today.", null],
+      ["F5", "users and groups", "The account " + v.account + " is the lecturer account for your role table.", null]
+    ];
+    var tb = $("ft"); clear(tb);
+    rows.forEach(function (r) {
+      var tr = el("tr");
+      tr.appendChild(el("td", r[0])); tr.appendChild(el("td", r[1])); tr.appendChild(el("td", r[2]));
+      tr.appendChild(el("td", r[3] === null ? "read only" : (r[3] ? "✓ fixed" : "× open")));
+      tb.appendChild(tr);
+    });
+    var pre = $("audit"); clear(pre);
+    pre.appendChild(document.createTextNode("[+] File Permissions\n------------------------------------\n  - Starting file permissions check\n"));
+    FILES.forEach(function (f) {
+      var mine = f[0] === v.file, bad = mine && !done.F2;
+      var line = "    File: " + f[0] + " ".repeat(Math.max(1, 34 - f[0].length)) + (bad ? "[ SUGGESTION ]" : "[ OK ]") + "\n";
+      if (mine) pre.appendChild(el("span", line, "mark")); else pre.appendChild(document.createTextNode(line));
+    });
+    pre.appendChild(document.createTextNode("\n  Hardening index : " + score() + " " + bar(score()) + "\n"));
+  }
+  function drawFixes() {
+    var FX = [
+      { id: "F1", q: "F1: " + v.service + " is running and listening on port " + v.port, opts: [
+        { t: "sudo systemctl stop " + v.service, ok: false, why: "This stops it now, but it starts again at the next boot. Disable it as well." },
+        { t: "sudo systemctl disable --now " + v.service, ok: true, why: "Stopped now and set not to start at boot. Its port closes." },
+        { t: "sudo chmod 600 /etc/passwd", ok: false, why: "That changes a file's permissions; the service keeps running." } ] },
+      { id: "F2", q: "F2: " + v.file + " has mode 666", opts: [
+        { t: "sudo chmod 777 " + v.file, ok: false, why: "777 gives every account even more: read, write and run." },
+        { t: "sudo rm " + v.file, ok: false, why: "Deleting a system file breaks the machine. Tighten it instead." },
+        { t: "sudo chmod " + v.mode + " " + v.file, ok: true, why: "The safe mode that the audit expects for this file." } ] },
+      { id: "F3", q: "F3: the journal keeps nothing", opts: [
+        { t: "sudo rm /etc/systemd/journald.conf.d/50-day5-baseline.conf, then sudo systemctl restart systemd-journald", ok: true, why: "The setting that threw everything away is gone, and the restarted journal records again." },
+        { t: "sudo journalctl -n 3 --no-pager", ok: false, why: "This reads the journal; it does not turn recording back on." },
+        { t: "sudo systemctl stop systemd-journald", ok: false, why: "Stopping the journal records even less." } ] }
+    ];
+    var box = $("fixes"); clear(box);
+    FX.forEach(function (f) {
+      var h = el("p", f.q + (done[f.id] ? ", fixed" : "")); h.style.fontWeight = "700"; box.appendChild(h);
+      f.opts.forEach(function (o) {
+        var b = el("button", o.t, "quiet fix"); b.type = "button"; b.disabled = !!done[f.id];
+        b.addEventListener("click", function () {
+          if (o.ok) done[f.id] = true;
+          $("fout").className = o.ok ? "box" : "box fault";
+          $("foutp").textContent = (o.ok ? "✓ Right. " : "× Not this one. ") + o.why +
+            (done.F1 && done.F2 && done.F3 ? " F1, F2 and F3 are fixed; F4 stays open, because you only read it today." : "");
+          drawReport(); drawFixes();
+        });
+        box.appendChild(b);
+      });
+    });
+  }
+  $("build").addEventListener("click", async function () {
+    var ix = $("ix").value.trim();
+    if (!/^[A-Z0-9]{4,32}$/.test(ix)) { $("err").textContent = "Type your index number in capitals, letters and digits only, with no spaces or hyphens."; return; }
+    if (!subtle) { $("err").textContent = "Web Crypto is not available here, so the report cannot be built."; return; }
+    $("err").textContent = "";
+    v = await values(ix); done = {};
+    $("who").textContent = ix;
+    $("rep").hidden = false; drawReport(); drawFixes();
+  });
+}());
+</script>
+</body>
+</html>

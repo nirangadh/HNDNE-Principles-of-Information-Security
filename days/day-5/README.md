@@ -2,7 +2,17 @@
 
 ## Materials
 
-Files appear here before the teaching day.
+- [Morning slides: Who are you, and what may you do](slides/day-5-morning.pdf) (PDF)
+- [Afternoon slides: Accounts, permissions and a hardened baseline](slides/day-5-afternoon.pdf) (PDF)
+- [Notes](notes.md): read before the lab
+- [Lab sheet](lab.md): steps, prove it, break it, reset and rules of engagement
+- Demos, in teaching order. They run in the browser: open them from the [course website](https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-5/), because GitHub shows them as code.
+  1. [Three gates: authentication, authorisation, accounting](artefacts/aaa-gates.html)
+  2. [Stack the factors](artefacts/factors-mfa.html)
+  3. [Who opens what: three access-control models](artefacts/access-models.html)
+  4. [Blast radius: least privilege and a leaked password](artefacts/least-privilege-blast.html)
+  5. [Harden the server](artefacts/hardening-checklist.html)
+- Provided files: [`role-table.csv`](files/role-table.csv), [`seed-baseline.py`](files/seed-baseline.py)
 
 ## Morning: Who are you, and what may you do
 
@@ -23,7 +33,7 @@ Files appear here before the teaching day.
 - Pfleeger and Pfleeger, authentication and access control
 - Pfleeger and Pfleeger, operating-system security and hardening
 
-**Practice question:** Practice question 5, posted in [practice](../../practice/).
+**Practice question:** [Practice question 5](../../practice/PQ5.md), posted in [practice](../../practice/).
 
 **Tasks:**
 

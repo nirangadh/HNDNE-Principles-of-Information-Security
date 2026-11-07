@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="en-GB" data-store="hndne-pis:">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="hndne-pis-site">
+<title>Lab 5: Audit a baseline, fix your findings, and design least-privilege roles | Principles of Information Security</title>
+<meta name="author" content="Niranga Dharmaratna">
+<meta name="description" content="Day 5 afternoon lab sheet: Audit a baseline, fix your findings, and design least-privilege roles. Day 5, afternoon session. Duration 3 hours. Adds items 9...">
+<meta name="robots" content="index, follow">
+<link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml">
+<link rel="canonical" href="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-5/lab.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Principles of Information Security, HND Network Engineering Year 2">
+<meta property="og:title" content="Lab 5: Audit a baseline, fix your findings, and design least-privilege roles">
+<meta property="og:description" content="Day 5 afternoon lab sheet: Audit a baseline, fix your findings, and design least-privilege roles. Day 5, afternoon session. Duration 3 hours. Adds items 9...">
+<meta property="og:url" content="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-5/lab.html">
+<meta property="og:locale" content="en_GB">
+<meta property="og:image" content="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/assets/img/social-card.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="At Taxila College the Head of IT points to the security register on the wall: nineteen numbered items, the first outlined as the place to start. The Registrar holds a sealed transcript and the Data Protection Officer a clipboard. A lecturer turns to welcome two students arriving with a laptop and a phone.">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","author":{"@type":"Person","affiliation":{"@type":"Organization","name":"School of Computing & Engineering, National Institute of Business Management"},"name":"Niranga Dharmaratna"},"description":"Day 5 afternoon lab sheet: Audit a baseline, fix your findings, and design least-privilege roles. Day 5, afternoon session. Duration 3 hours. Adds items 9...","educationalLevel":"Higher National Diploma, Year 2","inLanguage":"en-GB","interactivityType":"expository","isAccessibleForFree":true,"isPartOf":{"@id":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/#course","@type":"Course","name":"Principles of Information Security, HND Network Engineering Year 2","url":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/"},"learningResourceType":"Lab sheet","license":"https://creativecommons.org/licenses/by-nc-sa/4.0/","name":"Lab 5: Audit a baseline, fix your findings, and design least-privilege roles","url":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-5/lab.html"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/","name":"Principles of Information Security","position":1},{"@type":"ListItem","item":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-5/","name":"Day 5","position":2},{"@type":"ListItem","item":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-5/lab.html","name":"Lab 5: Audit a baseline, fix your findings, and design least-privilege roles","position":3}]}</script>
+<link rel="stylesheet" href="../../assets/fonts/fonts.css">
+<link rel="stylesheet" href="../../assets/css/site.css">
+<script>document.documentElement.className = "js";</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to the content</a>
+<header class="site-header"><div class="wrap"><div><p class="eyebrow"><a href="../../index.html">Principles of Information Security | HND Network Engineering, Year 2</a></p><h1>Audit a baseline, fix your findings, and design least-privilege roles</h1><p class="sub">Day 5, afternoon lab</p><div class="bars" aria-hidden="true"><i></i><i></i></div></div></div></header>
+<main id="main">
+<div class="wrap prose">
+<div class="meta"><span class="badge" title="Learning outcome 4">LO4</span><span class="chip add" title="Accounts, roles and multi-factor sign-in">Added today: item 9</span><span class="chip add" title="Hardened server baseline">Added today: item 10</span><span class="chip tier-floor">Floor tier: every step</span><span class="chip tier-full">Full tier: recommended</span></div>
+<p><strong>Day 5, afternoon session. Duration 3 hours. Adds items 9 and 10 to Taxila's security register.</strong></p>
+<p>This lab sheet takes you from a weak server baseline, keyed to your index number, to a hardened one. Then you design a role table for the Student Information System (SIS). You will see your own findings clear one by one, and you will see what goes wrong when one role is given too much.</p>
+<div class="table-wrap"><table class="meta-table">
+
+<tbody>
+<tr>
+<td>Learning outcomes</td>
+<td>LO4</td>
+</tr>
+<tr>
+<td>You need</td>
+<td>this morning's ideas: <a class="term" data-term="least-privilege" href="../../glossary.html#least-privilege">least privilege</a> is the minimum access an account needs; <a class="term" data-term="accounting" href="../../glossary.html#accounting">accounting</a> is the record of what was done; <a class="term" data-term="hardening" href="../../glossary.html#hardening">hardening</a> turns off what nobody needs</td>
+</tr>
+<tr>
+<td>Tiers</td>
+<td>Floor tier: every step, in the browser. Full tier: segments 1 and 2 can also run on your Kali virtual machine; segment 3 is a design task on any laptop</td>
+</tr>
+<tr>
+<td>Evidence pack</td>
+<td>Pack 5, due before the next teaching day</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="before-you-start">Before you start</h2>
+<ol>
+<li>Open this page and the day's notes side by side.</li>
+<li>Write down your personal value: your index number without spaces or hyphens, with its letters in capitals exactly as issued (the example in this sheet, <code>COHNDNE999X000</code>, belongs to nobody).</li>
+<li>Full tier: start your Kali virtual machine and take a snapshot named <code>day-5-start</code>, so Reset can bring it back. Take it before you run anything else today.</li>
+<li>Floor tier: open the demos this lab uses: <code>hardening-checklist</code> (its "Your baseline report" panel) and <code>access-models</code>.</li>
+<li>Download the provided files and save them in your module folder: <a href="files/seed-baseline.py"><code>seed-baseline.py</code></a> (full tier only) and <a href="files/role-table.csv"><code>role-table.csv</code></a> (both tiers).</li>
+</ol>
+<h3 id="the-idea-behind-todays-lab">The idea behind today's lab</h3>
+<div class="box recall"><p class="box-label">Recall</p><p>Least privilege is the minimum access an account needs.</p></div>
+<div class="box recall"><p class="box-label">Recall</p><p>Accounting is the record of what was done.</p></div>
+<p>A baseline is the agreed starting state of a server: which accounts exist, which services run, which files each account may change, and what is recorded. An audit compares the server with a good baseline and lists the differences as findings. Today your own server starts weak on purpose. The weaknesses are chosen from your index number, so your findings differ from your neighbour's.</p>
+<figure class="art"><svg aria-labelledby="as-t as-d" role="img" style="min-width:640px" viewbox="0 0 640 330"><title id="as-t">Hardening shrinks the attack surface</title><desc id="as-d">A server before and after hardening. Before: the needed SIS application, an unused service with its port open, a system file every account can change, and a journal that records nothing. After: only the needed service runs, the file has its safe mode, and the journal records every action.</desc><rect fill="#FFFBFB" height="330" width="640"></rect><rect fill="#FBF6F6" height="270" rx="10" stroke="#BFA6A8" stroke-width="1.5" width="300" x="12" y="12"></rect><text fill="#2A1A1D" font-family="Open Sans, Arial, sans-serif" font-size="14" font-weight="800" text-anchor="middle" x="162" y="40">BEFORE: YOUR BASELINE</text><rect fill="#FBF6F6" height="270" rx="10" stroke="#BFA6A8" stroke-width="1.5" width="300" x="328" y="12"></rect><text fill="#2A1A1D" font-family="Open Sans, Arial, sans-serif" font-size="14" font-weight="800" text-anchor="middle" x="478" y="40">AFTER: HARDENED</text><circle cx="34" cy="76" fill="#9C2C3A" r="11"></circle><path d="M29 76 L33 80 L40 72" fill="none" stroke="#FFFBFB" stroke-width="2.5"></path><text fill="#2A1A1D" font-family="Open Sans, Arial, sans-serif" font-size="13" font-weight="700" text-anchor="start" x="54" y="73">The SIS application</text><text fill="#6C5353" font-family="Open Sans, Arial, sans-serif" font-size="12" font-weight="400" text-anchor="start" x="54" y="90">needed: kept running</text><rect fill="#E0663C" height="22" rx="3" width="22" x="23" y="113"></rect><path d="M29 119 L39 129 M39 119 L29 129" stroke="#2A1A1D" stroke-width="2.5"></path><text fill="#2A1A1D" font-family="Open Sans, Arial, sans-serif" font-size="13" font-weight="700" text-anchor="start" x="54" y="121">An unused service</text><text fill="#6C5353" font-family="Open Sans, Arial, sans-serif" font-size="12" font-weight="400" text-anchor="start" x="54" y="138">running, its port open</text><rect fill="#E0663C" height="22" rx="3" width="22" x="23" y="161"></rect><path d="M29 167 L39 177 M39 167 L29 177" stroke="#2A1A1D" stroke-width="2.5"></path><text fill="#2A1A1D" font-family="Open Sans, Arial, sans-serif" font-size="13" font-weight="700" text-anchor="start" x="54" y="169">A system file</text><text fill="#6C5353" font-family="Open Sans, Arial, sans-serif" font-size="12" font-weight="400" text-anchor="start" x="54" y="186">mode 666: every account may change it</text><rect fill="#E0663C" height="22" rx="3" width="22" x="23" y="209"></rect><path d="M29 215 L39 225 M39 215 L29 225" stroke="#2A1A1D" stroke-width="2.5"></path><text fill="#2A1A1D" font-family="Open Sans, Arial, sans-serif" font-size="13" font-weight="700" text-anchor="start" x="54" y="217">The journal</text><text fill="#6C5353" font-family="Open Sans, Arial, sans-serif" font-size="12" font-weight="400" text-anchor="start" x="54" y="234">set to keep nothing</text><text fill="#9C2C3A" font-family="Open Sans, Arial, sans-serif" font-size="13" font-weight="700" text-anchor="start" x="30" y="266">Open ways in: 2. Recorded: no.</text><circle cx="350" cy="76" fill="#9C2C3A" r="11"></circle><path d="M345 76 L349 80 L356 72" fill="none" stroke="#FFFBFB" stroke-width="2.5"></path><text fill="#2A1A1D" font-family="Open Sans, Arial, sans-serif" font-size="13" font-weight="700" text-anchor="start" x="370" y="73">The SIS application</text><text fill="#6C5353" font-family="Open Sans, Arial, sans-serif" font-size="12" font-weight="400" text-anchor="start" x="370" y="90">needed: kept running</text><circle cx="350" cy="124" fill="#9C2C3A" r="11"></circle><path d="M345 124 L349 128 L356 120" fill="none" stroke="#FFFBFB" stroke-width="2.5"></path><text fill="#2A1A1D" font-family="Open Sans, Arial, sans-serif" font-size="13" font-weight="700" text-anchor="start" x="370" y="121">The unused service</text><text fill="#6C5353" font-family="Open Sans, Arial, sans-serif" font-size="12" font-weight="400" text-anchor="start" x="370" y="138">disabled, its port closed</text><circle cx="350" cy="172" fill="#9C2C3A" r="11"></circle><path d="M345 172 L349 176 L356 168" fill="none" stroke="#FFFBFB" stroke-width="2.5"></path><text fill="#2A1A1D" font-family="Open Sans, Arial, sans-serif" font-size="13" font-weight="700" text-anchor="start" x="370" y="169">The system file</text><text fill="#6C5353" font-family="Open Sans, Arial, sans-serif" font-size="12" font-weight="400" text-anchor="start" x="370" y="186">safe mode 600 or 644</text><circle cx="350" cy="220" fill="#9C2C3A" r="11"></circle><path d="M345 220 L349 224 L356 216" fill="none" stroke="#FFFBFB" stroke-width="2.5"></path><text fill="#2A1A1D" font-family="Open Sans, Arial, sans-serif" font-size="13" font-weight="700" text-anchor="start" x="370" y="217">The journal</text><text fill="#6C5353" font-family="Open Sans, Arial, sans-serif" font-size="12" font-weight="400" text-anchor="start" x="370" y="234">records every action</text><text fill="#9C2C3A" font-family="Open Sans, Arial, sans-serif" font-size="13" font-weight="700" text-anchor="start" x="346" y="266">Open ways in: 0. Recorded: yes.</text><text fill="#9C2C3A" font-family="Open Sans, Arial, sans-serif" font-size="13" font-weight="700" text-anchor="start" x="20" y="312">Turning things off shrinks the attack surface. Logging adds no lock; it lets you trace.</text></svg><figcaption>Hardening shrinks the attack surface: fewer open doors, tighter files, and a log that records <a class="full" href="img/attack-surface.svg">Open this diagram at full size</a></figcaption></figure>
+<div class="box mistake"><p class="box-label">Common mistake</p><p>"Turning on logging fixes a weakness." Logging detects; it does not prevent. A log that records every grade change does not stop a change. It lets the college see who made it, and when. You still need roles and permissions to stop the change in the first place.</p></div>
+<div class="box mistake"><p class="box-label">Common mistake</p><p>"A role is just a group of users." A role is a set of permissions that users are assigned to. You design the permissions first, from the job. Then you put people into the role. If a person changes job, you move them to another role; you do not edit the permissions.</p></div>
+<div class="qc"><p class="qc-label">Quick check</p><p class="qc-q">Your report says that <code>/etc/group</code> has mode <code>666</code>. Which of these is the real risk?</p><ol class="qc-opts"><li>Anyone can read the list of groups</li><li data-right="">Any account can add itself to a group, including the administrators' group<span class="qc-key"> (answer)</span></li><li>The file will be deleted at the next restart</li></ol><p class="qc-why"><strong>Why:</strong> The last <code>6</code> gives every account read and write. Reading the list of groups is normal and harmless, which is why <code>644</code> is the safe mode. Writing it lets an ordinary account make itself an administrator.</p></div>
+<div class="qc"><p class="qc-label">Quick check</p><p class="qc-q">After your fixes, the Head of IT (information technology) asks: "Logging is on now, so is the grade problem solved?" What is the best answer?</p><ol class="qc-opts"><li>Yes: nobody can change a grade once it is logged</li><li>No: logging only matters on the web portal, not on the server</li><li data-right="">Partly: the log now shows who changed a grade, but roles must still stop the wrong person changing it<span class="qc-key"> (answer)</span></li></ol><p class="qc-why"><strong>Why:</strong> Logging is accounting. It detects and records, so the college can hold a named person to account. It does not prevent the change. Prevention is the job of authorisation: roles, permissions and a second approver.</p></div>
+<h2 id="objective">Objective</h2>
+<p>You will show that each finding keyed to your index is fixed, with the command or setting that fixed it. Your server then runs only what it needs and records what happens. You will also design SIS roles where neither the lecturer nor the student role can do more than its job. That is how Taxila makes every grade change belong to a named person.</p>
+<h2 id="timed-segments">Timed segments</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Segment</th>
+<th>Minutes</th>
+<th>Tier</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Read the baseline audit</td>
+<td>40</td>
+<td>both</td>
+</tr>
+<tr>
+<td>Fix your personal findings</td>
+<td>55</td>
+<td>both</td>
+</tr>
+<tr>
+<td>Account and role design</td>
+<td>30</td>
+<td>both</td>
+</tr>
+<tr>
+<td>Prove it, break it, reset and write up</td>
+<td>25</td>
+<td>both</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="steps">Steps</h2>
+<p>Each step states what to do and what you should see. If you do not see it, stop and work out why before moving on.</p>
+<p class="segment"><span class="seg-name">Segment 1: Read the baseline audit</span><span class="chip tier-floor">Both tiers</span></p>
+<ol class="steps">
+<li data-n="1"><strong>Make your baseline.</strong> Build the weak starting state for your own index number. <span class="expect"><b class="expect-label">You should see</b> a report with five findings. F1 names one running service and its port. F2 names one file with mode <code>666</code> and its safe mode. F3 says logging is off. F4 says some packages may need updates. F5 names your lecturer account. For the example index the report names <code>apache2</code> on port <code>80</code>, <code>/etc/crontab</code> with safe mode <code>600</code>, and the account <code>lecb99b</code>.</span></li>
+</ol>
+<div class="box floor"><p class="box-label">Floor path</p><p>Open the <code>hardening-checklist</code> demo and scroll to "Your baseline report". Type your index number in capitals and choose <strong>Build my report</strong>. The page accepts letters and digits only, and it never sends your index anywhere. It shows the same five findings as the full tier, and a report score of 52 out of 100.</p></div>
+<p>Full tier, in a terminal on your Kali virtual machine, in the folder where you saved the script. Use your own index:</p>
+<pre tabindex="0"><code class="language-bash">sudo python3 seed-baseline.py COHNDNE999X000
+</code></pre>
+<p>The script changes only the machine it runs on. It starts and enables your service, makes your file writable by every account, tells the journal to keep nothing, and creates your lecturer account. It refuses to run on anything but Kali.</p>
+<ol class="steps" start="2">
+<li data-n="2"><strong>Run the audit.</strong> Audit the whole server with Lynis, then find your file and your service in the result. <span class="expect"><b class="expect-label">You should see</b> a long list of tests. In the file permissions section, your file shows <code>[ SUGGESTION ]</code>. Near the end, a line reads <code>Hardening index</code> with a number out of 100. Your service also shows up, with its own suggestions.</span></li>
+</ol>
+<pre tabindex="0"><code class="language-bash">sudo lynis audit system
+</code></pre>
+<p>The audit takes a few minutes. Lynis checks many files against the modes it expects. Some files that the script did not touch may also show <code>[ SUGGESTION ]</code>; that is normal on a fresh machine. Your file is the one your report names.</p>
+<div class="box floor"><p class="box-label">Floor path</p><p>The report panel shows an excerpt of the same audit, with your file's line marked. Read it, and find the hardening index line.</p></div>
+<ol class="steps" start="3">
+<li data-n="3"><strong>Sort the findings.</strong> For F1 to F4, write down which of the morning's five hardening areas it belongs to, and which property is most at stake. <span class="expect"><b class="expect-label">You should see</b> F1 is services and open ports; F2 is file permissions; F3 is logging; F4 is patching; F5 is users and groups. An open service and a writable file threaten confidentiality and integrity. A silent log loses accountability.</span></li>
+</ol>
+<p>Full tier, to read the patching finding without installing anything:</p>
+<pre tabindex="0"><code class="language-bash">apt list --upgradable
+</code></pre>
+<p>If your machine has not fetched the package lists recently, the list may be short or empty. You read F4 today; you do not install the updates, which would take far too long in the lab.</p>
+<p class="segment"><span class="seg-name">Segment 2: Fix your personal findings</span><span class="chip tier-floor">Both tiers</span></p>
+<ol class="steps" start="4">
+<li data-n="4"><strong>Disable your service.</strong> Stop it now and stop it starting at boot. <span class="expect"><b class="expect-label">You should see</b> <code>systemctl is-enabled</code> prints <code>disabled</code>, and its port no longer appears in the list of listening ports.</span></li>
+</ol>
+<pre tabindex="0"><code class="language-bash">sudo ss -tlnp
+sudo systemctl disable --now apache2
+systemctl is-enabled apache2
+sudo ss -tlnp
+</code></pre>
+<p>Use the service your report names. In the first <code>ss</code> list, find your port; in the second, it is gone. A service that does not run cannot be reached.</p>
+<ol class="steps" start="5">
+<li data-n="5"><strong>Tighten your file.</strong> Give your file its safe mode. <span class="expect"><b class="expect-label">You should see</b> <code>stat</code> prints the safe mode and the file name.</span></li>
+</ol>
+<pre tabindex="0"><code class="language-bash">stat -c '%a %n' /etc/crontab
+sudo chmod 600 /etc/crontab
+stat -c '%a %n' /etc/crontab
+</code></pre>
+<p>Use your own file and safe mode. The first <code>stat</code> prints <code>666</code>; the second prints <code>600</code> or <code>644</code>, as your report says.</p>
+<ol class="steps" start="6">
+<li data-n="6"><strong>Turn logging on.</strong> Remove the setting that tells the journal to keep nothing, then restart the journal. <span class="expect"><b class="expect-label">You should see</b> the newest journal lines are from the moment you restarted it, and they say the journal started.</span></li>
+</ol>
+<pre tabindex="0"><code class="language-bash">sudo rm /etc/systemd/journald.conf.d/50-day5-baseline.conf
+sudo systemctl restart systemd-journald
+sudo journalctl -n 3 --no-pager
+</code></pre>
+<p>Before the fix, the same restart adds no new lines, because the journal throws everything away.</p>
+<div class="box floor"><p class="box-label">Floor path</p><p>In the report panel, choose the right fix for F1, F2 and F3 from the three offered for each. A wrong choice says why it is wrong. Write each fix's command in your notes, exactly as the full tier above shows it, using your own service and file.</p></div>
+<ol class="steps" start="7">
+<li data-n="7"><strong>Re-audit and check.</strong> Run the audit again and the script's check. <span class="expect"><b class="expect-label">You should see</b> your file's line now shows <code>[ OK ]</code>. The check prints <code>FIXED</code> for F1, F2 and F3. The hardening index may move a few points either way: fixing a file adds no points, and a stopped service drops its own tests. The proof is the lines that cleared, not the number.</span></li>
+</ol>
+<pre tabindex="0"><code class="language-bash">sudo lynis audit system
+sudo python3 seed-baseline.py --check COHNDNE999X000
+</code></pre>
+<div class="box floor"><p class="box-label">Floor path</p><p>When all three findings are fixed, the panel shows F1, F2 and F3 as fixed and the score rises from 52 to 83. F4 stays open, because you only read it today.</p></div>
+<p class="segment"><span class="seg-name">Segment 3: Account and role design</span><span class="chip tier-floor">Both tiers</span></p>
+<ol class="steps" start="8">
+<li data-n="8"><strong>Design the roles.</strong> Open <code>role-table.csv</code> and fill in the lecturer role and the student role, row by row: yes or no for each action, and why. Put your own lecturer account from F5 and <code>lecturer01</code> in the lecturer role, and <code>student01</code> in the student role. <span class="expect"><b class="expect-label">You should see</b> a <a class="term" data-term="role-based-access-control" href="../../glossary.html#role-based-access-control">role-based access control</a> table where neither role can do more than its job. The student role reads only its own record.</span></li>
+</ol>
+<p>On the full tier, you can also check that your lecturer account holds no administrator rights. It should belong only to its own group:</p>
+<pre tabindex="0"><code class="language-bash">id lecb99b
+groups lecb99b
+</code></pre>
+<ol class="steps" start="9">
+<li data-n="9"><strong>Name the action that needs a second approver.</strong> Mark the one action that one person must never do alone. <span class="expect"><b class="expect-label">You should see</b> changing a grade after results are released needs a second approver. The lecturer asks for the change and the Registrar approves it. Neither role can approve its own request. That is <a class="term" data-term="separation-of-duties" href="../../glossary.html#separation-of-duties">separation of duties</a>.</span></li>
+</ol>
+<p class="segment"><span class="seg-name">Segment 4: Prove it, break it, reset and write up</span><span class="chip tier-floor">Both tiers</span></p>
+<ol class="steps" start="10">
+<li data-n="10">
+<p><strong>Collect your evidence.</strong> Fill in the evidence pack from steps 1 to 9. <span class="expect"><b class="expect-label">You should see</b> your three fixed findings, each with its fix, and your role table.</span></p>
+</li>
+<li data-n="11">
+<p><strong>Draw and explain.</strong> Draw the sketch and write the explanation listed under Evidence required. <span class="expect"><b class="expect-label">You should see</b> a labelled sketch and at most 120 words.</span></p>
+</li>
+</ol>
+<section class="mark prove"><h2 id="prove-it"><span class="mark-chip">PROVE IT</span> Prove it</h2>
+<p>The findings keyed to your index are addressed, each with its fix named. On the full tier, the script's check, <code class="long">sudo python3 seed-baseline.py --check</code>, prints <code>FIXED</code> for F1, F2 and F3, and your file's line in the audit shows <code>[ OK ]</code>. On the floor tier, the report panel shows the same three findings fixed. Your role table gives the student role no access to another student's record. Your lecturer derives the same findings from your index with the module's own tool, so a report copied from someone else shows the wrong service, file or account.</p>
+</section><section class="mark break"><h2 id="break-it"><span class="mark-chip"><span aria-hidden="true" class="fault">×</span>BREAK IT</span> Break it</h2>
+<p><strong>Fault:</strong> the student role is given read access to all records.</p>
+<ol>
+<li>Open the <code>access-models</code> demo, choose the role-based model, and switch on <strong>Student role: read all records</strong>. Choose <code>student01</code> and look at what opens. <strong>Symptom:</strong> <code>student01</code> can now read every student's record and grades, not only its own.</li>
+<li><strong>Evidence:</strong> the role carries the permission, and every account assigned to the role receives it at once. One wrong line in the role table reaches every student, which is why permissions are designed per role and checked.</li>
+<li><strong>Fix:</strong> switch the permission off and check that <code>student01</code> again sees only its own record. In your role table, write the symptom, the cause and the fix in the "why" column of that row.</li>
+</ol>
+</section><section class="mark reset"><h2 id="reset"><span class="mark-chip">RESET</span> Reset</h2>
+<ol>
+<li>Copy your evidence into your evidence pack first.</li>
+<li>Floor tier: keep your marked report and your role table. Reload the demos to clear them.</li>
+<li>Full tier: restore the <code>day-5-start</code> snapshot. If you did not take one, run <code class="long">sudo python3 seed-baseline.py --undo</code> with your index: it disables your service, sets your file to its safe mode, turns logging on and removes your lecturer account.</li>
+</ol>
+</section><section class="mark rules"><h2 id="rules-of-engagement"><span class="mark-chip">RULES OF ENGAGEMENT</span> Rules of engagement</h2>
+<p>No tool in this lab can affect anyone else's system. You harden only your own virtual machine, or mark up the provided report. The script weakens the machine it runs on, so never run it on a computer you do not own.</p>
+</section><section class="mark evidence"><h2 id="evidence-required"><span class="mark-chip">EVIDENCE</span> Evidence required</h2>
+<p>Submit evidence pack 5 before the next teaching day, using the <a href="../../templates/evidence-pack.html">evidence pack template</a>.</p>
+<ol>
+<li><strong>Personal values.</strong> In the template's table, with the step each comes from:
+<ul>
+<li>your service from F1 and the command that disabled it (steps 1 and 4);</li>
+<li>your file from F2, its safe mode and the command that set it (steps 1 and 5);</li>
+<li>the logging fix, and the newest journal line after it, or the panel's fixed mark (step 6);</li>
+<li>the check's output, or the panel's summary, showing F1 to F3 fixed (step 7);</li>
+<li>your role table, with your lecturer account from F5 and the action that needs a second approver (steps 8 and 9).</li>
+</ul>
+</li>
+<li><strong>Concept sketch.</strong> Draw by hand, on paper, the three gates of authentication, authorisation and accounting (AAA) for a user signing in to the SIS, and label each gate. Photograph it.</li>
+<li><strong>Explanation.</strong> In no more than 120 words: why does least privilege limit the damage when a password is stolen?</li>
+</ol>
+</section><h2 id="taxila-connection">Taxila connection</h2>
+<p>This lab adds two items to Taxila's security register. Item 9 is accounts, roles and multi-factor sign-in. Every SIS account sits in a role whose permissions match its job, and a released grade changes only with a second approver. Item 10 is the hardened server baseline. The SIS server runs only what it needs, its files are closed to other accounts, and it records what happens. The Head of IT will ask what each fix could break: a stopped service that nobody used breaks nothing, which is why it was safe to stop. The Registrar will ask whether a changed grade can now be traced. Yes: the role says who may change it, the second approver must agree, and the log records who did. Before you leave, form your group of four for the group exercise and agree its four roles, as the <a href="../../coursework/tabletop-brief.html">tabletop brief</a> describes.</p>
+
+<template id="term-least-privilege"><b>Least privilege</b><span>Giving each account the minimum access its job needs, for no longer than needed. The area a stolen credential can reach, its blast radius, then stays small.</span><span class="ex"><span class="ex-label">At Taxila: </span><code>lecturer01</code> can enter grades only for the lecturer's own modules, so a leaked password reaches little.</span></template><template id="term-accounting"><b>Accounting</b><span>The process that records what each identity did: who, what and when. It produces the accountability property, so an action can be traced to a person.</span><span class="ex"><span class="ex-label">At Taxila: </span>the SIS (Student Information System) log records &quot;<code>lecturer01</code> changed a grade in module 2&quot;, so a changed grade can be traced.</span></template><template id="term-hardening"><b>Hardening</b><span>Bringing a server to a safe baseline: only needed accounts and services, tight file permissions, patches installed, and logging on. Each change shrinks the attack surface, everything an attacker could try to reach.</span><span class="ex"><span class="ex-label">At Taxila: </span>the Head of IT (information technology) turned off services nobody used on the SIS (Student Information System) server.</span></template><template id="term-role-based-access-control"><b>Role-based access control</b><span>Role-based access control (RBAC) gives permissions to roles designed from jobs, then assigns people to roles. A person changing job moves to another role.</span><span class="ex"><span class="ex-label">At Taxila: </span><code>student01</code> is assigned to the student role, which may read only its own record.</span></template><template id="term-separation-of-duties"><b>Separation of duties</b><span>Making a second person approve a sensitive action, so that no one person can complete it alone.</span><span class="ex"><span class="ex-label">At Taxila: </span>a lecturer may ask to change a released grade, but only the Registrar's approval completes it.</span></template>
+<section class="resources" aria-labelledby="h-res"><h2 id="h-res">Everything for this afternoon</h2><ul><li><a href="slides/day-5-afternoon.pdf">Slides for this afternoon (PDF)</a></li><li><a href="files/role-table.csv"><code>role-table.csv</code></a> (provided file)</li><li><a href="files/seed-baseline.py"><code>seed-baseline.py</code></a> (provided file)</li><li><a href="plays/p5-words.html">Words for identity and access</a> (10 minutes)</li><li><a href="plays/p5-1-build-the-roles.html">Build the roles</a> (8 minutes)</li><li><a href="plays/p5-2-what-to-fix-first.html">What to fix first on the SIS server</a> (8 minutes)</li><li><a href="plays/p5-quiz.html">Day 5: who you are, and what you may do</a> (10 minutes)</li><li>The <a href="../../coursework/evidence-packs-brief.html">evidence packs brief</a> and the <a href="../../templates/evidence-pack.html">evidence pack template</a> (also as a <a href="../../templates/evidence-pack.pdf">PDF form</a>)</li><li><a href="../../practice/PQ5.html">Practice question 5</a></li></ul></section><div class="progress-box"><button class="btn" type="button" data-progress="d5a">Mark this afternoon as done</button><span class="progress-note">A record for you, saved only on this device. It never locks or unlocks anything.</span></div><nav class="pager" aria-label="Page navigation"><span>Previous: <a href="../../days/day-5/notes.html">Day 5 morning</a></span><span><a href="index.html">Day 5</a></span><span></span></nav>
+</div>
+</main>
+<footer class="site-footer"><div class="wrap">
+<p class="author">&copy; Niranga Dharmaratna, School of Computing &amp; Engineering, National Institute of Business Management</p>
+<p>Content licensed <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener">CC BY-NC-SA 4.0</a>; code licensed MIT; Open Sans under the SIL Open Font Licence.</p>
+<p>Dates and submissions are announced for your cohort. Taxila College is fictional.</p>
+<p>Anything you mark as done is saved only on this device. Nothing leaves it.</p>
+</div></footer>
+<script src="../../assets/js/site.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en-GB" data-store="hndne-pis:">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="hndne-pis-site">
+<title>Practice question 5: a tea estate&#x27;s payroll office | Principles of Information Security</title>
+<meta name="author" content="Niranga Dharmaratna">
+<meta name="description" content="This practice question applies the Day 5 ideas to a tea estate&#x27;s payroll office: the three processes, access-control models, and least privilege with...">
+<meta name="robots" content="index, follow">
+<link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
+<link rel="canonical" href="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/practice/PQ5.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Principles of Information Security, HND Network Engineering Year 2">
+<meta property="og:title" content="Practice question 5: a tea estate&#x27;s payroll office">
+<meta property="og:description" content="This practice question applies the Day 5 ideas to a tea estate&#x27;s payroll office: the three processes, access-control models, and least privilege with...">
+<meta property="og:url" content="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/practice/PQ5.html">
+<meta property="og:locale" content="en_GB">
+<meta property="og:image" content="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/assets/img/social-card.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="At Taxila College the Head of IT points to the security register on the wall: nineteen numbered items, the first outlined as the place to start. The Registrar holds a sealed transcript and the Data Protection Officer a clipboard. A lecturer turns to welcome two students arriving with a laptop and a phone.">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/","name":"Principles of Information Security","position":1},{"@type":"ListItem","item":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/practice/PQ5.html","name":"Practice question 5: a tea estate's payroll office","position":2}]}</script>
+<link rel="stylesheet" href="../assets/fonts/fonts.css">
+<link rel="stylesheet" href="../assets/css/site.css">
+<script>document.documentElement.className = "js";</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to the content</a>
+<header class="site-header"><div class="wrap"><div><p class="eyebrow"><a href="../index.html">Principles of Information Security | HND Network Engineering, Year 2</a></p><h1>Practice question 5: a tea estate&#x27;s payroll office</h1><div class="bars" aria-hidden="true"><i></i><i></i></div></div></div></header>
+<main id="main">
+<div class="wrap prose">
+<p>This practice question applies the Day 5 ideas to a tea estate's payroll office: the three processes, access-control models, and least privilege with separation of duties. Attempt it in writing before you read the answer guidance. It carries 20 marks.</p>
+<h2 id="the-setting">The setting</h2>
+<p>A tea estate in the hill country pays about 600 workers. Its payroll office has three staff: a payroll clerk, a supervisor and an accountant. They share one computer in the office. The computer has one account, <code>payroll</code>, and its password is written on a card in the desk drawer.</p>
+<p>The clerk types in each worker's days and rates. The supervisor checks the totals. Each month the accountant prepares the bank file that tells the bank how much to pay into each worker's account, and sends it to the bank.</p>
+<p>Last month the bank paid one worker three times the usual wage. The extra money had gone to an account number nobody recognised. The estate manager asked who had changed the bank file. The computer could show that the file was changed one weekend afternoon, by the account <code>payroll</code>. All three staff say they were not in the office.</p>
+<p>The estate's IT (information technology) adviser proposes three changes:</p>
+<ol>
+<li>Give each of the three staff their own account on the computer, with their own password.</li>
+<li>Use role-based access control, with a clerk role, a supervisor role and an accountant role.</li>
+<li>Keep a record of every change to the payroll data and the bank file.</li>
+</ol>
+<p>The estate manager says: "This is too much for a team of three. We trust our staff. If we just change the shared password every month, the problem is solved."</p>
+<h2 id="the-question">The question</h2>
+<p><strong>(a)</strong> Explain the three processes of authentication, authorisation and accounting (AAA). Say what each one does, and explain why they are not the same as the properties of authenticity and accountability. <strong>(6 marks)</strong></p>
+<p><strong>(b)</strong> Apply these ideas to the payroll office. Explain which of the three processes failed when the bank file was changed, and why the shared account makes the change impossible to trace. Then design the three roles: for each role, name what it may do and what it may not, so that each account has only what its job needs. <strong>(7 marks)</strong></p>
+<p><strong>(c)</strong> Evaluate the estate manager's view. Discuss whether changing the shared password each month would solve the problem, and whether least privilege and separation of duties are worth their cost in an office of three. Recommend what the estate should do, with one cost of your recommendation. <strong>(7 marks)</strong></p>
+<h2 id="answer-guidance">Answer guidance</h2>
+<p>Read this only after you have written your own answer.</p>
+<p><strong>Part (a).</strong> Authentication checks who someone is: the computer checks a claimed identity, usually with a password, and accepts or refuses it. Authorisation decides what that identity may do: which files it may open and which actions it may take. Accounting records what was done: who did what, and when. The three run in that order whenever someone uses a system, and each can fail on its own. They are processes: steps a system runs. Authenticity and accountability are properties from the five: things that should be true of information. Authenticity means the information or person is genuine. Accountability means an action can be traced to a person. Accounting is the process that produces accountability. A strong answer keeps the two lists apart and does not use "authentication" where "authenticity" is meant.</p>
+<p><strong>Part (b).</strong> Accounting failed in the sense that matters. A record existed, but it named only <code>payroll</code>, an account three people share. A record is only as good as the identity behind it. So the real failure began at authentication: the computer could not tell the three staff apart. It accepted anyone who knew a password kept in a drawer. With one shared account, every action looks the same, so nobody can be held to account. This shows that accounting depends on authentication: you can only record who did something if you first know who they are. For the roles:</p>
+<ul>
+<li>The <strong>clerk role</strong> may enter and correct days and rates. It may not change bank account numbers or create the bank file.</li>
+<li>The <strong>supervisor role</strong> may read the totals and approve them. It may not edit the figures it checks.</li>
+<li>The <strong>accountant role</strong> may prepare and send the bank file from approved totals. It may not change days, rates or account numbers on its own.</li>
+</ul>
+<p>A change to a worker's bank account number should need two people: one asks for it and another approves it. Each person gets their own account, assigned to one role. Each role holds the least it needs.</p>
+<p><strong>Part (c).</strong> A monthly password change does not solve the problem. The account is still shared, so the record would still say only <code>payroll</code>. Anyone who learns the new password, for example from the card in the drawer, can still change anything. It changes the secret, not who can be traced or what one person can do. Least privilege is not about distrusting staff. It limits the damage when a password is stolen or misused: if only the accountant's account can send the bank file, a leaked clerk password cannot change a payment. Separation of duties means one person cannot both change an account number and send the payment. That is the very gap this incident used. In an office of three the cost is small. Three accounts and three roles cost little. A second person must approve each change to a bank account, which takes a few minutes. And someone must keep the record and read it. The estate should take all three of the adviser's changes. It should also make one change to bank account numbers need the supervisor's approval, and remove the password card. The cost is a little time each month and the work of setting up the accounts; a single overpayment like last month's costs more. A strong answer rejects the manager's view with reasons and does not treat trust as a control.</p>
+<nav class="pager" aria-label="Page navigation"><span></span><span><a href="../index.html">All days</a></span><span></span></nav>
+</div>
+</main>
+<footer class="site-footer"><div class="wrap">
+<p class="author">&copy; Niranga Dharmaratna, School of Computing &amp; Engineering, National Institute of Business Management</p>
+<p>Content licensed <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener">CC BY-NC-SA 4.0</a>; code licensed MIT; Open Sans under the SIL Open Font Licence. See the <a href="../LICENSE-CONTENT.html">licence notes</a>.</p>
+<p>Dates and submissions are announced for your cohort. Taxila College is fictional.</p>
+<p>Anything you mark as done is saved only on this device. Nothing leaves it.</p>
+</div></footer>
+<script src="../assets/js/site.js" defer></script>
+</body>
+</html>

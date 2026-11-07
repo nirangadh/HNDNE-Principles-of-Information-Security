@@ -244,3 +244,65 @@ A rule in the Hypertext Transfer Protocol (HTTP) called HTTP Strict Transport Se
 Building an application so it accepts only one particular certificate or key for its own server, even if another authority vouches for a different one. Mainly used by mobile apps, such as banking apps.
 
 *Taxila example:* a Taxila phone app could pin the portal's key, so it refuses any other.
+
+## Day 5
+
+### Authentication
+The process that checks a claimed identity, for example by matching a password against its stored salted digest. It is the first of three processes, called AAA (authentication, authorisation and accounting). It is not authenticity, which is a property.
+
+*Taxila example:* the SIS (Student Information System) checks `lecturer01`'s password before accepting who is signing in.
+
+### Authorisation
+The process that decides what an authenticated identity may do: which resources it may open and which actions it may take. It comes after authentication.
+
+*Taxila example:* the SIS (Student Information System) lets `lecturer01` enter grades only for the modules `lecturer01` teaches.
+
+### Accounting
+The process that records what each identity did: who, what and when. It produces the accountability property, so an action can be traced to a person.
+
+*Taxila example:* the SIS (Student Information System) log records "`lecturer01` changed a grade in module 2", so a changed grade can be traced.
+
+### Authentication factor
+One kind of evidence of who you are: something you know (a password), something you have (a phone or security key), or something you are (a fingerprint).
+
+*Taxila example:* a lecturer's password is one factor, and the code on the lecturer's phone is another.
+
+### Multi-factor authentication
+Multi-factor authentication (MFA) asks for two or more factors of different kinds, so a stolen password alone is not enough. Two passwords are still one factor.
+
+*Taxila example:* staff sign in to the SIS (Student Information System) with a password and a code from their phone.
+
+### Credential stuffing
+Replaying leaked pairs of usernames and passwords, taken from another site's leak, against a different site. It works wherever people reused a password, and fails against a second factor.
+
+*Taxila example:* a lecturer's password leaked from a shopping site stops at the SIS (Student Information System) second factor.
+
+### Discretionary access control
+Discretionary access control (DAC) lets the owner of each resource decide who may use it. It is flexible, but access spreads as owners share freely.
+
+*Taxila example:* a lecturer shares a folder of module marks with a colleague, with nobody else involved.
+
+### Mandatory access control
+Mandatory access control (MAC) lets the system decide access by labels and clearances that users, even owners, cannot override. It is strict and consistent, but rigid.
+
+*Taxila example:* an exam paper labelled restricted opens only for accounts cleared for restricted, whoever wrote it.
+
+### Role-based access control
+Role-based access control (RBAC) gives permissions to roles designed from jobs, then assigns people to roles. A person changing job moves to another role.
+
+*Taxila example:* `student01` is assigned to the student role, which may read only its own record.
+
+### Least privilege
+Giving each account the minimum access its job needs, for no longer than needed. The area a stolen credential can reach, its blast radius, then stays small.
+
+*Taxila example:* `lecturer01` can enter grades only for the lecturer's own modules, so a leaked password reaches little.
+
+### Separation of duties
+Making a second person approve a sensitive action, so that no one person can complete it alone.
+
+*Taxila example:* a lecturer may ask to change a released grade, but only the Registrar's approval completes it.
+
+### Hardening
+Bringing a server to a safe baseline: only needed accounts and services, tight file permissions, patches installed, and logging on. Each change shrinks the attack surface, everything an attacker could try to reach.
+
+*Taxila example:* the Head of IT (information technology) turned off services nobody used on the SIS (Student Information System) server.

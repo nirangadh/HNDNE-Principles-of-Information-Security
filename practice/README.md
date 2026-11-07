@@ -10,3 +10,4 @@ A question appears here when its day's materials are posted.
 | [PQ2](PQ2.md) | Day 2 | A school examinations board: symmetric against asymmetric, the hybrid pattern, a stolen laptop |
 | [PQ3](PQ3.md) | Day 3 | An online bookshop: password storage, salting, why speed is a weakness |
 | [PQ4](PQ4.md) | Day 4 | A provincial land records office: signatures, non-repudiation, self-signed against authority-signed |
+| [PQ5](PQ5.md) | Day 5 | A tea estate's payroll office: the three processes, access-control models, one shared computer |
