@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Three gates: authentication, authorisation, accounting</title>
+<meta name="description" content="Send prepared Taxila users through three gates, who are you, what may you do, what did you do, and read the log each one leaves.">
+<link rel="stylesheet" href="../../../assets/fonts/fonts.css">
+<style>
+  body{margin:0;font-family:var(--font-body);background:var(--linen);color:var(--ink);line-height:1.6}
+  main{max-width:46rem;margin:0 auto;padding:1.5rem 1rem 2.5rem}
+  h1{font-size:1.6rem;line-height:1.25;margin:0 0 .4rem}
+  .bars{display:flex;gap:6px;margin:.3rem 0 1.1rem}.bars i{display:block;height:6px;border-radius:2px}
+  .bars i:first-child{width:56px;background:var(--burgundy)}.bars i:last-child{width:26px;background:var(--blush)}
+  .lead{margin:0 0 1rem}
+  .step{font-size:.78rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--burgundy);margin:1.6rem 0 .3rem;display:block}
+  h2{font-size:1.15rem;margin:.1rem 0 .4rem}
+  button:focus-visible{outline:3px solid var(--burgundy);outline-offset:2px}
+  button{font:inherit;font-weight:700;color:var(--snow);background:var(--burgundy);border:0;border-radius:8px;padding:.55rem 1rem;min-height:44px;cursor:pointer;margin:.4rem .3rem .2rem 0}
+  button.quiet{color:var(--burgundy);background:var(--snow);border:2px solid var(--burgundy)}
+  button[aria-pressed=true]{background:var(--ink);color:var(--snow);border-color:var(--ink)}
+  button[disabled]{background:var(--blush);color:var(--taupe);border-color:var(--blush);cursor:not-allowed}
+  .box{background:var(--snow);border:1px solid var(--rule);border-left:6px solid var(--burgundy);border-radius:0 12px 12px 0;padding:.8rem 1rem;margin:.5rem 0}
+  .box.fault{border-left:6px dashed var(--signal-vermilion)}
+  .tag{display:block;font-size:.72rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--burgundy)}
+  .gates{display:grid;grid-template-columns:repeat(3,1fr);gap:.6rem;margin:.6rem 0}
+  @media (max-width:560px){.gates{grid-template-columns:1fr}}
+  .gate{background:var(--snow);border:2px solid var(--taupe);border-radius:12px;padding:.7rem .8rem}
+  .gate h3{margin:0;font-size:1rem}
+  .gate .q{margin:.1rem 0 .4rem;color:var(--taupe);font-size:.92rem}
+  .gate .st{font-weight:800;margin:0}
+  .gate.pass{border-color:var(--burgundy);border-width:3px}
+  .gate.fail{border:3px dashed var(--signal-vermilion)}
+  .gate.off{border-style:dotted;background:var(--linen)}
+  .code{font-family:var(--font-code)}
+  table{border-collapse:collapse;width:100%;font-size:.92rem}
+  th,td{text-align:left;vertical-align:top;padding:.35rem .5rem;border-bottom:1px solid var(--rule)}
+  th{font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;color:var(--taupe)}
+  .scroll{overflow-x:auto}
+  .note{font-size:.9rem;color:var(--taupe);margin-top:1.4rem}
+  .who{display:flex;flex-wrap:wrap}
+</style>
+<!-- portal head: written by the portal generator from this demo's title and description; do not edit -->
+<meta name="robots" content="index, follow">
+<link rel="icon" href="../../../assets/img/favicon.svg" type="image/svg+xml">
+<link rel="canonical" href="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-5/artefacts/aaa-gates.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Principles of Information Security, HND Network Engineering Year 2">
+<meta property="og:title" content="Three gates: authentication, authorisation, accounting | Day 5">
+<meta property="og:description" content="Send prepared Taxila users through three gates, who are you, what may you do, what did you do, and read the log each one leaves.">
+<meta property="og:url" content="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-5/artefacts/aaa-gates.html">
+<meta property="og:locale" content="en_GB">
+<meta property="og:image" content="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/assets/img/social-card.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="At Taxila College the Head of IT points to the security register on the wall: nineteen numbered items, the first outlined as the place to start. The Registrar holds a sealed transcript and the Data Protection Officer a clipboard. A lecturer turns to welcome two students arriving with a laptop and a phone.">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","author":{"@type":"Person","affiliation":{"@type":"Organization","name":"School of Computing & Engineering, National Institute of Business Management"},"name":"Niranga Dharmaratna"},"description":"Send prepared Taxila users through three gates, who are you, what may you do, what did you do, and read the log each one leaves.","educationalLevel":"Higher National Diploma, Year 2","inLanguage":"en-GB","interactivityType":"active","isAccessibleForFree":true,"isPartOf":{"@id":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/#course","@type":"Course","name":"Principles of Information Security, HND Network Engineering Year 2","url":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/"},"learningResourceType":"Interactive demonstration","license":"https://opensource.org/licenses/MIT","name":"Three gates: authentication, authorisation, accounting | Day 5","url":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-5/artefacts/aaa-gates.html"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/","name":"Principles of Information Security","position":1},{"@type":"ListItem","item":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-5/","name":"Day 5","position":2},{"@type":"ListItem","item":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-5/artefacts/aaa-gates.html","name":"Three gates: authentication, authorisation, accounting","position":3}]}</script>
+<!-- /portal head -->
+</head>
+<body>
+<main>
+<h1>Three gates: who are you, what may you do, what did you do</h1>
+<div class="bars" aria-hidden="true"><i></i><i></i></div>
+<p class="lead">Every time someone uses the Student Information System (SIS), three separate processes run in order. Authentication checks who you are. Authorisation decides what you may do. Accounting records what you did. Choose a prepared user, then send them through the gates one at a time.</p>
+
+<span class="step">Step 1</span>
+<h2>Choose a user and what they try to do</h2>
+<div class="who" id="users"></div>
+<div class="box" id="story" aria-live="polite"><p>Choose a user above.</p></div>
+
+<span class="step">Step 2</span>
+<h2>Send them through the gates</h2>
+<div class="gates">
+  <div class="gate" id="g0"><h3>Gate 1: Authentication</h3><p class="q">Who are you?</p><p class="st" id="s0">Waiting</p></div>
+  <div class="gate" id="g1"><h3>Gate 2: Authorisation</h3><p class="q">What may you do?</p><p class="st" id="s1">Waiting</p></div>
+  <div class="gate" id="g2"><h3>Gate 3: Accounting</h3><p class="q">What did you do?</p><p class="st" id="s2">Waiting</p></div>
+</div>
+<button id="next" type="button" disabled>Next gate</button>
+<button id="acct" type="button" class="quiet" aria-pressed="false">Switch off the accounting gate</button>
+<div class="box" id="out" aria-live="polite" hidden><p id="outp"></p></div>
+
+<span class="step">Step 3</span>
+<h2>Read the log</h2>
+<p>This is what a defender sees afterwards. Each line is one action the third gate recorded.</p>
+<div class="scroll"><table><thead><tr><th>Order</th><th>Account</th><th>Action</th><th>Result</th></tr></thead><tbody id="log"></tbody></table></div>
+<p id="empty">The log is empty.</p>
+
+<p class="note">All users and actions on this page are prepared samples. The two properties from Day 1 with similar names are not the same as these gates: authentication is the step that checks who you are, while authenticity is a property, and accounting is the step that produces the accountability property. Nothing on this page leaves your browser.</p>
+</main>
+<script>
+(function () {
+  "use strict";
+  var $ = function (id) { return document.getElementById(id); };
+  var USERS = [
+    { label: "lecturer01 enters a grade", account: "lecturer01", action: "enter a grade for module 2, which lecturer01 teaches", known: true, allowed: true,
+      a: "The password matches the stored salted digest, so the SIS accepts that this is lecturer01.",
+      b: "The lecturer role may enter grades for its own modules, so the action is allowed.",
+      done: "The grade is entered, and the log says who entered it." },
+    { label: "student01 tries to change a grade", account: "student01", action: "change their own grade in module 2", known: true, allowed: false,
+      a: "The password is right, so the SIS accepts that this is student01. Passing this gate says nothing yet about what student01 may do.",
+      b: "The student role may only read its own record. Changing a grade is not one of its permissions, so the action is refused.",
+      done: "Nothing changed. The refused attempt is still recorded, so the college can see it." },
+    { label: "Someone types lecturer01 with a wrong password", account: "lecturer01", action: "sign in as lecturer01", story: "Someone types the account name lecturer01 with a wrong password.", known: false, allowed: false,
+      a: "The password does not match the stored digest, so the SIS does not accept the claim. The user is stopped at the first gate.",
+      b: "", done: "Nothing changed. The failed sign-in is recorded, so a burst of failures would show in the log." }
+  ];
+  var cur = null, gate = 0, order = 0, acctOn = true;
+  function setGate(i, cls, text) {
+    $("g" + i).className = "gate" + (cls ? " " + cls : "");
+    $("s" + i).textContent = text;
+  }
+  function reset() {
+    gate = 0;
+    for (var i = 0; i < 3; i++) setGate(i, "", "Waiting");
+    if (!acctOn) setGate(2, "off", "Switched off");
+    $("out").hidden = true;
+  }
+  function addLog(account, action, result) {
+    order += 1;
+    var tr = document.createElement("tr");
+    [String(order), account, action, result].forEach(function (t, k) {
+      var td = document.createElement("td"); td.textContent = t; if (k === 1) td.className = "code"; tr.appendChild(td);
+    });
+    $("log").appendChild(tr); $("empty").hidden = true;
+  }
+  function say(text, fault) {
+    $("out").hidden = false; $("out").className = fault ? "box fault" : "box"; $("outp").textContent = text;
+  }
+  USERS.forEach(function (u, i) {
+    var b = document.createElement("button");
+    b.type = "button"; b.className = "quiet"; b.textContent = u.label;
+    b.addEventListener("click", function () {
+      cur = u; reset();
+      Array.prototype.forEach.call($("users").children, function (x) { x.setAttribute("aria-pressed", "false"); });
+      b.setAttribute("aria-pressed", "true");
+      $("story").textContent = "";
+      var p = document.createElement("p");
+      p.textContent = u.story || ("The account " + u.account + " wants to " + u.action + ".");
+      $("story").appendChild(p);
+      $("next").disabled = false;
+    });
+    $("users").appendChild(b);
+  });
+  $("next").addEventListener("click", function () {
+    if (!cur) return;
+    if (gate === 0) {
+      if (cur.known) { setGate(0, "pass", "✓ Passed"); say(cur.a); gate = 1; }
+      else { setGate(0, "fail", "× Refused"); setGate(1, "off", "Not reached"); say(cur.a, true); gate = 2; }
+      return;
+    }
+    if (gate === 1) {
+      if (cur.allowed) { setGate(1, "pass", "✓ Allowed"); say(cur.b); }
+      else { setGate(1, "fail", "× Refused"); say(cur.b, true); }
+      gate = 2; return;
+    }
+    if (gate === 2) {
+      var result = !cur.known ? "sign-in refused" : (cur.allowed ? "done" : "refused");
+      if (acctOn) {
+        setGate(2, "pass", "✓ Recorded");
+        addLog(cur.account, cur.action, result);
+        say(cur.done);
+      } else {
+        setGate(2, "off", "Switched off: nothing recorded");
+        if (cur.known && cur.allowed) {
+          say("× The grade changed, and the log has no line for it. Who changed it, and when? Nobody can say. This is Taxila's changed grade: the first two gates may have worked perfectly, but the third was missing, so nobody can be held to account.", true);
+        } else {
+          say("× Nothing changed, but nothing was recorded either. If this happened a hundred times tonight, nobody would know.", true);
+        }
+      }
+      gate = 3; $("next").disabled = true;
+    }
+  });
+  $("acct").addEventListener("click", function () {
+    acctOn = !acctOn;
+    $("acct").setAttribute("aria-pressed", acctOn ? "false" : "true");
+    $("acct").textContent = acctOn ? "Switch off the accounting gate" : "Switch the accounting gate back on";
+    if (cur) { reset(); $("next").disabled = false; }
+  });
+}());
+</script>
+</body>
+</html>

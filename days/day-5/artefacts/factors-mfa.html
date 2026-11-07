@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Stack the factors</title>
+<meta name="description" content="Replay a prepared list of leaked passwords against Taxila's sign-in, then add a second factor and watch the sign-in log stop them all.">
+<link rel="stylesheet" href="../../../assets/fonts/fonts.css">
+<style>
+  body{margin:0;font-family:var(--font-body);background:var(--linen);color:var(--ink);line-height:1.6}
+  main{max-width:46rem;margin:0 auto;padding:1.5rem 1rem 2.5rem}
+  h1{font-size:1.6rem;line-height:1.25;margin:0 0 .4rem}
+  .bars{display:flex;gap:6px;margin:.3rem 0 1.1rem}.bars i{display:block;height:6px;border-radius:2px}
+  .bars i:first-child{width:56px;background:var(--burgundy)}.bars i:last-child{width:26px;background:var(--blush)}
+  .lead{margin:0 0 1rem}
+  .step{font-size:.78rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--burgundy);margin:1.6rem 0 .3rem;display:block}
+  h2{font-size:1.15rem;margin:.1rem 0 .4rem}
+  button:focus-visible{outline:3px solid var(--burgundy);outline-offset:2px}
+  button{font:inherit;font-weight:700;color:var(--snow);background:var(--burgundy);border:0;border-radius:8px;padding:.55rem 1rem;min-height:44px;cursor:pointer;margin:.4rem .3rem .2rem 0}
+  button.quiet{color:var(--burgundy);background:var(--snow);border:2px solid var(--burgundy)}
+  button[aria-pressed=true]{background:var(--ink);color:var(--snow);border-color:var(--ink)}
+  .box{background:var(--snow);border:1px solid var(--rule);border-left:6px solid var(--burgundy);border-radius:0 12px 12px 0;padding:.8rem 1rem;margin:.5rem 0}
+  .box.fault{border-left:6px dashed var(--signal-vermilion)}
+  .tag{display:block;font-size:.72rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--burgundy)}
+  .factors{display:grid;grid-template-columns:repeat(3,1fr);gap:.6rem}
+  @media (max-width:560px){.factors{grid-template-columns:1fr}}
+  .factor{background:var(--snow);border:2px solid var(--taupe);border-radius:12px;padding:.7rem .8rem}
+  .factor h3{margin:0 0 .2rem;font-size:1rem}
+  .factor p{margin:0 0 .3rem;font-size:.92rem}
+  .factor.on{border:3px solid var(--burgundy)}
+  .otp{font-family:var(--font-code);font-size:1.8rem;font-weight:700;letter-spacing:.15em;margin:.2rem 0}
+  .code{font-family:var(--font-code)}
+  table{border-collapse:collapse;width:100%;font-size:.9rem}
+  th,td{text-align:left;vertical-align:top;padding:.3rem .5rem;border-bottom:1px solid var(--rule)}
+  th{font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;color:var(--taupe)}
+  td.in{font-weight:800}
+  td.stop{font-weight:700}
+  .scroll{overflow-x:auto}
+  .sum{font-weight:700;margin:.4rem 0}
+  .note{font-size:.9rem;color:var(--taupe);margin-top:1.4rem}
+</style>
+<!-- portal head: written by the portal generator from this demo's title and description; do not edit -->
+<meta name="robots" content="index, follow">
+<link rel="icon" href="../../../assets/img/favicon.svg" type="image/svg+xml">
+<link rel="canonical" href="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-5/artefacts/factors-mfa.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Principles of Information Security, HND Network Engineering Year 2">
+<meta property="og:title" content="Stack the factors | Day 5">
+<meta property="og:description" content="Replay a prepared list of leaked passwords against Taxila&#x27;s sign-in, then add a second factor and watch the sign-in log stop them all.">
+<meta property="og:url" content="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-5/artefacts/factors-mfa.html">
+<meta property="og:locale" content="en_GB">
+<meta property="og:image" content="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/assets/img/social-card.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="At Taxila College the Head of IT points to the security register on the wall: nineteen numbered items, the first outlined as the place to start. The Registrar holds a sealed transcript and the Data Protection Officer a clipboard. A lecturer turns to welcome two students arriving with a laptop and a phone.">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","author":{"@type":"Person","affiliation":{"@type":"Organization","name":"School of Computing & Engineering, National Institute of Business Management"},"name":"Niranga Dharmaratna"},"description":"Replay a prepared list of leaked passwords against Taxila's sign-in, then add a second factor and watch the sign-in log stop them all.","educationalLevel":"Higher National Diploma, Year 2","inLanguage":"en-GB","interactivityType":"active","isAccessibleForFree":true,"isPartOf":{"@id":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/#course","@type":"Course","name":"Principles of Information Security, HND Network Engineering Year 2","url":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/"},"learningResourceType":"Interactive demonstration","license":"https://opensource.org/licenses/MIT","name":"Stack the factors | Day 5","url":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-5/artefacts/factors-mfa.html"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/","name":"Principles of Information Security","position":1},{"@type":"ListItem","item":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-5/","name":"Day 5","position":2},{"@type":"ListItem","item":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-5/artefacts/factors-mfa.html","name":"Stack the factors","position":3}]}</script>
+<!-- /portal head -->
+</head>
+<body>
+<main>
+<h1>Stack the factors</h1>
+<div class="bars" aria-hidden="true"><i></i><i></i></div>
+<p class="lead">Authentication checks evidence of who you are. Each kind of evidence is a factor: something you know, something you have, something you are. Here you see Taxila's sign-in log while a prepared list of leaked email-and-password pairs is replayed against it. This is credential stuffing, seen from the defender's seat.</p>
+
+<span class="step">Step 1</span>
+<h2>Choose which factors the sign-in asks for</h2>
+<div class="factors">
+  <div class="factor on" id="f-know"><h3>Something you know</h3><p>A password. Always asked.</p><button type="button" disabled aria-pressed="true">Password: on</button></div>
+  <div class="factor" id="f-have"><h3>Something you have</h3><p>A six-digit code from the phone's authenticator app.</p><button type="button" class="quiet" id="t-have" aria-pressed="false">Add the phone code</button></div>
+  <div class="factor" id="f-are"><h3>Something you are</h3><p>A fingerprint on the staff laptop's reader.</p><button type="button" class="quiet" id="t-are" aria-pressed="false">Add the fingerprint</button></div>
+</div>
+<p class="sum" id="mode" aria-live="polite">Now asking for: one factor (password only).</p>
+
+<span class="step">Step 2</span>
+<h2>Replay the leaked list and read the log</h2>
+<p>The list came from a shopping site's leak, not from Taxila. Most pairs are wrong for Taxila. A few staff used the same password at both places.</p>
+<button id="replay" type="button">Replay the leaked list</button>
+<div class="scroll"><table><thead><tr><th>Try</th><th>Account</th><th>Password</th><th>Second factor</th><th>Result</th></tr></thead><tbody id="log"></tbody></table></div>
+<div class="box" id="out" aria-live="polite" hidden><p id="outp"></p></div>
+
+<span class="step">Step 3</span>
+<h2>Where the phone's code comes from</h2>
+<div class="box">
+  <span class="tag">Demonstration phone: code now</span>
+  <p class="otp" id="otp" aria-live="off">------</p>
+  <p id="left">Waiting for Web Crypto...</p>
+  <p>The phone and the server share a secret key. Every 30 seconds both compute a keyed hash of the current time, the HMAC you met on Day 3, and turn it into six digits. Both get the same code without talking to each other. A leaked password list holds no phone and no secret key, so it cannot make the code.</p>
+</div>
+
+<p class="note">All accounts, passwords and results on this page are prepared samples, and no sign-in is sent anywhere. The code above is computed in your browser with its own cryptography, called Web Crypto, using the time-based one-time password method with HMAC and SHA-1 and a demonstration key that protects nothing.</p>
+</main>
+<script>
+(function () {
+  "use strict";
+  var $ = function (id) { return document.getElementById(id); };
+  // Prepared samples. "reused" means the leaked password is also this person's Taxila password.
+  var LIST = [
+    { acct: "registrar", reused: false }, { acct: "staff account 6", reused: false },
+    { acct: "lecturer01", reused: true }, { acct: "staff account 7", reused: false },
+    { acct: "itadmin", reused: false }, { acct: "staff account 8", reused: false },
+    { acct: "dpo", reused: true }, { acct: "staff account 9", reused: false },
+    { acct: "staff account 10", reused: true }, { acct: "student01", reused: false },
+    { acct: "staff account 11", reused: false }, { acct: "staff account 12", reused: false }
+  ];
+  var have = false, are = false;
+  function factors() { return 1 + (have ? 1 : 0) + (are ? 1 : 0); }
+  function showMode() {
+    $("f-have").className = "factor" + (have ? " on" : ""); $("f-are").className = "factor" + (are ? " on" : "");
+    $("t-have").setAttribute("aria-pressed", String(have)); $("t-are").setAttribute("aria-pressed", String(are));
+    $("t-have").textContent = have ? "Remove the phone code" : "Add the phone code";
+    $("t-are").textContent = are ? "Remove the fingerprint" : "Add the fingerprint";
+    var n = factors();
+    $("mode").textContent = n === 1 ? "Now asking for: one factor (password only)." :
+      "Now asking for: " + n + " factors of different kinds. This is multi-factor authentication (MFA).";
+  }
+  $("t-have").addEventListener("click", function () { have = !have; showMode(); });
+  $("t-are").addEventListener("click", function () { are = !are; showMode(); });
+  $("replay").addEventListener("click", function () {
+    var tb = $("log"); while (tb.firstChild) tb.removeChild(tb.firstChild);
+    var inCount = 0, stopped = 0, wrong = 0;
+    LIST.forEach(function (row, i) {
+      var tr = document.createElement("tr"), second, result, cls = "";
+      if (!row.reused) { second = "not reached"; result = "× wrong password"; wrong++; }
+      else if (factors() === 1) { second = "not asked"; result = "✓ signed in"; cls = "in"; inCount++; }
+      else { second = "× missing"; result = "× stopped at the second factor"; cls = "stop"; stopped++; }
+      [String(i + 1), row.acct, row.reused ? "correct (reused)" : "wrong", second, result].forEach(function (t, k) {
+        var td = document.createElement("td"); td.textContent = t;
+        if (k === 1) td.className = "code";
+        if (k === 4 && cls) td.className = cls;
+        tr.appendChild(td);
+      });
+      tb.appendChild(tr);
+    });
+    $("out").hidden = false;
+    if (inCount) {
+      $("out").className = "box fault";
+      $("outp").textContent = "× " + inCount + " of " + LIST.length + " leaked pairs signed in. Each was a correct password, reused from another site. Salting the stored passwords did not help: the password itself was right. Add a second factor and replay the list.";
+    } else {
+      $("out").className = "box";
+      $("outp").textContent = "✓ None signed in. " + wrong + " pairs had the wrong password, and the " + stopped + " correct, reused passwords stopped at the second factor, because the list holds passwords, not phones or fingerprints. A stolen password alone is no longer enough.";
+    }
+  });
+  // Time-based one-time password (RFC 6238): HMAC-SHA-1 of the 30-second step, six digits.
+  var subtle = window.crypto && window.crypto.subtle, key = null;
+  async function totp(k, unixSeconds) {
+    var step = Math.floor(unixSeconds / 30), msg = new Uint8Array(8);
+    for (var i = 7; i >= 0; i--) { msg[i] = step & 0xff; step = Math.floor(step / 256); }
+    var mac = new Uint8Array(await subtle.sign("HMAC", k, msg));
+    var off = mac[mac.length - 1] & 0x0f;
+    var bin = ((mac[off] & 0x7f) << 24) | (mac[off + 1] << 16) | (mac[off + 2] << 8) | mac[off + 3];
+    return ("000000" + (bin % 1000000)).slice(-6);
+  }
+  async function tick() {
+    var now = Date.now() / 1000;
+    $("otp").textContent = await totp(key, now);
+    $("left").textContent = "This code changes in " + (30 - Math.floor(now % 30)) + " seconds.";
+  }
+  if (subtle) {
+    subtle.importKey("raw", new TextEncoder().encode("12345678901234567890"), { name: "HMAC", hash: "SHA-1" }, false, ["sign"])
+      .then(function (k) { key = k; window.__totp = function (t) { return totp(key, t); }; tick(); setInterval(tick, 1000); });
+  } else {
+    $("left").textContent = "Web Crypto is not available here, so the code cannot be shown.";
+  }
+}());
+</script>
+</body>
+</html>

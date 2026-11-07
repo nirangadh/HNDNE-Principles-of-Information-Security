@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Blast radius: least privilege and a leaked password</title>
+<meta name="description" content="Suppose a lecturer's password leaks. Compare what the account can reach at three privilege settings, then add a second approver.">
+<link rel="stylesheet" href="../../../assets/fonts/fonts.css">
+<style>
+  body{margin:0;font-family:var(--font-body);background:var(--linen);color:var(--ink);line-height:1.6}
+  main{max-width:46rem;margin:0 auto;padding:1.5rem 1rem 2.5rem}
+  h1{font-size:1.6rem;line-height:1.25;margin:0 0 .4rem}
+  .bars{display:flex;gap:6px;margin:.3rem 0 1.1rem}.bars i{display:block;height:6px;border-radius:2px}
+  .bars i:first-child{width:56px;background:var(--burgundy)}.bars i:last-child{width:26px;background:var(--blush)}
+  .lead{margin:0 0 1rem}
+  .step{font-size:.78rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--burgundy);margin:1.6rem 0 .3rem;display:block}
+  h2{font-size:1.15rem;margin:.1rem 0 .4rem}
+  button:focus-visible{outline:3px solid var(--burgundy);outline-offset:2px}
+  button{font:inherit;font-weight:700;color:var(--snow);background:var(--burgundy);border:0;border-radius:8px;padding:.55rem 1rem;min-height:44px;cursor:pointer;margin:.4rem .3rem .2rem 0}
+  button.quiet{color:var(--burgundy);background:var(--snow);border:2px solid var(--burgundy)}
+  button[aria-pressed=true]{background:var(--ink);color:var(--snow);border-color:var(--ink)}
+  .box{background:var(--snow);border:1px solid var(--rule);border-left:6px solid var(--burgundy);border-radius:0 12px 12px 0;padding:.8rem 1rem;margin:.5rem 0}
+  .box.fault{border-left:6px dashed var(--signal-vermilion)}
+  .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:.5rem;margin:.6rem 0}
+  @media (max-width:560px){.grid{grid-template-columns:1fr}}
+  .tile{background:var(--snow);border:2px dotted var(--taupe);border-radius:10px;padding:.5rem .7rem}
+  .tile p{margin:0}
+  .tile .st{font-size:.75rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--taupe)}
+  .tile.reach{border:3px dashed var(--signal-vermilion);background:var(--rose-wash)}
+  .tile.reach .st{color:var(--ink)}
+  .tile.wait{border:3px solid var(--burgundy)}
+  .tile.wait .st{color:var(--burgundy)}
+  .meter{font-size:1.2rem;font-weight:800;margin:.4rem 0}
+  .note{font-size:.9rem;color:var(--taupe);margin-top:1.4rem}
+  .code{font-family:var(--font-code)}
+</style>
+<!-- portal head: written by the portal generator from this demo's title and description; do not edit -->
+<meta name="robots" content="index, follow">
+<link rel="icon" href="../../../assets/img/favicon.svg" type="image/svg+xml">
+<link rel="canonical" href="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-5/artefacts/least-privilege-blast.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Principles of Information Security, HND Network Engineering Year 2">
+<meta property="og:title" content="Blast radius: least privilege and a leaked password | Day 5">
+<meta property="og:description" content="Suppose a lecturer&#x27;s password leaks. Compare what the account can reach at three privilege settings, then add a second approver.">
+<meta property="og:url" content="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-5/artefacts/least-privilege-blast.html">
+<meta property="og:locale" content="en_GB">
+<meta property="og:image" content="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/assets/img/social-card.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="At Taxila College the Head of IT points to the security register on the wall: nineteen numbered items, the first outlined as the place to start. The Registrar holds a sealed transcript and the Data Protection Officer a clipboard. A lecturer turns to welcome two students arriving with a laptop and a phone.">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","author":{"@type":"Person","affiliation":{"@type":"Organization","name":"School of Computing & Engineering, National Institute of Business Management"},"name":"Niranga Dharmaratna"},"description":"Suppose a lecturer's password leaks. Compare what the account can reach at three privilege settings, then add a second approver.","educationalLevel":"Higher National Diploma, Year 2","inLanguage":"en-GB","interactivityType":"active","isAccessibleForFree":true,"isPartOf":{"@id":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/#course","@type":"Course","name":"Principles of Information Security, HND Network Engineering Year 2","url":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/"},"learningResourceType":"Interactive demonstration","license":"https://opensource.org/licenses/MIT","name":"Blast radius: least privilege and a leaked password | Day 5","url":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-5/artefacts/least-privilege-blast.html"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/","name":"Principles of Information Security","position":1},{"@type":"ListItem","item":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-5/","name":"Day 5","position":2},{"@type":"ListItem","item":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-5/artefacts/least-privilege-blast.html","name":"Blast radius: least privilege and a leaked password","position":3}]}</script>
+<!-- /portal head -->
+</head>
+<body>
+<main>
+<h1>Blast radius: what a leaked password can reach</h1>
+<div class="bars" aria-hidden="true"><i></i><i></i></div>
+<p class="lead">Suppose the password of <span class="code">lecturer01</span> leaks: by credential stuffing, by a fake email, or by a note on a desk. Whoever holds it gets exactly what the account was given. The area it can reach is its blast radius. Change the account's privilege and compare.</p>
+
+<span class="step">Step 1</span>
+<h2>Set the account's privilege</h2>
+<div id="levels"></div>
+
+<span class="step">Step 2</span>
+<h2>If the password leaks, the holder can reach</h2>
+<p class="meter" id="meter" aria-live="polite"></p>
+<div class="grid" id="grid"></div>
+
+<span class="step">Step 3</span>
+<h2>Add a second approver for the most sensitive action</h2>
+<button type="button" class="quiet" id="sod" aria-pressed="false">Released grades change only with the Registrar's approval</button>
+<div class="box" id="out" aria-live="polite"><p id="outp"></p></div>
+
+<p class="note">All accounts and resources on this page are prepared samples. Least privilege is not about distrusting the lecturer: the lecturer did nothing wrong here. It is about containing the damage when a credential is stolen. Nothing on this page leaves your browser.</p>
+</main>
+<script>
+(function () {
+  "use strict";
+  var $ = function (id) { return document.getElementById(id); };
+  var RES = [
+    { id: "own", text: "Enter grades for module 2, which lecturer01 teaches" },
+    { id: "released", text: "Change a grade after results are released" },
+    { id: "other", text: "Enter grades for every other module" },
+    { id: "records", text: "Read every student's record" },
+    { id: "fees", text: "Read every student's fee balance" },
+    { id: "papers", text: "Open the exam paper store" },
+    { id: "accounts", text: "Create and delete SIS accounts" },
+    { id: "server", text: "Change the SIS server's settings" }
+  ];
+  var LEVELS = [
+    { name: "One account for everything", reach: ["own", "released", "other", "records", "fees", "papers", "accounts", "server"],
+      say: "Every tile is lit. One leaked password reaches the whole SIS and its server." },
+    { name: "Every lecturer may do everything on every module", reach: ["own", "released", "other", "records", "papers"],
+      say: "Smaller, but the holder can still change grades in modules lecturer01 has never taught, and read every record." },
+    { name: "Least privilege: own modules only", reach: ["own", "released"],
+      say: "Only lecturer01's own module is in reach.", alone: " The holder could still change a released grade there, alone." }
+  ];
+  var level = 0, sod = false;
+  LEVELS.forEach(function (l, i) {
+    var b = document.createElement("button"); b.type = "button"; b.className = "quiet"; b.textContent = l.name;
+    b.addEventListener("click", function () { level = i; draw(); });
+    $("levels").appendChild(b);
+  });
+  function draw() {
+    Array.prototype.forEach.call($("levels").children, function (b, i) { b.setAttribute("aria-pressed", String(i === level)); });
+    var g = $("grid"); while (g.firstChild) g.removeChild(g.firstChild);
+    var reach = LEVELS[level].reach, n = 0;
+    RES.forEach(function (r) {
+      var d = document.createElement("div"), st = document.createElement("p"), t = document.createElement("p");
+      var inR = reach.indexOf(r.id) >= 0, waits = inR && sod && r.id === "released";
+      d.className = "tile" + (waits ? " wait" : (inR ? " reach" : ""));
+      st.className = "st"; st.textContent = waits ? "✓ Waits for the Registrar" : (inR ? "× In reach" : "Out of reach");
+      t.textContent = r.text;
+      d.appendChild(st); d.appendChild(t); g.appendChild(d);
+      if (inR && !waits) n++;
+    });
+    $("meter").textContent = "Blast radius: " + n + " of " + RES.length + " things the holder can do alone.";
+    $("sod").setAttribute("aria-pressed", String(sod));
+    $("out").className = n > 2 ? "box fault" : "box";
+    var extra = sod ? " With a second approver, a released grade cannot be changed by one person, even one holding the right password. That is separation of duties." : "";
+    $("outp").textContent = LEVELS[level].say + (sod ? "" : (LEVELS[level].alone || "")) + extra;
+  }
+  $("sod").addEventListener("click", function () { sod = !sod; draw(); });
+  draw();
+}());
+</script>
+</body>
+</html>
