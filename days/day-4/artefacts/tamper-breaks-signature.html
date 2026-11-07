@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>One edit, a broken signature</title>
+<meta name="description" content="Change one character of a signed transcript and watch verification fail, because the digest changes completely. Uses Web Crypto.">
+<link rel="stylesheet" href="../../../assets/fonts/fonts.css">
+<style>
+  body{margin:0;font-family:var(--font-body);background:var(--linen);color:var(--ink);line-height:1.6}
+  main{max-width:46rem;margin:0 auto;padding:1.5rem 1rem 2.5rem}
+  h1{font-size:1.6rem;line-height:1.25;margin:0 0 .4rem}
+  .bars{display:flex;gap:6px;margin:.3rem 0 1.1rem}.bars i{display:block;height:6px;border-radius:2px}
+  .bars i:first-child{width:56px;background:var(--burgundy)}.bars i:last-child{width:26px;background:var(--blush)}
+  .lead{margin:0 0 1rem}
+  .step{font-size:.78rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--burgundy);margin:1.6rem 0 .3rem;display:block}
+  h2{font-size:1.15rem;margin:.1rem 0 .4rem}
+  button:focus-visible{outline:3px solid var(--burgundy);outline-offset:2px}
+  button{font:inherit;font-weight:700;color:var(--snow);background:var(--burgundy);border:0;border-radius:8px;padding:.55rem 1rem;min-height:44px;cursor:pointer;margin:.4rem .3rem .2rem 0}
+  button.quiet{color:var(--burgundy);background:var(--snow);border:2px solid var(--burgundy)}
+  button[disabled]{background:var(--blush);color:var(--taupe);border-color:var(--blush);cursor:not-allowed}
+  .box{background:var(--snow);border:1px solid var(--rule);border-left:6px solid var(--burgundy);border-radius:0 12px 12px 0;padding:.8rem 1rem;margin:.5rem 0}
+  .box.fault{border-left:6px dashed var(--signal-vermilion)}
+  .tag{display:block;font-size:.72rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--burgundy)}
+  .code{font-family:var(--font-code);font-size:.9rem;overflow-wrap:anywhere;margin:.2rem 0 .5rem}
+  .file{font-family:var(--font-code);font-size:1rem;font-weight:700;margin:.2rem 0 .5rem;white-space:pre-wrap;overflow-wrap:anywhere}
+  .msg{font-weight:700;margin:.3rem 0 0}
+  .note{font-size:.9rem;color:var(--taupe);margin-top:1.4rem}
+  .diff{background:var(--rose-tint);border-bottom:2px solid var(--burgundy)}
+  table{border-collapse:collapse;width:100%;font-size:.92rem}
+  th,td{text-align:left;vertical-align:top;padding:.35rem .5rem;border-bottom:1px solid var(--rule)}
+  th{font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;color:var(--taupe)}
+  .scroll{overflow-x:auto}
+  label{display:block;font-weight:700;margin:.6rem 0 .2rem}
+  input[type=text]{font:inherit;font-family:var(--font-code);width:100%;box-sizing:border-box;padding:.5rem;border:2px solid var(--taupe);border-radius:8px;background:var(--snow);color:var(--ink)}
+
+</style>
+<!-- portal head: written by the portal generator from this demo's title and description; do not edit -->
+<meta name="robots" content="index, follow">
+<link rel="icon" href="../../../assets/img/favicon.svg" type="image/svg+xml">
+<link rel="canonical" href="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-4/artefacts/tamper-breaks-signature.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Principles of Information Security, HND Network Engineering Year 2">
+<meta property="og:title" content="One edit, a broken signature | Day 4">
+<meta property="og:description" content="Change one character of a signed transcript and watch verification fail, because the digest changes completely. Uses Web Crypto.">
+<meta property="og:url" content="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-4/artefacts/tamper-breaks-signature.html">
+<meta property="og:locale" content="en_GB">
+<meta property="og:image" content="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/assets/img/social-card.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="At Taxila College the Head of IT points to the security register on the wall: nineteen numbered items, the first outlined as the place to start. The Registrar holds a sealed transcript and the Data Protection Officer a clipboard. A lecturer turns to welcome two students arriving with a laptop and a phone.">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","author":{"@type":"Person","affiliation":{"@type":"Organization","name":"School of Computing & Engineering, National Institute of Business Management"},"name":"Niranga Dharmaratna"},"description":"Change one character of a signed transcript and watch verification fail, because the digest changes completely. Uses Web Crypto.","educationalLevel":"Higher National Diploma, Year 2","inLanguage":"en-GB","interactivityType":"active","isAccessibleForFree":true,"isPartOf":{"@id":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/#course","@type":"Course","name":"Principles of Information Security, HND Network Engineering Year 2","url":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/"},"learningResourceType":"Interactive demonstration","license":"https://opensource.org/licenses/MIT","name":"One edit, a broken signature | Day 4","url":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-4/artefacts/tamper-breaks-signature.html"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/","name":"Principles of Information Security","position":1},{"@type":"ListItem","item":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-4/","name":"Day 4","position":2},{"@type":"ListItem","item":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-4/artefacts/tamper-breaks-signature.html","name":"One edit, a broken signature","position":3}]}</script>
+<!-- /portal head -->
+</head>
+<body>
+<main>
+<h1>One edit, a broken signature</h1>
+<div class="bars" aria-hidden="true"><i></i><i></i></div>
+<p class="lead">The Registrar has signed a transcript. An employer checks it with the Registrar's public key. Make one small change and check again: the digest changes completely, so the signature no longer matches.</p>
+
+<span class="step">Step 1</span>
+<h2>The Registrar signs the transcript</h2>
+<button id="start" type="button">Make the Registrar's key and sign the transcript</button>
+<div class="box" id="docbox" hidden>
+  <span class="tag">The transcript as the employer has it now</span>
+  <p class="file" id="doc"></p>
+  <span class="tag">Digest the Registrar signed</span>
+  <p class="code" id="d0"></p>
+  <span class="tag">Digest of the transcript as it is now</span>
+  <p class="code" id="d1"></p>
+</div>
+
+<span class="step">Step 2</span>
+<h2>Change one thing, then let the employer check</h2>
+<p>Each button makes one change to the employer's copy, then checks the Registrar's signature with the Registrar's public key.</p>
+<button id="grade" type="button" disabled>Change the grade from B to A</button>
+<button id="space" type="button" disabled>Add one space at the end</button>
+<button id="digit" type="button" disabled>Change one digit of the index number</button>
+<button id="back" type="button" class="quiet" disabled>Put the original back</button>
+<div class="box" id="vbox" hidden>
+  <p class="msg" id="vout" aria-live="polite"></p>
+</div>
+
+<span class="step">Step 3</span>
+<h2>Sign the changed copy with another key</h2>
+<p>Someone who changed the grade cannot use the Registrar's private key. Suppose they sign the changed copy with a key of their own.</p>
+<button id="resign" type="button" disabled>Raise the grade and sign it with a different private key</button>
+<div class="box fault" id="rbox" hidden>
+  <p class="msg" id="rout" aria-live="polite"></p>
+</div>
+
+<p class="note">This page uses your browser's own cryptography, called Web Crypto, for SHA-256 and for signatures with the Rivest, Shamir and Adleman method (RSA). Notice that the transcript stays readable at every step: a signature shows a change, but hides nothing.</p>
+</main>
+<script>
+(function () {
+  "use strict";
+  var $ = function (id) { return document.getElementById(id); };
+  var subtle = window.crypto && window.crypto.subtle;
+  var ALG = { name: "RSASSA-PKCS1-v1_5", modulusLength: 2048, publicExponent: new Uint8Array([1, 0, 1]), hash: "SHA-256" };
+  var ORIGINAL = "Taxila College transcript: COHNDNE999X000, Principles of Information Security, grade B";
+  var reg, sig, signedDigest;
+  function enc(s) { return new TextEncoder().encode(s); }
+  function hex(buf) { return Array.prototype.map.call(new Uint8Array(buf), function (b) { return ("0" + b.toString(16)).slice(-2); }).join(""); }
+  function differing(a, b) { var n = 0; for (var i = 0; i < a.length; i++) { if (a[i] !== b[i]) { n++; } } return n; }
+  function showDigest(id, text, against) {
+    var el = $(id); while (el.firstChild) { el.removeChild(el.firstChild); }
+    for (var i = 0; i < text.length; i++) {
+      var s = document.createElement("span"); s.textContent = text[i];
+      if (against && against[i] !== text[i]) { s.className = "diff"; }
+      el.appendChild(s);
+    }
+  }
+  async function check(copy, label) {
+    $("doc").textContent = copy;
+    var now = hex(await subtle.digest("SHA-256", enc(copy)));
+    showDigest("d1", now, signedDigest);
+    var ok = await subtle.verify("RSASSA-PKCS1-v1_5", reg.publicKey, sig, enc(copy));
+    $("vbox").hidden = false; $("vbox").className = ok ? "box" : "box fault";
+    $("vout").textContent = ok
+      ? "✓ Valid. The copy is exactly what the Registrar signed."
+      : "✗ Not valid. " + label + " The digest now differs in " + differing(now, signedDigest) + " of its 64 characters, so it no longer matches the digest the Registrar signed. The employer knows the copy changed, but not what changed.";
+  }
+  $("start").addEventListener("click", async function () {
+    if (!subtle) { $("start").textContent = "Web Crypto is not available here"; return; }
+    $("start").disabled = true; $("start").textContent = "Signing...";
+    reg = await subtle.generateKey(ALG, true, ["sign", "verify"]);
+    sig = await subtle.sign("RSASSA-PKCS1-v1_5", reg.privateKey, enc(ORIGINAL));
+    signedDigest = hex(await subtle.digest("SHA-256", enc(ORIGINAL)));
+    showDigest("d0", signedDigest);
+    $("docbox").hidden = false; $("start").textContent = "Transcript signed";
+    ["grade", "space", "digit", "back", "resign"].forEach(function (id) { $(id).disabled = false; });
+    await check(ORIGINAL, "");
+  });
+  $("grade").addEventListener("click", function () { check(ORIGINAL.replace("grade B", "grade A"), "One letter changed."); });
+  $("space").addEventListener("click", function () { check(ORIGINAL + " ", "One invisible space was added."); });
+  $("digit").addEventListener("click", function () { check(ORIGINAL.replace("X000", "X001"), "One digit changed."); });
+  $("back").addEventListener("click", function () { check(ORIGINAL, ""); });
+  $("resign").addEventListener("click", async function () {
+    var copy = ORIGINAL.replace("grade B", "grade A");
+    var mine = await subtle.generateKey(ALG, true, ["sign", "verify"]);
+    var fake = await subtle.sign("RSASSA-PKCS1-v1_5", mine.privateKey, enc(copy));
+    var ok = await subtle.verify("RSASSA-PKCS1-v1_5", reg.publicKey, fake, enc(copy));
+    $("doc").textContent = copy;
+    $("rbox").hidden = false;
+    $("rout").textContent = ok
+      ? "Unexpected: it matched."
+      : "✗ Still not valid. The new signature is genuine, but it was made with a different private key, and the employer checks with the Registrar's public key. Without the Registrar's private key, nobody can make a signature that passes.";
+  });
+}());
+</script>
+</body>
+</html>

@@ -9,3 +9,4 @@ A question appears here when its day's materials are posted.
 | [PQ1](PQ1.md) | Day 1 | A district clinic's appointment system: properties, risk and controls |
 | [PQ2](PQ2.md) | Day 2 | A school examinations board: symmetric against asymmetric, the hybrid pattern, a stolen laptop |
 | [PQ3](PQ3.md) | Day 3 | An online bookshop: password storage, salting, why speed is a weakness |
+| [PQ4](PQ4.md) | Day 4 | A provincial land records office: signatures, non-repudiation, self-signed against authority-signed |

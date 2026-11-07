@@ -182,3 +182,65 @@ One further secret value, the same for every user, added to each password before
 A hash-based message authentication code: a keyed hash that mixes a shared secret key with a message. Only key-holders can make or check its seal. It shows the message is unchanged, not which key-holder sent it.
 
 *Taxila example:* the examinations offices in Colombo and Kandy share a key and seal each results file with it.
+
+## Day 4
+
+### Digital signature
+A value made by hashing a document and signing the digest with a private key. Anyone checks it with the matching public key. It proves who signed and that nothing changed, and hides nothing.
+
+*Taxila example:* the Registrar signs each transcript, so an employer can check it without phoning the college.
+
+### Certificate
+A signed file, in the X.509 format, that says a public key belongs to a name. It holds a subject, an issuer, a validity period, the public key and the issuer's signature.
+
+*Taxila example:* the portal's certificate says its key belongs to `sis.taxila.example`.
+
+### Certificate authority
+A certificate authority (CA) is a trusted third party that checks a key belongs to a name, then vouches for it by signing a certificate. It can also revoke a certificate, for example after a key leaks.
+
+*Taxila example:* an authority checks that Taxila controls `sis.taxila.example` before signing the portal's certificate.
+
+### Chain of trust
+The path from a site's certificate, through the intermediate authority that signed it, to a root certificate the browser already trusts. If any link fails, the browser warns and stops.
+
+*Taxila example:* the browser trusts the portal because its certificate chains up to a root in the trust store.
+
+### Root certificate
+The self-signed certificate of an authority at the top of a chain. Browsers and operating systems keep a list of trusted roots, called the trust store, and trust every chain that ends at one.
+
+*Taxila example:* the portal's chain ends at a root certificate already in every student's browser.
+
+### Self-signed certificate
+A certificate signed with its own subject's key, so its issuer and subject are the same. It is valid in form, but no authority vouches for it, so browsers warn about it.
+
+*Taxila example:* the certificate you make for `sis.taxila.example` in the lab is self-signed.
+
+### Certificate signing request
+A certificate signing request (CSR) is a message holding a public key and the name wanted, signed with the matching private key, sent to an authority to ask it to sign a certificate.
+
+*Taxila example:* the Head of IT (information technology) sends a request for `sis.taxila.example` to an authority.
+
+### TLS
+Transport Layer Security (TLS): the protocol that secures a connection. Its handshake agrees a session key and proves the server's identity with its certificate; then everything travels encrypted. Version 1.3 is current.
+
+*Taxila example:* the portal accepts connections only over TLS.
+
+### HTTPS
+Hypertext Transfer Protocol Secure (HTTPS): ordinary web traffic, HTTP (Hypertext Transfer Protocol), carried inside TLS (Transport Layer Security). The padlock shows an encrypted channel and a vouched name, not an honest site.
+
+*Taxila example:* students open the portal at an address that starts `https://`.
+
+### Session key
+A fast symmetric key that both sides of a TLS (Transport Layer Security) connection agree during the handshake, without sending it. It encrypts everything that follows, and is thrown away when the connection ends.
+
+*Taxila example:* each student's visit to the portal uses its own session key.
+
+### HSTS
+A rule in the Hypertext Transfer Protocol (HTTP) called HTTP Strict Transport Security (HSTS): a site tells the browser to connect to it only over secure web from then on, refusing plain web.
+
+*Taxila example:* the portal sends HSTS, so a student's browser never opens it over plain web.
+
+### Certificate pinning
+Building an application so it accepts only one particular certificate or key for its own server, even if another authority vouches for a different one. Mainly used by mobile apps, such as banking apps.
+
+*Taxila example:* a Taxila phone app could pin the portal's key, so it refuses any other.

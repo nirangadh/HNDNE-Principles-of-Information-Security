@@ -1,0 +1,238 @@
+<!doctype html>
+<html lang="en-GB" data-store="hndne-pis:">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="hndne-pis-site">
+<title>Day 4: Signatures, certificates and TLS | Principles of Information Security</title>
+<meta name="author" content="Niranga Dharmaratna">
+<meta name="description" content="Day 4 morning notes: Day 4: Signatures, certificates and TLS. These notes cover the Day 4 morning. A key that only you hold can sign a document, so anyone...">
+<meta name="robots" content="index, follow">
+<link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml">
+<link rel="canonical" href="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-4/notes.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Principles of Information Security, HND Network Engineering Year 2">
+<meta property="og:title" content="Day 4: Signatures, certificates and TLS">
+<meta property="og:description" content="Day 4 morning notes: Day 4: Signatures, certificates and TLS. These notes cover the Day 4 morning. A key that only you hold can sign a document, so anyone...">
+<meta property="og:url" content="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-4/notes.html">
+<meta property="og:locale" content="en_GB">
+<meta property="og:image" content="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/assets/img/social-card.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="At Taxila College the Head of IT points to the security register on the wall: nineteen numbered items, the first outlined as the place to start. The Registrar holds a sealed transcript and the Data Protection Officer a clipboard. A lecturer turns to welcome two students arriving with a laptop and a phone.">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","author":{"@type":"Person","affiliation":{"@type":"Organization","name":"School of Computing & Engineering, National Institute of Business Management"},"name":"Niranga Dharmaratna"},"description":"Day 4 morning notes: Day 4: Signatures, certificates and TLS. These notes cover the Day 4 morning. A key that only you hold can sign a document, so anyone...","educationalLevel":"Higher National Diploma, Year 2","inLanguage":"en-GB","interactivityType":"expository","isAccessibleForFree":true,"isPartOf":{"@id":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/#course","@type":"Course","name":"Principles of Information Security, HND Network Engineering Year 2","url":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/"},"learningResourceType":"Lecture notes","license":"https://creativecommons.org/licenses/by-nc-sa/4.0/","name":"Day 4: Signatures, certificates and TLS","url":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-4/notes.html"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/","name":"Principles of Information Security","position":1},{"@type":"ListItem","item":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-4/","name":"Day 4","position":2},{"@type":"ListItem","item":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-4/notes.html","name":"Day 4: Signatures, certificates and TLS","position":3}]}</script>
+<link rel="stylesheet" href="../../assets/fonts/fonts.css">
+<link rel="stylesheet" href="../../assets/css/site.css">
+<script>document.documentElement.className = "js";</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to the content</a>
+<header class="site-header"><div class="wrap"><div><p class="eyebrow"><a href="../../index.html">Principles of Information Security | HND Network Engineering, Year 2</a></p><h1>Day 4: Signatures, certificates and TLS</h1><p class="sub">Day 4, morning notes</p><div class="bars" aria-hidden="true"><i></i><i></i></div></div></div></header>
+<main id="main">
+<div class="wrap prose">
+<div class="meta"><span class="badge" title="Learning outcome 3">LO3</span></div>
+<p>These notes cover the Day 4 morning. A key that only you hold can sign a document, so anyone can check who wrote it and that it is unchanged. They then show how a certificate tells you whose key you are holding, and what the padlock in your browser really proves.</p>
+<div class="box recall"><p class="box-label">Recall</p><p>A hash is a fingerprint that changes on any edit.</p></div>
+<div class="box recall"><p class="box-label">Recall</p><p>A public and private key pair lets anyone close a padlock only you can open.</p></div>
+<div class="box recall"><p class="box-label">Recall</p><p>Accountability means being able to prove who did something.</p></div>
+<p>Employers who receive a Taxila transcript often phone the Registrar to ask whether it is genuine. That is slow, and a phone call proves little. The Registrar wants transcripts that an employer can check alone, in seconds. Last semester there was a second problem. Several staff received an email that seemed to come from the Registrar, with a link to a page that looked like the college's own. Two people typed in their bank details.</p>
+<p>Both problems are about proof of origin. Can a document prove who made it? Can a web page prove whose it is? Today you join three things you already have, fingerprints, key pairs and accountability, to answer both. Item 7 on Taxila's security register is signed transcripts, and item 8 is the portal certificate and TLS (Transport Layer Security). You build both this afternoon.</p>
+<h2 id="1-signing-with-the-private-key">1. Signing with the private key</h2>
+<p>Try the demo first: <a href="artefacts/sign-verify.html">Sign, then verify</a>. Make a key pair, sign a transcript line, and check the signature with the public key.</p>
+<p>On Day 3 you met a keyed seal, the <a class="term" data-term="hmac" href="../../glossary.html#hmac">hash-based message authentication code (HMAC)</a>. It shows that a key-holder made the seal, but both sides hold the same key, so it cannot show which one. A signature fixes that, because it uses a key that only one person holds.</p>
+<div class="box recall"><p class="box-label">Recall</p><p>Non-repudiation means a person cannot later deny an action, because the record proves it was theirs.</p></div>
+<p>A <strong><a class="term" data-term="digital-signature" href="../../glossary.html#digital-signature">digital signature</a></strong> is made in two steps:</p>
+<ol>
+<li><strong>Hash the document.</strong> Take its digest with SHA-256 (Secure Hash Algorithm, 256 bits). The digest is short, whatever the size of the document.</li>
+<li><strong>Sign the digest with your private key.</strong> The result is the signature. It travels beside the document.</li>
+</ol>
+<p>To <strong>verify</strong>, anyone takes the document they received and hashes it again. Then they check the signature against that digest, using your public key. If the check passes, two things are proved:</p>
+<ul>
+<li><strong>Origin.</strong> The signature was made with your private key. Nobody else holds it.</li>
+<li><strong>Integrity.</strong> The document is the same, byte for byte, as when you signed it.</li>
+</ul>
+<p>The document is not hidden. It stays as readable as before. A signature proves who wrote it and that it is unchanged; it keeps nothing secret.</p>
+<p><strong>This is a different job from Day 2.</strong> On Day 2 you encrypted a message to someone else's public key, so that only their private key could open it. That gave secrecy. Signing uses your own private key, and anyone can check it with your public key. That gives proof, not secrecy. The two jobs use the keys in opposite ways:</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Job</th>
+<th>Who uses which key</th>
+<th>What it gives</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Encrypt to someone (Day 2)</td>
+<td>you use <strong>their public key</strong>; they open it with <strong>their private key</strong></td>
+<td>secrecy: only they can read it</td>
+</tr>
+<tr>
+<td>Sign (today)</td>
+<td>you use <strong>your private key</strong>; anyone checks with <strong>your public key</strong></td>
+<td>proof of origin and integrity, and no secrecy</td>
+</tr>
+</tbody>
+</table></div>
+<p>Because only you hold your private key, only you could have made the signature. So you cannot later deny that you signed. That is non-repudiation, the property you met on Day 1, and the keyed seal could not give it.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th></th>
+<th>A plain digest</th>
+<th>An HMAC seal</th>
+<th>A signature</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Who can make it?</td>
+<td>anyone</td>
+<td>only the key-holders</td>
+<td>only the private-key holder</td>
+</tr>
+<tr>
+<td>Who can check it?</td>
+<td>anyone</td>
+<td>only the key-holders</td>
+<td>anyone with the public key</td>
+</tr>
+<tr>
+<td>Shows the document is unchanged?</td>
+<td>only if the digest is kept safe</td>
+<td>yes</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>Shows which person made it?</td>
+<td>no</td>
+<td>no: either key-holder</td>
+<td>yes: non-repudiation</td>
+</tr>
+</tbody>
+</table></div>
+<div class="box know"><p class="box-label">You already know this</p><p>In the past, an official sealed a letter with hot wax and pressed it with a stamp that only they owned. Anyone who received the letter could recognise the seal. Nobody else could make it, because nobody else held the stamp.</p><p class="map-row"><span class="map-label">Mapping</span>the stamp only you own = your private key; others recognising the seal = verifying with your public key; nobody else holds the stamp = non-repudiation.</p></div>
+<div class="box case"><p class="box-label">Taxila College</p><p>A transcript the Registrar signs so an employer can trust it without phoning the college.</p></div>
+<div class="box mistake"><p class="box-label">Common mistake</p><p>"Signing hides the document." A signature proves who wrote it and that it is unchanged; it does not hide it. If a document must also be secret, it is encrypted as well, as on Day 2.</p></div>
+<div class="qc"><p class="qc-label">Quick check</p><p class="qc-q">The Registrar signs a transcript and sends it to an employer in Kandy. Which key does the employer use to check the signature?</p><ol class="qc-opts"><li>The employer's own private key</li><li>The Registrar's private key, sent with the transcript</li><li data-right="">The Registrar's public key<span class="qc-key"> (answer)</span></li><li>A key the employer and the Registrar both share</li></ol><p class="qc-why"><strong>Why:</strong> The Registrar signs with a private key that never leaves the office, and anyone checks with the matching public key. A shared key would make it a keyed seal, which cannot show that the Registrar, and not the employer, made it.</p></div>
+<h2 id="2-tampering-breaks-the-signature">2. Tampering breaks the signature</h2>
+<p>Try the demo first: <a href="artefacts/tamper-breaks-signature.html">One edit, a broken signature</a>. Change one character of a signed transcript and verify it again.</p>
+<div class="box recall"><p class="box-label">Recall</p><p>The avalanche effect: one changed character gives a completely different digest.</p></div>
+<p>Suppose someone changes a signed transcript by one character, a B to an A. The person who checks it hashes the changed document. Because of the avalanche effect, that digest is completely different from the one the Registrar signed. So the signature no longer matches, and verification fails.</p>
+<p>This works for every change, however small: one mark, one space, one letter. So a valid signature proves that the document is unchanged since it was signed. A failed signature tells you that something changed, though not what or how much.</p>
+<p>The person who changed the document cannot repair the signature either. To make a new valid signature, they would need the Registrar's private key. Signing with their own key would not help: the employer checks with the Registrar's public key, and a signature made with any other private key fails that check.</p>
+<p>A signature still does not hide the content. Anyone can read a signed transcript. What they cannot do is change it unnoticed.</p>
+<div class="box know"><p class="box-label">You already know this</p><p>A letter arrives with its wax seal cracked across the middle. You may not know who opened it or what they did, but you know at once that it was opened.</p><p class="map-row"><span class="map-label">Mapping</span>the cracked wax = a failed verification; you know the envelope was opened = you know the file changed.</p></div>
+<div class="box case"><p class="box-label">Taxila College</p><p>An altered transcript no longer verifies against the Registrar's public key.</p></div>
+<div class="qc"><p class="qc-label">Quick check</p><p class="qc-q">A microfinance cooperative signs each loan statement it sends to its village agents. One agent's copy fails verification. What does the failure tell the cooperative?</p><ol class="qc-opts"><li data-right="">The statement changed after signing, or it was not signed with the cooperative's key<span class="qc-key"> (answer)</span></li><li>Someone has read the statement on the way</li><li>Exactly which figure in the statement was changed</li></ol><p class="qc-why"><strong>Why:</strong> A failed check means the digest no longer matches the signed one, or the signature was made with another key. It cannot say what changed, and reading was never prevented: a signature does not hide anything.</p></div>
+<h2 id="3-a-certificate-is-a-signed-identity">3. A certificate is a signed identity</h2>
+<p>Try the demo first: <a href="artefacts/certificate-passport.html">A certificate is a passport</a>. Open a real certificate and read each field beside the page of a passport.</p>
+<div class="box recall"><p class="box-label">Recall</p><p>On Day 2, the key distribution problem was how to get a key safely to the other side.</p></div>
+<p>Signatures leave one question open. To check the Registrar's signature, the employer needs the Registrar's public key. A public key is not secret, so the Registrar can publish it. But how does the employer know that the key really belongs to the Registrar? Someone could publish their own key and call it "the Registrar's key". Every signature they made would then verify.</p>
+<p>The answer is a <strong><a class="term" data-term="certificate" href="../../glossary.html#certificate">certificate</a></strong>. A certificate is a small file that says "this public key belongs to this name", and it is signed by someone you already trust. Certificates follow a standard format called <strong>X.509</strong>. Every X.509 certificate carries these fields:</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>What it holds</th>
+<th>The passport page</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Subject</td>
+<td>the name the certificate is for, such as <code>sis.taxila.example</code></td>
+<td>your name and photo</td>
+</tr>
+<tr>
+<td>Issuer</td>
+<td>who signed the certificate</td>
+<td>the government that issued the passport</td>
+</tr>
+<tr>
+<td>Validity</td>
+<td>the first and last day it may be trusted</td>
+<td>the date of issue and the date of expiry</td>
+</tr>
+<tr>
+<td>Public key</td>
+<td>the subject's public key</td>
+<td>your photo, which links the page to your face</td>
+</tr>
+<tr>
+<td>Signature</td>
+<td>the issuer's signature over all the fields above</td>
+<td>the official stamp</td>
+</tr>
+</tbody>
+</table></div>
+<p>The issuer is a <strong><a class="term" data-term="certificate-authority" href="../../glossary.html#certificate-authority">certificate authority (CA)</a></strong>. This is a trusted third party whose job is to check that a key belongs to a name, then vouch for it by signing. If anyone changes a single field, such as the subject's name, the authority's signature no longer verifies. So a certificate cannot be edited unnoticed, for the same reason a signed transcript cannot.</p>
+<p>A certificate is public, and it holds only a public key. On its own it keeps nothing secret. It is a statement of identity that anyone can read and check.</p>
+<div class="box know"><p class="box-label">You already know this</p><p>A passport is issued by a government. Border officers in other countries trust it, although they have never met you, because they trust the government that issued it and can check its stamp.</p><p class="map-row"><span class="map-label">Mapping</span>your photo and name = the subject and public key; the issuing authority = the certificate authority; the official stamp = the authority's signature.</p></div>
+<div class="box case"><p class="box-label">Taxila College</p><p>The portal's certificate says the key really belongs to the <code>taxila.example</code> domain.</p></div>
+<div class="qc"><p class="qc-label">Quick check</p><p class="qc-q">The Head of IT (information technology) says: "Now that <code>sis.taxila.example</code> has a certificate, anything sent to it is secret." What is wrong with this?</p><ol class="qc-opts"><li>Nothing: a certificate encrypts the traffic to the site</li><li data-right="">A certificate only links a public key to a name; secrecy comes from the encrypted connection<span class="qc-key"> (answer)</span></li><li>A certificate keeps traffic secret only after the authority signs it</li></ol><p class="qc-why"><strong>Why:</strong> A certificate is a signed, public statement of identity. It is used to set up an encrypted connection, as section 5 shows, but on its own it hides nothing. Thinking the certificate itself encrypts is tempting, because the two always appear together.</p></div>
+<h2 id="4-the-chain-of-trust">4. The chain of trust</h2>
+<p>Try the demo first: <a href="artefacts/chain-of-trust.html">Follow the chain of trust</a>. Follow a certificate up to a root your browser trusts, then remove one link and watch the browser refuse.</p>
+<p>Who checks the authority? Another authority, and so on, until the chain reaches an authority your browser already trusts. This is the <strong><a class="term" data-term="chain-of-trust" href="../../glossary.html#chain-of-trust">chain of trust</a></strong>:</p>
+<ul>
+<li><strong>End-entity certificate.</strong> The certificate for the site itself, such as <code>sis.taxila.example</code>. It is signed by an intermediate authority.</li>
+<li><strong>Intermediate certificate.</strong> The certificate of the authority that signed the site's certificate. It is signed by a root.</li>
+<li><strong><a class="term" data-term="root-certificate" href="../../glossary.html#root-certificate">Root certificate</a>.</strong> The certificate of an authority at the top of the chain. Your browser and your operating system come with a list of root certificates they already trust, called the <strong>trust store</strong>.</li>
+</ul>
+<figure class="art"><svg aria-labelledby="ch-t ch-d" role="img" style="min-width:640px" viewbox="0 0 640 400"><title id="ch-t">The chain of trust</title><desc id="ch-d">Three certificates, one above another. The end-entity certificate for sis.taxila.example is signed by the intermediate authority. The intermediate certificate is signed by the root authority. The root certificate signs itself and sits inside the browser's trust store, so the chain is trusted. To the right, a self-signed certificate for sis.taxila.example names itself as issuer and is in no trust store.</desc><rect fill="#FFFBFB" height="400" width="640"></rect><text fill="#6C5353" font-family="Open Sans, Arial, sans-serif" font-size="14" font-weight="700" text-anchor="start" x="20" y="30">THE CHAIN OF TRUST</text><rect fill="#F9EFEF" height="96" rx="10" stroke="#9C2C3A" stroke-dasharray="6 4" stroke-width="2" width="380" x="20" y="44"></rect><text fill="#9C2C3A" font-family="Open Sans, Arial, sans-serif" font-size="13" font-weight="700" text-anchor="start" x="36" y="66">The browser's trust store</text><rect fill="#FBF6F6" height="58" rx="6" stroke="#2A1A1D" stroke-width="1.5" width="340" x="40" y="74"></rect><text fill="#2A1A1D" font-family="Open Sans, Arial, sans-serif" font-size="14" font-weight="700" text-anchor="start" x="54" y="98">Root certificate</text><text fill="#6C5353" font-family="Open Sans, Arial, sans-serif" font-size="12" font-weight="400" text-anchor="start" x="54" y="119">subject: Root authority; signed with its own key</text><path d="M210 210 L210 148" fill="none" stroke="#9C2C3A" stroke-width="2.5"></path><path d="M210 140 L204 149 L216 149 Z" fill="#9C2C3A"></path><text fill="#9C2C3A" font-family="Open Sans, Arial, sans-serif" font-size="12" font-weight="700" text-anchor="start" x="222" y="182">signed by</text><rect fill="#FBF6F6" height="58" rx="6" stroke="#2A1A1D" stroke-width="1.5" width="340" x="40" y="210"></rect><text fill="#2A1A1D" font-family="Open Sans, Arial, sans-serif" font-size="14" font-weight="700" text-anchor="start" x="54" y="234">Intermediate certificate</text><text fill="#6C5353" font-family="Open Sans, Arial, sans-serif" font-size="12" font-weight="400" text-anchor="start" x="54" y="255">subject: Intermediate authority</text><path d="M210 330 L210 276" fill="none" stroke="#9C2C3A" stroke-width="2.5"></path><path d="M210 268 L204 277 L216 277 Z" fill="#9C2C3A"></path><text fill="#9C2C3A" font-family="Open Sans, Arial, sans-serif" font-size="12" font-weight="700" text-anchor="start" x="222" y="304">signed by</text><rect fill="#FBF6F6" height="58" rx="6" stroke="#2A1A1D" stroke-width="1.5" width="340" x="40" y="330"></rect><text fill="#2A1A1D" font-family="Open Sans, Arial, sans-serif" font-size="14" font-weight="700" text-anchor="start" x="54" y="354">End-entity certificate</text><text fill="#6C5353" font-family="Open Sans, Arial, sans-serif" font-size="12" font-weight="400" text-anchor="start" x="54" y="375">subject: sis.taxila.example</text><rect fill="#FBF6F6" height="120" rx="6" stroke="#E0663C" stroke-dasharray="8 5" stroke-width="2" width="190" x="430" y="210"></rect><text fill="#2A1A1D" font-family="Open Sans, Arial, sans-serif" font-size="14" font-weight="700" text-anchor="start" x="444" y="234">Self-signed</text><text fill="#6C5353" font-family="Open Sans, Arial, sans-serif" font-size="12" font-weight="400" text-anchor="start" x="444" y="254">subject: sis.taxila.example</text><text fill="#6C5353" font-family="Open Sans, Arial, sans-serif" font-size="12" font-weight="400" text-anchor="start" x="444" y="272">issuer: sis.taxila.example</text><path d="M560 290 Q600 290 600 262 Q600 236 572 236" fill="none" stroke="#6C5353" stroke-width="2"></path><rect fill="#E0663C" height="22" rx="3" width="22" x="445" y="294"></rect><path d="M451 300 L461 310 M461 300 L451 310" stroke="#2A1A1D" stroke-width="2.5"></path><text fill="#2A1A1D" font-family="Open Sans, Arial, sans-serif" font-size="12" font-weight="700" text-anchor="start" x="474" y="310">in no trust store</text><circle cx="430" cy="90" fill="#9C2C3A" r="11"></circle><path d="M425 90 L429 94 L436 86" fill="none" stroke="#FFFBFB" stroke-width="2.5"></path><text fill="#2A1A1D" font-family="Open Sans, Arial, sans-serif" font-size="12" font-weight="700" text-anchor="start" x="448" y="86">trusted: the chain</text><text fill="#2A1A1D" font-family="Open Sans, Arial, sans-serif" font-size="12" font-weight="700" text-anchor="start" x="448" y="102">ends at a root</text></svg><figcaption>Trust runs up the chain to a root you already hold. <a class="full" href="img/chain.svg">Open this diagram at full size</a></figcaption></figure>
+<p>When you open a secure site, your browser walks the chain. It checks the site's certificate with the intermediate's public key, and the intermediate's certificate with the root's public key. Then it checks that the root is in its trust store. If every link holds, the browser trusts the site's key. If any link fails, or the chain does not end at a root in the store, the browser warns you and stops.</p>
+<p>Roots are kept very safe, often offline, because so much depends on them. Intermediates do the daily signing, so a problem with one intermediate does not damage the root.</p>
+<p><strong>A self-signed certificate.</strong> Anyone can make a certificate and sign it with their own key. Then the issuer and the subject are the same name. This is a <strong><a class="term" data-term="self-signed-certificate" href="../../glossary.html#self-signed-certificate">self-signed certificate</a></strong>. It is a valid certificate, in the correct format, but nobody else vouches for it. It is in no trust store, so a browser that meets it on a website warns you.</p>
+<p><strong>Asking for a certificate.</strong> To get a certificate from an authority, the owner of a site first makes a key pair. Then they send a <strong><a class="term" data-term="certificate-signing-request" href="../../glossary.html#certificate-signing-request">certificate signing request (CSR)</a></strong>: a message holding their public key and the name they want, signed with their private key. The authority checks that the name really belongs to them, then signs the certificate.</p>
+<p><strong>Certificates do not last for ever.</strong> Every certificate has an end date, after which browsers refuse it. At the time of writing, a certificate from a public authority may last at most 200 days, and that limit is set to fall further. Short lives limit the damage if a key is stolen without anyone noticing. An authority can also <strong>revoke</strong> a certificate before its end date, for example when its private key has leaked. Browsers then stop trusting it.</p>
+<div class="box know"><p class="box-label">You already know this</p><p>You apply for a job and bring a reference letter. The employer does not know the writer. But the writer's letter is vouched for by someone the employer already trusts. A letter you wrote about yourself would carry no weight at all.</p><p class="map-row"><span class="map-label">Mapping</span>the letter = the certificate; the trusted referee = the root authority in your browser; a stranger vouching for themselves = a self-signed certificate.</p></div>
+<div class="box case"><p class="box-label">Taxila College</p><p>A self-signed certificate on the portal makes the browser warn, and that warning is the lesson.</p></div>
+<div class="box mistake"><p class="box-label">Common mistake</p><p>"A certificate error is a browser bug to click past." It means the identity could not be trusted, so stop. The page may be a copy, and anything you type there may go to someone else. Only on a machine you control, with a certificate you made yourself and have checked, is it safe to continue.</p></div>
+<div class="qc"><p class="qc-label">Quick check</p><p class="qc-q">A student opens <code class="long">https://sis.taxila.example</code> and the browser shows a full-page warning: the certificate's issuer is the same as its subject. What is the right call?</p><ol class="qc-opts"><li>Continue: self-signed certificates are broken, so the warning means nothing</li><li>Continue: the address starts with https, so the page is safe</li><li data-right="">Stop, and report it to the Head of IT: nobody vouches for this key<span class="qc-key"> (answer)</span></li></ol><p class="qc-why"><strong>Why:</strong> Issuer equal to subject means a self-signed certificate. It is a valid certificate, but no authority in the trust store vouches that the key belongs to the college, so the page could be a copy.</p></div>
+<h2 id="5-transport-security-and-the-padlock">5. Transport security and the padlock</h2>
+<p>Try the demo first: <a href="artefacts/padlock-truth.html">What the padlock proves</a>. Compare a form sent over plain web with the same form sent over secure web, then open a look-alike site that has a valid padlock.</p>
+<div class="box recall"><p class="box-label">Recall</p><p>The hybrid pattern uses an asymmetric method to set up a fast symmetric key, by carrying it or by agreeing it in the open.</p></div>
+<p>Ordinary web traffic uses the Hypertext Transfer Protocol (HTTP). Everything it carries, including what you type into a form, travels as plain text. Anyone who can see the traffic, on a shared Wi-Fi network for example, can read it.</p>
+<p><strong><a class="term" data-term="https" href="../../glossary.html#https">Hypertext Transfer Protocol Secure (HTTPS)</a></strong> is the same HTTP, wrapped inside <strong><a class="term" data-term="tls" href="../../glossary.html#tls">TLS</a></strong>, the Transport Layer Security you met at the start. TLS is where today's ideas come together. Before any page is sent, the browser and the server run a short <strong>handshake</strong>. In TLS 1.3, the current version, it works like this:</p>
+<ol>
+<li><strong>The browser says hello.</strong> It sends the versions and methods it supports, and a public share for agreeing a key. This is the Day 2 idea of agreeing a key in the open, called Diffie-Hellman.</li>
+<li><strong>The server answers with its own share.</strong> Each side combines its own secret with the other side's share. Both arrive at the same <strong><a class="term" data-term="session-key" href="../../glossary.html#session-key">session key</a></strong>, a fast symmetric key, although the key itself never travelled.</li>
+<li><strong>The server proves who it is.</strong> It sends its certificate, and signs the handshake with its private key. The browser walks the chain of trust, then checks the signature with the public key from the certificate. Only the real owner of that key could have signed.</li>
+<li><strong>Both sides finish.</strong> From now on, every byte travels encrypted with the session key.</li>
+</ol>
+<figure class="art"><svg aria-labelledby="hs-t hs-d" role="img" style="min-width:640px" viewbox="0 0 640 420"><title id="hs-t">The handshake in four moves</title><desc id="hs-d">Browser on the left, server on the right. One: the browser says hello and sends its public share. Two: the server sends its own share, and both sides compute the same session key. Three: the server sends its certificate and signs the handshake with its private key; the browser walks the chain of trust and checks the signature. Four: everything after this is encrypted with the session key, which never travelled.</desc><rect fill="#FFFBFB" height="420" width="640"></rect><rect fill="#2A1A1D" height="40" rx="8" width="150" x="20" y="20"></rect><text fill="#FFFBFB" font-family="Open Sans, Arial, sans-serif" font-size="15" font-weight="700" text-anchor="middle" x="95" y="46">Browser</text><rect fill="#2A1A1D" height="40" rx="8" width="150" x="470" y="20"></rect><text fill="#FFFBFB" font-family="Open Sans, Arial, sans-serif" font-size="15" font-weight="700" text-anchor="middle" x="545" y="46">Server</text><path d="M95 60 L95 400 M545 60 L545 400" stroke="#BFA6A8" stroke-dasharray="6 6" stroke-width="3"></path><text fill="#9C2C3A" font-family="Open Sans, Arial, sans-serif" font-size="15" font-weight="800" text-anchor="start" x="20" y="92">1</text><path d="M103 118 L529 118" fill="none" stroke="#9C2C3A" stroke-width="2.5"></path><path d="M537 118 L528 112 L528 124 Z" fill="#9C2C3A"></path><text fill="#2A1A1D" font-family="Open Sans, Arial, sans-serif" font-size="14" font-weight="700" text-anchor="middle" x="320" y="94">Hello, and my public share</text><text fill="#6C5353" font-family="Open Sans, Arial, sans-serif" font-size="12" font-weight="400" text-anchor="middle" x="320" y="110">the versions and methods I can use</text><text fill="#9C2C3A" font-family="Open Sans, Arial, sans-serif" font-size="15" font-weight="800" text-anchor="start" x="20" y="162">2</text><path d="M537 188 L111 188" fill="none" stroke="#9C2C3A" stroke-width="2.5"></path><path d="M103 188 L112 182 L112 194 Z" fill="#9C2C3A"></path><text fill="#2A1A1D" font-family="Open Sans, Arial, sans-serif" font-size="14" font-weight="700" text-anchor="middle" x="320" y="164">My public share</text><text fill="#6C5353" font-family="Open Sans, Arial, sans-serif" font-size="12" font-weight="400" text-anchor="middle" x="320" y="180">both sides now compute the same session key</text><text fill="#9C2C3A" font-family="Open Sans, Arial, sans-serif" font-size="15" font-weight="800" text-anchor="start" x="20" y="232">3</text><path d="M537 258 L111 258" fill="none" stroke="#9C2C3A" stroke-width="2.5"></path><path d="M103 258 L112 252 L112 264 Z" fill="#9C2C3A"></path><text fill="#2A1A1D" font-family="Open Sans, Arial, sans-serif" font-size="14" font-weight="700" text-anchor="middle" x="320" y="234">My certificate, and the handshake signed</text><text fill="#6C5353" font-family="Open Sans, Arial, sans-serif" font-size="12" font-weight="400" text-anchor="middle" x="320" y="250">with my private key</text><rect fill="#FBF6F6" height="40" rx="6" stroke="#2A1A1D" stroke-width="1.5" width="340" x="150" y="270"></rect><text fill="#2A1A1D" font-family="Open Sans, Arial, sans-serif" font-size="12" font-weight="700" text-anchor="middle" x="320" y="288">Browser walks the chain of trust, then checks</text><text fill="#2A1A1D" font-family="Open Sans, Arial, sans-serif" font-size="12" font-weight="700" text-anchor="middle" x="320" y="303">the signature with the certificate's public key</text><text fill="#9C2C3A" font-family="Open Sans, Arial, sans-serif" font-size="15" font-weight="800" text-anchor="start" x="20" y="340">4</text><rect fill="#9C2C3A" height="44" rx="8" width="434" x="103" y="328"></rect><path d="M124.4 352 L124.4 345.6 Q124.4 339.2 130 339.2 Q135.6 339.2 135.6 345.6 L135.6 352" fill="none" stroke="#FFFBFB" stroke-width="2.4"></path><rect fill="#FFFBFB" height="12.8" rx="2.4" width="17.6" x="121.2" y="352"></rect><text fill="#FFFBFB" font-family="Open Sans, Arial, sans-serif" font-size="14" font-weight="700" text-anchor="middle" x="330" y="347">Everything after this is encrypted</text><text fill="#FFFBFB" font-family="Open Sans, Arial, sans-serif" font-size="12" font-weight="400" text-anchor="middle" x="330" y="364">with the session key, which never travelled</text><text fill="#9C2C3A" font-family="Open Sans, Arial, sans-serif" font-size="12" font-weight="700" text-anchor="start" x="20" y="404">The session key is agreed in the open; the certificate and signature prove whose server it is.</text></svg><figcaption>Agree a key in the open, prove the server's identity, then encrypt. <a class="full" href="img/handshake.svg">Open this diagram at full size</a></figcaption></figure>
+<p>So TLS uses each tool from Days 2 to 4. Asymmetric methods agree the key and prove identity. A fast symmetric key carries the data. Signatures and certificates bind the key to the site's name.</p>
+<p><strong>What the padlock proves.</strong> When the handshake succeeds, the browser shows a padlock or a similar sign. It proves two things: the connection is encrypted, and an authority has vouched that the site's key belongs to the name in the address bar. It does not prove that the site is honest, that the name is the one you meant to visit, or that the operator will look after your data. A look-alike page with a slightly different name can get a valid certificate for its own name, and show a padlock.</p>
+<p><strong>Three further protections.</strong></p>
+<ul>
+<li><strong><a class="term" data-term="hsts" href="../../glossary.html#hsts">HTTP Strict Transport Security (HSTS)</a>.</strong> A site can tell the browser: "only ever connect to me over HTTPS". The browser remembers, and refuses plain HTTP to that site from then on, even if someone tries to send it there.</li>
+<li><strong>Old versions are retired.</strong> At the time of writing, TLS 1.0 and 1.1 are deprecated, and a server should not accept them. TLS 1.3 is current, and many servers also still accept 1.2.</li>
+<li><strong><a class="term" data-term="certificate-pinning" href="../../glossary.html#certificate-pinning">Certificate pinning</a>.</strong> An application can be built to accept only one particular certificate or key for its own server, even if another authority vouches for a different one. At the time of writing this is used mainly by mobile apps, such as banking apps; browsers no longer offer it to websites.</li>
+</ul>
+<div class="box know"><p class="box-label">You already know this</p><p>A government sends papers to its embassy in a diplomatic pouch. The pouch is sealed, so nobody on the way can read the papers, and it is addressed to an office whose identity is verified. But a sealed pouch sent to the wrong office is still sealed.</p><p class="map-row"><span class="map-label">Mapping</span>the seal = the encryption; the verified address = the certificate's identity; a sealed pouch to the wrong office = a valid padlock on a bad site.</p></div>
+<div class="box case"><p class="box-label">Taxila College</p><p>The fake message linked to a look-alike page; a padlock there would still not make it Taxila.</p></div>
+<div class="box mistake"><p class="box-label">Common mistake</p><p>"The padlock means the site is trustworthy." It proves an encrypted channel and a vouched identity, not a safe operator. Read the name in the address bar: the padlock only vouches for that name.</p></div>
+<div class="qc"><p class="qc-label">Quick check</p><p class="qc-q">A courier company's tracking site shows a padlock. A customer receives a text message with a link to a site whose name differs by a few letters, and that site also shows a padlock. What do the two padlocks tell the customer?</p><ol class="qc-opts"><li>Both sites belong to the courier company, because both are vouched for</li><li>The second site is safe, because the padlock means the operator was checked</li><li data-right="">Both connections are encrypted, and each name's key is vouched for, but not who runs the second site<span class="qc-key"> (answer)</span></li></ol><p class="qc-why"><strong>Why:</strong> An authority vouches only that a key belongs to the name in the certificate. Anyone can get a certificate for a name they control, so the padlock on a look-alike name proves an encrypted channel to the wrong place.</p></div>
+<h2 id="before-the-lab">Before the lab</h2>
+<p>This afternoon you make your own key pair, sign your index number, and watch one edit break the signature. You then read a certificate's fields and walk a real site's chain of trust to its root. Last, you see what a form looks like on the wire, over plain and over secure web. Bring these notes, open at sections 1 and 4. Full-tier students: start your Kali virtual machine before the session.</p>
+<h2 id="reading">Reading</h2>
+<ul>
+<li>Pfleeger, C. P., Pfleeger, S. L. and Coles-Kemp, L., <em>Security in Computing</em>, 6th ed., chapter 2, section 2.3, on certificates, trust and digital signatures; then chapter 12, section 12.5, digital signatures. The 4th edition, by the first two authors, covers digital signatures and certificates in chapter 2.</li>
+</ul>
+<p>Next: Day 5, identity and access. You meet three processes, authentication, authorisation and accounting, and see how Taxila decides who may do what.</p>
+
+<template id="term-hmac"><b>HMAC</b><span>A hash-based message authentication code: a keyed hash that mixes a shared secret key with a message. Only key-holders can make or check its seal. It shows the message is unchanged, not which key-holder sent it.</span><span class="ex"><span class="ex-label">At Taxila: </span>the examinations offices in Colombo and Kandy share a key and seal each results file with it.</span></template><template id="term-digital-signature"><b>Digital signature</b><span>A value made by hashing a document and signing the digest with a private key. Anyone checks it with the matching public key. It proves who signed and that nothing changed, and hides nothing.</span><span class="ex"><span class="ex-label">At Taxila: </span>the Registrar signs each transcript, so an employer can check it without phoning the college.</span></template><template id="term-certificate"><b>Certificate</b><span>A signed file, in the X.509 format, that says a public key belongs to a name. It holds a subject, an issuer, a validity period, the public key and the issuer's signature.</span><span class="ex"><span class="ex-label">At Taxila: </span>the portal's certificate says its key belongs to <code>sis.taxila.example</code>.</span></template><template id="term-certificate-authority"><b>Certificate authority</b><span>A certificate authority (CA) is a trusted third party that checks a key belongs to a name, then vouches for it by signing a certificate. It can also revoke a certificate, for example after a key leaks.</span><span class="ex"><span class="ex-label">At Taxila: </span>an authority checks that Taxila controls <code>sis.taxila.example</code> before signing the portal's certificate.</span></template><template id="term-chain-of-trust"><b>Chain of trust</b><span>The path from a site's certificate, through the intermediate authority that signed it, to a root certificate the browser already trusts. If any link fails, the browser warns and stops.</span><span class="ex"><span class="ex-label">At Taxila: </span>the browser trusts the portal because its certificate chains up to a root in the trust store.</span></template><template id="term-root-certificate"><b>Root certificate</b><span>The self-signed certificate of an authority at the top of a chain. Browsers and operating systems keep a list of trusted roots, called the trust store, and trust every chain that ends at one.</span><span class="ex"><span class="ex-label">At Taxila: </span>the portal's chain ends at a root certificate already in every student's browser.</span></template><template id="term-self-signed-certificate"><b>Self-signed certificate</b><span>A certificate signed with its own subject's key, so its issuer and subject are the same. It is valid in form, but no authority vouches for it, so browsers warn about it.</span><span class="ex"><span class="ex-label">At Taxila: </span>the certificate you make for <code>sis.taxila.example</code> in the lab is self-signed.</span></template><template id="term-certificate-signing-request"><b>Certificate signing request</b><span>A certificate signing request (CSR) is a message holding a public key and the name wanted, signed with the matching private key, sent to an authority to ask it to sign a certificate.</span><span class="ex"><span class="ex-label">At Taxila: </span>the Head of IT (information technology) sends a request for <code>sis.taxila.example</code> to an authority.</span></template><template id="term-https"><b>HTTPS</b><span>Hypertext Transfer Protocol Secure (HTTPS): ordinary web traffic, HTTP (Hypertext Transfer Protocol), carried inside TLS (Transport Layer Security). The padlock shows an encrypted channel and a vouched name, not an honest site.</span><span class="ex"><span class="ex-label">At Taxila: </span>students open the portal at an address that starts <code>https://</code>.</span></template><template id="term-tls"><b>TLS</b><span>Transport Layer Security (TLS): the protocol that secures a connection. Its handshake agrees a session key and proves the server's identity with its certificate; then everything travels encrypted. Version 1.3 is current.</span><span class="ex"><span class="ex-label">At Taxila: </span>the portal accepts connections only over TLS.</span></template><template id="term-session-key"><b>Session key</b><span>A fast symmetric key that both sides of a TLS (Transport Layer Security) connection agree during the handshake, without sending it. It encrypts everything that follows, and is thrown away when the connection ends.</span><span class="ex"><span class="ex-label">At Taxila: </span>each student's visit to the portal uses its own session key.</span></template><template id="term-hsts"><b>HSTS</b><span>A rule in the Hypertext Transfer Protocol (HTTP) called HTTP Strict Transport Security (HSTS): a site tells the browser to connect to it only over secure web from then on, refusing plain web.</span><span class="ex"><span class="ex-label">At Taxila: </span>the portal sends HSTS, so a student's browser never opens it over plain web.</span></template><template id="term-certificate-pinning"><b>Certificate pinning</b><span>Building an application so it accepts only one particular certificate or key for its own server, even if another authority vouches for a different one. Mainly used by mobile apps, such as banking apps.</span><span class="ex"><span class="ex-label">At Taxila: </span>a Taxila phone app could pin the portal's key, so it refuses any other.</span></template>
+<section class="resources" aria-labelledby="h-res"><h2 id="h-res">Everything for this morning</h2><ul><li><a href="slides/day-4-morning.pdf">Slides for this morning (PDF)</a></li><li><a href="artefacts/sign-verify.html">Sign, then verify</a> (demo)</li><li><a href="artefacts/tamper-breaks-signature.html">One edit, a broken signature</a> (demo)</li><li><a href="artefacts/certificate-passport.html">A certificate is a passport</a> (demo)</li><li><a href="artefacts/chain-of-trust.html">Follow the chain of trust</a> (demo)</li><li><a href="artefacts/padlock-truth.html">What the padlock proves</a> (demo)</li><li><a href="plays/p4-words.html">Words for signatures and certificates</a> (10 minutes)</li><li><a href="plays/p4-1-which-key-does-the-job.html">Which key does the job?</a> (8 minutes)</li><li><a href="plays/p4-2-read-the-certificates.html">Read the certificates</a> (10 minutes)</li><li><a href="plays/p4-quiz.html">Day 4: signatures, certificates and padlocks</a> (10 minutes)</li><li><a href="../../practice/PQ4.html">Practice question 4</a></li></ul></section><div class="progress-box"><button class="btn" type="button" data-progress="d4m">Mark this morning as done</button><span class="progress-note">A record for you, saved only on this device. It never locks or unlocks anything.</span></div><nav class="pager" aria-label="Page navigation"><span>Previous: <a href="../../days/day-3/lab.html">Day 3 afternoon</a></span><span><a href="index.html">Day 4</a></span><span>Next: <a href="../../days/day-4/lab.html">Day 4 afternoon</a></span></nav>
+</div>
+</main>
+<footer class="site-footer"><div class="wrap">
+<p class="author">&copy; Niranga Dharmaratna, School of Computing &amp; Engineering, National Institute of Business Management</p>
+<p>Content licensed <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener">CC BY-NC-SA 4.0</a>; code licensed MIT; Open Sans under the SIL Open Font Licence.</p>
+<p>Dates and submissions are announced for your cohort. Taxila College is fictional.</p>
+<p>Anything you mark as done is saved only on this device. Nothing leaves it.</p>
+</div></footer>
+<script src="../../assets/js/site.js" defer></script>
+</body>
+</html>
