@@ -140,6 +140,43 @@
 <h3 id="hmac">HMAC</h3>
 <p>A hash-based message authentication code: a keyed hash that mixes a shared secret key with a message. Only key-holders can make or check its seal. It shows the message is unchanged, not which key-holder sent it.</p>
 <p><em>Taxila example:</em> the examinations offices in Colombo and Kandy share a key and seal each results file with it.</p>
+<h2 id="day-4">Day 4</h2>
+<h3 id="digital-signature">Digital signature</h3>
+<p>A value made by hashing a document and signing the digest with a private key. Anyone checks it with the matching public key. It proves who signed and that nothing changed, and hides nothing.</p>
+<p><em>Taxila example:</em> the Registrar signs each transcript, so an employer can check it without phoning the college.</p>
+<h3 id="certificate">Certificate</h3>
+<p>A signed file, in the X.509 format, that says a public key belongs to a name. It holds a subject, an issuer, a validity period, the public key and the issuer's signature.</p>
+<p><em>Taxila example:</em> the portal's certificate says its key belongs to <code>sis.taxila.example</code>.</p>
+<h3 id="certificate-authority">Certificate authority</h3>
+<p>A certificate authority (CA) is a trusted third party that checks a key belongs to a name, then vouches for it by signing a certificate. It can also revoke a certificate, for example after a key leaks.</p>
+<p><em>Taxila example:</em> an authority checks that Taxila controls <code>sis.taxila.example</code> before signing the portal's certificate.</p>
+<h3 id="chain-of-trust">Chain of trust</h3>
+<p>The path from a site's certificate, through the intermediate authority that signed it, to a root certificate the browser already trusts. If any link fails, the browser warns and stops.</p>
+<p><em>Taxila example:</em> the browser trusts the portal because its certificate chains up to a root in the trust store.</p>
+<h3 id="root-certificate">Root certificate</h3>
+<p>The self-signed certificate of an authority at the top of a chain. Browsers and operating systems keep a list of trusted roots, called the trust store, and trust every chain that ends at one.</p>
+<p><em>Taxila example:</em> the portal's chain ends at a root certificate already in every student's browser.</p>
+<h3 id="self-signed-certificate">Self-signed certificate</h3>
+<p>A certificate signed with its own subject's key, so its issuer and subject are the same. It is valid in form, but no authority vouches for it, so browsers warn about it.</p>
+<p><em>Taxila example:</em> the certificate you make for <code>sis.taxila.example</code> in the lab is self-signed.</p>
+<h3 id="certificate-signing-request">Certificate signing request</h3>
+<p>A certificate signing request (CSR) is a message holding a public key and the name wanted, signed with the matching private key, sent to an authority to ask it to sign a certificate.</p>
+<p><em>Taxila example:</em> the Head of IT (information technology) sends a request for <code>sis.taxila.example</code> to an authority.</p>
+<h3 id="tls">TLS</h3>
+<p>Transport Layer Security (TLS): the protocol that secures a connection. Its handshake agrees a session key and proves the server's identity with its certificate; then everything travels encrypted. Version 1.3 is current.</p>
+<p><em>Taxila example:</em> the portal accepts connections only over TLS.</p>
+<h3 id="https">HTTPS</h3>
+<p>Hypertext Transfer Protocol Secure (HTTPS): ordinary web traffic, HTTP (Hypertext Transfer Protocol), carried inside TLS (Transport Layer Security). The padlock shows an encrypted channel and a vouched name, not an honest site.</p>
+<p><em>Taxila example:</em> students open the portal at an address that starts <code>https://</code>.</p>
+<h3 id="session-key">Session key</h3>
+<p>A fast symmetric key that both sides of a TLS (Transport Layer Security) connection agree during the handshake, without sending it. It encrypts everything that follows, and is thrown away when the connection ends.</p>
+<p><em>Taxila example:</em> each student's visit to the portal uses its own session key.</p>
+<h3 id="hsts">HSTS</h3>
+<p>A rule in the Hypertext Transfer Protocol (HTTP) called HTTP Strict Transport Security (HSTS): a site tells the browser to connect to it only over secure web from then on, refusing plain web.</p>
+<p><em>Taxila example:</em> the portal sends HSTS, so a student's browser never opens it over plain web.</p>
+<h3 id="certificate-pinning">Certificate pinning</h3>
+<p>Building an application so it accepts only one particular certificate or key for its own server, even if another authority vouches for a different one. Mainly used by mobile apps, such as banking apps.</p>
+<p><em>Taxila example:</em> a Taxila phone app could pin the portal's key, so it refuses any other.</p>
 <nav class="pager" aria-label="Page navigation"><span></span><span><a href="index.html">All days</a></span><span></span></nav>
 </div>
 </main>

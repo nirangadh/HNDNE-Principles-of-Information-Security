@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en-GB" data-store="hndne-pis:">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="hndne-pis-site">
+<title>Practice question 4: a provincial land records office | Principles of Information Security</title>
+<meta name="author" content="Niranga Dharmaratna">
+<meta name="description" content="This practice question applies the Day 4 ideas, digital signatures, non-repudiation and certificates, to a provincial land records office. Attempt it in...">
+<meta name="robots" content="index, follow">
+<link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
+<link rel="canonical" href="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/practice/PQ4.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Principles of Information Security, HND Network Engineering Year 2">
+<meta property="og:title" content="Practice question 4: a provincial land records office">
+<meta property="og:description" content="This practice question applies the Day 4 ideas, digital signatures, non-repudiation and certificates, to a provincial land records office. Attempt it in...">
+<meta property="og:url" content="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/practice/PQ4.html">
+<meta property="og:locale" content="en_GB">
+<meta property="og:image" content="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/assets/img/social-card.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="At Taxila College the Head of IT points to the security register on the wall: nineteen numbered items, the first outlined as the place to start. The Registrar holds a sealed transcript and the Data Protection Officer a clipboard. A lecturer turns to welcome two students arriving with a laptop and a phone.">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/","name":"Principles of Information Security","position":1},{"@type":"ListItem","item":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/practice/PQ4.html","name":"Practice question 4: a provincial land records office","position":2}]}</script>
+<link rel="stylesheet" href="../assets/fonts/fonts.css">
+<link rel="stylesheet" href="../assets/css/site.css">
+<script>document.documentElement.className = "js";</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to the content</a>
+<header class="site-header"><div class="wrap"><div><p class="eyebrow"><a href="../index.html">Principles of Information Security | HND Network Engineering, Year 2</a></p><h1>Practice question 4: a provincial land records office</h1><div class="bars" aria-hidden="true"><i></i><i></i></div></div></div></header>
+<main id="main">
+<div class="wrap prose">
+<p>This practice question applies the Day 4 ideas, digital signatures, non-repudiation and certificates, to a provincial land records office. Attempt it in writing before you read the answer guidance. It carries 20 marks.</p>
+<h2 id="the-setting">The setting</h2>
+<p>A provincial land records office in Sri Lanka keeps scanned copies of land deeds. Banks and buyers ask the office for certified copies before a loan or a sale. Today an officer sends each certified copy as a file by email. The officer's name is typed at the bottom, beside the words "certified true copy".</p>
+<p>Last month a bank received a certified copy that showed a larger area of land than the deed in the office's store. The officer whose name was on the copy says: "I never issued that copy." Nobody can prove who made it, or whether it was changed after it left the office.</p>
+<p>The office's IT (information technology) team proposes two changes:</p>
+<ol>
+<li>Every officer gets a key pair and signs each certified copy before sending it.</li>
+<li>The office's web portal, where banks will download certified copies, gets a certificate. To save money, the team will make this certificate itself, a self-signed one. It also suggests that each officer's public key should be published as a self-signed certificate.</li>
+</ol>
+<p>A senior officer adds: "Once the portal shows a padlock, every copy downloaded from it is genuine."</p>
+<h2 id="the-question">The question</h2>
+<p><strong>(a)</strong> Explain how a digital signature is made and how it is checked. Say which key is used at each step, and what a valid signature proves and does not prove. <strong>(6 marks)</strong></p>
+<p><strong>(b)</strong> Apply this to the office. Describe how a certified copy would be signed and how a bank would check it. Explain what happens if someone changes one digit of the land area after signing. Then explain why the officer's denial could be settled with a signature, but not if all officers shared one secret key to seal copies. <strong>(7 marks)</strong></p>
+<p><strong>(c)</strong> Evaluate the IT team's plan to use self-signed certificates for the portal and for the officers' public keys, and the senior officer's claim about the padlock. Recommend what the office should do, with one cost of your recommendation. <strong>(7 marks)</strong></p>
+<h2 id="answer-guidance">Answer guidance</h2>
+<p>Read this only after you have written your own answer.</p>
+<p><strong>Part (a).</strong> To sign, the signer's software hashes the document, for example with SHA-256 (Secure Hash Algorithm, 256 bits), and signs that digest with the signer's private key. The signature travels beside the document. To check, anyone hashes the document they received and checks the signature against that digest with the signer's public key. If it passes, two things are proved. Origin: only the holder of the private key could have made the signature. Integrity: the document is the same, byte for byte, as when it was signed. Because only one person holds the private key, the signer cannot later deny signing: non-repudiation. A signature does not hide the document; anyone can still read it. A strong answer says plainly that signing uses the signer's own private key, which is a different job from encrypting to someone's public key.</p>
+<p><strong>Part (b).</strong> Each officer keeps a private key that never leaves them, and the office publishes each officer's public key. To issue a copy, the officer signs its digest with their private key and attaches the signature. The bank hashes the copy it received and checks the signature with that officer's public key. If someone changes one digit of the area after signing, the copy's digest changes completely, by the avalanche effect. The check then fails, and the bank knows the copy is not what the officer signed, though not what changed. Nobody can repair the signature without the officer's private key. The denial can be settled because a valid signature could only have been made with that officer's private key. If the check passes, the officer signed it; if a copy carries no valid signature from them, it is not theirs. A shared secret key, used for a keyed seal such as a hash-based message authentication code (HMAC), would show only that someone holding the key made the seal. Every officer holds it, so it cannot show which one: there is no non-repudiation.</p>
+<p><strong>Part (c).</strong> A self-signed certificate is a valid certificate, but nobody else vouches for it. A bank's browser would warn on the portal, because the certificate is in no trust store. Teaching banks to click past that warning would train them to accept any warning, including one from a fake portal. For the officers' keys, a self-signed certificate lets anyone make a key and call it an officer's. A bank could not tell a real officer's key from a fake one, so the signatures would prove little. The office should get the portal's certificate from a certificate authority whose root is in browsers' trust stores. It should have the officers' public keys vouched for by an authority the banks trust, or at least publish them through a channel the banks already trust. The cost is money and work. A public certificate lasts at most a few months at the time of writing, so it must be renewed often. Keys must also be managed when officers join or leave. The senior officer's claim is wrong. A padlock proves that the connection is encrypted and that an authority vouches that the key belongs to the name in the address. It does not prove that a copy is genuine. A copy can be changed before it is placed on the portal, and a look-alike portal can have its own valid padlock. Only the officer's signature on the copy proves who issued it and that it is unchanged. Strong answers keep the two jobs apart: the certificate and padlock protect the connection and name the server, while the signature protects each copy.</p>
+<nav class="pager" aria-label="Page navigation"><span></span><span><a href="../index.html">All days</a></span><span></span></nav>
+</div>
+</main>
+<footer class="site-footer"><div class="wrap">
+<p class="author">&copy; Niranga Dharmaratna, School of Computing &amp; Engineering, National Institute of Business Management</p>
+<p>Content licensed <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener">CC BY-NC-SA 4.0</a>; code licensed MIT; Open Sans under the SIL Open Font Licence. See the <a href="../LICENSE-CONTENT.html">licence notes</a>.</p>
+<p>Dates and submissions are announced for your cohort. Taxila College is fictional.</p>
+<p>Anything you mark as done is saved only on this device. Nothing leaves it.</p>
+</div></footer>
+<script src="../assets/js/site.js" defer></script>
+</body>
+</html>

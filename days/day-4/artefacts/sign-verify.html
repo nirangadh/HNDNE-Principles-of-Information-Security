@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sign, then verify</title>
+<meta name="description" content="Make a key pair, sign one line of a Taxila transcript with the private key, then verify it with the public key. Uses Web Crypto.">
+<link rel="stylesheet" href="../../../assets/fonts/fonts.css">
+<style>
+  body{margin:0;font-family:var(--font-body);background:var(--linen);color:var(--ink);line-height:1.6}
+  main{max-width:46rem;margin:0 auto;padding:1.5rem 1rem 2.5rem}
+  h1{font-size:1.6rem;line-height:1.25;margin:0 0 .4rem}
+  .bars{display:flex;gap:6px;margin:.3rem 0 1.1rem}.bars i{display:block;height:6px;border-radius:2px}
+  .bars i:first-child{width:56px;background:var(--burgundy)}.bars i:last-child{width:26px;background:var(--blush)}
+  .lead{margin:0 0 1rem}
+  .step{font-size:.78rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--burgundy);margin:1.6rem 0 .3rem;display:block}
+  h2{font-size:1.15rem;margin:.1rem 0 .4rem}
+  button:focus-visible{outline:3px solid var(--burgundy);outline-offset:2px}
+  button{font:inherit;font-weight:700;color:var(--snow);background:var(--burgundy);border:0;border-radius:8px;padding:.55rem 1rem;min-height:44px;cursor:pointer;margin:.4rem .3rem .2rem 0}
+  button.quiet{color:var(--burgundy);background:var(--snow);border:2px solid var(--burgundy)}
+  button[disabled]{background:var(--blush);color:var(--taupe);border-color:var(--blush);cursor:not-allowed}
+  .box{background:var(--snow);border:1px solid var(--rule);border-left:6px solid var(--burgundy);border-radius:0 12px 12px 0;padding:.8rem 1rem;margin:.5rem 0}
+  .box.fault{border-left:6px dashed var(--signal-vermilion)}
+  .tag{display:block;font-size:.72rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--burgundy)}
+  .code{font-family:var(--font-code);font-size:.9rem;overflow-wrap:anywhere;margin:.2rem 0 .5rem}
+  .file{font-family:var(--font-code);font-size:1rem;font-weight:700;margin:.2rem 0 .5rem;white-space:pre-wrap;overflow-wrap:anywhere}
+  .msg{font-weight:700;margin:.3rem 0 0}
+  .note{font-size:.9rem;color:var(--taupe);margin-top:1.4rem}
+  .diff{background:var(--rose-tint);border-bottom:2px solid var(--burgundy)}
+  table{border-collapse:collapse;width:100%;font-size:.92rem}
+  th,td{text-align:left;vertical-align:top;padding:.35rem .5rem;border-bottom:1px solid var(--rule)}
+  th{font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;color:var(--taupe)}
+  .scroll{overflow-x:auto}
+  label{display:block;font-weight:700;margin:.6rem 0 .2rem}
+  input[type=text]{font:inherit;font-family:var(--font-code);width:100%;box-sizing:border-box;padding:.5rem;border:2px solid var(--taupe);border-radius:8px;background:var(--snow);color:var(--ink)}
+
+</style>
+<!-- portal head: written by the portal generator from this demo's title and description; do not edit -->
+<meta name="robots" content="index, follow">
+<link rel="icon" href="../../../assets/img/favicon.svg" type="image/svg+xml">
+<link rel="canonical" href="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-4/artefacts/sign-verify.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Principles of Information Security, HND Network Engineering Year 2">
+<meta property="og:title" content="Sign, then verify | Day 4">
+<meta property="og:description" content="Make a key pair, sign one line of a Taxila transcript with the private key, then verify it with the public key. Uses Web Crypto.">
+<meta property="og:url" content="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-4/artefacts/sign-verify.html">
+<meta property="og:locale" content="en_GB">
+<meta property="og:image" content="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/assets/img/social-card.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="At Taxila College the Head of IT points to the security register on the wall: nineteen numbered items, the first outlined as the place to start. The Registrar holds a sealed transcript and the Data Protection Officer a clipboard. A lecturer turns to welcome two students arriving with a laptop and a phone.">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","author":{"@type":"Person","affiliation":{"@type":"Organization","name":"School of Computing & Engineering, National Institute of Business Management"},"name":"Niranga Dharmaratna"},"description":"Make a key pair, sign one line of a Taxila transcript with the private key, then verify it with the public key. Uses Web Crypto.","educationalLevel":"Higher National Diploma, Year 2","inLanguage":"en-GB","interactivityType":"active","isAccessibleForFree":true,"isPartOf":{"@id":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/#course","@type":"Course","name":"Principles of Information Security, HND Network Engineering Year 2","url":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/"},"learningResourceType":"Interactive demonstration","license":"https://opensource.org/licenses/MIT","name":"Sign, then verify | Day 4","url":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-4/artefacts/sign-verify.html"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/","name":"Principles of Information Security","position":1},{"@type":"ListItem","item":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-4/","name":"Day 4","position":2},{"@type":"ListItem","item":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-4/artefacts/sign-verify.html","name":"Sign, then verify","position":3}]}</script>
+<!-- /portal head -->
+</head>
+<body>
+<main>
+<h1>Sign, then verify</h1>
+<div class="bars" aria-hidden="true"><i></i><i></i></div>
+<p class="lead">A signature is made in two steps: hash the document, then sign the digest with a private key that only one person holds. Anyone can then check it with the matching public key. Here you play the Registrar, signing one line of a transcript.</p>
+
+<span class="step">Step 1</span>
+<h2>Make the Registrar's key pair</h2>
+<button id="make" type="button">Make a key pair</button>
+<div class="box" id="keys" hidden>
+  <span class="tag">Public key: anyone may have it</span>
+  <p class="code" id="pub"></p>
+  <span class="tag">Private key</span>
+  <p>Kept inside this page and never shown, as a real private key stays with its owner.</p>
+</div>
+
+<span class="step">Step 2</span>
+<h2>Sign a line of the transcript</h2>
+<div class="box">
+  <span class="tag">The document</span>
+  <p class="file" id="doc">Taxila College transcript: COHNDNE999X000, Principles of Information Security, grade B</p>
+  <label for="own">Or type your own line (it stays on this page)</label>
+  <input type="text" id="own" maxlength="120" autocomplete="off">
+</div>
+<button id="sign" type="button" disabled>Hash the document and sign the digest</button>
+<div class="box" id="signed" hidden>
+  <span class="tag">1. The SHA-256 digest of the document</span>
+  <p class="code" id="dig"></p>
+  <span class="tag">2. The signature: the digest signed with the private key, in Base64</span>
+  <p class="code" id="sig"></p>
+  <p>The document itself is unchanged and still readable. The signature travels beside it.</p>
+</div>
+
+<span class="step">Step 3</span>
+<h2>Verify with the public key</h2>
+<button id="verify" type="button" disabled>Verify with the Registrar's public key</button>
+<button id="stranger" type="button" class="quiet" disabled>Verify with a stranger's public key instead</button>
+<div class="box" id="vbox" hidden>
+  <p class="msg" id="vout" aria-live="polite"></p>
+</div>
+
+<p class="note">This page uses your browser's own cryptography, called Web Crypto. It makes a key pair with the Rivest, Shamir and Adleman method (RSA), with the signing method called PKCS #1 version 1.5 and SHA-256: the same method CyberChef and OpenSSL use in this afternoon's lab. Nothing you type leaves this page.</p>
+</main>
+<script>
+(function () {
+  "use strict";
+  var $ = function (id) { return document.getElementById(id); };
+  var subtle = window.crypto && window.crypto.subtle;
+  var ALG = { name: "RSASSA-PKCS1-v1_5", modulusLength: 2048, publicExponent: new Uint8Array([1, 0, 1]), hash: "SHA-256" };
+  var pair, other, sig, signedText;
+  function enc(s) { return new TextEncoder().encode(s); }
+  function hex(buf) { return Array.prototype.map.call(new Uint8Array(buf), function (b) { return ("0" + b.toString(16)).slice(-2); }).join(""); }
+  function b64(buf) { var s = ""; new Uint8Array(buf).forEach(function (b) { s += String.fromCharCode(b); }); return btoa(s); }
+  function docText() { var v = $("own").value.trim(); return v || $("doc").textContent; }
+  $("make").addEventListener("click", async function () {
+    if (!subtle) { $("make").textContent = "Web Crypto is not available here"; return; }
+    $("make").disabled = true; $("make").textContent = "Making the key pair...";
+    pair = await subtle.generateKey(ALG, true, ["sign", "verify"]);
+    other = await subtle.generateKey(ALG, true, ["sign", "verify"]);
+    var spki = b64(await subtle.exportKey("spki", pair.publicKey));
+    $("pub").textContent = "-----BEGIN PUBLIC KEY----- " + spki.slice(0, 64) + " ... (" + spki.length + " characters in all) -----END PUBLIC KEY-----";
+    $("keys").hidden = false; $("make").textContent = "Key pair made"; $("sign").disabled = false;
+  });
+  $("sign").addEventListener("click", async function () {
+    signedText = docText();
+    $("dig").textContent = hex(await subtle.digest("SHA-256", enc(signedText)));
+    sig = await subtle.sign("RSASSA-PKCS1-v1_5", pair.privateKey, enc(signedText));
+    $("sig").textContent = b64(sig);
+    $("signed").hidden = false; $("vbox").hidden = true;
+    $("verify").disabled = false; $("stranger").disabled = false;
+  });
+  $("verify").addEventListener("click", async function () {
+    var ok = await subtle.verify("RSASSA-PKCS1-v1_5", pair.publicKey, sig, enc(signedText));
+    $("vbox").hidden = false; $("vbox").className = ok ? "box" : "box fault";
+    $("vout").textContent = ok
+      ? "✓ Valid. The checker hashed the document again and the signature matched, using only the public key. So it was signed with the Registrar's private key, and it is unchanged."
+      : "✗ Not valid.";
+  });
+  $("stranger").addEventListener("click", async function () {
+    var ok = await subtle.verify("RSASSA-PKCS1-v1_5", other.publicKey, sig, enc(signedText));
+    $("vbox").hidden = false; $("vbox").className = ok ? "box" : "box fault";
+    $("vout").textContent = ok
+      ? "Unexpected: it matched."
+      : "✗ Not valid with this key. A signature checks only against the public key that matches the private key that made it. That is why the checker must be sure whose public key they hold: the job of a certificate.";
+  });
+}());
+</script>
+</body>
+</html>

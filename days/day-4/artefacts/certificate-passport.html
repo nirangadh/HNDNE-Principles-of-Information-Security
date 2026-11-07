@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>A certificate is a passport</title>
+<meta name="description" content="Open a real self-signed certificate for sis.taxila.example and read each field beside a passport page, then check its signature.">
+<link rel="stylesheet" href="../../../assets/fonts/fonts.css">
+<style>
+  body{margin:0;font-family:var(--font-body);background:var(--linen);color:var(--ink);line-height:1.6}
+  main{max-width:46rem;margin:0 auto;padding:1.5rem 1rem 2.5rem}
+  h1{font-size:1.6rem;line-height:1.25;margin:0 0 .4rem}
+  .bars{display:flex;gap:6px;margin:.3rem 0 1.1rem}.bars i{display:block;height:6px;border-radius:2px}
+  .bars i:first-child{width:56px;background:var(--burgundy)}.bars i:last-child{width:26px;background:var(--blush)}
+  .lead{margin:0 0 1rem}
+  .step{font-size:.78rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--burgundy);margin:1.6rem 0 .3rem;display:block}
+  h2{font-size:1.15rem;margin:.1rem 0 .4rem}
+  button:focus-visible{outline:3px solid var(--burgundy);outline-offset:2px}
+  button{font:inherit;font-weight:700;color:var(--snow);background:var(--burgundy);border:0;border-radius:8px;padding:.55rem 1rem;min-height:44px;cursor:pointer;margin:.4rem .3rem .2rem 0}
+  button.quiet{color:var(--burgundy);background:var(--snow);border:2px solid var(--burgundy)}
+  button[disabled]{background:var(--blush);color:var(--taupe);border-color:var(--blush);cursor:not-allowed}
+  .box{background:var(--snow);border:1px solid var(--rule);border-left:6px solid var(--burgundy);border-radius:0 12px 12px 0;padding:.8rem 1rem;margin:.5rem 0}
+  .box.fault{border-left:6px dashed var(--signal-vermilion)}
+  .tag{display:block;font-size:.72rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--burgundy)}
+  .code{font-family:var(--font-code);font-size:.9rem;overflow-wrap:anywhere;margin:.2rem 0 .5rem}
+  .file{font-family:var(--font-code);font-size:1rem;font-weight:700;margin:.2rem 0 .5rem;white-space:pre-wrap;overflow-wrap:anywhere}
+  .msg{font-weight:700;margin:.3rem 0 0}
+  .note{font-size:.9rem;color:var(--taupe);margin-top:1.4rem}
+  .diff{background:var(--rose-tint);border-bottom:2px solid var(--burgundy)}
+  table{border-collapse:collapse;width:100%;font-size:.92rem}
+  th,td{text-align:left;vertical-align:top;padding:.35rem .5rem;border-bottom:1px solid var(--rule)}
+  th{font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;color:var(--taupe)}
+  .scroll{overflow-x:auto}
+  label{display:block;font-weight:700;margin:.6rem 0 .2rem}
+  input[type=text]{font:inherit;font-family:var(--font-code);width:100%;box-sizing:border-box;padding:.5rem;border:2px solid var(--taupe);border-radius:8px;background:var(--snow);color:var(--ink)}
+
+</style>
+<!-- portal head: written by the portal generator from this demo's title and description; do not edit -->
+<meta name="robots" content="index, follow">
+<link rel="icon" href="../../../assets/img/favicon.svg" type="image/svg+xml">
+<link rel="canonical" href="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-4/artefacts/certificate-passport.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Principles of Information Security, HND Network Engineering Year 2">
+<meta property="og:title" content="A certificate is a passport | Day 4">
+<meta property="og:description" content="Open a real self-signed certificate for sis.taxila.example and read each field beside a passport page, then check its signature.">
+<meta property="og:url" content="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-4/artefacts/certificate-passport.html">
+<meta property="og:locale" content="en_GB">
+<meta property="og:image" content="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/assets/img/social-card.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="At Taxila College the Head of IT points to the security register on the wall: nineteen numbered items, the first outlined as the place to start. The Registrar holds a sealed transcript and the Data Protection Officer a clipboard. A lecturer turns to welcome two students arriving with a laptop and a phone.">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","author":{"@type":"Person","affiliation":{"@type":"Organization","name":"School of Computing & Engineering, National Institute of Business Management"},"name":"Niranga Dharmaratna"},"description":"Open a real self-signed certificate for sis.taxila.example and read each field beside a passport page, then check its signature.","educationalLevel":"Higher National Diploma, Year 2","inLanguage":"en-GB","interactivityType":"active","isAccessibleForFree":true,"isPartOf":{"@id":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/#course","@type":"Course","name":"Principles of Information Security, HND Network Engineering Year 2","url":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/"},"learningResourceType":"Interactive demonstration","license":"https://opensource.org/licenses/MIT","name":"A certificate is a passport | Day 4","url":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-4/artefacts/certificate-passport.html"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/","name":"Principles of Information Security","position":1},{"@type":"ListItem","item":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-4/","name":"Day 4","position":2},{"@type":"ListItem","item":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-4/artefacts/certificate-passport.html","name":"A certificate is a passport","position":3}]}</script>
+<!-- /portal head -->
+</head>
+<body>
+<main>
+<h1>A certificate is a passport</h1>
+<div class="bars" aria-hidden="true"><i></i><i></i></div>
+<p class="lead">This page opens a real certificate, the one provided for this afternoon's lab, and reads it field by field. Beside each field is the matching part of a passport. A certificate in the X.509 format says that a public key belongs to a name, and someone signs to vouch for it.</p>
+
+<span class="step">Step 1</span>
+<h2>Open the certificate</h2>
+<button id="open" type="button">Open the certificate for sis.taxila.example</button>
+<p class="code" id="pemline" hidden></p>
+
+<span class="step">Step 2</span>
+<h2>Read each field against the passport</h2>
+<button id="next" type="button" disabled>Show the next field</button>
+<button id="all" type="button" class="quiet" disabled>Show every field</button>
+<div class="scroll">
+<table id="fields" hidden>
+  <thead><tr><th scope="col">Certificate field</th><th scope="col">What this certificate says</th><th scope="col">The passport page</th></tr></thead>
+  <tbody id="rows"></tbody>
+</table>
+</div>
+<p class="msg" id="fieldnote" aria-live="polite"></p>
+
+<span class="step">Step 3</span>
+<h2>Check the stamp</h2>
+<p>The last field is the issuer's signature over every other field. Here the issuer is the subject itself, so the certificate is checked with its own public key.</p>
+<button id="stamp" type="button" disabled>Check the signature</button>
+<button id="edit" type="button" class="quiet" disabled>Change one letter of the subject, then check</button>
+<div class="box" id="sbox" hidden><p class="msg" id="sout" aria-live="polite"></p></div>
+
+<span class="step">Step 4</span>
+<h2>The fingerprint</h2>
+<button id="fp" type="button" disabled>Take the certificate's SHA-256 fingerprint</button>
+<div class="box" id="fbox" hidden>
+  <p class="code" id="fout"></p>
+  <p>The fingerprint is the SHA-256 digest of the whole certificate. Your browser shows the same kind of value in its certificate viewer, so you can check by eye that two copies are the same certificate.</p>
+</div>
+
+<p class="note">This page reads the certificate's bytes itself and uses your browser's own cryptography, called Web Crypto, to check the signature and take the fingerprint. The certificate is self-signed: it is valid in form, but no authority in your browser's trust store vouches for it. That is why a browser warns about it on a website.</p>
+</main>
+<script>
+(function () {
+  "use strict";
+  var $ = function (id) { return document.getElementById(id); };
+  var subtle = window.crypto && window.crypto.subtle;
+  var PEM = "MIIDZzCCAk+gAwIBAgIUQ+x71a56oMr7GQ6V+7akOgXyucswDQYJKoZIhvcNAQELBQAwQzEbMBkGA1UEAwwSc2lzLnRheGlsYS5leGFtcGxlMRcwFQYDVQQKDA5UYXhpbGEgQ29sbGVnZTELMAkGA1UEBhMCTEswHhcNMjYxMTA3MDYyNDM2WhcNMzYxMTA0MDYyNDM2WjBDMRswGQYDVQQDDBJzaXMudGF4aWxhLmV4YW1wbGUxFzAVBgNVBAoMDlRheGlsYSBDb2xsZWdlMQswCQYDVQQGEwJMSzCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBANbdOZVgWfIYh7sdnt5IWdic1GidnXU/a3i8vuk7N19LbymmoKGDZmzqkSQdsdWB3YIshYLEoQTP72Zmwka6Sq2J+r/p27nmf1ujwP3AR7jpkUKlE0V9VtpXfV5dR3vRQo078i15GYy0BS/gXvDN9/5suQHHgwsn00mEuU8LsWMipa/AVy57Dg259gPnjup75qA6U7d/AbhLfwGgVCmK3siSnVLdb09wwC7E0r8Ai790bMwVpsh7ulYfyRr6kpWFSwUjppCA6aGl4yG7uUK/+aWy2CFadgERiMmaIQiKZJ6MI0/T34l022ztmZsYhvsdxO7HYLO91HnvfDeRvCgSUXcCAwEAAaNTMFEwHQYDVR0OBBYEFDOhasUQxiXuDNshhXpbNb7QSUKQMB8GA1UdIwQYMBaAFDOhasUQxiXuDNshhXpbNb7QSUKQMA8GA1UdEwEB/wQFMAMBAf8wDQYJKoZIhvcNAQELBQADggEBAC9qIKTdBz1Y8GSd2q88fL5oaS6UGKryf2DhxV+bSVpdHcYyKMfoqpjAuLKVac9G3P6jL6MuuGmEPBWueYHqiIt+Ga3NG6n6J4qKtZzNcNbJKYhC5ML0SqtLRQdaYsQ743GAGT1RbwwS6/o1gbmy+dxOBRLhEW+P3rvTrnu44YxRtoYhvHxAM6pkgzkg/+DWhq7YIBlBX5Xf0LtZjXgu7xIuwBuEusIiWgN+qIpG/dzhzvYyxu8KDMgz+UmX/dFIcJ8fpnBYpFP303XgL8o4xBTnFvg27o0e9ye9/fRKI7RyQdMeLKo9Cc8K9+7WlFoZ+XGxuZAtCyGLnLqUDDLqwOI=";
+  var der = Uint8Array.from(atob(PEM), function (c) { return c.charCodeAt(0); });
+  function tlv(buf, pos) {
+    var tag = buf[pos], len = buf[pos + 1], hdr = 2;
+    if (len & 0x80) { var n = len & 0x7f; len = 0; for (var i = 0; i < n; i++) { len = len * 256 + buf[pos + 2 + i]; } hdr = 2 + n; }
+    return { tag: tag, start: pos, body: pos + hdr, end: pos + hdr + len, len: len };
+  }
+  function kids(buf, node) { var out = [], p = node.body; while (p < node.end) { var k = tlv(buf, p); out.push(k); p = k.end; } return out; }
+  function oid(buf, node) {
+    var b = buf.slice(node.body, node.end), parts = [Math.floor(b[0] / 40), b[0] % 40], v = 0;
+    for (var i = 1; i < b.length; i++) { v = v * 128 + (b[i] & 0x7f); if (!(b[i] & 0x80)) { parts.push(v); v = 0; } }
+    return parts.join(".");
+  }
+  function text(buf, node) { return new TextDecoder().decode(buf.slice(node.body, node.end)); }
+  var NAMES = { "2.5.4.3": "CN", "2.5.4.10": "O", "2.5.4.6": "C" };
+  function name(buf, node) {
+    return kids(buf, node).map(function (set) { var atv = kids(buf, kids(buf, set)[0]); return (NAMES[oid(buf, atv[0])] || oid(buf, atv[0])) + " = " + text(buf, atv[1]); }).join(", ");
+  }
+  function when(buf, node) {
+    var s = text(buf, node), y = node.tag === 0x17 ? (Number(s.slice(0, 2)) < 50 ? 20 : 19) * 100 + Number(s.slice(0, 2)) : Number(s.slice(0, 4));
+    var r = node.tag === 0x17 ? s.slice(2) : s.slice(4);
+    return { label: r.slice(2, 4) + "-" + r.slice(0, 2) + "-" + y, date: Date.UTC(y, Number(r.slice(0, 2)) - 1, Number(r.slice(2, 4))) };
+  }
+  var cert = tlv(der, 0), top = kids(der, cert), tbs = top[0], t = kids(der, tbs);
+  var i0 = t[0].tag === 0xa0 ? 1 : 0;
+  var sigAlg = oid(der, kids(der, top[1])[0]);
+  var issuer = name(der, t[i0 + 2]), validity = kids(der, t[i0 + 3]), subject = name(der, t[i0 + 4]);
+  var spki = t[i0 + 5], bits = kids(der, spki)[1];
+  var rsa = kids(der, tlv(der, bits.body + 1)), modulus = rsa[0];
+  var keyBits = (modulus.len - (der[modulus.body] === 0 ? 1 : 0)) * 8;
+  var from = when(der, validity[0]), to = when(der, validity[1]);
+  var days = Math.round((to.date - from.date) / 86400000);
+  var ALGS = { "1.2.840.113549.1.1.11": "SHA-256 with RSA" };
+  var FIELDS = [
+    ["Subject", subject, "Your name and photo: who this page is about."],
+    ["Issuer", issuer + (issuer === subject ? "  (the same as the subject: self-signed)" : ""), "The government that issued the passport."],
+    ["Validity", "from " + from.label + " to " + to.label + " (day-month-year), " + days + " days", "The date of issue and the date of expiry."],
+    ["Public key", "RSA, " + keyBits + " bits", "Your photo, which links the page to your face: here, it links the name to a key."],
+    ["Signature", (ALGS[sigAlg] || sigAlg) + ", made by the issuer over every field above", "The official stamp, which nobody else can make."]
+  ];
+  var shown = 0;
+  function addRow(f) {
+    var tr = document.createElement("tr");
+    f.forEach(function (v, i) { var c = document.createElement(i === 0 ? "th" : "td"); if (i === 0) { c.scope = "row"; } c.textContent = v; tr.appendChild(c); });
+    $("rows").appendChild(tr);
+  }
+  $("open").addEventListener("click", function () {
+    $("pemline").hidden = false;
+    $("pemline").textContent = "-----BEGIN CERTIFICATE----- " + PEM.slice(0, 60) + " ... (" + der.length + " bytes) -----END CERTIFICATE-----";
+    $("fields").hidden = false; $("open").disabled = true;
+    ["next", "all", "stamp", "edit", "fp"].forEach(function (id) { $(id).disabled = false; });
+    if (!subtle) { $("fieldnote").textContent = "Web Crypto is not available here: you can read the fields, but steps 3 and 4 need it."; }
+  });
+  $("next").addEventListener("click", function () {
+    if (shown < FIELDS.length) { addRow(FIELDS[shown]); shown++; }
+    $("fieldnote").textContent = shown < FIELDS.length ? "Field " + shown + " of " + FIELDS.length + "." : "All five fields shown. The subject and the issuer are the same name.";
+    if (shown >= FIELDS.length) { $("next").disabled = true; $("all").disabled = true; }
+  });
+  $("all").addEventListener("click", function () { while (shown < FIELDS.length) { $("next").click(); } });
+  async function verify(tbsBytes) {
+    var key = await subtle.importKey("spki", der.slice(spki.start, spki.end), { name: "RSASSA-PKCS1-v1_5", hash: "SHA-256" }, false, ["verify"]);
+    var sigNode = top[2], sig = der.slice(sigNode.body + 1, sigNode.end);
+    return subtle.verify("RSASSA-PKCS1-v1_5", key, sig, tbsBytes);
+  }
+  $("stamp").addEventListener("click", async function () {
+    var ok = await verify(der.slice(tbs.start, tbs.end));
+    $("sbox").hidden = false; $("sbox").className = ok ? "box" : "box fault";
+    $("sout").textContent = ok ? "✓ The signature matches every field. Nothing in this certificate has changed since it was signed." : "✗ The signature does not match.";
+  });
+  $("edit").addEventListener("click", async function () {
+    var copy = der.slice(tbs.start, tbs.end), s = new TextEncoder().encode("sis.taxila"), at = -1;
+    for (var i = copy.length - s.length; i >= 0 && at < 0; i--) { var m = true; for (var j = 0; j < s.length; j++) { if (copy[i + j] !== s[j]) { m = false; break; } } if (m) { at = i; } }
+    copy[at + 1] = "j".charCodeAt(0);
+    var ok = await verify(copy);
+    $("sbox").hidden = false; $("sbox").className = ok ? "box" : "box fault";
+    $("sout").textContent = ok ? "Unexpected: it still matched." : "✗ With the subject changed to sjs.taxila.example, the signature no longer matches. Nobody can edit a field and keep the stamp, just as with a signed transcript.";
+  });
+  $("fp").addEventListener("click", async function () {
+    var h = Array.prototype.map.call(new Uint8Array(await subtle.digest("SHA-256", der)), function (b) { return ("0" + b.toString(16)).slice(-2).toUpperCase(); });
+    $("fbox").hidden = false; $("fout").textContent = h.join(":");
+  });
+}());
+</script>
+</body>
+</html>

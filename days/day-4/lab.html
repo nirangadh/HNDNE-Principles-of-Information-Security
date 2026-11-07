@@ -1,0 +1,251 @@
+<!doctype html>
+<html lang="en-GB" data-store="hndne-pis:">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="hndne-pis-site">
+<title>Lab 4: Sign your file, inspect certificates, and see what secure web hides | Principles of Information Security</title>
+<meta name="author" content="Niranga Dharmaratna">
+<meta name="description" content="Day 4 afternoon lab sheet: Sign your file, inspect certificates, and see what secure web hides. Day 4, afternoon session. Duration 3 hours. Adds items 7...">
+<meta name="robots" content="index, follow">
+<link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml">
+<link rel="canonical" href="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-4/lab.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Principles of Information Security, HND Network Engineering Year 2">
+<meta property="og:title" content="Lab 4: Sign your file, inspect certificates, and see what secure web hides">
+<meta property="og:description" content="Day 4 afternoon lab sheet: Sign your file, inspect certificates, and see what secure web hides. Day 4, afternoon session. Duration 3 hours. Adds items 7...">
+<meta property="og:url" content="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-4/lab.html">
+<meta property="og:locale" content="en_GB">
+<meta property="og:image" content="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/assets/img/social-card.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="At Taxila College the Head of IT points to the security register on the wall: nineteen numbered items, the first outlined as the place to start. The Registrar holds a sealed transcript and the Data Protection Officer a clipboard. A lecturer turns to welcome two students arriving with a laptop and a phone.">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","author":{"@type":"Person","affiliation":{"@type":"Organization","name":"School of Computing & Engineering, National Institute of Business Management"},"name":"Niranga Dharmaratna"},"description":"Day 4 afternoon lab sheet: Sign your file, inspect certificates, and see what secure web hides. Day 4, afternoon session. Duration 3 hours. Adds items 7...","educationalLevel":"Higher National Diploma, Year 2","inLanguage":"en-GB","interactivityType":"expository","isAccessibleForFree":true,"isPartOf":{"@id":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/#course","@type":"Course","name":"Principles of Information Security, HND Network Engineering Year 2","url":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/"},"learningResourceType":"Lab sheet","license":"https://creativecommons.org/licenses/by-nc-sa/4.0/","name":"Lab 4: Sign your file, inspect certificates, and see what secure web hides","url":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-4/lab.html"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/","name":"Principles of Information Security","position":1},{"@type":"ListItem","item":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-4/","name":"Day 4","position":2},{"@type":"ListItem","item":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-4/lab.html","name":"Lab 4: Sign your file, inspect certificates, and see what secure web hides","position":3}]}</script>
+<link rel="stylesheet" href="../../assets/fonts/fonts.css">
+<link rel="stylesheet" href="../../assets/css/site.css">
+<script>document.documentElement.className = "js";</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to the content</a>
+<header class="site-header"><div class="wrap"><div><p class="eyebrow"><a href="../../index.html">Principles of Information Security | HND Network Engineering, Year 2</a></p><h1>Sign your file, inspect certificates, and see what secure web hides</h1><p class="sub">Day 4, afternoon lab</p><div class="bars" aria-hidden="true"><i></i><i></i></div></div></div></header>
+<main id="main">
+<div class="wrap prose">
+<div class="meta"><span class="badge" title="Learning outcome 3">LO3</span><span class="badge" title="Learning outcome 4">LO4</span><span class="chip add" title="Signed transcripts">Added today: item 7</span><span class="chip add" title="Portal certificate and TLS">Added today: item 8</span><span class="chip tier-floor">Floor tier: every step</span><span class="chip tier-full">Full tier: recommended</span></div>
+<p><strong>Day 4, afternoon session. Duration 3 hours. Adds items 7 and 8 to Taxila's security register.</strong></p>
+<p>This lab sheet takes you from signing your own index number to reading certificates and watching what secure web hides. You will see one edit break a signature, a certificate whose issuer is its own subject, and a form that is readable on plain web but not on secure web.</p>
+<div class="table-wrap"><table class="meta-table">
+
+<tbody>
+<tr>
+<td>Learning outcomes</td>
+<td>LO3, LO4</td>
+</tr>
+<tr>
+<td>You need</td>
+<td>this morning's ideas: you sign with the private key and verify with the public key; a <a class="term" data-term="certificate" href="../../glossary.html#certificate">certificate</a> binds a key to a name, and an authority vouches for it; the padlock proves an encrypted channel and a vouched name</td>
+</tr>
+<tr>
+<td>Tiers</td>
+<td>Floor tier: every step, in the browser. Full tier: segments 1, 2 and 4 can also run in your Kali virtual machine; segment 3 uses the browser on either tier</td>
+</tr>
+<tr>
+<td>Evidence pack</td>
+<td>Pack 4, due before the next teaching day</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="before-you-start">Before you start</h2>
+<ol>
+<li>Open this page and the day's notes side by side.</li>
+<li>Write down your personal value: your index number without spaces or hyphens, with its letters in capitals exactly as issued (the example in this sheet, <code>COHNDNE999X000</code>, belongs to nobody).</li>
+<li>Full tier: start your Kali virtual machine and take a snapshot named <code>day-4-start</code>, so Reset can bring it back.</li>
+<li>Floor tier: open the demos this lab uses: <code>certificate-passport</code> and <code>padlock-truth</code>. Open CyberChef too, from its official site or your offline copy.</li>
+<li>Download the provided files and save them in your module folder: <a href="files/example-private-key.txt"><code>example-private-key.txt</code></a>, <a href="files/example-public-key.txt"><code>example-public-key.txt</code></a>, <a href="files/portal-certificate.txt"><code>portal-certificate.txt</code></a>, <a href="files/taxila-portal.py"><code>taxila-portal.py</code></a>, <a href="files/plain-web.pcapng"><code>plain-web.pcapng</code></a> and <a href="files/secure-web.pcapng"><code>secure-web.pcapng</code></a>.</li>
+</ol>
+<h3 id="the-idea-behind-todays-lab">The idea behind today's lab</h3>
+<div class="box recall"><p class="box-label">Recall</p><p>You sign with the private key and verify with the public key.</p></div>
+<div class="box recall"><p class="box-label">Recall</p><p>A certificate binds a key to a name, and an authority vouches for it.</p></div>
+<div class="box mistake"><p class="box-label">Common mistake</p><p>"The public key signs." The private key signs; the public key verifies. If the public key could sign, anyone could sign as you, because everyone may hold your public key.</p></div>
+<div class="box mistake"><p class="box-label">Common mistake</p><p>"A self-signed certificate is broken." It is a valid certificate that simply nobody vouches for. In segment 2 you make or read one, and every field is in order. The only difference is that the issuer is the subject itself.</p></div>
+<div class="qc"><p class="qc-label">Quick check</p><p class="qc-q">Your lab partner says: "Send me your private key, so I can check your signature." What should you send?</p><ol class="qc-opts"><li>Your private key, because it made the signature</li><li data-right="">Your public key, the signed file and the signature<span class="qc-key"> (answer)</span></li><li>Nothing: a signature can only be checked by the person who made it</li></ol><p class="qc-why"><strong>Why:</strong> Anyone checks a signature with the public key, so your partner needs nothing secret. Sending the private key is tempting because it made the signature, but whoever holds it can sign as you.</p></div>
+<div class="qc"><p class="qc-label">Quick check</p><p class="qc-q">You sign your index in CyberChef and verify it straight away, but <code>RSA Verify</code> says <code>Verification Failure</code>. You signed with <code>SHA-256</code>. What is the most likely cause?</p><ol class="qc-opts"><li>Your private key is too short</li><li>Your index number has the wrong letters</li><li data-right=""><code>RSA Verify</code> still has its default digest, <code>SHA-1</code><span class="qc-key"> (answer)</span></li></ol><p class="qc-why"><strong>Why:</strong> Verifying recomputes the digest, so both sides must use the same hash function. A different digest never matches the one you signed, even though the file and key are right.</p></div>
+<h2 id="objective">Objective</h2>
+<p>You will show that a signature made with your private key verifies with your public key, and fails after a single edit. So a signed file proves who made it and that it is unchanged. You will also read a certificate, walk a chain of trust to its root, and show that secure web hides a form that plain web exposes. This is how Taxila can issue transcripts an employer can trust, and run its portal over a connection that proves it is genuine.</p>
+<h2 id="timed-segments">Timed segments</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Segment</th>
+<th>Minutes</th>
+<th>Tier</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Generate a key pair and sign your personal file</td>
+<td>40</td>
+<td>both</td>
+</tr>
+<tr>
+<td>Make and read a certificate</td>
+<td>35</td>
+<td>both</td>
+</tr>
+<tr>
+<td>Inspect a live certificate chain</td>
+<td>25</td>
+<td>both</td>
+</tr>
+<tr>
+<td>See what secure web hides</td>
+<td>25</td>
+<td>both</td>
+</tr>
+<tr>
+<td>Prove it, break it, reset and write up</td>
+<td>25</td>
+<td>both</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="steps">Steps</h2>
+<p>Each step states what to do and what you should see. If you do not see it, stop and work out why before moving on.</p>
+<p class="segment"><span class="seg-name">Segment 1: Generate a key pair and sign your personal file</span><span class="chip tier-floor">Both tiers</span></p>
+<p>Your personal file holds exactly your index number, in capitals, with no space and no new line at the end. For the example, the file holds <code>COHNDNE999X000</code>, which is 14 characters.</p>
+<ol class="steps">
+<li data-n="1">
+<p><strong>Try the example first.</strong> Sign the example file with the provided example private key, using SHA-256 (Secure Hash Algorithm, 256 bits). Then verify it with the example public key. <span class="expect"><b class="expect-label">You should see</b> the signature, written in Base64, is 344 characters long; it starts <code>kGcygZsz</code> and ends <code>PRBpDQ==</code>. The check prints <code>Verified OK</code>. Everyone in the room gets the same signature, because everyone used the same key. That key is published, so anyone can sign as "the example": never trust a key whose private half is public.</span></p>
+</li>
+<li data-n="2">
+<p><strong>Make your own key pair.</strong> Generate a key pair with the Rivest, Shamir and Adleman method (RSA), 2048 bits long. Save both halves in a text file in your module folder. <span class="expect"><b class="expect-label">You should see</b> two blocks of text. One starts <code class="long">-----BEGIN PUBLIC KEY-----</code>; the other is your private key and starts <code class="long">-----BEGIN RSA PRIVATE KEY-----</code> (floor tier) or <code class="long">-----BEGIN PRIVATE KEY-----</code> (full tier). Your private key never leaves your laptop, and you never submit it.</span></p>
+</li>
+<li data-n="3">
+<p><strong>Sign your personal file.</strong> Sign your own index number with your private key and SHA-256, and write the signature in Base64. <span class="expect"><b class="expect-label">You should see</b> 344 Base64 characters ending in <code>==</code>, different from your neighbour's, because your keys differ.</span></p>
+</li>
+<li data-n="4">
+<p><strong>Verify your signature with your public key.</strong> <span class="expect"><b class="expect-label">You should see</b> <code>Verified OK</code>. Your public key alone was enough: you needed nothing secret to check it.</span></p>
+</li>
+</ol>
+<div class="box floor"><p class="box-label">Floor path</p><p>In CyberChef, step 1: put <code>COHNDNE999X000</code> in the input box, with nothing after it. Add <code>RSA Sign</code>. Paste the whole of <code>example-private-key.txt</code> into <code>RSA Private Key (PEM)</code>, including its first and last lines. Leave <code>Key Password</code> empty and set <code>Message Digest Algorithm</code> to <code>SHA-256</code>; the default, <code>SHA-1</code>, gives a different signature. Add <code>To Base64</code> and copy the output. To verify, start a new recipe. Put the Base64 signature in the input box, then add <code>From Base64</code> and <code>RSA Verify</code>. Paste <code>example-public-key.txt</code> into <code>RSA Public Key (PEM)</code>, type <code>COHNDNE999X000</code> into <code>Message</code>, keep <code>Message format</code> at <code>Raw</code>, and set <code>Message Digest Algorithm</code> to <code>SHA-256</code>. For step 2, use <code>Generate RSA Key Pair</code> with <code>RSA Key Length</code> set to <code>2048</code> bits (the default, <code>1024</code>, is too short) and <code>Output Format</code> <code>PEM</code>. It ignores the input box and may take a few seconds. CyberChef makes a new pair every time the recipe runs, so copy the output into your text file at once, then remove the operation. For steps 3 and 4, repeat the step 1 recipes with your own index and your own keys.</p></div>
+<p>Full tier, in a terminal on your Kali virtual machine. Download the two example key files into the lab folder first. Replace the example index with your own from the sixth line on:</p>
+<pre tabindex="0"><code class="language-bash">mkdir -p ~/lab4 &amp;&amp; cd ~/lab4
+printf '%s' COHNDNE999X000 &gt; index.txt
+openssl dgst -sha256 -sign example-private-key.txt -out example.sig index.txt
+base64 -w0 example.sig; echo
+openssl dgst -sha256 -verify example-public-key.txt -signature example.sig index.txt
+printf '%s' COHNDNE999X000 &gt; index.txt
+openssl genpkey -algorithm RSA -pkeyopt rsa_keygen_bits:2048 -out private.pem
+openssl pkey -in private.pem -pubout -out public.pem
+openssl dgst -sha256 -sign private.pem -out index.sig index.txt
+base64 -w0 index.sig &gt; index.sig.b64; cat index.sig.b64; echo
+openssl dgst -sha256 -verify public.pem -signature index.sig index.txt
+</code></pre>
+<p>The fourth command prints the example signature in Base64, and the fifth prints <code>Verified OK</code>. <code>openssl genpkey</code> may print rows of dots and plus signs while it searches for the key; that is normal. The last command checks your own signature the same way. <code class="long">openssl dgst -sha256 -sign</code> hashes the file with SHA-256 and signs the digest: the two steps from this morning. Use <code>printf</code>, not <code>echo</code>, to write the file; <code>echo</code> adds an invisible line ending, and you would sign a different file.</p>
+<p class="segment"><span class="seg-name">Segment 2: Make and read a certificate</span><span class="chip tier-floor">Both tiers</span></p>
+<ol class="steps" start="5">
+<li data-n="5">
+<p><strong>Make or open a self-signed certificate for a Taxila name.</strong> On the full tier, make one for <code>sis.taxila.example</code> with your own key pair. On the floor tier, open the provided certificate for the same name. <span class="expect"><b class="expect-label">You should see</b> a block of text that starts <code class="long">-----BEGIN CERTIFICATE-----</code>.</span></p>
+</li>
+<li data-n="6">
+<p><strong>Read its fields against the passport.</strong> Find the subject, the issuer, the validity period, the public key and the signature algorithm. <span class="expect"><b class="expect-label">You should see</b> the subject and the issuer are the same, both naming <code>sis.taxila.example</code> and Taxila College: the certificate is self-signed. The validity has a start and an end, the public key is RSA with 2048 bits, and the signature algorithm is SHA-256 with RSA. These are the passport fields from this morning.</span></p>
+</li>
+<li data-n="7">
+<p><strong>Take the certificate's fingerprint.</strong> The fingerprint is the SHA-256 digest of the whole certificate. <span class="expect"><b class="expect-label">You should see</b> 64 hexadecimal characters, usually shown in pairs. For the provided certificate it starts <code>10:D6:56:4A</code> and ends <code>60:73:A3:81</code>. Write yours down: you use it in segment 4.</span></p>
+</li>
+</ol>
+<div class="box floor"><p class="box-label">Floor path</p><p>In CyberChef, paste the whole of <code>portal-certificate.txt</code> into the input box and add <code>Parse X.509 certificate</code>, with <code>Input format</code> <code>PEM</code>. It lists <code>Issuer</code>, <code>Subject</code>, <code>Validity</code>, <code>Public Key</code> and <code>Algorithm ID</code>, and under <code>Fingerprints</code> the <code>SHA256</code> line, in lower case and without colons. Then open the <code>certificate-passport</code> demo, which shows the same certificate beside a passport page and checks its signature. A browser cannot open a certificate file in its own viewer, so you use these two instead.</p></div>
+<p>Full tier. Run these in <code>~/lab4</code>; you are signing the certificate with your own private key:</p>
+<pre tabindex="0"><code class="language-bash">openssl req -x509 -key private.pem -sha256 -days 30 -subj "/CN=sis.taxila.example/O=Taxila College" -out portal-cert.pem
+openssl x509 -in portal-cert.pem -text -noout
+openssl x509 -in portal-cert.pem -noout -fingerprint -sha256
+</code></pre>
+<p><code>openssl req</code> usually writes a certificate signing request, to send to an authority. With <code>-x509</code> it signs the certificate itself instead, so it is self-signed. In the output of the second command, find the <code>Issuer:</code> and <code>Subject:</code> lines, the <code>Validity</code> block, <code>Public-Key: (2048 bit)</code> and <code class="long">Signature Algorithm: sha256WithRSAEncryption</code>.</p>
+<p class="segment"><span class="seg-name">Segment 3: Inspect a live certificate chain</span><span class="chip tier-floor">Both tiers</span></p>
+<ol class="steps" start="8">
+<li data-n="8"><strong>Walk a real site's chain to its root.</strong> Open a secure website you already use for study, such as the CyberChef site, and open the browser's certificate viewer. Read the certificate for the site, then the certificate above it, then the one at the top. <span class="expect"><b class="expect-label">You should see</b> an end-entity certificate issued to the site's name, an intermediate certificate, and a root certificate, with a valid padlock. The root's issuer is the root itself: it is self-signed, and your browser trusts it because it is in the trust store. The names you see depend on the site. Write down the three subjects. You are only reading a public certificate, which every visitor receives; this is viewing a public site, not attacking it.</span></li>
+</ol>
+<div class="box floor"><p class="box-label">Floor path</p><p>In Chrome or Edge, click the icon to the left of the address, then <strong>Connection is secure</strong>, then <strong>Certificate is valid</strong>. Open the <strong>Details</strong> tab to see the hierarchy. In Firefox, click the padlock, then <strong>Connection secure</strong>, <strong>More information</strong> and <strong>View Certificate</strong>; each certificate in the chain has its own tab. The menu wording can change from one browser version to the next.</p></div>
+<p class="segment"><span class="seg-name">Segment 4: See what secure web hides</span><span class="chip tier-floor">Both tiers</span></p>
+<figure class="art"><svg aria-labelledby="ps-t ps-d" role="img" style="min-width:640px" viewbox="0 0 640 330"><title id="ps-t">Plain web against secure web</title><desc id="ps-d">Two captures side by side. On the left, plain web: the request POST /submit is readable, ending with the line index=COHNDNE999X000. On the right, secure web: Client Hello, Server Hello, then only Application Data records of scrambled bytes, and the index number is found in no packet.</desc><rect fill="#FFFBFB" height="330" width="640"></rect><rect fill="#FBF6F6" height="270" rx="10" stroke="#BFA6A8" stroke-width="1.5" width="300" x="12" y="12"></rect><rect fill="#FBF6F6" height="270" rx="10" stroke="#BFA6A8" stroke-width="1.5" width="300" x="328" y="12"></rect><text fill="#2A1A1D" font-family="Open Sans, Arial, sans-serif" font-size="14" font-weight="800" text-anchor="middle" x="162" y="40">PLAIN WEB, FILTER http</text><text fill="#2A1A1D" font-family="Open Sans, Arial, sans-serif" font-size="14" font-weight="800" text-anchor="middle" x="478" y="40">SECURE WEB, FILTER tls</text><text fill="#2A1A1D" font-family="Courier New, monospace" font-size="13" font-weight="400" text-anchor="start" x="30" y="74">POST /submit HTTP/1.1</text><text fill="#2A1A1D" font-family="Courier New, monospace" font-size="13" font-weight="400" text-anchor="start" x="30" y="96">Host: 127.0.0.1:8080</text><text fill="#2A1A1D" font-family="Courier New, monospace" font-size="13" font-weight="400" text-anchor="start" x="30" y="118">Content-Type: application/</text><text fill="#2A1A1D" font-family="Courier New, monospace" font-size="13" font-weight="400" text-anchor="start" x="30" y="140">  x-www-form-urlencoded</text><text fill="#2A1A1D" font-family="Courier New, monospace" font-size="13" font-weight="400" text-anchor="start" x="30" y="162"></text><rect fill="#F3E2E4" height="22" rx="3" stroke="#9C2C3A" stroke-width="2" width="200" x="24" y="168"></rect><text fill="#2A1A1D" font-family="Courier New, monospace" font-size="13" font-weight="700" text-anchor="start" x="30" y="184">index=COHNDNE999X000</text><rect fill="#E0663C" height="22" rx="3" width="22" x="23" y="225"></rect><path d="M29 231 L39 241 M39 231 L29 241" stroke="#2A1A1D" stroke-width="2.5"></path><text fill="#2A1A1D" font-family="Open Sans, Arial, sans-serif" font-size="13" font-weight="700" text-anchor="start" x="52" y="241">your index, readable by anyone</text><text fill="#2A1A1D" font-family="Open Sans, Arial, sans-serif" font-size="13" font-weight="700" text-anchor="start" x="52" y="259">who can see the traffic</text><text fill="#2A1A1D" font-family="Courier New, monospace" font-size="13" font-weight="700" text-anchor="start" x="344" y="74">Client Hello</text><text fill="#2A1A1D" font-family="Courier New, monospace" font-size="13" font-weight="700" text-anchor="start" x="344" y="96">Server Hello</text><text fill="#2A1A1D" font-family="Courier New, monospace" font-size="13" font-weight="400" text-anchor="start" x="344" y="118">Application Data</text><text fill="#2A1A1D" font-family="Courier New, monospace" font-size="13" font-weight="400" text-anchor="start" x="344" y="140">Application Data</text><text fill="#2A1A1D" font-family="Courier New, monospace" font-size="13" font-weight="400" text-anchor="start" x="344" y="162">Application Data</text><text fill="#6C5353" font-family="Courier New, monospace" font-size="13" font-weight="400" text-anchor="start" x="344" y="192">17 03 03 03 46 fb ca 99 e5 ce</text><text fill="#6C5353" font-family="Courier New, monospace" font-size="13" font-weight="400" text-anchor="start" x="344" y="212">62 c6 c5 26 94 c6 14 bf 67 b9</text><circle cx="350" cy="236" fill="#9C2C3A" r="11"></circle><path d="M345 236 L349 240 L356 232" fill="none" stroke="#FFFBFB" stroke-width="2.5"></path><text fill="#2A1A1D" font-family="Open Sans, Arial, sans-serif" font-size="13" font-weight="700" text-anchor="start" x="368" y="241">index not found in any packet</text><text fill="#2A1A1D" font-family="Open Sans, Arial, sans-serif" font-size="13" font-weight="700" text-anchor="start" x="368" y="259">only encrypted bytes</text><text fill="#9C2C3A" font-family="Open Sans, Arial, sans-serif" font-size="13" font-weight="700" text-anchor="start" x="20" y="312">The same form, sent twice from the same browser. Only the encryption differs.</text></svg><figcaption>The same index number, on plain web and on secure web. <a class="full" href="img/plain-secure.svg">Open this diagram at full size</a></figcaption></figure>
+<ol class="steps" start="9">
+<li data-n="9">
+<p><strong>Capture your index number over plain web.</strong> Start a capture on the loopback interface. Serve the provided <code>taxila-portal</code> application over plain web, that is the Hypertext Transfer Protocol (HTTP), and submit your index number in its form. <span class="expect"><b class="expect-label">You should see</b> filter the capture with <code>http</code>, and the request <code>POST /submit</code> shows the line <code>index=</code> followed by your index number, as readable text. Anyone who could see this traffic could read it.</span></p>
+</li>
+<li data-n="10">
+<p><strong>Capture it again over secure web.</strong> Serve <code>taxila-portal</code> over secure web with the certificate you made, and submit your index again. <span class="expect"><b class="expect-label">You should see</b> filter with <code>tls</code>. You see <code>Client Hello</code>, <code>Server Hello</code> and then only <code>Application Data</code> records. Search the capture for your index number: it is not found. The handshake agreed a session key, and everything after it is encrypted.</span></p>
+</li>
+</ol>
+<div class="box floor"><p class="box-label">Floor path</p><p>Open the <code>padlock-truth</code> demo. Its first part shows the two provided captures, <code>plain-web.pcapng</code> and <code>secure-web.pcapng</code>, which were made in exactly this way with the example index. Read the plain request, find <code>index=COHNDNE999X000</code>, then look for it in the secure capture. If Wireshark is on your laptop, you may also open the two files in it. Write down what was readable over plain web and not over secure web.</p></div>
+<p>Full tier, in <code>~/lab4</code>. Download <code>taxila-portal.py</code> into the folder first. Open Wireshark from the menu, or run <code>wireshark</code> in a second terminal, choose the interface <strong>Loopback: lo</strong>, and start the capture. Then:</p>
+<pre tabindex="0"><code class="language-bash">python3 taxila-portal.py
+</code></pre>
+<p>Open <code>http://127.0.0.1:8080/</code> in Firefox, submit your index, and stop the server with Ctrl+C. In Wireshark, filter with <code>http</code>, right-click the <code>POST /submit</code> line, and choose <strong>Follow</strong> then <strong>HTTP Stream</strong>. Start a new capture on <strong>Loopback: lo</strong>, then serve secure web with your own certificate and private key:</p>
+<pre tabindex="0"><code class="language-bash">python3 taxila-portal.py --secure --cert portal-cert.pem --key private.pem
+</code></pre>
+<p>Open <code>https://127.0.0.1:8443/</code>. Firefox shows <strong>Warning: Potential Security Risk Ahead</strong>, because your certificate is self-signed: nobody vouches for it. This warning is the lesson, and on any site you did not make yourself you would stop here. This one is different: you made the certificate on this machine, and you can check it. Click <strong>Advanced</strong>, then <strong>View Certificate</strong>, and compare its SHA-256 fingerprint with the one you wrote down in step 7. Only if the two match, go back and choose <strong>Accept the Risk and Continue</strong>. Submit your index, stop the server, and filter with <code>tls</code>. Use <strong>Edit</strong>, then <strong>Find Packet</strong>, choose <strong>String</strong> and <strong>Packet bytes</strong>, and search for your index.</p>
+<p class="segment"><span class="seg-name">Segment 5: Prove it, break it, reset and write up</span><span class="chip tier-floor">Both tiers</span></p>
+<ol class="steps" start="11">
+<li data-n="11">
+<p><strong>Collect your evidence.</strong> Fill in the evidence pack with your values from steps 3 to 10. <span class="expect"><b class="expect-label">You should see</b> your signed file, your public key, your Base64 signature and <code>Verified OK</code>, then the certificate fields, the three subjects of the live chain, and your note on the two captures.</span></p>
+</li>
+<li data-n="12">
+<p><strong>Draw and explain.</strong> Draw the sign-and-verify sketch and write your explanation, as listed under Evidence required. <span class="expect"><b class="expect-label">You should see</b> a labelled sketch and at most 120 words.</span></p>
+</li>
+</ol>
+<section class="mark prove"><h2 id="prove-it"><span class="mark-chip">PROVE IT</span> Prove it</h2>
+<p>Your signature verifies with your public key and prints <code>Verified OK</code>, and it fails after one edit of the file. Your lecturer checks it the same way, with the public key you submit, because a signature is verified, not recomputed. The plain-web capture shows the index number, and the secure-web capture does not. Copy your signed file's content, your public key, your signature and the check's result into your evidence pack.</p>
+</section><section class="mark break"><h2 id="break-it"><span class="mark-chip"><span aria-hidden="true" class="fault">×</span>BREAK IT</span> Break it</h2>
+<p><strong>Fault:</strong> the signed file is changed by a single character.</p>
+<ol>
+<li>Change the last character of your index number in the file by one, so <code>0</code> becomes <code>1</code>, and verify again with the same signature and public key. <strong>Symptom:</strong> <code>Verification failure</code> on the full tier, or <code>Verification Failure</code> in CyberChef, although the key and the signature are unchanged.</li>
+<li><strong>Evidence:</strong> the check hashes the file it is given. One changed character gives a completely different digest, the avalanche effect from Day 3, so it no longer matches the digest you signed. Nobody can repair the signature without your private key.</li>
+<li><strong>Fix:</strong> put the original character back and verify again: <code>Verified OK</code>. Write down the symptom and why it happens.</li>
+</ol>
+<div class="box floor"><p class="box-label">Floor path</p><p>In the verify recipe, change the last character of <code>Message</code> by one, read the result, then put it back.</p></div>
+<p>Full tier, to make and then remove the fault:</p>
+<pre tabindex="0"><code class="language-bash">printf '%s' COHNDNE999X001 &gt; index.txt
+openssl dgst -sha256 -verify public.pem -signature index.sig index.txt
+printf '%s' COHNDNE999X000 &gt; index.txt
+openssl dgst -sha256 -verify public.pem -signature index.sig index.txt
+</code></pre>
+</section><section class="mark reset"><h2 id="reset"><span class="mark-chip">RESET</span> Reset</h2>
+<ol>
+<li>Copy your evidence into your evidence pack first: your public key, your signature and your notes.</li>
+<li>Floor tier: clear CyberChef's recipe and input. Delete the text file that holds your private key, because nothing later needs it.</li>
+<li>Full tier: stop <code>taxila-portal</code> if it is still running, delete the lab folder with <code>rm -r ~/lab4</code>, then restore the <code>day-4-start</code> snapshot. Your module folder keeps the provided files.</li>
+</ol>
+</section><section class="mark rules"><h2 id="rules-of-engagement"><span class="mark-chip">RULES OF ENGAGEMENT</span> Rules of engagement</h2>
+<p>No tool in this lab can affect anyone else's system. You inspect only your own certificates and public websites' certificates, and you capture only your own traffic to the provided <code>taxila-portal</code> application on your own machine.</p>
+</section><section class="mark evidence"><h2 id="evidence-required"><span class="mark-chip">EVIDENCE</span> Evidence required</h2>
+<p>Submit evidence pack 4 before the next teaching day, using the <a href="../../templates/evidence-pack.html">evidence pack template</a>.</p>
+<ol>
+<li><strong>Personal values.</strong> In the template's table, with the step each comes from:
+<ul>
+<li>your signed file's content, which is your index number without spaces or hyphens (step 3);</li>
+<li>your public key, the whole block, so the signature can be verified, since the marker verifies rather than recomputes a signature (step 2);</li>
+<li>your signature in Base64, and the successful verification, <code>Verified OK</code> (steps 3 and 4).
+Never put your private key in the pack.</li>
+</ul>
+</li>
+<li><strong>Certificate and chain.</strong> The certificate fields you read: subject, issuer, validity (step 6). The three levels of the live certificate chain, with each subject (step 8). A note of what was readable over plain web and not over secure web (steps 9 and 10).</li>
+<li><strong>Concept sketch.</strong> Draw by hand, on paper, signing and verifying side by side: which key is used where, and label the hash step on both sides. Photograph it.</li>
+<li><strong>Explanation.</strong> In no more than 120 words: why can anyone verify your signature but only you create it?</li>
+</ol>
+</section><h2 id="taxila-connection">Taxila connection</h2>
+<p>This lab answers two of Taxila's requirements. Item 7 on the security register is signed transcripts. An employer can check a transcript with the Registrar's public key, in seconds, without phoning the college, and any change breaks the signature. Item 8 is the portal certificate and TLS (Transport Layer Security): the portal is reached only over encrypted connections, and its certificate proves the key belongs to <code>sis.taxila.example</code>. The Registrar will ask whether a transcript can now prove who issued it: yes, because only the Registrar's private key could have signed it. The Head of IT (information technology) will ask what the self-signed certificate you made would do on the live portal: every visitor would see a warning. The portal needs a certificate that an authority in the trust store has signed.</p>
+
+<template id="term-certificate"><b>Certificate</b><span>A signed file, in the X.509 format, that says a public key belongs to a name. It holds a subject, an issuer, a validity period, the public key and the issuer's signature.</span><span class="ex"><span class="ex-label">At Taxila: </span>the portal's certificate says its key belongs to <code>sis.taxila.example</code>.</span></template>
+<section class="resources" aria-labelledby="h-res"><h2 id="h-res">Everything for this afternoon</h2><ul><li><a href="slides/day-4-afternoon.pdf">Slides for this afternoon (PDF)</a></li><li><a href="files/example-private-key.txt"><code>example-private-key.txt</code></a> (provided file)</li><li><a href="files/example-public-key.txt"><code>example-public-key.txt</code></a> (provided file)</li><li><a href="files/plain-web.pcapng"><code>plain-web.pcapng</code></a> (provided file)</li><li><a href="files/portal-certificate.txt"><code>portal-certificate.txt</code></a> (provided file)</li><li><a href="files/secure-web.pcapng"><code>secure-web.pcapng</code></a> (provided file)</li><li><a href="files/taxila-portal.py"><code>taxila-portal.py</code></a> (provided file)</li><li><a href="plays/p4-words.html">Words for signatures and certificates</a> (10 minutes)</li><li><a href="plays/p4-1-which-key-does-the-job.html">Which key does the job?</a> (8 minutes)</li><li><a href="plays/p4-2-read-the-certificates.html">Read the certificates</a> (10 minutes)</li><li><a href="plays/p4-quiz.html">Day 4: signatures, certificates and padlocks</a> (10 minutes)</li><li>The <a href="../../coursework/evidence-packs-brief.html">evidence packs brief</a> and the <a href="../../templates/evidence-pack.html">evidence pack template</a> (also as a <a href="../../templates/evidence-pack.pdf">PDF form</a>)</li><li><a href="../../practice/PQ4.html">Practice question 4</a></li></ul></section><div class="progress-box"><button class="btn" type="button" data-progress="d4a">Mark this afternoon as done</button><span class="progress-note">A record for you, saved only on this device. It never locks or unlocks anything.</span></div><nav class="pager" aria-label="Page navigation"><span>Previous: <a href="../../days/day-4/notes.html">Day 4 morning</a></span><span><a href="index.html">Day 4</a></span><span></span></nav>
+</div>
+</main>
+<footer class="site-footer"><div class="wrap">
+<p class="author">&copy; Niranga Dharmaratna, School of Computing &amp; Engineering, National Institute of Business Management</p>
+<p>Content licensed <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener">CC BY-NC-SA 4.0</a>; code licensed MIT; Open Sans under the SIL Open Font Licence.</p>
+<p>Dates and submissions are announced for your cohort. Taxila College is fictional.</p>
+<p>Anything you mark as done is saved only on this device. Nothing leaves it.</p>
+</div></footer>
+<script src="../../assets/js/site.js" defer></script>
+</body>
+</html>

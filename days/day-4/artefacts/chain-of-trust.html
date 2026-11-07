@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Follow the chain of trust</title>
+<meta name="description" content="Follow a certificate up to a root the browser trusts, then remove a link or serve a self-signed certificate and watch the browser refuse.">
+<link rel="stylesheet" href="../../../assets/fonts/fonts.css">
+<style>
+  body{margin:0;font-family:var(--font-body);background:var(--linen);color:var(--ink);line-height:1.6}
+  main{max-width:46rem;margin:0 auto;padding:1.5rem 1rem 2.5rem}
+  h1{font-size:1.6rem;line-height:1.25;margin:0 0 .4rem}
+  .bars{display:flex;gap:6px;margin:.3rem 0 1.1rem}.bars i{display:block;height:6px;border-radius:2px}
+  .bars i:first-child{width:56px;background:var(--burgundy)}.bars i:last-child{width:26px;background:var(--blush)}
+  .lead{margin:0 0 1rem}
+  .step{font-size:.78rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--burgundy);margin:1.6rem 0 .3rem;display:block}
+  h2{font-size:1.15rem;margin:.1rem 0 .4rem}
+  button:focus-visible{outline:3px solid var(--burgundy);outline-offset:2px}
+  button{font:inherit;font-weight:700;color:var(--snow);background:var(--burgundy);border:0;border-radius:8px;padding:.55rem 1rem;min-height:44px;cursor:pointer;margin:.4rem .3rem .2rem 0}
+  button.quiet{color:var(--burgundy);background:var(--snow);border:2px solid var(--burgundy)}
+  button[disabled]{background:var(--blush);color:var(--taupe);border-color:var(--blush);cursor:not-allowed}
+  .box{background:var(--snow);border:1px solid var(--rule);border-left:6px solid var(--burgundy);border-radius:0 12px 12px 0;padding:.8rem 1rem;margin:.5rem 0}
+  .box.fault{border-left:6px dashed var(--signal-vermilion)}
+  .tag{display:block;font-size:.72rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--burgundy)}
+  .code{font-family:var(--font-code);font-size:.9rem;overflow-wrap:anywhere;margin:.2rem 0 .5rem}
+  .file{font-family:var(--font-code);font-size:1rem;font-weight:700;margin:.2rem 0 .5rem;white-space:pre-wrap;overflow-wrap:anywhere}
+  .msg{font-weight:700;margin:.3rem 0 0}
+  .note{font-size:.9rem;color:var(--taupe);margin-top:1.4rem}
+  .diff{background:var(--rose-tint);border-bottom:2px solid var(--burgundy)}
+  table{border-collapse:collapse;width:100%;font-size:.92rem}
+  th,td{text-align:left;vertical-align:top;padding:.35rem .5rem;border-bottom:1px solid var(--rule)}
+  th{font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;color:var(--taupe)}
+  .scroll{overflow-x:auto}
+  label{display:block;font-weight:700;margin:.6rem 0 .2rem}
+  input[type=text]{font:inherit;font-family:var(--font-code);width:100%;box-sizing:border-box;padding:.5rem;border:2px solid var(--taupe);border-radius:8px;background:var(--snow);color:var(--ink)}
+
+</style>
+<!-- portal head: written by the portal generator from this demo's title and description; do not edit -->
+<meta name="robots" content="index, follow">
+<link rel="icon" href="../../../assets/img/favicon.svg" type="image/svg+xml">
+<link rel="canonical" href="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-4/artefacts/chain-of-trust.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Principles of Information Security, HND Network Engineering Year 2">
+<meta property="og:title" content="Follow the chain of trust | Day 4">
+<meta property="og:description" content="Follow a certificate up to a root the browser trusts, then remove a link or serve a self-signed certificate and watch the browser refuse.">
+<meta property="og:url" content="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-4/artefacts/chain-of-trust.html">
+<meta property="og:locale" content="en_GB">
+<meta property="og:image" content="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/assets/img/social-card.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="At Taxila College the Head of IT points to the security register on the wall: nineteen numbered items, the first outlined as the place to start. The Registrar holds a sealed transcript and the Data Protection Officer a clipboard. A lecturer turns to welcome two students arriving with a laptop and a phone.">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","author":{"@type":"Person","affiliation":{"@type":"Organization","name":"School of Computing & Engineering, National Institute of Business Management"},"name":"Niranga Dharmaratna"},"description":"Follow a certificate up to a root the browser trusts, then remove a link or serve a self-signed certificate and watch the browser refuse.","educationalLevel":"Higher National Diploma, Year 2","inLanguage":"en-GB","interactivityType":"active","isAccessibleForFree":true,"isPartOf":{"@id":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/#course","@type":"Course","name":"Principles of Information Security, HND Network Engineering Year 2","url":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/"},"learningResourceType":"Interactive demonstration","license":"https://opensource.org/licenses/MIT","name":"Follow the chain of trust | Day 4","url":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-4/artefacts/chain-of-trust.html"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/","name":"Principles of Information Security","position":1},{"@type":"ListItem","item":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-4/","name":"Day 4","position":2},{"@type":"ListItem","item":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-4/artefacts/chain-of-trust.html","name":"Follow the chain of trust","position":3}]}</script>
+<!-- /portal head -->
+</head>
+<body>
+<main>
+<h1>Follow the chain of trust</h1>
+<div class="bars" aria-hidden="true"><i></i><i></i></div>
+<p class="lead">A browser trusts a site's key because a chain of signatures leads from the site's certificate to a root certificate it already holds. Build a small chain, let the browser check each link, then break a link and watch the browser refuse.</p>
+
+<span class="step">Step 1</span>
+<h2>Build the chain</h2>
+<button id="build" type="button">Make three key pairs and sign the chain</button>
+<div class="box" id="store" hidden>
+  <span class="tag">The browser's trust store</span>
+  <p>One root certificate: <strong>Root authority</strong>, key <span class="code" id="rootkey"></span></p>
+</div>
+<div class="scroll">
+<table id="chain" hidden>
+  <thead><tr><th scope="col">Certificate</th><th scope="col">Subject</th><th scope="col">Issuer</th><th scope="col">Its public key</th><th scope="col">Signed by</th></tr></thead>
+  <tbody id="rows"></tbody>
+</table>
+</div>
+
+<span class="step">Step 2</span>
+<h2>Let the browser check the chain</h2>
+<button id="check" type="button" disabled>Open https://sis.taxila.example</button>
+<div class="box" id="vbox" hidden>
+  <ol id="steps"></ol>
+  <p class="msg" id="verdict" aria-live="polite"></p>
+</div>
+
+<span class="step">Step 3</span>
+<h2>Break a link</h2>
+<button id="remove" type="button" disabled>Remove the intermediate certificate</button>
+<button id="self" type="button" disabled>Serve a self-signed certificate instead</button>
+<button id="edit" type="button" disabled>Change one field of the site's certificate</button>
+<button id="restore" type="button" class="quiet" disabled>Put the chain back</button>
+
+<p class="note">The certificates here are simplified to their subject, issuer, public key and signature, and the names are roles, not real authorities. The signatures are real: your browser's own cryptography, called Web Crypto, makes the keys and checks every link, using elliptic-curve signatures because they are quick to make.</p>
+</main>
+<script>
+(function () {
+  "use strict";
+  var $ = function (id) { return document.getElementById(id); };
+  var subtle = window.crypto && window.crypto.subtle;
+  var ALG = { name: "ECDSA", namedCurve: "P-256" }, SIG = { name: "ECDSA", hash: "SHA-256" };
+  var keys = {}, certs = {}, served, trustStore = [];
+  function enc(s) { return new TextEncoder().encode(s); }
+  function b64(buf) { var s = ""; new Uint8Array(buf).forEach(function (b) { s += String.fromCharCode(b); }); return btoa(s); }
+  async function rawKey(k) { return b64(await subtle.exportKey("raw", k)); }
+  function body(c) { return JSON.stringify({ subject: c.subject, issuer: c.issuer, key: c.key }); }
+  async function issue(subject, issuer, subjectKey, issuerKey) {
+    var c = { subject: subject, issuer: issuer, key: await rawKey(subjectKey) };
+    c.sig = await subtle.sign(SIG, issuerKey, enc(body(c)));
+    return c;
+  }
+  function short(k) { return k.slice(4, 16) + "..."; }
+  function draw(list) {
+    var tb = $("rows"); while (tb.firstChild) { tb.removeChild(tb.firstChild); }
+    list.forEach(function (row) {
+      var tr = document.createElement("tr");
+      [row.role, row.c.subject, row.c.issuer, short(row.c.key), row.c.issuer === row.c.subject ? "its own key" : row.c.issuer + "'s key"].forEach(function (v, i) {
+        var td = document.createElement(i === 0 ? "th" : "td"); if (i === 0) { td.scope = "row"; } td.textContent = v; tr.appendChild(td);
+      });
+      tb.appendChild(tr);
+    });
+  }
+  async function importKey(b) { return subtle.importKey("raw", Uint8Array.from(atob(b), function (ch) { return ch.charCodeAt(0); }), ALG, false, ["verify"]); }
+  async function verifyWith(c, keyB64) { return subtle.verify(SIG, await importKey(keyB64), c.sig, enc(body(c))); }
+  function line(ok, text) { var li = document.createElement("li"); li.textContent = (ok ? "✓ " : "✗ ") + text; $("steps").appendChild(li); }
+  async function walk() {
+    var ol = $("steps"); while (ol.firstChild) { ol.removeChild(ol.firstChild); }
+    $("vbox").hidden = false;
+    var current = served[0].c, others = served.slice(1).map(function (r) { return r.c; });
+    for (var hop = 0; hop < 4; hop++) {
+      if (trustStore.indexOf(current.key) >= 0 && current.issuer === current.subject) {
+        line(true, current.subject + " is in the trust store."); return finish(true, "Padlock shown. Every signature checked, up to a root the browser already trusts.");
+      }
+      if (current.issuer === current.subject) {
+        var selfOk = await verifyWith(current, current.key);
+        line(selfOk, current.subject + " is signed with its own key" + (selfOk ? ", and that signature checks." : ", but the signature fails."));
+        line(false, current.subject + " is not in the trust store. Nobody the browser trusts vouches for this key.");
+        return finish(false, "Warning: the browser cannot trust this site's identity, so it stops. That warning is the lesson.");
+      }
+      var parent = others.filter(function (o) { return o.subject === current.issuer; })[0];
+      if (!parent) {
+        line(false, "The certificate for " + current.subject + " says it was signed by " + current.issuer + ", but that certificate is missing, so there is no key to check the signature with.");
+        return finish(false, "Warning: the chain is broken, so the browser refuses the connection.");
+      }
+      var ok = await verifyWith(current, parent.key);
+      line(ok, "The certificate for " + current.subject + (ok ? " checks with " : " does not check with ") + parent.subject + "'s public key" + (ok ? "." : ": a field changed after the signature was made."));
+      if (!ok) { return finish(false, "Warning: a certificate in the chain has been changed since it was signed, so the browser refuses it."); }
+      current = parent;
+    }
+  }
+  function finish(ok, text) { $("vbox").className = ok ? "box" : "box fault"; $("verdict").textContent = (ok ? "✓ " : "✗ ") + text; }
+  function full() { return [{ role: "End-entity", c: certs.site }, { role: "Intermediate", c: certs.inter }, { role: "Root", c: certs.root }]; }
+  $("build").addEventListener("click", async function () {
+    if (!subtle) { $("build").textContent = "Web Crypto is not available here"; return; }
+    $("build").disabled = true; $("build").textContent = "Signing...";
+    keys.root = await subtle.generateKey(ALG, true, ["sign", "verify"]);
+    keys.inter = await subtle.generateKey(ALG, true, ["sign", "verify"]);
+    keys.site = await subtle.generateKey(ALG, true, ["sign", "verify"]);
+    keys.own = await subtle.generateKey(ALG, true, ["sign", "verify"]);
+    certs.root = await issue("Root authority", "Root authority", keys.root.publicKey, keys.root.privateKey);
+    certs.inter = await issue("Intermediate authority", "Root authority", keys.inter.publicKey, keys.root.privateKey);
+    certs.site = await issue("sis.taxila.example", "Intermediate authority", keys.site.publicKey, keys.inter.privateKey);
+    certs.self = await issue("sis.taxila.example", "sis.taxila.example", keys.own.publicKey, keys.own.privateKey);
+    trustStore = [certs.root.key];
+    $("rootkey").textContent = short(certs.root.key);
+    served = full(); draw(served);
+    $("store").hidden = false; $("chain").hidden = false; $("build").textContent = "Chain built";
+    ["check", "remove", "self", "edit", "restore"].forEach(function (id) { $(id).disabled = false; });
+  });
+  $("check").addEventListener("click", walk);
+  $("remove").addEventListener("click", function () { served = [{ role: "End-entity", c: certs.site }, { role: "Root", c: certs.root }]; draw(served); walk(); });
+  $("self").addEventListener("click", function () { served = [{ role: "Self-signed", c: certs.self }]; draw(served); walk(); });
+  $("edit").addEventListener("click", function () {
+    var changed = { subject: "sis.taxila.example", issuer: certs.site.issuer, key: certs.self.key, sig: certs.site.sig };
+    served = [{ role: "End-entity (key swapped)", c: changed }, { role: "Intermediate", c: certs.inter }, { role: "Root", c: certs.root }];
+    draw(served); walk();
+  });
+  $("restore").addEventListener("click", function () { served = full(); draw(served); walk(); });
+}());
+</script>
+</body>
+</html>
