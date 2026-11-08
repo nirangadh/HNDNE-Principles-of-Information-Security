@@ -1,0 +1,109 @@
+Grants on Taxila's SIS (Student Information System) database, taxila-db
+Teaching copy for the Day 7 lab, floor tier. Every account and value is a prepared sample.
+
+The Head of IT (information technology) ran SHOW GRANTS for each database account and
+saved the output. Part A is what the Head of IT found. Part B is the same server after the fix.
+
+What each account is for:
+  taxila-portal  the account the student and lecturer portal uses. It reads student
+                 records and grades, and enters and corrects grades.
+  registrar      the Registrar's reporting account. It reads results to print reports.
+  itadmin        the Head of IT's administration account. It is used only to look
+                 after the server: making accounts, backups and changes to tables.
+  lecturer01     an old account from before the portal, when lecturers typed grades
+                 straight into the database. Lecturers now use the portal.
+
+For each line in Part A, mark:
+  KEEP    the account needs this to do its job
+  REMOVE  the account does not need this
+and write the line that should replace it, if any.
+
+
+PART A: the grants as found
+===========================
+
+MariaDB [(none)]> SHOW GRANTS FOR 'taxila-portal'@'localhost';
++-------------------------------------------------------------------------------------------------------------------------------------------------+
+| Grants for taxila-portal@localhost                                                                                                              |
++-------------------------------------------------------------------------------------------------------------------------------------------------+
+| GRANT ALL PRIVILEGES ON *.* TO `taxila-portal`@`localhost` IDENTIFIED BY PASSWORD '*77E7688D37F26463EEB0F78A2A59234750043AC9' WITH GRANT OPTION |
++-------------------------------------------------------------------------------------------------------------------------------------------------+
+
+MariaDB [(none)]> SHOW GRANTS FOR 'registrar'@'localhost';
++------------------------------------------------------------------------------------------------------------------+
+| Grants for registrar@localhost                                                                                   |
++------------------------------------------------------------------------------------------------------------------+
+| GRANT USAGE ON *.* TO `registrar`@`localhost` IDENTIFIED BY PASSWORD '*9EDB63799B3AA3233F831FFF574846252498D534' |
+| GRANT SELECT ON `taxila-db`.* TO `registrar`@`localhost`                                                         |
++------------------------------------------------------------------------------------------------------------------+
+
+MariaDB [(none)]> SHOW GRANTS FOR 'itadmin'@'localhost';
++-------------------------------------------------------------------------------------------------------------------------------------------+
+| Grants for itadmin@localhost                                                                                                              |
++-------------------------------------------------------------------------------------------------------------------------------------------+
+| GRANT ALL PRIVILEGES ON *.* TO `itadmin`@`localhost` IDENTIFIED BY PASSWORD '*E37A72FC951C65EFC9FE078F3151E686B451677E' WITH GRANT OPTION |
++-------------------------------------------------------------------------------------------------------------------------------------------+
+
+MariaDB [(none)]> SHOW GRANTS FOR 'lecturer01'@'localhost';
++-------------------------------------------------------------------------------------------------------------------+
+| Grants for lecturer01@localhost                                                                                   |
++-------------------------------------------------------------------------------------------------------------------+
+| GRANT USAGE ON *.* TO `lecturer01`@`localhost` IDENTIFIED BY PASSWORD '*3400F341CF0536B5DB85F307259DBBA28FB992F3' |
+| GRANT SELECT, INSERT, UPDATE, DELETE ON `taxila-db`.`grades` TO `lecturer01`@`localhost`                          |
++-------------------------------------------------------------------------------------------------------------------+
+
+MariaDB [(none)]> SELECT @@general_log;
++---------------+
+| @@general_log |
++---------------+
+|             0 |
++---------------+
+
+
+PART B: the same server after the fix
+=====================================
+
+The Head of IT replaced the portal account's rights, removed the old lecturer account,
+and turned on the general query log. Then the Head of IT signed in as the portal account and
+tested it.
+
+MariaDB [(none)]> SHOW GRANTS FOR 'taxila-portal'@'localhost';
++----------------------------------------------------------------------------------------------------------------------+
+| Grants for taxila-portal@localhost                                                                                   |
++----------------------------------------------------------------------------------------------------------------------+
+| GRANT USAGE ON *.* TO `taxila-portal`@`localhost` IDENTIFIED BY PASSWORD '*77E7688D37F26463EEB0F78A2A59234750043AC9' |
+| GRANT SELECT ON `taxila-db`.`students` TO `taxila-portal`@`localhost`                                                |
+| GRANT SELECT, INSERT, UPDATE ON `taxila-db`.`grades` TO `taxila-portal`@`localhost`                                  |
++----------------------------------------------------------------------------------------------------------------------+
+
+MariaDB [(none)]> SHOW GRANTS FOR 'lecturer01'@'localhost';
+ERROR 1141 (42000): There is no such grant defined for user 'lecturer01' on host 'localhost'
+
+MariaDB [(none)]> SELECT @@general_log;
++---------------+
+| @@general_log |
++---------------+
+|             1 |
++---------------+
+
+$ mariadb -u taxila-portal -p taxila-db
+Enter password:
+
+MariaDB [taxila-db]> SELECT student_id, module, mark FROM grades WHERE student_id = 'student01';
++------------+--------+------+
+| student_id | module | mark |
++------------+--------+------+
+| student01  | M1     |   58 |
+| student01  | M2     |   61 |
++------------+--------+------+
+2 rows in set
+
+MariaDB [taxila-db]> UPDATE grades SET mark = 64 WHERE student_id = 'student01' AND module = 'M2';
+Query OK, 1 row affected
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [taxila-db]> DROP TABLE grades;
+ERROR 1142 (42000): DROP command denied to user 'taxila-portal'@'localhost' for table `taxila-db`.`grades`
+
+MariaDB [taxila-db]> SELECT * FROM mysql.user;
+ERROR 1142 (42000): SELECT command denied to user 'taxila-portal'@'localhost' for table `mysql`.`user`

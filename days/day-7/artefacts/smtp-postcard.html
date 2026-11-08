@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The postcard through the relays: how email travels</title>
+<meta name="description" content="Step a prepared email from relay to relay and see that each one adds a received line but none checks the from line.">
+<link rel="stylesheet" href="../../../assets/fonts/fonts.css">
+<style>
+  body{margin:0;font-family:var(--font-body);background:var(--linen);color:var(--ink);line-height:1.6}
+  main{max-width:46rem;margin:0 auto;padding:1.5rem 1rem 2.5rem}
+  h1{font-size:1.6rem;line-height:1.25;margin:0 0 .4rem}
+  .bars{display:flex;gap:6px;margin:.3rem 0 1.1rem}.bars i{display:block;height:6px;border-radius:2px}
+  .bars i:first-child{width:56px;background:var(--burgundy)}.bars i:last-child{width:26px;background:var(--blush)}
+  .lead{margin:0 0 1rem}
+  .step{font-size:.78rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--burgundy);margin:1.6rem 0 .3rem;display:block}
+  h2{font-size:1.15rem;margin:.1rem 0 .4rem}
+  button:focus-visible{outline:3px solid var(--burgundy);outline-offset:2px}
+  button{overflow-wrap:anywhere;font:inherit;font-weight:700;color:var(--snow);background:var(--burgundy);border:0;border-radius:8px;padding:.55rem 1rem;min-height:44px;cursor:pointer;margin:.4rem .3rem .2rem 0}
+  button.quiet{color:var(--burgundy);background:var(--snow);border:2px solid var(--burgundy)}
+  button[aria-pressed=true]{background:var(--ink);color:var(--snow);border-color:var(--ink)}
+  button:disabled{opacity:.45;cursor:default}
+  .box{background:var(--snow);border:1px solid var(--rule);border-left:6px solid var(--burgundy);border-radius:0 12px 12px 0;padding:.8rem 1rem;margin:.5rem 0}
+  .box.fault{border-left:6px dashed var(--signal-vermilion)}
+  .box p{margin:.2rem 0}
+  .code,code{font-family:var(--font-code)}
+  .mono{font-family:var(--font-code);font-size:.92rem;white-space:pre-wrap;word-break:break-word}
+  .note{font-size:.9rem;color:var(--taupe);margin-top:1.4rem}
+  .tag{display:inline-block;font-size:.75rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;border-radius:6px;padding:.05rem .45rem;margin-right:.4rem}
+  .tag.ok{background:var(--burgundy);color:var(--snow)}
+  .tag.bad{background:var(--rose-wash);color:var(--ink);border:2px dashed var(--signal-vermilion)}
+  .tag.none{background:var(--snow);color:var(--ink);border:2px dotted var(--taupe)}
+  .path{list-style:none;padding:0;margin:.4rem 0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.4rem}
+  @media (max-width:560px){.path{grid-template-columns:1fr 1fr}}
+  .path li{overflow-wrap:anywhere;min-width:0;background:var(--snow);border:2px dotted var(--taupe);border-radius:10px;padding:.45rem .6rem;font-size:.92rem}
+  .path li.done{border:2px solid var(--taupe)}
+  .path li.here{border:3px solid var(--burgundy)}
+  .path li strong{display:block}
+  .msg{background:var(--snow);border:1px solid var(--rule);border-radius:10px;padding:.6rem .8rem;margin:.4rem 0}
+  .hl{font-family:var(--font-code);font-size:.9rem;padding:.2rem .4rem;border-radius:4px;margin:.15rem 0;word-break:break-word}
+  .hl.trust{background:var(--rose-tint)}
+  .hl.from{border:2px solid var(--ink)}
+  .hl.quietline{color:var(--taupe)}
+  .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:.5rem;margin:.6rem 0}
+  .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem;margin:.6rem 0}
+  @media (max-width:640px){.grid,.grid3{grid-template-columns:1fr}}
+  .tile{background:var(--snow);border:2px dotted var(--taupe);border-radius:10px;padding:.5rem .7rem}
+  .tile p{margin:.15rem 0}
+  .tile .st{font-size:.75rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--taupe)}
+  .tile.reach{border:3px dashed var(--signal-vermilion);background:var(--rose-wash)}
+  .tile.reach .st{color:var(--ink)}
+  .tile.safe{border:3px solid var(--burgundy)}
+  .tile.safe .st{color:var(--burgundy)}
+  .row{display:flex;flex-wrap:wrap;align-items:center;gap:.2rem .4rem}
+  table{border-collapse:collapse;width:100%;margin:.5rem 0;background:var(--snow)}
+  th,td{border:1px solid var(--rule);padding:.35rem .5rem;text-align:left;vertical-align:top;font-size:.95rem}
+  th{background:var(--linen)}
+  .hlb{display:block;width:100%;text-align:left;font-family:var(--font-code);font-weight:400;font-size:.88rem;word-break:break-word;margin:.25rem 0}
+  .meter{font-size:1.05rem;font-weight:800;margin:.4rem 0}
+  .fb{margin:.35rem 0}
+</style>
+<!-- portal head: written by the portal generator from this demo's title and description; do not edit -->
+<meta name="robots" content="index, follow">
+<link rel="icon" href="../../../assets/img/favicon.svg" type="image/svg+xml">
+<link rel="canonical" href="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-7/artefacts/smtp-postcard.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Principles of Information Security, HND Network Engineering Year 2">
+<meta property="og:title" content="The postcard through the relays: how email travels | Day 7">
+<meta property="og:description" content="Step a prepared email from relay to relay and see that each one adds a received line but none checks the from line.">
+<meta property="og:url" content="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-7/artefacts/smtp-postcard.html">
+<meta property="og:locale" content="en_GB">
+<meta property="og:image" content="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/assets/img/social-card.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="At Taxila College the Head of IT points to the security register on the wall: nineteen numbered items, the first outlined as the place to start. The Registrar holds a sealed transcript and the Data Protection Officer a clipboard. A lecturer turns to welcome two students arriving with a laptop and a phone.">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","author":{"@type":"Person","affiliation":{"@type":"Organization","name":"School of Computing & Engineering, National Institute of Business Management"},"name":"Niranga Dharmaratna"},"description":"Step a prepared email from relay to relay and see that each one adds a received line but none checks the from line.","educationalLevel":"Higher National Diploma, Year 2","inLanguage":"en-GB","interactivityType":"active","isAccessibleForFree":true,"isPartOf":{"@id":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/#course","@type":"Course","name":"Principles of Information Security, HND Network Engineering Year 2","url":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/"},"learningResourceType":"Interactive demonstration","license":"https://opensource.org/licenses/MIT","name":"The postcard through the relays: how email travels | Day 7","url":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-7/artefacts/smtp-postcard.html"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/","name":"Principles of Information Security","position":1},{"@type":"ListItem","item":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-7/","name":"Day 7","position":2},{"@type":"ListItem","item":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-7/artefacts/smtp-postcard.html","name":"The postcard through the relays: how email travels","position":3}]}</script>
+<!-- /portal head -->
+</head>
+<body>
+<main>
+<h1>The postcard through the relays</h1>
+<div class="bars" aria-hidden="true"><i></i><i></i></div>
+<p class="lead">An email is handed from server to server until it reaches the recipient's mail server. Each server is a relay. Step one prepared message through the relays, and watch what each relay adds and what it checks. This page shows mail with none of the three checks from section 2 of the notes.</p>
+
+<span class="step">Step 1</span>
+<h2>Choose the from line the sender writes</h2>
+<p>The sender may type anything here. Choose one of three prepared from lines.</p>
+<div id="froms"></div>
+
+<span class="step">Step 2</span>
+<h2>Step the message through the relays</h2>
+<ol class="path" id="path" aria-label="The path of the message"></ol>
+<button type="button" id="next">Hand it to the next server</button>
+<button type="button" class="quiet" id="again">Start again</button>
+
+<div class="box" id="where" aria-live="polite"><p id="wherep"></p></div>
+
+<span class="step">The message as it is now</span>
+<div class="msg" id="msg" aria-label="The message header, newest line at the top"></div>
+
+<p class="note">Every address and server on this page is a prepared sample; <span class="code">203.0.113.45</span> and <span class="code">198.51.100.23</span> are reserved example addresses. Nothing on this page sends mail or leaves your browser.</p>
+</main>
+<script>
+(function () {
+  "use strict";
+  var $ = function (id) { return document.getElementById(id); };
+  var FROMS = [
+    { line: "\"Registrar, Taxila College\" <registrar@taxila.example>", say: "the Registrar's real address" },
+    { line: "\"Head of IT\" <itadmin@taxila.example>", say: "the Head of IT's real address" },
+    { line: "\"Registrar, Taxila College\" <registrar@sis-taxila.example>", say: "a look-alike address" }
+  ];
+  var HOPS = [
+    { name: "The sender's laptop", addr: "198.51.100.23", adds: null,
+      say: "The sender writes the message, including the from line. Nothing has checked anything yet." },
+    { name: "An outside relay", addr: "203.0.113.45", adds: "Received: from laptop ([198.51.100.23]) by bulk-relay",
+      checked: "that the message is well formed, and who it is for",
+      say: "The relay adds its received line at the top and passes the message on." },
+    { name: "Taxila's mail server", addr: "mail.taxila.example", adds: "Received: from bulk-relay (unknown [203.0.113.45]) by mail.taxila.example",
+      checked: "that the recipient, lecturer01@taxila.example, has a mailbox here",
+      say: "Taxila's server adds its own received line. This line can be trusted: Taxila's server wrote it." },
+    { name: "The lecturer's inbox", addr: "lecturer01@taxila.example", adds: null,
+      say: "The message arrives." }
+  ];
+  var from = 0, at = 0;
+  FROMS.forEach(function (f, i) {
+    var b = document.createElement("button"); b.type = "button"; b.className = "quiet";
+    b.textContent = f.line;
+    b.addEventListener("click", function () { from = i; at = 0; draw(); });
+    $("froms").appendChild(b);
+  });
+  function line(text, cls) {
+    var d = document.createElement("div"); d.className = "hl" + (cls ? " " + cls : ""); d.textContent = text; return d;
+  }
+  function draw() {
+    Array.prototype.forEach.call($("froms").children, function (b, i) { b.setAttribute("aria-pressed", String(i === from)); });
+    var p = $("path"); while (p.firstChild) p.removeChild(p.firstChild);
+    HOPS.forEach(function (h, i) {
+      var li = document.createElement("li");
+      li.className = i < at ? "done" : (i === at ? "here" : "");
+      var t = document.createElement("strong"); t.textContent = h.name;
+      var a = document.createElement("span"); a.className = "code"; a.textContent = " " + h.addr;
+      li.appendChild(t); li.appendChild(a);
+      if (i === at) { var m = document.createElement("span"); m.className = "tag ok"; m.textContent = "here now"; li.insertBefore(m, li.firstChild); }
+      p.appendChild(li);
+    });
+    var h = HOPS[at], txt = h.say;
+    if (h.checked) {
+      txt += " It checked " + h.checked + ". It did not check who wrote the from line.";
+    }
+    if (at === HOPS.length - 1) {
+      txt += " The from line still says " + FROMS[from].line + ", " + FROMS[from].say +
+        ". Nothing on the way proved it. Any of the three from lines would have arrived in exactly the same way.";
+    }
+    $("wherep").textContent = txt;
+    $("where").className = at === HOPS.length - 1 ? "box fault" : "box";
+    var m = $("msg"); while (m.firstChild) m.removeChild(m.firstChild);
+    for (var k = at; k >= 1; k--) { if (HOPS[k].adds) m.appendChild(line(HOPS[k].adds, k === 2 ? "trust" : "")); }
+    if (!m.firstChild) m.appendChild(line("(no received lines yet)", "quietline"));
+    m.appendChild(line("From: " + FROMS[from].line, "from"));
+    m.appendChild(line("To: <lecturer01@taxila.example>"));
+    m.appendChild(line("Subject: Action needed: update your salary bank details today"));
+    $("next").disabled = at >= HOPS.length - 1;
+  }
+  $("next").addEventListener("click", function () { if (at < HOPS.length - 1) { at++; draw(); } });
+  $("again").addEventListener("click", function () { at = 0; draw(); });
+  draw();
+}());
+</script>
+</body>
+</html>

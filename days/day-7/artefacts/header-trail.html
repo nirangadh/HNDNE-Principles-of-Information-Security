@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The header trail: reading a message&#x27;s header</title>
+<meta name="description" content="Put a header&#x27;s received lines in order, oldest first, then mark the lines that show the message is not genuine.">
+<link rel="stylesheet" href="../../../assets/fonts/fonts.css">
+<style>
+  body{margin:0;font-family:var(--font-body);background:var(--linen);color:var(--ink);line-height:1.6}
+  main{max-width:46rem;margin:0 auto;padding:1.5rem 1rem 2.5rem}
+  h1{font-size:1.6rem;line-height:1.25;margin:0 0 .4rem}
+  .bars{display:flex;gap:6px;margin:.3rem 0 1.1rem}.bars i{display:block;height:6px;border-radius:2px}
+  .bars i:first-child{width:56px;background:var(--burgundy)}.bars i:last-child{width:26px;background:var(--blush)}
+  .lead{margin:0 0 1rem}
+  .step{font-size:.78rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--burgundy);margin:1.6rem 0 .3rem;display:block}
+  h2{font-size:1.15rem;margin:.1rem 0 .4rem}
+  button:focus-visible{outline:3px solid var(--burgundy);outline-offset:2px}
+  button{overflow-wrap:anywhere;font:inherit;font-weight:700;color:var(--snow);background:var(--burgundy);border:0;border-radius:8px;padding:.55rem 1rem;min-height:44px;cursor:pointer;margin:.4rem .3rem .2rem 0}
+  button.quiet{color:var(--burgundy);background:var(--snow);border:2px solid var(--burgundy)}
+  button[aria-pressed=true]{background:var(--ink);color:var(--snow);border-color:var(--ink)}
+  button:disabled{opacity:.45;cursor:default}
+  .box{background:var(--snow);border:1px solid var(--rule);border-left:6px solid var(--burgundy);border-radius:0 12px 12px 0;padding:.8rem 1rem;margin:.5rem 0}
+  .box.fault{border-left:6px dashed var(--signal-vermilion)}
+  .box p{margin:.2rem 0}
+  .code,code{font-family:var(--font-code)}
+  .mono{font-family:var(--font-code);font-size:.92rem;white-space:pre-wrap;word-break:break-word}
+  .note{font-size:.9rem;color:var(--taupe);margin-top:1.4rem}
+  .tag{display:inline-block;font-size:.75rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;border-radius:6px;padding:.05rem .45rem;margin-right:.4rem}
+  .tag.ok{background:var(--burgundy);color:var(--snow)}
+  .tag.bad{background:var(--rose-wash);color:var(--ink);border:2px dashed var(--signal-vermilion)}
+  .tag.none{background:var(--snow);color:var(--ink);border:2px dotted var(--taupe)}
+  .path{list-style:none;padding:0;margin:.4rem 0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.4rem}
+  @media (max-width:560px){.path{grid-template-columns:1fr 1fr}}
+  .path li{overflow-wrap:anywhere;min-width:0;background:var(--snow);border:2px dotted var(--taupe);border-radius:10px;padding:.45rem .6rem;font-size:.92rem}
+  .path li.done{border:2px solid var(--taupe)}
+  .path li.here{border:3px solid var(--burgundy)}
+  .path li strong{display:block}
+  .msg{background:var(--snow);border:1px solid var(--rule);border-radius:10px;padding:.6rem .8rem;margin:.4rem 0}
+  .hl{font-family:var(--font-code);font-size:.9rem;padding:.2rem .4rem;border-radius:4px;margin:.15rem 0;word-break:break-word}
+  .hl.trust{background:var(--rose-tint)}
+  .hl.from{border:2px solid var(--ink)}
+  .hl.quietline{color:var(--taupe)}
+  .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:.5rem;margin:.6rem 0}
+  .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem;margin:.6rem 0}
+  @media (max-width:640px){.grid,.grid3{grid-template-columns:1fr}}
+  .tile{background:var(--snow);border:2px dotted var(--taupe);border-radius:10px;padding:.5rem .7rem}
+  .tile p{margin:.15rem 0}
+  .tile .st{font-size:.75rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--taupe)}
+  .tile.reach{border:3px dashed var(--signal-vermilion);background:var(--rose-wash)}
+  .tile.reach .st{color:var(--ink)}
+  .tile.safe{border:3px solid var(--burgundy)}
+  .tile.safe .st{color:var(--burgundy)}
+  .row{display:flex;flex-wrap:wrap;align-items:center;gap:.2rem .4rem}
+  table{border-collapse:collapse;width:100%;margin:.5rem 0;background:var(--snow)}
+  th,td{border:1px solid var(--rule);padding:.35rem .5rem;text-align:left;vertical-align:top;font-size:.95rem}
+  th{background:var(--linen)}
+  .hlb{display:block;width:100%;text-align:left;font-family:var(--font-code);font-weight:400;font-size:.88rem;word-break:break-word;margin:.25rem 0}
+  .meter{font-size:1.05rem;font-weight:800;margin:.4rem 0}
+  .fb{margin:.35rem 0}
+</style>
+<!-- portal head: written by the portal generator from this demo's title and description; do not edit -->
+<meta name="robots" content="index, follow">
+<link rel="icon" href="../../../assets/img/favicon.svg" type="image/svg+xml">
+<link rel="canonical" href="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-7/artefacts/header-trail.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Principles of Information Security, HND Network Engineering Year 2">
+<meta property="og:title" content="The header trail: reading a message&#x27;s header | Day 7">
+<meta property="og:description" content="Put a header&#x27;s received lines in order, oldest first, then mark the lines that show the message is not genuine.">
+<meta property="og:url" content="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-7/artefacts/header-trail.html">
+<meta property="og:locale" content="en_GB">
+<meta property="og:image" content="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/assets/img/social-card.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="At Taxila College the Head of IT points to the security register on the wall: nineteen numbered items, the first outlined as the place to start. The Registrar holds a sealed transcript and the Data Protection Officer a clipboard. A lecturer turns to welcome two students arriving with a laptop and a phone.">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","author":{"@type":"Person","affiliation":{"@type":"Organization","name":"School of Computing & Engineering, National Institute of Business Management"},"name":"Niranga Dharmaratna"},"description":"Put a header's received lines in order, oldest first, then mark the lines that show the message is not genuine.","educationalLevel":"Higher National Diploma, Year 2","inLanguage":"en-GB","interactivityType":"active","isAccessibleForFree":true,"isPartOf":{"@id":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/#course","@type":"Course","name":"Principles of Information Security, HND Network Engineering Year 2","url":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/"},"learningResourceType":"Interactive demonstration","license":"https://opensource.org/licenses/MIT","name":"The header trail: reading a message's header | Day 7","url":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-7/artefacts/header-trail.html"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/","name":"Principles of Information Security","position":1},{"@type":"ListItem","item":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-7/","name":"Day 7","position":2},{"@type":"ListItem","item":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-7/artefacts/header-trail.html","name":"The header trail: reading a message's header","position":3}]}</script>
+<!-- /portal head -->
+</head>
+<body>
+<main>
+<h1>The header trail</h1>
+<div class="bars" aria-hidden="true"><i></i><i></i></div>
+<p class="lead">Every message carries a header. Each server that handled it added a received line at the top, so the oldest line is at the bottom. Choose a prepared header, put its received lines in order, oldest first, then mark the lines that show the message is not genuine.</p>
+
+<span class="step">Step 1</span>
+<h2>Choose a header</h2>
+<div id="pick"></div>
+
+<span class="step">Step 2</span>
+<h2>Put the received lines in order, oldest first</h2>
+<p>Press the received lines in the order the message passed through them. Start with the oldest.</p>
+<div id="order"></div>
+<button type="button" class="quiet" id="reorder">Clear my order</button>
+<div class="box" id="orderout" aria-live="polite"><p id="orderp">No line chosen yet.</p></div>
+
+<span class="step">Step 3</span>
+<h2>Mark the tells</h2>
+<p>Press each line that shows the message is not what it claims. Press again to clear a mark. Then check.</p>
+<div id="lines"></div>
+<button type="button" id="check">Check my marks</button>
+<div class="box" id="markout" aria-live="polite"><p id="markp">Mark the lines, then check.</p></div>
+
+<p class="note">Both headers are prepared samples; the first is the header in the lab's <span class="code">suspect-header.txt</span>, without its time stamps' date part. Never paste a real header into an online checker: a real header names real people and servers. Nothing on this page leaves your browser.</p>
+</main>
+<script>
+(function () {
+  "use strict";
+  var $ = function (id) { return document.getElementById(id); };
+  var HEADERS = [
+    { name: "The quarantined \"Registrar\" message",
+      lines: [
+        { t: "Received: from localhost by mail.taxila.example (quarantine filter); 09:14:09 +0530", rec: 3, why: "Taxila's own server, passing the message to its quarantine filter. Newest, and not a tell." },
+        { t: "Authentication-Results: mail.taxila.example; spf=fail; dkim=none; dmarc=fail (p=QUARANTINE) header.from=taxila.example", tell: true,
+          why: "Written by Taxila's server. The message failed both checks for taxila.example, so the from line is backed by nothing." },
+        { t: "Received: from bulk-relay (unknown [203.0.113.45]) by mail.taxila.example; 09:14:07 +0530", rec: 2, tell: true,
+          why: "The lowest line Taxila's server wrote. It names who really handed the message over: 203.0.113.45, outside Taxila. Taxila's only sender is 192.0.2.25." },
+        { t: "Received: from [198.51.100.23] (helo=laptop) by bulk-relay; 03:44:01 +0000", rec: 1,
+          why: "The oldest line, written by the outside relay itself. It could say anything, so it proves nothing either way." },
+        { t: "From: \"Registrar, Taxila College\" <registrar@taxila.example>",
+          why: "The claim the message makes. On its own it is neither proof nor a tell: the authentication results show it is false." },
+        { t: "Reply-To: <registrar@sis-taxila.example>", tell: true,
+          why: "A reply would go to sis-taxila.example, a look-alike domain, not to the Registrar." },
+        { t: "Subject: Action needed: update your salary bank details today",
+          why: "Urgency is a warning sign for a person, but the header lines above are the evidence." }
+      ] },
+    { name: "A message from the look-alike domain",
+      lines: [
+        { t: "Received: from mx.sis-taxila.example ([203.0.113.80]) by mail.taxila.example; 10:02:41 +0530", rec: 2, tell: true,
+          why: "Taxila's server recorded the true origin: 203.0.113.80, a server for sis-taxila.example, outside Taxila." },
+        { t: "Authentication-Results: mail.taxila.example; spf=pass smtp.mailfrom=sis-taxila.example; dkim=pass header.d=sis-taxila.example; dmarc=pass header.from=sis-taxila.example", tell: true,
+          why: "Every check passed, for sis-taxila.example. A look-alike domain passes its own checks. Read which domain passed." },
+        { t: "Received: from laptop by mx.sis-taxila.example; 04:32:37 +0000", rec: 1,
+          why: "The oldest line, written by the sender's own server. It proves nothing." },
+        { t: "From: \"Registrar, Taxila College\" <registrar@sis-taxila.example>", tell: true,
+          why: "The display name says Registrar, but the address is in sis-taxila.example. The sender types the display name." },
+        { t: "To: <lecturer01@taxila.example>",
+          why: "A real Taxila address, as a targeted message would have. Not a tell in itself." }
+      ] }
+  ];
+  var hi = 0, picked = [], marks = {};
+  HEADERS.forEach(function (h, i) {
+    var b = document.createElement("button"); b.type = "button"; b.className = "quiet"; b.textContent = h.name;
+    b.addEventListener("click", function () { hi = i; picked = []; marks = {}; draw(); });
+    $("pick").appendChild(b);
+  });
+  function received() { return HEADERS[hi].lines.filter(function (l) { return l.rec; }); }
+  function drawOrder() {
+    var o = $("order"); while (o.firstChild) o.removeChild(o.firstChild);
+    // shown in header order (newest first), as a real header shows them
+    received().forEach(function (l) {
+      var b = document.createElement("button"); b.type = "button"; b.className = "quiet hlb";
+      var n = picked.indexOf(l);
+      b.textContent = (n >= 0 ? (n + 1) + ". " : "") + l.t;
+      b.setAttribute("aria-pressed", String(n >= 0));
+      b.addEventListener("click", function () { if (picked.indexOf(l) < 0) { picked.push(l); drawOrder(); judgeOrder(); } });
+      o.appendChild(b);
+    });
+  }
+  function judgeOrder() {
+    var r = received(), p = $("orderp");
+    if (!picked.length) { p.textContent = "No line chosen yet."; $("orderout").className = "box"; return; }
+    var ok = picked.every(function (l, i) { return l.rec === i + 1; });
+    if (!ok) { p.textContent = "Not yet. The oldest line is the lowest one in the header: each server adds its line at the top. Clear your order and start from the bottom."; $("orderout").className = "box fault"; return; }
+    if (picked.length < r.length) { p.textContent = "Right so far. Choose the next one up."; $("orderout").className = "box"; return; }
+    p.textContent = "Right: you read from the bottom up. The true path is " + picked.map(function (l) { return l.t.split(";")[0].replace("Received: ", ""); }).join(", then ") +
+      ". Only the lines Taxila's server wrote can be trusted; the lowest of them names the true origin.";
+    $("orderout").className = "box";
+  }
+  function drawLines() {
+    var d = $("lines"); while (d.firstChild) d.removeChild(d.firstChild);
+    HEADERS[hi].lines.forEach(function (l, i) {
+      var b = document.createElement("button"); b.type = "button"; b.className = "quiet hlb";
+      b.textContent = l.t; b.setAttribute("aria-pressed", String(!!marks[i]));
+      b.addEventListener("click", function () { marks[i] = !marks[i]; b.setAttribute("aria-pressed", String(!!marks[i])); });
+      d.appendChild(b);
+    });
+    $("markp").textContent = "Mark the lines, then check."; $("markout").className = "box";
+    var old = $("markout").querySelectorAll("p.fb"); Array.prototype.forEach.call(old, function (n) { n.parentNode.removeChild(n); });
+  }
+  $("check").addEventListener("click", function () {
+    var L = HEADERS[hi].lines, found = 0, need = 0, wrong = 0;
+    var box = $("markout"); Array.prototype.forEach.call(box.querySelectorAll("p.fb"), function (n) { n.parentNode.removeChild(n); });
+    L.forEach(function (l, i) {
+      if (l.tell) need++;
+      if (l.tell && marks[i]) found++;
+      if (!l.tell && marks[i]) wrong++;
+      if (l.tell || marks[i]) {
+        var p = document.createElement("p"); p.className = "fb";
+        var t = document.createElement("span"); t.className = "tag " + (l.tell ? (marks[i] ? "ok" : "bad") : "bad");
+        t.textContent = l.tell ? (marks[i] ? "found" : "missed") : "not a tell";
+        var s = document.createElement("span"); s.textContent = l.t.slice(0, 48) + (l.t.length > 48 ? "..." : "") + ": " + l.why;
+        p.appendChild(t); p.appendChild(s); box.appendChild(p);
+      }
+    });
+    $("markp").textContent = "You found " + found + " of " + need + " tells" + (wrong ? ", and marked " + wrong + " line" + (wrong > 1 ? "s" : "") + " that " + (wrong > 1 ? "are" : "is") + " not a tell." : ".");
+    box.className = found === need && !wrong ? "box" : "box fault";
+  });
+  $("reorder").addEventListener("click", function () { picked = []; drawOrder(); judgeOrder(); });
+  function draw() {
+    Array.prototype.forEach.call($("pick").children, function (b, i) { b.setAttribute("aria-pressed", String(i === hi)); });
+    drawOrder(); judgeOrder(); drawLines();
+  }
+  draw();
+}());
+</script>
+</body>
+</html>
