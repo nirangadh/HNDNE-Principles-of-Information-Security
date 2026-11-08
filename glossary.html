@@ -251,6 +251,43 @@
 <h3 id="transparent-data-encryption">Transparent data encryption</h3>
 <p>Transparent data encryption (TDE): encryption of a database's files on disk, done by the database itself. The database decrypts as it reads, so applications notice nothing, and a stolen disk or backup stays unreadable.</p>
 <p><em>Taxila example:</em> the SIS (Student Information System) database could use it, so that a stolen backup disk is useless to a thief.</p>
+<h2 id="day-8">Day 8</h2>
+<h3 id="address-poisoning">Address poisoning</h3>
+<p>Sending a false Address Resolution Protocol (ARP) reply that ties another machine's IP (Internet Protocol) address to your own hardware address, so traffic meant for that machine comes to you. It needs a machine on the same segment.</p>
+<p><em>Taxila example:</em> a false reply claiming the staff network's gateway, <code>10.10.0.1</code>, would send a lecturer's traffic for the SIS (Student Information System) through another machine.</p>
+<h3 id="address-resolution-protocol">Address Resolution Protocol</h3>
+<p>The Address Resolution Protocol (ARP): how a machine finds the hardware address that goes with an IP (Internet Protocol) address on its own network. It asks everyone, and believes any reply, with no check on who answers.</p>
+<p><em>Taxila example:</em> a lecturer's laptop asks "Who has <code>10.10.0.1</code>?" before it can send anything to the SIS (Student Information System) through the gateway.</p>
+<h3 id="demilitarised-zone">Demilitarised zone</h3>
+<p>A demilitarised zone (DMZ): a network zone between two firewalls that holds the servers the public must reach. The outer firewall lets the public in to it; the inner firewall keeps it out of the inside networks.</p>
+<p><em>Taxila example:</em> <code>www.taxila.example</code>, <code>mail.taxila.example</code> and <code>pay.taxila.example</code> sit in the DMZ; the SIS (Student Information System) stays behind the inner firewall.</p>
+<h3 id="denial-of-service">Denial of service</h3>
+<p>An attack on availability that floods a service so real users cannot reach it. A distributed denial of service uses many machines at once, so blocking one sender does not stop it.</p>
+<p><em>Taxila example:</em> a flood aimed at the fee payment page on the last evening of payment would keep students from paying.</p>
+<h3 id="intrusion-detection-system">Intrusion detection system</h3>
+<p>An intrusion detection system (IDS): a system that watches a copy of the traffic, out of its path, and raises an alert when it recognises trouble by a known pattern (signature) or unusual behaviour (anomaly). Traffic still flows.</p>
+<p><em>Taxila example:</em> an IDS watching the server room alerts the Head of IT (information technology) when one address is claimed by two hardware addresses.</p>
+<h3 id="intrusion-prevention-system">Intrusion prevention system</h3>
+<p>An intrusion prevention system (IPS): a system that sits in the path of network traffic and blocks what it recognises as trouble, by signature or by anomaly. A false alarm blocks real users too.</p>
+<p><em>Taxila example:</em> an IPS in front of the servers could block a flood from the student Wi-Fi before it reaches the portal.</p>
+<h3 id="man-in-the-middle">Man-in-the-middle</h3>
+<p>A machine in the middle sits between two parties who each believe they talk directly, and relays their traffic. It can read what is not encrypted, and change or drop what it relays.</p>
+<p><em>Taxila example:</em> a machine on the staff network that poisoned a laptop's address cache would sit in the middle of that laptop's traffic to the SIS (Student Information System).</p>
+<h3 id="sniffing">Sniffing</h3>
+<p>Reading the traffic that passes on a shared network segment. It is passive: the watcher only receives, so it leaves no trace. Unencrypted content can be read; encrypted content cannot.</p>
+<p><em>Taxila example:</em> on the student Wi-Fi, anyone can sniff a plain-web login, but not a secure-web one.</p>
+<h3 id="stateful-firewall">Stateful firewall</h3>
+<p>A firewall that remembers every connection opened through it. It lets in packets that belong to a known connection, and drops packets that claim to be replies to connections nobody opened.</p>
+<p><em>Taxila example:</em> the firewall in front of the SIS (Student Information System) drops a flood of fake replies from the student Wi-Fi, because no connection in its table matches them.</p>
+<h3 id="traffic-analysis">Traffic analysis</h3>
+<p>Learning from the outside of network traffic, without its content: who talks to whom, on which port, when, how often and how much. Encryption hides the content, not these patterns.</p>
+<p><em>Taxila example:</em> a watcher on the Wi-Fi sees that a laptop talks to the SIS (Student Information System) every evening, though not what it sends.</p>
+<h3 id="virtual-private-network">Virtual private network</h3>
+<p>A virtual private network (VPN): an encrypted tunnel that carries traffic between two places across the internet, using the Internet Protocol Security suite (IPsec) or Transport Layer Security (TLS). Watchers see only tunnel packets between the two ends.</p>
+<p><em>Taxila example:</em> the Kandy campus reaches the SIS (Student Information System) through a VPN to Colombo instead of over the open internet.</p>
+<h3 id="web-application-firewall">Web application firewall</h3>
+<p>A web application firewall (WAF): an application-layer firewall built for web traffic. It reads each web request and drops one that carries a known attack pattern. It can read encrypted requests only if it ends the encryption itself.</p>
+<p><em>Taxila example:</em> a WAF in front of <code>sis.taxila.example</code> could drop a login request carrying an injection string.</p>
 <nav class="pager" aria-label="Page navigation"><span></span><span><a href="index.html">All days</a></span><span></span></nav>
 </div>
 </main>

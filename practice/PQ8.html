@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en-GB" data-store="hndne-pis:">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="hndne-pis-site">
+<title>Practice question 8: a courier company&#x27;s tracking site | Principles of Information Security</title>
+<meta name="author" content="Niranga Dharmaratna">
+<meta name="description" content="This practice question applies the Day 8 ideas to a courier company. It covers what a shared network shows, address poisoning, the three kinds of...">
+<meta name="robots" content="index, follow">
+<link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
+<link rel="canonical" href="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/practice/PQ8.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Principles of Information Security, HND Network Engineering Year 2">
+<meta property="og:title" content="Practice question 8: a courier company&#x27;s tracking site">
+<meta property="og:description" content="This practice question applies the Day 8 ideas to a courier company. It covers what a shared network shows, address poisoning, the three kinds of...">
+<meta property="og:url" content="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/practice/PQ8.html">
+<meta property="og:locale" content="en_GB">
+<meta property="og:image" content="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/assets/img/social-card.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="At Taxila College the Head of IT points to the security register on the wall: nineteen numbered items, the first outlined as the place to start. The Registrar holds a sealed transcript and the Data Protection Officer a clipboard. A lecturer turns to welcome two students arriving with a laptop and a phone.">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/","name":"Principles of Information Security","position":1},{"@type":"ListItem","item":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/practice/PQ8.html","name":"Practice question 8: a courier company's tracking site","position":2}]}</script>
+<link rel="stylesheet" href="../assets/fonts/fonts.css">
+<link rel="stylesheet" href="../assets/css/site.css">
+<script>document.documentElement.className = "js";</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to the content</a>
+<header class="site-header"><div class="wrap"><div><p class="eyebrow"><a href="../index.html">Principles of Information Security | HND Network Engineering, Year 2</a></p><h1>Practice question 8: a courier company&#x27;s tracking site</h1><div class="bars" aria-hidden="true"><i></i><i></i></div></div></div></header>
+<main id="main">
+<div class="wrap prose">
+<p>This practice question applies the Day 8 ideas to a courier company. It covers what a shared network shows, address poisoning, the three kinds of firewall, a demilitarised zone, and where a private tunnel helps. Attempt it in writing before you read the answer guidance. It carries 20 marks.</p>
+<h2 id="the-setting">The setting</h2>
+<p>A courier company delivers parcels across the Western Province. Customers type a tracking number into the company's public website to see where their parcel is. Forty drivers carry company phones. At each delivery, the driver's phone sends the parcel's status and a photo to the company over mobile data.</p>
+<p>All the company's servers sit in one room at the main depot: the tracking website, the delivery database behind it, and the payroll computer. The depot also has one Wi-Fi network. Office staff use it, and so do visiting drivers from partner companies, who join it to send their own paperwork. The office computers, the servers and the Wi-Fi are all on the same network. One router joins it to the internet, and it lets in only connections to the website's secure web port.</p>
+<p>Last month the company's IT (information technology) contractor reviewed the network. Two findings worried them most:</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Finding</th>
+<th>What the contractor saw</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A capture on the depot Wi-Fi</td>
+<td>the office computers' address caches showed the router's address with two different hardware addresses during one afternoon</td>
+</tr>
+<tr>
+<td>The payroll computer</td>
+<td>its file-sharing port answered from every device on the Wi-Fi</td>
+</tr>
+</tbody>
+</table></div>
+<p>The contractor proposes four changes:</p>
+<ol>
+<li>Split the network into zones: one for the servers, one for office computers, and a separate one for visitors' Wi-Fi.</li>
+<li>Put the tracking website in a demilitarised zone, between two firewalls, with the database behind the inner one.</li>
+<li>Replace the router's simple filter with a stateful firewall, and add an intrusion detection system that watches the servers' zone.</li>
+<li>Give every driver's phone a virtual private network (VPN) back to the depot.</li>
+</ol>
+<p>The operations manager agrees with the first two changes but not the last two. "Our website already uses secure web, so nobody can read our traffic. A VPN for the drivers is a waste of money. And instead of a new firewall and an intrusion system, let us buy one web application firewall: it reads everything, so it will stop everything."</p>
+<h2 id="the-question">The question</h2>
+<p><strong>(a)</strong> Explain what someone sniffing a shared network can learn from unencrypted traffic, and what they can still learn from encrypted traffic. Then explain how address poisoning puts a machine in the middle, and what the first finding suggests. <strong>(6 marks)</strong></p>
+<p><strong>(b)</strong> Apply these ideas to the company. Describe the zones and firewalls you would set up, and say where each server and each kind of device goes. Say which traffic each firewall should allow between the zones. Then say where the intrusion detection system should watch, and what it could notice that a firewall would not. <strong>(7 marks)</strong></p>
+<p><strong>(c)</strong> Evaluate the operations manager's view. Discuss whether secure web on the website makes the drivers' VPN unnecessary, and whether one web application firewall could replace a stateful firewall and an intrusion system. Recommend what the company should do, with one cost of your recommendation. <strong>(7 marks)</strong></p>
+<h2 id="answer-guidance">Answer guidance</h2>
+<p>Read this only after you have written your own answer.</p>
+<p><strong>Part (a).</strong> On a shared segment every machine can receive what the others send. Sniffing is passive: it reads that traffic and leaves no trace. From unencrypted traffic a watcher reads everything: passwords typed into plain web forms, session cookies, the content of messages and files. Encryption hides the content but not the outside of each packet. The watcher still sees which machines talk, on which ports, when, how often and how much: that is traffic analysis. Address poisoning uses the Address Resolution Protocol (ARP), which maps an Internet Protocol (IP) address to a hardware address. A machine asks the whole segment who has an address, and believes any reply. A false reply that claims the router's address makes the victims send their traffic to the wrong machine. That machine can read it and pass it on, so it sits in the middle. Two hardware addresses for the router's address, in one afternoon, is the pattern of poisoning. The company should find which device on the Wi-Fi owned the second hardware address. A strong answer says that poisoning needs a machine on the same segment, which is why the open Wi-Fi matters.</p>
+<p><strong>Part (b).</strong> Visitors' Wi-Fi gets its own zone, which reaches only the internet and nothing inside. Office computers get a staff zone. The servers sit behind an inner firewall: the delivery database and the payroll computer. The tracking website sits in a demilitarised zone between the outer firewall and the inner one. The outer firewall lets the public reach only the website's secure web port. The inner firewall lets the website reach only the database's port, and lets office computers reach only the services they need. Nothing from the visitors' zone reaches the servers, so the payroll file-sharing port is no longer open to them. The drivers' phones reach the depot through the VPN, which ends at the outer firewall, and they reach only the service that takes delivery records. The intrusion detection system watches traffic into the servers' zone, out of the path. It can notice what a firewall lets through but should not happen. Examples are a signature it knows, such as an injection string in a request, or an anomaly, such as a sudden flood or a database read far larger than normal. It can also flag two hardware addresses for one IP address. A firewall only allows or drops; it does not tell anyone what it saw.</p>
+<p><strong>Part (c).</strong> Secure web protects the content of the website's traffic, so the manager is partly right. But the drivers' phones send more than web pages. Each status update and photo travels over mobile data and public networks. A VPN gives every connection from the phone one encrypted tunnel to the depot, so the company's servers need not face the internet for the drivers at all. It also hides which depot services each phone uses. If the phones' delivery app already uses secure connections for everything, a VPN adds less, so the answer depends on checking that first. On the firewall, the manager is wrong. A web application firewall reads web requests, and only those it can decrypt. It does not replace the stateful firewall that drops packets claiming to belong to connections nobody opened, as in a denial of service flood. It does not separate the zones, and it does not watch other protocols, such as the file-sharing port. Nor does it replace monitoring, which notices what is allowed but unusual. These are independent layers, and defence in depth needs them all. A reasonable recommendation: zones and the demilitarised zone first, because they close the payroll door and contain the open Wi-Fi. Then the stateful firewall, then the intrusion detection system. Then the VPN, if the drivers' app does not already encrypt everything. A web application firewall is worth adding later in front of the website, as one more layer, not instead of the others. One cost: the intrusion system's alerts need someone to read them, which takes staff time every week. A strong answer weighs that cost against the payroll data now exposed to every visitor's device.</p>
+<nav class="pager" aria-label="Page navigation"><span></span><span><a href="../index.html">All days</a></span><span></span></nav>
+</div>
+</main>
+<footer class="site-footer"><div class="wrap">
+<p class="author">&copy; Niranga Dharmaratna, School of Computing &amp; Engineering, National Institute of Business Management</p>
+<p>Content licensed <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener">CC BY-NC-SA 4.0</a>; code licensed MIT; Open Sans under the SIL Open Font Licence. See the <a href="../LICENSE-CONTENT.html">licence notes</a>.</p>
+<p>Dates and submissions are announced for your cohort. Taxila College is fictional.</p>
+<p>Anything you mark as done is saved only on this device. Nothing leaves it.</p>
+</div></footer>
+<script src="../assets/js/site.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The glass wall: what a watcher on a shared network can read</title>
+<meta name="description" content="Two real captures of the same form, over plain and secure web: what anyone on the network can read, and what still leaks.">
+<link rel="stylesheet" href="../../../assets/fonts/fonts.css">
+<style>
+  body{margin:0;font-family:var(--font-body);background:var(--linen);color:var(--ink);line-height:1.6}
+  main{max-width:46rem;margin:0 auto;padding:1.5rem 1rem 2.5rem}
+  h1{font-size:1.6rem;line-height:1.25;margin:0 0 .4rem}
+  .bars{display:flex;gap:6px;margin:.3rem 0 1.1rem}.bars i{display:block;height:6px;border-radius:2px}
+  .bars i:first-child{width:56px;background:var(--burgundy)}.bars i:last-child{width:26px;background:var(--blush)}
+  .lead{margin:0 0 1rem}
+  .step{font-size:.78rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--burgundy);margin:1.6rem 0 .3rem;display:block}
+  h2{font-size:1.15rem;margin:.1rem 0 .4rem}
+  button:focus-visible{outline:3px solid var(--burgundy);outline-offset:2px}
+  button{overflow-wrap:anywhere;font:inherit;font-weight:700;color:var(--snow);background:var(--burgundy);border:0;border-radius:8px;padding:.55rem 1rem;min-height:44px;cursor:pointer;margin:.4rem .3rem .2rem 0}
+  button.quiet{color:var(--burgundy);background:var(--snow);border:2px solid var(--burgundy)}
+  button[aria-pressed=true]{background:var(--ink);color:var(--snow);border-color:var(--ink)}
+  button:disabled{opacity:.45;cursor:default}
+  .box{background:var(--snow);border:1px solid var(--rule);border-left:6px solid var(--burgundy);border-radius:0 12px 12px 0;padding:.8rem 1rem;margin:.5rem 0}
+  .box.fault{border-left:6px dashed var(--signal-vermilion)}
+  .box p{margin:.2rem 0}
+  .code,code{font-family:var(--font-code)}
+  .mono{font-family:var(--font-code);font-size:.9rem;white-space:pre-wrap;word-break:break-word;margin:0}
+  .note{font-size:.9rem;color:var(--taupe);margin-top:1.4rem}
+  .tag{display:inline-block;font-size:.75rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;border-radius:6px;padding:.05rem .45rem;margin-right:.4rem}
+  .tag.ok{background:var(--burgundy);color:var(--snow)}
+  .tag.bad{background:var(--rose-wash);color:var(--ink);border:2px dashed var(--signal-vermilion)}
+  .tag.none{background:var(--snow);color:var(--ink);border:2px dotted var(--taupe)}
+  .scroll{overflow-x:auto;max-width:100%}
+  table{border-collapse:collapse;width:100%;margin:.5rem 0;background:var(--snow)}
+  th,td{border:1px solid var(--rule);padding:.3rem .45rem;text-align:left;vertical-align:top;font-size:.9rem}
+  th{background:var(--linen)}
+  td button{margin:0;padding:.25rem .55rem;min-height:44px;font-size:.85rem}
+  .row{display:flex;flex-wrap:wrap;align-items:center;gap:.2rem .4rem}
+  .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.5rem;margin:.6rem 0}
+  .grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.5rem;margin:.6rem 0}
+  @media (max-width:640px){.grid,.grid3{grid-template-columns:1fr}}
+  .tile{background:var(--snow);border:2px dotted var(--taupe);border-radius:10px;padding:.5rem .7rem;min-width:0}
+  .tile p{margin:.15rem 0}
+  .tile .st{font-size:.75rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--taupe)}
+  .tile.reach{border:3px dashed var(--signal-vermilion);background:var(--rose-wash)}
+  .tile.reach .st{color:var(--ink)}
+  .tile.safe{border:3px solid var(--burgundy)}
+  .tile.safe .st{color:var(--burgundy)}
+  .meter{font-size:1.05rem;font-weight:800;margin:.4rem 0}
+  tr.sel td{background:var(--rose-tint)}
+  td.leak{outline:3px solid var(--burgundy);outline-offset:-3px}
+  .found{background:var(--rose-wash);border:2px dashed var(--signal-vermilion);padding:0 .2rem;border-radius:3px}
+</style>
+<!-- portal head: written by the portal generator from this demo's title and description; do not edit -->
+<meta name="robots" content="index, follow">
+<link rel="icon" href="../../../assets/img/favicon.svg" type="image/svg+xml">
+<link rel="canonical" href="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-8/artefacts/sniffer-glass.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Principles of Information Security, HND Network Engineering Year 2">
+<meta property="og:title" content="The glass wall: what a watcher on a shared network can read | Day 8">
+<meta property="og:description" content="Two real captures of the same form, over plain and secure web: what anyone on the network can read, and what still leaks.">
+<meta property="og:url" content="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-8/artefacts/sniffer-glass.html">
+<meta property="og:locale" content="en_GB">
+<meta property="og:image" content="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/assets/img/social-card.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="At Taxila College the Head of IT points to the security register on the wall: nineteen numbered items, the first outlined as the place to start. The Registrar holds a sealed transcript and the Data Protection Officer a clipboard. A lecturer turns to welcome two students arriving with a laptop and a phone.">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","author":{"@type":"Person","affiliation":{"@type":"Organization","name":"School of Computing & Engineering, National Institute of Business Management"},"name":"Niranga Dharmaratna"},"description":"Two real captures of the same form, over plain and secure web: what anyone on the network can read, and what still leaks.","educationalLevel":"Higher National Diploma, Year 2","inLanguage":"en-GB","interactivityType":"active","isAccessibleForFree":true,"isPartOf":{"@id":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/#course","@type":"Course","name":"Principles of Information Security, HND Network Engineering Year 2","url":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/"},"learningResourceType":"Interactive demonstration","license":"https://opensource.org/licenses/MIT","name":"The glass wall: what a watcher on a shared network can read | Day 8","url":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-8/artefacts/sniffer-glass.html"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/","name":"Principles of Information Security","position":1},{"@type":"ListItem","item":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-8/","name":"Day 8","position":2},{"@type":"ListItem","item":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-8/artefacts/sniffer-glass.html","name":"The glass wall: what a watcher on a shared network can read","position":3}]}</script>
+<!-- /portal head -->
+</head>
+<body>
+<main>
+<h1>The glass wall</h1>
+<div class="bars" aria-hidden="true"><i></i><i></i></div>
+<p class="lead">On a shared network, a watcher receives every packet that passes. Here are two real captures from Day 4: the portal's form sent once over plain web and once over secure web, with the example index number <span class="code">COHNDNE999X000</span>. Read each one as the watcher would.</p>
+
+<span class="step">Step 1</span>
+<h2>Choose a capture</h2>
+<div class="row" id="caps"></div>
+<p id="capnote" aria-live="polite"></p>
+
+<span class="step">Step 2</span>
+<h2>Choose a packet to read what it carries</h2>
+<div class="scroll"><table id="tbl"><thead><tr><th>No.</th><th>Time (s)</th><th>From</th><th>To</th><th>Bytes</th><th>What it says</th></tr></thead><tbody id="rows"></tbody></table></div>
+<div class="box"><p><strong id="ptitle">Choose a packet above.</strong></p><p class="mono" id="payload" aria-live="polite"></p></div>
+
+<span class="step">Step 3</span>
+<h2>What still leaks when the content is encrypted</h2>
+<button type="button" class="quiet" id="leak" aria-pressed="false">Mark what a watcher can still read</button>
+<div class="box" id="leaknote" aria-live="polite"></div>
+
+<span class="step">What the defender learns</span>
+<div class="grid">
+  <div class="tile reach"><p class="st">× Plain web</p><p>The index number is readable in one packet. Anyone on the segment could copy it, and nothing would show that they did.</p></div>
+  <div class="tile safe"><p class="st">✓ Secure web</p><p>The index number is in no packet. The watcher still sees who talked to whom, on which port, when, and how much.</p></div>
+</div>
+
+<p class="note">Both captures were made on one machine, so both ends show the address <span class="code">127.0.0.1</span>. On the student Wi-Fi the two addresses would be a student's laptop and the server. Every packet here was recorded from the provided practice application; you cannot send anything from this page, and nothing on it leaves your browser.</p>
+</main>
+<script>
+(function () {
+  "use strict";
+  var $ = function (id) { return document.getElementById(id); };
+  var D = {"plain":[[25,0.112,"127.0.0.1",38236,"127.0.0.1",8080,74,"TCP","38236 to 8080 [SYN]",""],[26,0.112,"127.0.0.1",8080,"127.0.0.1",38236,74,"TCP","8080 to 38236 [SYN, ACK]",""],[27,0.112,"127.0.0.1",38236,"127.0.0.1",8080,66,"TCP","38236 to 8080 [ACK]",""],[28,0.115,"127.0.0.1",38236,"127.0.0.1",8080,885,"HTTP","POST /submit HTTP/1.1  (application/x-www-form-urlencoded)","POST /submit HTTP/1.1\r\nHost: 127.0.0.1:8080\r\nConnection: keep-alive\r\nContent-Length: 20\r\nCache-Control: max-age=0\r\nsec-ch-ua: \"Chromium\";v=\"153\", \"Not_A Brand\";v=\"8\"\r\nsec-ch-ua-mobile: ?0\r\nsec-ch-ua-platform: \"Linux\"\r\nUpgrade-Insecure-Requests: 1\r\nContent-Type: application/x-www-form-urlencoded\r\nUser-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/153.0.0.0 Safari/537.36\r\nOrigin: http://127.0.0.1:8080\r\nAccept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7\r\nSec-Fetch-Site: same-origin\r\nSec-Fetch-Mode: navigate\r\nSec-Fetch-User: ?1\r\nSec-Fetch-Dest: document\r\nReferer: http://127.0.0.1:8080/\r\nAccept-Encoding: gzip, deflate, br, zstd\r\nAccept-Language: en-US,en;q=0.9\r\n\r\nindex=COHNDNE999X000"],[29,0.115,"127.0.0.1",8080,"127.0.0.1",38236,66,"TCP","8080 to 38236 [ACK]",""],[30,0.116,"127.0.0.1",8080,"127.0.0.1",38236,169,"TCP","HTTP/1.0 200 OK  [TCP segment of a reassembled PDU]","HTTP/1.0 200 OK\r\nServer: taxila-portal\r\nContent-Type: text/html; charset=utf-8\r\nContent-Length: 583\r\n\r\n"],[31,0.116,"127.0.0.1",38236,"127.0.0.1",8080,66,"TCP","38236 to 8080 [ACK]",""],[32,0.116,"127.0.0.1",8080,"127.0.0.1",38236,649,"HTTP","HTTP/1.0 200 OK  (text/html)","<!doctype html>\n<html lang=\"en-GB\">\n<head><meta charset=\"utf-8\"><title>Taxila College portal<\/title><\/head>\n<body style=\"font-family:sans-serif;max-width:32rem;margin:2rem auto\">\n<h1>Taxila College portal<\/h1>\n<p>Received: COHNDNE999X000. Now look at what your capture shows.<\/p>\n<form method=\"post\" action=\"/submit\">\n<label for=\"index\">Your index number<\/label>\n<input id=\"index\" name=\"index\" maxlength=\"20\" autocomplete=\"off\">\n<button type=\"submit\">Submit<\/button>\n<\/form>\n<p><small>Practice application for the Day 4 lab. It runs only on this machine.<\/small><\/p>\n<\/body>\n<\/html>\n"],[33,0.116,"127.0.0.1",38236,"127.0.0.1",8080,66,"TCP","38236 to 8080 [ACK]",""],[34,0.116,"127.0.0.1",8080,"127.0.0.1",38236,66,"TCP","8080 to 38236 [FIN, ACK]",""],[35,0.117,"127.0.0.1",38236,"127.0.0.1",8080,66,"TCP","38236 to 8080 [FIN, ACK]",""],[36,0.117,"127.0.0.1",8080,"127.0.0.1",38236,66,"TCP","8080 to 38236 [ACK]",""]],"secure":[[75,0.124,"127.0.0.1",53456,"127.0.0.1",8443,74,"TCP","53456 to 8443 [SYN]",""],[76,0.124,"127.0.0.1",8443,"127.0.0.1",53456,74,"TCP","8443 to 53456 [SYN, ACK]",""],[77,0.124,"127.0.0.1",53456,"127.0.0.1",8443,66,"TCP","53456 to 8443 [ACK]",""],[78,0.124,"127.0.0.1",53456,"127.0.0.1",8443,1775,"TLSv1","Client Hello","16030106a8010006a40303b7bf9d891a93da45b1d6d00865a9a8f3c2502f088e3b6f7ae9161560ab428561204a55a291ab9b78bb72060ee510de0d871938fc67220d511ed547b5631942815b00200a0a130113021303c02bc02fc02cc030cca9"],[79,0.124,"127.0.0.1",8443,"127.0.0.1",53456,66,"TCP","8443 to 53456 [ACK]",""],[80,0.125,"127.0.0.1",8443,"127.0.0.1",53456,2585,"TLSv1.3","Server Hello, Change Cipher Spec, Application Data, Application Data, Application Data, Application Data","16030304ba020004b60303870d8916aca2c2cf339e09f154a23491f6d00a232a95162f0cc1050fad84c3ee204a55a291ab9b78bb72060ee510de0d871938fc67220d511ed547b5631942815b130200046e002b000203040033046411ec04609d"],[81,0.125,"127.0.0.1",53456,"127.0.0.1",8443,66,"TCP","53456 to 8443 [ACK]",""],[82,0.125,"127.0.0.1",53456,"127.0.0.1",8443,146,"TLSv1.3","Change Cipher Spec, Application Data","1403030001011703030045cd2727792dd13b8acb00f95424f131e4a035cfac12cc616a6cc52f2ed59f42d1c99d31830a909446cbebe9091856645e57d653126c640a2fc0c0abff9e439796d6bb4e90d4"],[83,0.125,"127.0.0.1",8443,"127.0.0.1",53456,321,"TLSv1.3","Application Data","17030300fa0485617e92d975ff0eda9e0a0839a7b82e5d15bdd69038723883b750ca8cf6cff8b8c10d7683c97a4baac0829708af44349b1c923081f73da4e8f201eae4949047376a98e6534d28f6030f20cd56a7847a00bb016aaf67d9b02855"],[84,0.126,"127.0.0.1",53456,"127.0.0.1",8443,909,"TLSv1.3","Application Data","1703030346fbca99e5ce62c6c52694c614bf67b9de6bb6c5a8c7966a376c7c3752508a03cbcad7f6161f5bd476c8f85dfccb78987a718b665a8a5236534b2b84bd6fd5ca69408223ae2c8b6b44d7fcf35d17e23fac926f236eccc6b360884a6a"],[85,0.126,"127.0.0.1",8443,"127.0.0.1",53456,321,"TLSv1.3","Application Data","17030300faa09cb6a73c5b179f2d5999c3575fe72db61e1404e167a57670c24b2ecbff1c77358db781c4f0f25c20ed47047a5f2e0f031544d1022041f463a0a0b78ea0f72670d69f672540ba42f79da0e4a312f0b1acfbf45ca5e6eea79889c2"],[86,0.126,"127.0.0.1",8443,"127.0.0.1",53456,796,"TLSv1.3","Application Data, Application Data","1703030078d09d758f7a24b67107f20508b95cbb08012357531cec90b4985f0ca3d34156ecb24d388d84a7dc7eb73b6d7d23b7949ae753c2db2b4d6c6ee206da17979e92f5a78d9665846c993c46d9bd1b6e61bfdf27ee4d7e4ddea44975afd0"],[87,0.126,"127.0.0.1",53456,"127.0.0.1",8443,66,"TCP","53456 to 8443 [ACK]",""],[88,0.126,"127.0.0.1",53456,"127.0.0.1",8443,66,"TCP","53456 to 8443 [FIN, ACK]",""],[89,0.126,"127.0.0.1",8443,"127.0.0.1",53456,66,"TCP","8443 to 53456 [ACK]",""]]};
+  var INDEX = "COHNDNE999X000";
+  var cap = "plain", sel = null, leak = false;
+  var NAMES = { plain: "Plain web, port 8080", secure: "Secure web, port 8443" };
+  function el(tag, text, cls) { var e = document.createElement(tag); if (text !== undefined) e.textContent = text; if (cls) e.className = cls; return e; }
+  ["plain", "secure"].forEach(function (k) {
+    var b = el("button", NAMES[k], "quiet"); b.type = "button";
+    b.addEventListener("click", function () { cap = k; sel = null; draw(); });
+    $("caps").appendChild(b);
+  });
+  $("leak").addEventListener("click", function () { leak = !leak; draw(); });
+  function show(r) {
+    var p = $("payload"); while (p.firstChild) p.removeChild(p.firstChild);
+    $("ptitle").textContent = "Packet " + r[0] + ": " + r[8];
+    var body = r[9];
+    if (!body) { p.appendChild(document.createTextNode("(no content: this packet only manages the connection)")); return; }
+    if (cap === "plain") {
+      var i = body.indexOf(INDEX);
+      if (i < 0) { p.appendChild(document.createTextNode(body)); return; }
+      p.appendChild(document.createTextNode(body.slice(0, i)));
+      p.appendChild(el("span", INDEX, "found"));
+      p.appendChild(document.createTextNode(body.slice(i + INDEX.length)));
+      p.appendChild(el("span", "\n\nReadable: the index number, in plain text."));
+    } else {
+      p.appendChild(document.createTextNode(body.replace(/(..)/g, "$1 ").trim() + " ..."));
+      p.appendChild(el("span", "\n\nOnly scrambled bytes. The index number is not in this packet, or in any other packet of this capture."));
+    }
+  }
+  function draw() {
+    Array.prototype.forEach.call($("caps").children, function (b, i) { b.setAttribute("aria-pressed", String(["plain", "secure"][i] === cap)); });
+    $("capnote").textContent = cap === "plain" ?
+      "Plain web: the request travels as readable text." :
+      "Secure web: after the Client Hello and Server Hello, everything is Application Data, encrypted with the session key.";
+    var tb = $("rows"); while (tb.firstChild) tb.removeChild(tb.firstChild);
+    D[cap].forEach(function (r) {
+      var tr = document.createElement("tr"); if (sel === r[0]) tr.className = "sel";
+      var td = document.createElement("td"); var b = el("button", String(r[0]), "quiet"); b.type = "button";
+      b.setAttribute("aria-label", "Read packet " + r[0]);
+      b.addEventListener("click", function () { sel = r[0]; draw(); show(r); });
+      td.appendChild(b); tr.appendChild(td);
+      [r[1].toFixed(3), r[2] + ":" + r[3], r[4] + ":" + r[5], String(r[6]), r[8]].forEach(function (v, i) {
+        var c = el("td", v); if (leak && i < 4) c.className = "leak"; tr.appendChild(c);
+      });
+      tb.appendChild(tr);
+    });
+    $("leak").setAttribute("aria-pressed", String(leak));
+    var n = $("leaknote"); while (n.firstChild) n.removeChild(n.firstChild);
+    if (!leak) { n.appendChild(el("p", "Turn this on to mark the columns a watcher reads even when the content is encrypted.")); return; }
+    n.appendChild(el("p", "Marked: the time, both addresses with their ports, and the size. Encryption hides none of these."));
+    n.appendChild(el("p", cap === "secure" ?
+      "Look at packet 84: at 909 bytes it is the largest message the laptop sends, at the moment the form is submitted. Without reading a byte of it, a watcher can guess it carries the form. That is traffic analysis." :
+      "Over plain web the watcher has all of this and the content too."));
+  }
+  draw();
+}());
+</script>
+</body>
+</html>

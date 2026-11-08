@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Three kinds of firewall, and an intrusion system</title>
+<meta name="description" content="Send prepared traffic through a packet filter, a stateful firewall and an application-layer firewall, then see an IDS alert and an IPS block.">
+<link rel="stylesheet" href="../../../assets/fonts/fonts.css">
+<style>
+  body{margin:0;font-family:var(--font-body);background:var(--linen);color:var(--ink);line-height:1.6}
+  main{max-width:46rem;margin:0 auto;padding:1.5rem 1rem 2.5rem}
+  h1{font-size:1.6rem;line-height:1.25;margin:0 0 .4rem}
+  .bars{display:flex;gap:6px;margin:.3rem 0 1.1rem}.bars i{display:block;height:6px;border-radius:2px}
+  .bars i:first-child{width:56px;background:var(--burgundy)}.bars i:last-child{width:26px;background:var(--blush)}
+  .lead{margin:0 0 1rem}
+  .step{font-size:.78rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--burgundy);margin:1.6rem 0 .3rem;display:block}
+  h2{font-size:1.15rem;margin:.1rem 0 .4rem}
+  button:focus-visible{outline:3px solid var(--burgundy);outline-offset:2px}
+  button{overflow-wrap:anywhere;font:inherit;font-weight:700;color:var(--snow);background:var(--burgundy);border:0;border-radius:8px;padding:.55rem 1rem;min-height:44px;cursor:pointer;margin:.4rem .3rem .2rem 0}
+  button.quiet{color:var(--burgundy);background:var(--snow);border:2px solid var(--burgundy)}
+  button[aria-pressed=true]{background:var(--ink);color:var(--snow);border-color:var(--ink)}
+  button:disabled{opacity:.45;cursor:default}
+  .box{background:var(--snow);border:1px solid var(--rule);border-left:6px solid var(--burgundy);border-radius:0 12px 12px 0;padding:.8rem 1rem;margin:.5rem 0}
+  .box.fault{border-left:6px dashed var(--signal-vermilion)}
+  .box p{margin:.2rem 0}
+  .code,code{font-family:var(--font-code)}
+  .mono{font-family:var(--font-code);font-size:.9rem;white-space:pre-wrap;word-break:break-word;margin:0}
+  .note{font-size:.9rem;color:var(--taupe);margin-top:1.4rem}
+  .tag{display:inline-block;font-size:.75rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;border-radius:6px;padding:.05rem .45rem;margin-right:.4rem}
+  .tag.ok{background:var(--burgundy);color:var(--snow)}
+  .tag.bad{background:var(--rose-wash);color:var(--ink);border:2px dashed var(--signal-vermilion)}
+  .tag.none{background:var(--snow);color:var(--ink);border:2px dotted var(--taupe)}
+  .scroll{overflow-x:auto;max-width:100%}
+  table{border-collapse:collapse;width:100%;margin:.5rem 0;background:var(--snow)}
+  th,td{border:1px solid var(--rule);padding:.3rem .45rem;text-align:left;vertical-align:top;font-size:.9rem}
+  th{background:var(--linen)}
+  td button{margin:0;padding:.25rem .55rem;min-height:44px;font-size:.85rem}
+  .row{display:flex;flex-wrap:wrap;align-items:center;gap:.2rem .4rem}
+  .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.5rem;margin:.6rem 0}
+  .grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.5rem;margin:.6rem 0}
+  @media (max-width:640px){.grid,.grid3{grid-template-columns:1fr}}
+  .tile{background:var(--snow);border:2px dotted var(--taupe);border-radius:10px;padding:.5rem .7rem;min-width:0}
+  .tile p{margin:.15rem 0}
+  .tile .st{font-size:.75rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--taupe)}
+  .tile.reach{border:3px dashed var(--signal-vermilion);background:var(--rose-wash)}
+  .tile.reach .st{color:var(--ink)}
+  .tile.safe{border:3px solid var(--burgundy)}
+  .tile.safe .st{color:var(--burgundy)}
+  .meter{font-size:1.05rem;font-weight:800;margin:.4rem 0}
+  .pkt{font-family:var(--font-code);font-size:.85rem;white-space:pre-wrap;word-break:break-word;background:var(--linen);border-radius:6px;padding:.3rem .5rem;margin:.3rem 0}
+  .alert{font-family:var(--font-code);font-size:.85rem;padding:.2rem .4rem;border-left:4px solid var(--signal-amber);background:var(--snow);margin:.2rem 0;white-space:pre-wrap;word-break:break-word}
+</style>
+<!-- portal head: written by the portal generator from this demo's title and description; do not edit -->
+<meta name="robots" content="index, follow">
+<link rel="icon" href="../../../assets/img/favicon.svg" type="image/svg+xml">
+<link rel="canonical" href="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-8/artefacts/firewall-generations.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Principles of Information Security, HND Network Engineering Year 2">
+<meta property="og:title" content="Three kinds of firewall, and an intrusion system | Day 8">
+<meta property="og:description" content="Send prepared traffic through a packet filter, a stateful firewall and an application-layer firewall, then see an IDS alert and an IPS block.">
+<meta property="og:url" content="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-8/artefacts/firewall-generations.html">
+<meta property="og:locale" content="en_GB">
+<meta property="og:image" content="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/assets/img/social-card.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="At Taxila College the Head of IT points to the security register on the wall: nineteen numbered items, the first outlined as the place to start. The Registrar holds a sealed transcript and the Data Protection Officer a clipboard. A lecturer turns to welcome two students arriving with a laptop and a phone.">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","author":{"@type":"Person","affiliation":{"@type":"Organization","name":"School of Computing & Engineering, National Institute of Business Management"},"name":"Niranga Dharmaratna"},"description":"Send prepared traffic through a packet filter, a stateful firewall and an application-layer firewall, then see an IDS alert and an IPS block.","educationalLevel":"Higher National Diploma, Year 2","inLanguage":"en-GB","interactivityType":"active","isAccessibleForFree":true,"isPartOf":{"@id":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/#course","@type":"Course","name":"Principles of Information Security, HND Network Engineering Year 2","url":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/"},"learningResourceType":"Interactive demonstration","license":"https://opensource.org/licenses/MIT","name":"Three kinds of firewall, and an intrusion system | Day 8","url":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-8/artefacts/firewall-generations.html"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/","name":"Principles of Information Security","position":1},{"@type":"ListItem","item":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-8/","name":"Day 8","position":2},{"@type":"ListItem","item":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-8/artefacts/firewall-generations.html","name":"Three kinds of firewall, and an intrusion system","position":3}]}</script>
+<!-- /portal head -->
+</head>
+<body>
+<main>
+<h1>Three kinds of firewall</h1>
+<div class="bars" aria-hidden="true"><i></i><i></i></div>
+<p class="lead">A firewall stands between the student Wi-Fi and Taxila's servers. Choose which kind it is, then send four prepared items of traffic through it, and see which ones it lets through and why.</p>
+
+<span class="step">Step 1</span>
+<h2>Choose the kind of firewall</h2>
+<div class="row" id="kinds"></div>
+<div class="box" id="kindnote" aria-live="polite"></div>
+
+<span class="step">Step 2</span>
+<h2>Four prepared items of traffic</h2>
+<p class="meter" id="meter" aria-live="polite"></p>
+<div class="grid" id="items"></div>
+<div id="tlsrow" class="row">
+  <button type="button" class="quiet" id="terminate" aria-pressed="false">The firewall holds the portal's certificate and key, so it ends the encryption</button>
+</div>
+
+<span class="step">Step 3</span>
+<h2>An intrusion system watches the same traffic</h2>
+<p>A firewall decides. An intrusion system notices, and says so. Choose where it sits and how it recognises trouble.</p>
+<div class="row" id="places"></div>
+<div class="row" id="methods"></div>
+<div class="box" id="ids" aria-live="polite"></div>
+
+<p class="note">Every item on this page is a prepared sample, shown as text. Nothing is sent anywhere, and you cannot type anything in. The injection string is the kind of input the portal's parameterised query already treats as data; a firewall is one more layer, not the fix.</p>
+</main>
+<script>
+(function () {
+  "use strict";
+  var $ = function (id) { return document.getElementById(id); };
+  var KINDS = [
+    { name: "Packet filter", note: "Looks at each packet alone: addresses, ports, protocol. Its rules: allow new connections to port 443; allow any packet marked as a reply. It keeps no memory of connections." },
+    { name: "Stateful firewall", note: "Everything the packet filter checks, plus a table of the connections it has seen opened. A packet that claims to be a reply must belong to a connection in the table." },
+    { name: "Application-layer firewall", note: "Everything the stateful firewall checks, plus the content. A web application firewall is this kind: it reads each web request and drops one that carries a known attack pattern." }
+  ];
+  var ITEMS = [
+    { title: "A student opens the portal", pkt: "10.20.14.7:50112 to 10.30.0.10:443  start of a connection\nthen the request, inside the connection",
+      res: function () { return [true, "A new connection to the portal's port, then traffic that belongs to it. Every kind lets it through, as it should."]; } },
+    { title: "A flood of packets that claim to be replies", pkt: "thousands a second, from many Wi-Fi addresses to 10.30.0.10\neach one marked as a reply, to a connection nobody opened",
+      res: function (k) { return k === 0 ? [true, "The filter allows any packet marked as a reply, and it cannot remember which connections exist, so the whole flood passes. This is one form of denial of service: the server is kept busy and real students cannot get through."]
+        : [false, "No connection in the table matches, so every packet is dropped. The stateful firewall's memory is what stops it."]; } },
+    { title: "A login over plain web, with an injection string", pkt: "POST /login  over plain web, port 80\nusername=' OR '1'='1' --&password=x",
+      res: function (k) { return k < 2 ? [true, "The request goes to an allowed port inside a real connection. The first two kinds never read the content, so they cannot see the injection string."]
+        : [false, "The application-layer firewall reads the request, matches the known injection pattern, and drops it."]; } },
+    { title: "The same login, inside secure web", pkt: "10.20.14.7:50118 to 10.30.0.10:443  Application Data\n(encrypted: the firewall sees only scrambled bytes)",
+      res: function (k, term) { if (k < 2) return [true, "An allowed port, a real connection, and content these kinds never read."];
+        return term ? [false, "This firewall ends the encryption with the portal's own key, reads the request, finds the injection string, and drops it. Then it encrypts again towards the server."]
+          : [true, "The content is encrypted, so even a content-reading firewall sees only scrambled bytes and lets it through. It could read it only by ending the encryption itself."]; } }
+  ];
+  var kind = 0, term = false, place = 0, method = 0;
+  function el(tag, text, cls) { var e = document.createElement(tag); if (text !== undefined) e.textContent = text; if (cls) e.className = cls; return e; }
+  function buttons(box, list, get, set) {
+    list.forEach(function (t, i) {
+      var b = el("button", t, "quiet"); b.type = "button";
+      b.addEventListener("click", function () { set(i); draw(); });
+      $(box).appendChild(b);
+    });
+  }
+  buttons("kinds", KINDS.map(function (k) { return k.name; }), null, function (i) { kind = i; });
+  buttons("places", ["Out of the path: detection (IDS)", "In the path: prevention (IPS)"], null, function (i) { place = i; });
+  buttons("methods", ["Recognise by signature", "Recognise by anomaly"], null, function (i) { method = i; });
+  $("terminate").addEventListener("click", function () { term = !term; draw(); });
+  function press(box, idx) { Array.prototype.forEach.call($(box).children, function (b, i) { b.setAttribute("aria-pressed", String(i === idx)); }); }
+  function draw() {
+    press("kinds", kind); press("places", place); press("methods", method);
+    $("kindnote").textContent = KINDS[kind].note;
+    $("terminate").setAttribute("aria-pressed", String(term));
+    $("tlsrow").hidden = kind !== 2;
+    var g = $("items"); while (g.firstChild) g.removeChild(g.firstChild);
+    var passed = 0;
+    ITEMS.forEach(function (it, i) {
+      var r = it.res(kind, term), ok = i === 0;
+      var harmful = !ok && r[0];
+      var t = el("div", undefined, "tile " + (harmful ? "reach" : "safe"));
+      t.appendChild(el("p", r[0] ? (harmful ? "× Let through" : "✓ Let through") : "✓ Dropped", "st"));
+      t.appendChild(el("p", it.title));
+      t.appendChild(el("p", it.pkt, "pkt"));
+      t.appendChild(el("p", r[1]));
+      g.appendChild(t);
+      if (harmful) passed++;
+    });
+    $("meter").textContent = KINDS[kind].name + ": the student's visit gets through, and " + passed + " of 3 unwanted items get through too.";
+    var d = $("ids"); while (d.firstChild) d.removeChild(d.firstChild);
+    var seen = method === 0 ?
+      [["the plain-web login", "signature match: a known injection pattern in a web request"]] :
+      [["the flood", "anomaly: about 20 times the usual packet rate from the Wi-Fi, all marked as replies"]];
+    seen.forEach(function (s) { d.appendChild(el("p", "ALERT  10.30.0.10  " + s[1], "alert")); });
+    d.appendChild(el("p", method === 0 ?
+      "A signature catches what it has a pattern for. The flood carries no known pattern, and the encrypted login shows none, so neither raises a signature alert." :
+      "Anomaly detection learned what normal looks like, so it notices the flood. The single login looks like any other request, so it raises no anomaly alert. Each method catches what the other misses."));
+    d.appendChild(el("p", place === 0 ?
+      "Out of the path, the IDS watches a copy of the traffic: it raises the alert, and the traffic still reaches the server. Someone must read the alert and act." :
+      "In the path, the IPS blocks what it recognises before it reaches the server. A false alarm blocks real users too, so its rules need care."));
+  }
+  draw();
+}());
+</script>
+</body>
+</html>
