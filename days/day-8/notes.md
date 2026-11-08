@@ -108,7 +108,7 @@ A defender sees this in a capture: one IP address answered for by two different 
 
 Try the demo first: [Three kinds of firewall](artefacts/firewall-generations.html). Send prepared traffic through each kind of firewall, then watch what an intrusion system does with the same traffic.
 
-> **Recall.** Injection is typed input read as a command, and a parameterised query is its fix.
+> **Recall.** [Injection](../../glossary.md#injection) is typed input read as a command, and a [parameterised query](../../glossary.md#parameterised-query) is its fix.
 
 A firewall sits between networks, or in front of one machine, and decides for each packet: let it through, or drop it. Firewalls grew in three steps.
 
