@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Trusting the first answer: a false address reply, from a capture</title>
+<meta name="description" content="Step through a prepared capture: one true address reply, then a false one, and watch a laptop's address cache change.">
+<link rel="stylesheet" href="../../../assets/fonts/fonts.css">
+<style>
+  body{margin:0;font-family:var(--font-body);background:var(--linen);color:var(--ink);line-height:1.6}
+  main{max-width:46rem;margin:0 auto;padding:1.5rem 1rem 2.5rem}
+  h1{font-size:1.6rem;line-height:1.25;margin:0 0 .4rem}
+  .bars{display:flex;gap:6px;margin:.3rem 0 1.1rem}.bars i{display:block;height:6px;border-radius:2px}
+  .bars i:first-child{width:56px;background:var(--burgundy)}.bars i:last-child{width:26px;background:var(--blush)}
+  .lead{margin:0 0 1rem}
+  .step{font-size:.78rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--burgundy);margin:1.6rem 0 .3rem;display:block}
+  h2{font-size:1.15rem;margin:.1rem 0 .4rem}
+  button:focus-visible{outline:3px solid var(--burgundy);outline-offset:2px}
+  button{overflow-wrap:anywhere;font:inherit;font-weight:700;color:var(--snow);background:var(--burgundy);border:0;border-radius:8px;padding:.55rem 1rem;min-height:44px;cursor:pointer;margin:.4rem .3rem .2rem 0}
+  button.quiet{color:var(--burgundy);background:var(--snow);border:2px solid var(--burgundy)}
+  button[aria-pressed=true]{background:var(--ink);color:var(--snow);border-color:var(--ink)}
+  button:disabled{opacity:.45;cursor:default}
+  .box{background:var(--snow);border:1px solid var(--rule);border-left:6px solid var(--burgundy);border-radius:0 12px 12px 0;padding:.8rem 1rem;margin:.5rem 0}
+  .box.fault{border-left:6px dashed var(--signal-vermilion)}
+  .box p{margin:.2rem 0}
+  .code,code{font-family:var(--font-code)}
+  .mono{font-family:var(--font-code);font-size:.9rem;white-space:pre-wrap;word-break:break-word;margin:0}
+  .note{font-size:.9rem;color:var(--taupe);margin-top:1.4rem}
+  .tag{display:inline-block;font-size:.75rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;border-radius:6px;padding:.05rem .45rem;margin-right:.4rem}
+  .tag.ok{background:var(--burgundy);color:var(--snow)}
+  .tag.bad{background:var(--rose-wash);color:var(--ink);border:2px dashed var(--signal-vermilion)}
+  .tag.none{background:var(--snow);color:var(--ink);border:2px dotted var(--taupe)}
+  .scroll{overflow-x:auto;max-width:100%}
+  table{border-collapse:collapse;width:100%;margin:.5rem 0;background:var(--snow)}
+  th,td{border:1px solid var(--rule);padding:.3rem .45rem;text-align:left;vertical-align:top;font-size:.9rem}
+  th{background:var(--linen)}
+  td button{margin:0;padding:.25rem .55rem;min-height:44px;font-size:.85rem}
+  .row{display:flex;flex-wrap:wrap;align-items:center;gap:.2rem .4rem}
+  .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.5rem;margin:.6rem 0}
+  .grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.5rem;margin:.6rem 0}
+  @media (max-width:640px){.grid,.grid3{grid-template-columns:1fr}}
+  .tile{background:var(--snow);border:2px dotted var(--taupe);border-radius:10px;padding:.5rem .7rem;min-width:0}
+  .tile p{margin:.15rem 0}
+  .tile .st{font-size:.75rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--taupe)}
+  .tile.reach{border:3px dashed var(--signal-vermilion);background:var(--rose-wash)}
+  .tile.reach .st{color:var(--ink)}
+  .tile.safe{border:3px solid var(--burgundy)}
+  .tile.safe .st{color:var(--burgundy)}
+  .meter{font-size:1.05rem;font-weight:800;margin:.4rem 0}
+  tr.now td{background:var(--rose-tint)}
+  tr.false td:first-child{border-left:6px dashed var(--signal-vermilion)}
+  .cache{font-family:var(--font-code);font-size:.95rem}
+  .cache.bad{background:var(--rose-wash);border:2px dashed var(--signal-vermilion);border-radius:6px;padding:.2rem .4rem}
+</style>
+<!-- portal head: written by the portal generator from this demo's title and description; do not edit -->
+<meta name="robots" content="index, follow">
+<link rel="icon" href="../../../assets/img/favicon.svg" type="image/svg+xml">
+<link rel="canonical" href="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-8/artefacts/arp-trust.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Principles of Information Security, HND Network Engineering Year 2">
+<meta property="og:title" content="Trusting the first answer: a false address reply, from a capture | Day 8">
+<meta property="og:description" content="Step through a prepared capture: one true address reply, then a false one, and watch a laptop&#x27;s address cache change.">
+<meta property="og:url" content="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-8/artefacts/arp-trust.html">
+<meta property="og:locale" content="en_GB">
+<meta property="og:image" content="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/assets/img/social-card.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="At Taxila College the Head of IT points to the security register on the wall: nineteen numbered items, the first outlined as the place to start. The Registrar holds a sealed transcript and the Data Protection Officer a clipboard. A lecturer turns to welcome two students arriving with a laptop and a phone.">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","author":{"@type":"Person","affiliation":{"@type":"Organization","name":"School of Computing & Engineering, National Institute of Business Management"},"name":"Niranga Dharmaratna"},"description":"Step through a prepared capture: one true address reply, then a false one, and watch a laptop's address cache change.","educationalLevel":"Higher National Diploma, Year 2","inLanguage":"en-GB","interactivityType":"active","isAccessibleForFree":true,"isPartOf":{"@id":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/#course","@type":"Course","name":"Principles of Information Security, HND Network Engineering Year 2","url":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/"},"learningResourceType":"Interactive demonstration","license":"https://opensource.org/licenses/MIT","name":"Trusting the first answer: a false address reply, from a capture | Day 8","url":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-8/artefacts/arp-trust.html"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/","name":"Principles of Information Security","position":1},{"@type":"ListItem","item":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-8/","name":"Day 8","position":2},{"@type":"ListItem","item":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-8/artefacts/arp-trust.html","name":"Trusting the first answer: a false address reply, from a capture","position":3}]}</script>
+<!-- /portal head -->
+</head>
+<body>
+<main>
+<h1>Trusting the first answer</h1>
+<div class="bars" aria-hidden="true"><i></i><i></i></div>
+<p class="lead">A lecturer's laptop on Taxila's staff network, <span class="code">10.10.0.21</span>, wants to reach the Student Information System (SIS) through the gateway, <span class="code">10.10.0.1</span>. It needs the gateway's hardware address, so it uses the Address Resolution Protocol (ARP). Step through the capture one frame at a time, and watch the laptop's address cache.</p>
+
+<span class="step">The capture</span>
+<h2 id="pos" aria-live="polite"></h2>
+<div class="row">
+  <button type="button" class="quiet" id="prev">Previous frame</button>
+  <button type="button" id="next">Next frame</button>
+  <button type="button" class="quiet" id="restart">Start again</button>
+</div>
+<div class="scroll"><table><thead><tr><th>No.</th><th>Time (s)</th><th>Hardware from</th><th>Hardware to</th><th>What it says</th></tr></thead><tbody id="rows"></tbody></table></div>
+
+<span class="step">What this frame means</span>
+<div class="box" id="explain" aria-live="polite"></div>
+
+<span class="step">The laptop's address cache</span>
+<div class="box"><p><span class="code">ip neigh</span> on the laptop would now show:</p><p class="cache" id="cache"></p></div>
+
+<span class="step">What the defender sees</span>
+<div class="box" id="defender" aria-live="polite"></div>
+
+<p class="note">This capture was prepared for teaching. The false replies were written into the file; they were never sent on any network, and address poisoning is never performed in this module. Hardware addresses starting <span class="code">02:</span> are locally made up, so none belongs to a real maker. The same frames are in the lab's <span class="code">address-traffic.pcapng</span>.</p>
+</main>
+<script>
+(function () {
+  "use strict";
+  var $ = function (id) { return document.getElementById(id); };
+  var GW = "02:00:0a:0a:00:01", OTHER = "02:00:0a:0a:00:42", LAP = "02:00:0a:0a:00:15", BC = "ff:ff:ff:ff:ff:ff";
+  var F = [
+    [1, "0.000", LAP, BC, "Who has 10.10.0.1? Tell 10.10.0.21", null,
+      "The laptop asks the whole segment: who has 10.10.0.1? The request goes to the broadcast address, so every machine on the staff network receives it."],
+    [2, "0.000", GW, LAP, "10.10.0.1 is at " + GW, GW,
+      "The gateway answers with its own hardware address. The laptop stores the answer in its cache. Nothing checks that the answer came from the gateway: the laptop simply believes it."],
+    [3, "0.001", LAP, GW, "Request to the SIS, 10.10.0.21:51514 to 10.30.0.10:443, start of a connection", null,
+      "The laptop starts a secure web connection to the SIS. The frame goes to the gateway's hardware address, from the cache."],
+    [4, "0.003", GW, LAP, "Reply from the SIS, 443 to 51514", null, "The SIS answers through the gateway."],
+    [5, "0.003", LAP, GW, "Acknowledgement, 51514 to 443", null, "The connection is open. Everything is as it should be."],
+    [6, "12.500", OTHER, LAP, "10.10.0.1 is at " + OTHER, OTHER,
+      "Twelve seconds later another machine on the segment sends a reply that nobody asked for: 10.10.0.1 is at its own hardware address. The laptop's cache takes it, because ARP has no check on who answers."],
+    [7, "14.200", LAP, OTHER, "Request to the SIS, 10.10.0.21:51516 to 10.30.0.10:443, start of a connection", null,
+      "The laptop's next request for the SIS goes to the other machine, because that is what the cache now says. The other machine is now in the middle."],
+    [8, "14.201", OTHER, GW, "The same request, passed on, 51516 to 443", null,
+      "The other machine passes the request on to the real gateway, so the connection still works. Neither end can tell. Wireshark marks this frame as a retransmission, because it has seen the same request twice."],
+    [9, "14.500", OTHER, LAP, "10.10.0.1 is at " + OTHER, OTHER,
+      "The false reply is sent again, so the cache stays poisoned. Repeated unasked replies are part of the pattern."]
+  ];
+  var at = 0;
+  function el(tag, text, cls) { var e = document.createElement(tag); if (text !== undefined) e.textContent = text; if (cls) e.className = cls; return e; }
+  $("next").addEventListener("click", function () { if (at < F.length - 1) at++; draw(); });
+  $("prev").addEventListener("click", function () { if (at > 0) at--; draw(); });
+  $("restart").addEventListener("click", function () { at = 0; draw(); });
+  function draw() {
+    var f = F[at];
+    $("pos").textContent = "Frame " + f[0] + " of " + F.length;
+    $("prev").disabled = at === 0; $("next").disabled = at === F.length - 1;
+    var tb = $("rows"); while (tb.firstChild) tb.removeChild(tb.firstChild);
+    for (var i = 0; i <= at; i++) {
+      var r = F[i], tr = document.createElement("tr");
+      var cls = []; if (i === at) cls.push("now"); if (r[2] === OTHER && r[5]) cls.push("false");
+      tr.className = cls.join(" ");
+      [String(r[0]), r[1], r[2], r[3], r[4]].forEach(function (v) { tr.appendChild(el("td", v)); });
+      tb.appendChild(tr);
+    }
+    $("explain").textContent = "";
+    $("explain").appendChild(el("p", f[6]));
+    var mac = null;
+    for (var j = 0; j <= at; j++) if (F[j][5]) mac = F[j][5];
+    var c = $("cache");
+    if (!mac) { c.textContent = "10.10.0.1 (no entry yet)"; c.className = "cache"; }
+    else { c.textContent = "10.10.0.1 dev eth0 lladdr " + mac + (mac === OTHER ? "    (poisoned: not the gateway)" : "    (the gateway)"); c.className = "cache" + (mac === OTHER ? " bad" : ""); }
+    var d = $("defender"); while (d.firstChild) d.removeChild(d.firstChild);
+    if (at < 5) d.appendChild(el("p", "Nothing unusual yet: one question, one answer, one connection."));
+    else {
+      d.appendChild(el("p", "One Internet Protocol (IP) address, two hardware addresses. Wireshark shows this on frame 6:"));
+      d.appendChild(el("p", "[Duplicate IP address detected for 10.10.0.1 (" + OTHER + ") - also in use by " + GW + " (frame 2)]", "mono"));
+      d.appendChild(el("p", "Under Analyze, then Expert Information, it is listed as a warning: Duplicate IP address configured (10.10.0.1). An intrusion detection system can raise the same alert on a live network."));
+      if (at >= 7) d.appendChild(el("p", "If the connection to the SIS uses secure web, the machine in the middle cannot read it or pass as the SIS: the certificate check would fail. Over plain web it could read everything."));
+    }
+  }
+  draw();
+}());
+</script>
+</body>
+</html>

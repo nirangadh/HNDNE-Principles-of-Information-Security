@@ -1,0 +1,33 @@
+Taxila College: firewall rules for sis.taxila.example, Lab 8 floor tier
+Rules are read from the top. The first rule that matches a packet decides what happens to it.
+
+Part A: the first draft, in the order it was typed
+ 1  -A INPUT -i lo -j ACCEPT
+ 2  -A INPUT -j DROP
+ 3  -A INPUT -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
+ 4  -A INPUT -p tcp --dport 3306 -j DROP
+ 5  -A INPUT -p tcp --dport 443 -j ACCEPT
+ 6  -A INPUT -p tcp --dport 22 -s 10.10.0.0/24 -j ACCEPT
+
+Questions
+ Q1  A student on the Wi-Fi opens the portal on port 443. Which rule matches first, and what happens?
+ Q2  The server asks for a software update. Does the reply come back? Which rule decides?
+ Q3  Which rules in Part A can never match anything? Why?
+ Q4  Write the rules in an order that does the job, then compare with Part B.
+
+Part B: the corrected rules
+ 1  -A INPUT -i lo -j ACCEPT
+ 2  -A INPUT -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
+ 3  -A INPUT -p tcp --dport 3306 -j DROP
+ 4  -A INPUT -p tcp --dport 443 -j ACCEPT
+ 5  -A INPUT -p tcp --dport 80 -j ACCEPT
+ 6  -A INPUT -p tcp --dport 22 -s 10.10.0.0/24 -j ACCEPT
+ 7  -A INPUT -j DROP
+
+What Part B does
+ 1  The server may talk to itself, so the portal still reaches the database on this machine.
+ 2  Replies to connections the server started come back.
+ 3  The database port is dropped for every other machine.
+ 4, 5  Anyone may open the portal: secure web, and plain web, which only sends visitors on to secure web.
+ 6  Remote login is allowed only from the staff network.
+ 7  Everything else arriving is dropped, including the test copy on 8080.

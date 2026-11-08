@@ -1,0 +1,16 @@
+Taxila College: the outside view of sis.taxila.example (10.30.0.10)
+Checked from the student Wi-Fi network (10.20.0.0/16) by the Head of IT, with written permission, for Lab 8.
+Each line says what came back when a connection was offered to that port.
+
+PORT      STATE     WHAT ANSWERED
+22/tcp    open      remote login (SSH)
+25/tcp    closed    nothing listens here; the server said so
+80/tcp    open      plain web (HTTP)
+443/tcp   open      secure web (HTTPS)
+3306/tcp  open      database (MariaDB)
+8080/tcp  filtered  no answer at all; something in the path dropped the request
+
+open      a service answered
+closed    the server answered that nothing listens on that port
+filtered  no answer came back, because something in the path, usually a firewall, dropped the request
+Ports that were not offered a connection are not listed.
