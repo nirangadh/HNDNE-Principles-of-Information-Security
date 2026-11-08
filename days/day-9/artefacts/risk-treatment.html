@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Four ways to treat a risk</title>
+<meta name="description" content="Choose mitigate, avoid, transfer or accept for four of Taxila's risks, and see the residual risk that each treatment leaves behind.">
+<link rel="stylesheet" href="../../../assets/fonts/fonts.css">
+<style>
+  body{margin:0;font-family:var(--font-body);background:var(--linen);color:var(--ink);line-height:1.6}
+  main{max-width:46rem;margin:0 auto;padding:1.5rem 1rem 2.5rem}
+  h1{font-size:1.6rem;line-height:1.25;margin:0 0 .4rem}
+  .bars{display:flex;gap:6px;margin:.3rem 0 1.1rem}.bars i{display:block;height:6px;border-radius:2px}
+  .bars i:first-child{width:56px;background:var(--burgundy)}.bars i:last-child{width:26px;background:var(--blush)}
+  .lead{margin:0 0 1rem}
+  .step{font-size:.78rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--burgundy);margin:1.6rem 0 .3rem;display:block}
+  h2{font-size:1.15rem;margin:.1rem 0 .4rem}
+  h3{font-size:1rem;margin:.2rem 0 .3rem}
+  button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid var(--burgundy);outline-offset:2px}
+  button{overflow-wrap:anywhere;font:inherit;font-weight:700;color:var(--snow);background:var(--burgundy);border:0;border-radius:8px;padding:.55rem 1rem;min-height:44px;cursor:pointer;margin:.4rem .3rem .2rem 0}
+  button.quiet{color:var(--burgundy);background:var(--snow);border:2px solid var(--burgundy)}
+  button[aria-pressed=true]{background:var(--ink);color:var(--snow);border-color:var(--ink)}
+  button:disabled{opacity:.45;cursor:default}
+  .box{background:var(--snow);border:1px solid var(--rule);border-left:6px solid var(--burgundy);border-radius:0 12px 12px 0;padding:.8rem 1rem;margin:.5rem 0}
+  .box.fault{border-left:6px dashed var(--signal-vermilion);background:var(--rose-wash)}
+  .box.warn{border-left:6px dotted var(--signal-amber)}
+  .box p{margin:.2rem 0}
+  code{font-family:var(--font-code)}
+  .note{font-size:.9rem;color:var(--taupe);margin-top:1.4rem}
+  .tag{display:inline-block;font-size:.75rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;border-radius:6px;padding:.05rem .45rem;margin-right:.4rem}
+  .tag.ok{background:var(--burgundy);color:var(--snow)}
+  .tag.bad{background:var(--rose-wash);color:var(--ink);border:2px dashed var(--signal-vermilion)}
+  .tag.mid{background:var(--snow);color:var(--ink);border:2px dotted var(--taupe)}
+  .row{display:flex;flex-wrap:wrap;align-items:center;gap:.2rem .4rem}
+  .card{background:var(--snow);border:1px solid var(--rule);border-radius:12px;padding:.8rem 1rem;margin:.7rem 0}
+  .card p{margin:.2rem 0}
+  .lbl{font-size:.8rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--taupe);margin:.5rem 0 0}
+  .scroll{overflow-x:auto;max-width:100%}
+  table{border-collapse:collapse;width:100%;margin:.5rem 0;background:var(--snow)}
+  th,td{border:1px solid var(--rule);padding:.3rem .45rem;text-align:left;vertical-align:top;font-size:.9rem}
+  th{background:var(--linen)}
+  @media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
+
+  .meter{font-size:1.05rem;font-weight:800;margin:.8rem 0}
+  .gauge{display:flex;align-items:center;gap:.6rem;margin:.3rem 0;flex-wrap:wrap}
+  .track{flex:1 1 12rem;height:14px;background:var(--linen);border:1px solid var(--rule);border-radius:7px;overflow:hidden;min-width:8rem}
+  .fill{height:100%;background:var(--burgundy)}
+  .fill.left{background:var(--taupe)}
+  .num{font-weight:800;min-width:7.5rem}
+
+</style>
+<!-- portal head: written by the portal generator from this demo's title and description; do not edit -->
+<meta name="robots" content="index, follow">
+<link rel="icon" href="../../../assets/img/favicon.svg" type="image/svg+xml">
+<link rel="canonical" href="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-9/artefacts/risk-treatment.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Principles of Information Security, HND Network Engineering Year 2">
+<meta property="og:title" content="Four ways to treat a risk | Day 9">
+<meta property="og:description" content="Choose mitigate, avoid, transfer or accept for four of Taxila&#x27;s risks, and see the residual risk that each treatment leaves behind.">
+<meta property="og:url" content="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-9/artefacts/risk-treatment.html">
+<meta property="og:locale" content="en_GB">
+<meta property="og:image" content="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/assets/img/social-card.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="At Taxila College the Head of IT points to the security register on the wall: nineteen numbered items, the first outlined as the place to start. The Registrar holds a sealed transcript and the Data Protection Officer a clipboard. A lecturer turns to welcome two students arriving with a laptop and a phone.">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","author":{"@type":"Person","affiliation":{"@type":"Organization","name":"School of Computing & Engineering, National Institute of Business Management"},"name":"Niranga Dharmaratna"},"description":"Choose mitigate, avoid, transfer or accept for four of Taxila's risks, and see the residual risk that each treatment leaves behind.","educationalLevel":"Higher National Diploma, Year 2","inLanguage":"en-GB","interactivityType":"active","isAccessibleForFree":true,"isPartOf":{"@id":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/#course","@type":"Course","name":"Principles of Information Security, HND Network Engineering Year 2","url":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/"},"learningResourceType":"Interactive demonstration","license":"https://opensource.org/licenses/MIT","name":"Four ways to treat a risk | Day 9","url":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-9/artefacts/risk-treatment.html"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/","name":"Principles of Information Security","position":1},{"@type":"ListItem","item":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-9/","name":"Day 9","position":2},{"@type":"ListItem","item":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-9/artefacts/risk-treatment.html","name":"Four ways to treat a risk","position":3}]}</script>
+<script async src="../../../assets/js/analytics.js" data-gtm="GTM-5WTL8VCV" data-site="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/" data-store="hndne-pis:" data-privacy="../../../privacy.html"></script>
+<!-- /portal head -->
+</head>
+<body>
+<main>
+<h1>Four ways to treat a risk</h1>
+<div class="bars" aria-hidden="true"><i></i><i></i></div>
+<p class="lead">Every risk on a register needs a treatment. You can lower it with a control, stop the activity that creates it, pass its cost to someone else, or live with it as a recorded choice. Whatever you choose, something usually remains.</p>
+
+<span class="step">How to use it</span>
+<p>Each risk shows its score, likelihood times impact, on Taxila's scale of 1 to 25. Choose one of the four treatments and read what remains: the residual risk. Some choices fit better than others, and an accepted risk needs an owner.</p>
+<div id="list"></div>
+<p class="meter" id="score" aria-live="polite"></p>
+<p class="note">The risks and scores are prepared examples from Taxila's story. Real scores come from your own register this afternoon.</p>
+
+</main>
+<script>
+(function () {
+  "use strict";
+  var $ = function (id) { return document.getElementById(id); };
+  function el(tag, text, cls) { var e = document.createElement(tag); if (text !== undefined && text !== null) e.textContent = text; if (cls) e.className = cls; return e; }
+  function clear(n) { while (n.firstChild) n.removeChild(n.firstChild); }
+
+  var TR = ["Mitigate", "Avoid", "Transfer", "Accept"];
+  var R = [
+    { t: "The old test web server", d: "A test copy of the portal still runs on a server nobody uses, reachable from the student Wi-Fi.", L: 4, I: 3, best: 1,
+      r: [ { L: 2, I: 3, v: "possible", w: "A firewall rule lowers the likelihood, but the forgotten server still needs patching and watching." },
+           { L: 0, I: 0, v: "best", w: "Switch it off. Nobody needs it, so stopping the activity removes this risk completely and costs nothing." },
+           { L: 4, I: 3, v: "poor", w: "Nobody will carry this risk for Taxila, and no insurer pays for a server nobody needs." },
+           { L: 4, I: 3, v: "poor", w: "Accepting a risk you could remove for free is not a sensible owned choice." } ] },
+    { t: "Card numbers on the fee page", d: "If Taxila stored students' card numbers itself, a breach of the fee page would leak them.", L: 3, I: 5, best: 2,
+      r: [ { L: 2, I: 5, v: "possible", w: "Encrypting stored card numbers helps, but Taxila would still hold them and carry the whole risk." },
+           { L: 0, I: 0, v: "poor", w: "Stopping online payment removes the risk, but students would have to queue at the counter. The cost is too high." },
+           { L: 1, I: 3, v: "best", w: "This is what Taxila does: the bank's payment gateway takes and holds the card numbers. Taxila still owns its own page, so a small risk remains." },
+           { L: 3, I: 5, v: "poor", w: "A score of 15 involving people's card details is far too high to live with." } ] },
+    { t: "The exam paper folder", d: "Draft exam papers sit in a shared folder that anyone at the college can open.", L: 3, I: 5, best: 0,
+      r: [ { L: 1, I: 5, v: "best", w: "Limit the folder to the examinations office and encrypt the papers. The likelihood falls; the harm if one still leaks does not." },
+           { L: 2, I: 5, v: "possible", w: "Writing papers only on paper removes the folder, but printed papers can leak too, and lecturers lose the system they rely on." },
+           { L: 3, I: 5, v: "poor", w: "No other party can carry a leaked paper for Taxila. The paper must still be rewritten overnight." },
+           { L: 3, I: 5, v: "poor", w: "This is the risk that hurt Taxila last semester. Accepting a score of 15 here would not convince the Registrar." } ] },
+    { t: "The course catalogue page", d: "Someone could deface the public course catalogue on the website. It holds only public data, and the Head of IT can restore it in minutes.", L: 2, I: 1, best: 3,
+      r: [ { L: 1, I: 1, v: "possible", w: "Extra protection lowers the likelihood a little, but costs more than the harm it saves." },
+           { L: 0, I: 0, v: "poor", w: "Taking the catalogue offline would hurt the college far more than a rare, quickly fixed defacement." },
+           { L: 2, I: 1, v: "possible", w: "Paying someone else to carry a risk this small rarely makes sense." },
+           { L: 2, I: 1, v: "best", w: "A low score, public data and a quick fix: a sensible risk to accept, as long as an owner records it and looks at it again." } ] }
+  ];
+  var done = R.map(function () { return false; });
+  function gauge(label, val, cls) {
+    var g = el("div", undefined, "gauge");
+    g.appendChild(el("span", label + ": " + val + " of 25", "num"));
+    var tr = el("div", undefined, "track"); tr.setAttribute("aria-hidden", "true");
+    var f = el("div", undefined, "fill" + (cls ? " " + cls : "")); f.style.width = (val * 4) + "%"; tr.appendChild(f); g.appendChild(tr);
+    return g;
+  }
+  R.forEach(function (x, i) {
+    var c = el("section", undefined, "card");
+    var h = el("h2", (i + 1) + ". " + x.t); h.id = "r" + i; c.setAttribute("aria-labelledby", h.id); c.appendChild(h);
+    c.appendChild(el("p", x.d));
+    c.appendChild(el("p", "Likelihood " + x.L + ", impact " + x.I + "."));
+    c.appendChild(gauge("Score", x.L * x.I));
+    c.appendChild(el("p", "Choose a treatment", "lbl"));
+    var row = el("div", undefined, "row"); row.setAttribute("role", "group"); row.setAttribute("aria-label", "Treatment for " + x.t);
+    var out = el("div", undefined, "box"); out.hidden = true; out.setAttribute("aria-live", "polite");
+    var owned = false, chosen = -1;
+    function show() {
+      clear(out); out.hidden = false;
+      var res = x.r[chosen], s = res.L * res.I;
+      var p = el("p"); p.appendChild(el("span", res.v === "best" ? "Best fit" : res.v === "possible" ? "Possible" : "Poor fit", "tag " + (res.v === "best" ? "ok" : res.v === "possible" ? "mid" : "bad")));
+      p.appendChild(document.createTextNode(TR[chosen] + ". " + res.w)); out.appendChild(p);
+      out.appendChild(s === 0 ? el("p", "Residual risk: none left for this risk, because the activity has stopped.") : gauge("Residual risk", s, "left"));
+      if (chosen === 3) {
+        if (!owned) {
+          out.appendChild(el("p", "Not yet accepted: an accepted risk needs a named owner, or it is simply missed."));
+          var ob = el("button", "Record the Head of IT as owner, with a review point", "quiet"); ob.type = "button";
+          ob.addEventListener("click", function () { owned = true; show(); });
+          out.appendChild(ob);
+        } else {
+          out.appendChild(el("p", "Recorded: owner the Head of IT, reason written down, to be looked at again at the next review."));
+        }
+      }
+      out.className = res.v === "poor" ? "box fault" : res.v === "possible" ? "box warn" : "box";
+      done[i] = done[i] || (chosen === x.best && (chosen !== 3 || owned));
+      $("score").textContent = done.filter(Boolean).length + " of " + R.length + " risks given their best-fit treatment.";
+    }
+    var bs = TR.map(function (t, v) {
+      var b = el("button", t, "quiet"); b.type = "button"; b.setAttribute("aria-pressed", "false");
+      b.addEventListener("click", function () { chosen = v; bs.forEach(function (q, y) { q.setAttribute("aria-pressed", y === v ? "true" : "false"); }); show(); });
+      row.appendChild(b); return b;
+    });
+    c.appendChild(row); c.appendChild(out); $("list").appendChild(c);
+  });
+
+})();
+</script>
+</body>
+</html>

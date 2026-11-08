@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en-GB" data-store="hndne-pis:">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="hndne-pis-site">
+<title>Practice question 9: a ride-hailing app | Principles of Information Security</title>
+<meta name="author" content="Niranga Dharmaratna">
+<meta name="description" content="This practice question applies the Day 9 ideas to a ride-hailing company. It covers the three questions that classify an attack, the four ways to treat a...">
+<meta name="robots" content="index, follow">
+<link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
+<link rel="canonical" href="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/practice/PQ9.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Principles of Information Security, HND Network Engineering Year 2">
+<meta property="og:title" content="Practice question 9: a ride-hailing app">
+<meta property="og:description" content="This practice question applies the Day 9 ideas to a ride-hailing company. It covers the three questions that classify an attack, the four ways to treat a...">
+<meta property="og:url" content="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/practice/PQ9.html">
+<meta property="og:locale" content="en_GB">
+<meta property="og:image" content="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/assets/img/social-card.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="At Taxila College the Head of IT points to the security register on the wall: nineteen numbered items, the first outlined as the place to start. The Registrar holds a sealed transcript and the Data Protection Officer a clipboard. A lecturer turns to welcome two students arriving with a laptop and a phone.">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/","name":"Principles of Information Security","position":1},{"@type":"ListItem","item":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/practice/PQ9.html","name":"Practice question 9: a ride-hailing app","position":2}]}</script>
+<link rel="stylesheet" href="../assets/fonts/fonts.css">
+<link rel="stylesheet" href="../assets/css/site.css">
+<script>document.documentElement.className = "js";</script>
+<script async src="../assets/js/analytics.js" data-gtm="GTM-5WTL8VCV" data-site="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/" data-store="hndne-pis:" data-privacy="../privacy.html"></script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to the content</a>
+<header class="site-header"><div class="wrap"><div><p class="eyebrow"><a href="../index.html">Principles of Information Security | HND Network Engineering, Year 2</a></p><h1>Practice question 9: a ride-hailing app</h1><div class="bars" aria-hidden="true"><i></i><i></i></div></div></div></header>
+<main id="main">
+<div class="wrap prose">
+<p>This practice question applies the Day 9 ideas to a ride-hailing company. It covers the three questions that classify an attack, the four ways to treat a risk, and a backup set against a stated recovery point. Attempt it in writing before you read the answer guidance. It carries 20 marks.</p>
+<h2 id="the-setting">The setting</h2>
+<p>A ride-hailing company in Colombo runs a mobile app. Riders book a trip, and the app sends the nearest driver. Every trip record holds the pickup and drop-off places, the time, the fare and the rider's phone number. Drivers are paid once a week, straight into the bank account stored in their profile. About 300 trips are booked in an ordinary hour, and about 1,500 an hour on a rainy evening.</p>
+<p>All trip records and driver profiles sit in one database, on one server in a rented server room. Every night, a copy of the database is written to a disk in the same room. Nobody has ever restored from it.</p>
+<p>In the last three months, three things went wrong:</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Event</th>
+<th>What happened</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A changed bank account</td>
+<td>A caller who said she was a driver told the support desk she had a new bank account and needed it changed before payday. The support worker changed it. The real driver's weekly pay went to the caller.</td>
+</tr>
+<tr>
+<td>A long download</td>
+<td>A support worker who had left the company still had a working account. Two weeks after leaving, the account downloaded the trip histories of 5,000 riders.</td>
+</tr>
+<tr>
+<td>A dead evening</td>
+<td>On a rainy evening the database server's disk failed. Bookings stopped for two hours, and the night's copy had been taken nearly a day earlier.</td>
+</tr>
+</tbody>
+</table></div>
+<p>After the third event, the managers agree two targets. Bookings must be back within 30 minutes on a busy evening. No more than 15 minutes of trip records may ever be lost.</p>
+<p>The finance manager has a view on the first event. "Bank-account fraud hits only a few drivers a month. Let us accept the risk, or buy insurance for it, and spend nothing on the support desk."</p>
+<h2 id="the-question">The question</h2>
+<p><strong>(a)</strong> Explain the three questions that classify an attack, and the four ways an organisation can treat a risk. Use one of the company's events as an example in each explanation. <strong>(6 marks)</strong></p>
+<p><strong>(b)</strong> Apply these ideas to the company. Classify the changed bank account and the long download on all three questions, and name the property each one harmed. Then compare the nightly copy with the targets the managers set. Propose a backup and recovery plan that meets both targets and follows the three-two-one rule. <strong>(7 marks)</strong></p>
+<p><strong>(c)</strong> Evaluate the finance manager's view. Discuss whether accepting the bank-account risk, or transferring it with insurance, is a sound choice here. Recommend what the company should do, say what residual risk would remain, and give one cost of your recommendation. <strong>(7 marks)</strong></p>
+<h2 id="answer-guidance">Answer guidance</h2>
+<p>Read this only after you have written your own answer.</p>
+<p><strong>Part (a).</strong> Three questions describe any attack. Is it passive, only watching or reading, or active, changing or sending something? Is the attacker an insider, who already has access, or an outsider, who starts with none? Is it targeted, aimed at this victim, or opportunistic, aimed at whoever is open? The answers give the attack's profile, which points to the controls that fit. The changed bank account is a good example: active, an outsider, and targeted at one driver's pay. The four treatments are these. Mitigate: add a control that lowers the likelihood or the impact. Avoid: stop the activity that creates the risk. Transfer: let another party carry the cost, as an insurer would. Accept: live with the risk as a recorded choice, with an owner. After any treatment, what remains is the residual risk. For the dead evening, mitigation would be more frequent backups and a standby server. Avoiding it would mean not running bookings at all, which makes no sense for this business.</p>
+<p><strong>Part (b).</strong> The changed bank account was active, because a record was changed. The caller was an outsider, who used social engineering to make an insider act for her. It was targeted at one driver. It harmed integrity, because the bank account in the profile was no longer correct. Authenticity was harmed too, because the caller was not who she claimed to be. The long download was passive, because data was read and nothing was changed. It came from an insider, an account the company itself had issued. It was opportunistic in reach, since it took every rider it could. A strong answer notes that it could also be read as targeted at the company. It harmed confidentiality, of personal data about where people travel. The nightly copy fails both targets. A failure just before the night's copy loses almost a day of records, far more than 15 minutes. On a day with a rainy evening, that could be more than 10,000 trips. It does not meet the 30-minute target either, because a disk in the same room must still be restored onto a working server. A plan that meets both targets has three parts. A standby database server receives every change within minutes and can take over by failover inside 30 minutes. A copy at least every 15 minutes, or continuous copying, goes to a second kind of storage. A daily copy is kept off-site, away from the server room. The restore is tested regularly.</p>
+<p><strong>Part (c).</strong> Acceptance is a recorded choice to live with a measured risk, not a way to avoid spending. A few drivers a month, each losing a week's pay, is real harm to real people. Each loss also damages trust in the company's payments. The fix is cheap, so acceptance is hard to defend here. Insurance would repay the money, so it transfers part of the cost. It does not stop the fraud, protect the drivers' trust, or close the weakness that let a phone call change a bank account. Mitigation fits better. Any change to bank details is confirmed by a call back to the number already on file, or in the app with the driver's own sign-in. A second staff member approves it. The support desk is trained to recognise urgency and authority in a request. The leavers' process should also disable accounts on the last day, which answers the long download. The trip histories are personal data, so the company has duties as a controller. The residual risk is a determined attacker who also controls the driver's phone. It is rare, and is caught when the driver reports missing pay. One cost: call-backs slow the support desk and need staff time, and some genuine drivers will wait a day for their change. A strong answer weighs that delay against a week's pay lost.</p>
+<nav class="pager" aria-label="Page navigation"><span></span><span><a href="../index.html">All days</a></span><span></span></nav>
+</div>
+</main>
+<footer class="site-footer"><div class="wrap">
+<p class="author">&copy; Niranga Dharmaratna, School of Computing &amp; Engineering, National Institute of Business Management</p>
+<p>Content licensed <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener">CC BY-NC-SA 4.0</a>; code licensed MIT; Open Sans under the SIL Open Font Licence. See the <a href="../LICENSE-CONTENT.html">licence notes</a>.</p>
+<p>Dates and submissions are announced for your cohort. Taxila College is fictional.</p>
+<p>Anything you mark as done is saved only on this device. Visits are counted with Google Analytics only if you allow it: see <a href="../privacy.html">privacy and visit counting</a>.</p>
+</div></footer>
+<script src="../assets/js/site.js" defer></script>
+</body>
+</html>

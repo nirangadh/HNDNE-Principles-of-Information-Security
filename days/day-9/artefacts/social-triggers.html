@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Which button does it press?</title>
+<meta name="description" content="Six prepared approaches to Taxila's staff: name the human trigger each one pulls, then read the defence that stops it.">
+<link rel="stylesheet" href="../../../assets/fonts/fonts.css">
+<style>
+  body{margin:0;font-family:var(--font-body);background:var(--linen);color:var(--ink);line-height:1.6}
+  main{max-width:46rem;margin:0 auto;padding:1.5rem 1rem 2.5rem}
+  h1{font-size:1.6rem;line-height:1.25;margin:0 0 .4rem}
+  .bars{display:flex;gap:6px;margin:.3rem 0 1.1rem}.bars i{display:block;height:6px;border-radius:2px}
+  .bars i:first-child{width:56px;background:var(--burgundy)}.bars i:last-child{width:26px;background:var(--blush)}
+  .lead{margin:0 0 1rem}
+  .step{font-size:.78rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--burgundy);margin:1.6rem 0 .3rem;display:block}
+  h2{font-size:1.15rem;margin:.1rem 0 .4rem}
+  h3{font-size:1rem;margin:.2rem 0 .3rem}
+  button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid var(--burgundy);outline-offset:2px}
+  button{overflow-wrap:anywhere;font:inherit;font-weight:700;color:var(--snow);background:var(--burgundy);border:0;border-radius:8px;padding:.55rem 1rem;min-height:44px;cursor:pointer;margin:.4rem .3rem .2rem 0}
+  button.quiet{color:var(--burgundy);background:var(--snow);border:2px solid var(--burgundy)}
+  button[aria-pressed=true]{background:var(--ink);color:var(--snow);border-color:var(--ink)}
+  button:disabled{opacity:.45;cursor:default}
+  .box{background:var(--snow);border:1px solid var(--rule);border-left:6px solid var(--burgundy);border-radius:0 12px 12px 0;padding:.8rem 1rem;margin:.5rem 0}
+  .box.fault{border-left:6px dashed var(--signal-vermilion);background:var(--rose-wash)}
+  .box.warn{border-left:6px dotted var(--signal-amber)}
+  .box p{margin:.2rem 0}
+  code{font-family:var(--font-code)}
+  .note{font-size:.9rem;color:var(--taupe);margin-top:1.4rem}
+  .tag{display:inline-block;font-size:.75rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;border-radius:6px;padding:.05rem .45rem;margin-right:.4rem}
+  .tag.ok{background:var(--burgundy);color:var(--snow)}
+  .tag.bad{background:var(--rose-wash);color:var(--ink);border:2px dashed var(--signal-vermilion)}
+  .tag.mid{background:var(--snow);color:var(--ink);border:2px dotted var(--taupe)}
+  .row{display:flex;flex-wrap:wrap;align-items:center;gap:.2rem .4rem}
+  .card{background:var(--snow);border:1px solid var(--rule);border-radius:12px;padding:.8rem 1rem;margin:.7rem 0}
+  .card p{margin:.2rem 0}
+  .lbl{font-size:.8rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--taupe);margin:.5rem 0 0}
+  .scroll{overflow-x:auto;max-width:100%}
+  table{border-collapse:collapse;width:100%;margin:.5rem 0;background:var(--snow)}
+  th,td{border:1px solid var(--rule);padding:.3rem .45rem;text-align:left;vertical-align:top;font-size:.9rem}
+  th{background:var(--linen)}
+  @media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
+
+  .msg{background:var(--linen);border:1px solid var(--rule);border-radius:8px;padding:.5rem .7rem;margin:.3rem 0;font-size:.95rem}
+  .msg .from{font-size:.8rem;color:var(--taupe);margin:0 0 .2rem}
+  .meter{font-size:1.05rem;font-weight:800;margin:.8rem 0}
+
+</style>
+<!-- portal head: written by the portal generator from this demo's title and description; do not edit -->
+<meta name="robots" content="index, follow">
+<link rel="icon" href="../../../assets/img/favicon.svg" type="image/svg+xml">
+<link rel="canonical" href="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-9/artefacts/social-triggers.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Principles of Information Security, HND Network Engineering Year 2">
+<meta property="og:title" content="Which button does it press? | Day 9">
+<meta property="og:description" content="Six prepared approaches to Taxila&#x27;s staff: name the human trigger each one pulls, then read the defence that stops it.">
+<meta property="og:url" content="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-9/artefacts/social-triggers.html">
+<meta property="og:locale" content="en_GB">
+<meta property="og:image" content="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/assets/img/social-card.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="At Taxila College the Head of IT points to the security register on the wall: nineteen numbered items, the first outlined as the place to start. The Registrar holds a sealed transcript and the Data Protection Officer a clipboard. A lecturer turns to welcome two students arriving with a laptop and a phone.">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","author":{"@type":"Person","affiliation":{"@type":"Organization","name":"School of Computing & Engineering, National Institute of Business Management"},"name":"Niranga Dharmaratna"},"description":"Six prepared approaches to Taxila's staff: name the human trigger each one pulls, then read the defence that stops it.","educationalLevel":"Higher National Diploma, Year 2","inLanguage":"en-GB","interactivityType":"active","isAccessibleForFree":true,"isPartOf":{"@id":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/#course","@type":"Course","name":"Principles of Information Security, HND Network Engineering Year 2","url":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/"},"learningResourceType":"Interactive demonstration","license":"https://opensource.org/licenses/MIT","name":"Which button does it press? | Day 9","url":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-9/artefacts/social-triggers.html"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/","name":"Principles of Information Security","position":1},{"@type":"ListItem","item":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-9/","name":"Day 9","position":2},{"@type":"ListItem","item":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-9/artefacts/social-triggers.html","name":"Which button does it press?","position":3}]}</script>
+<script async src="../../../assets/js/analytics.js" data-gtm="GTM-5WTL8VCV" data-site="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/" data-store="hndne-pis:" data-privacy="../../../privacy.html"></script>
+<!-- /portal head -->
+</head>
+<body>
+<main>
+<h1>Which button does it press?</h1>
+<div class="bars" aria-hidden="true"><i></i><i></i></div>
+<p class="lead">Social engineering attacks people, not systems. Each approach presses a human button, a trigger, so that the person acts before they think. Name the trigger, and the approach loses most of its power.</p>
+
+<span class="step">The six triggers</span>
+<div class="scroll"><table>
+<thead><tr><th>Trigger</th><th>What the message makes you feel</th></tr></thead>
+<tbody>
+<tr><td>Authority</td><td>an important person is asking</td></tr>
+<tr><td>Urgency</td><td>there is no time to check</td></tr>
+<tr><td>Fear</td><td>something bad will happen if you do not act</td></tr>
+<tr><td>Reward</td><td>you will gain something</td></tr>
+<tr><td>Curiosity</td><td>you want to see what it is</td></tr>
+<tr><td>Helpfulness</td><td>a polite person needs your help</td></tr>
+</tbody></table></div>
+<span class="step">Six approaches to Taxila's staff</span>
+<p>Read each one. Choose the trigger it pulls hardest. Many pull more than one; the answer explains the others.</p>
+<div id="list"></div>
+<p class="meter" id="score" aria-live="polite"></p>
+<p class="note">Every message here is a prepared example written for teaching, and no link or file on this page does anything. A real practice phishing exercise needs written approval from the organisation's management.</p>
+
+</main>
+<script>
+(function () {
+  "use strict";
+  var $ = function (id) { return document.getElementById(id); };
+  function el(tag, text, cls) { var e = document.createElement(tag); if (text !== undefined && text !== null) e.textContent = text; if (cls) e.className = cls; return e; }
+  function clear(n) { while (n.firstChild) n.removeChild(n.firstChild); }
+
+  var T = ["Authority", "Urgency", "Fear", "Reward", "Curiosity", "Helpfulness"];
+  var M = [
+    { form: "Email", from: "From: Registrar <registrar@sis-taxila.example>", text: "This is the Registrar. Send me tomorrow's exam paper by email now. I am in a meeting and cannot take calls.",
+      k: 0, why: "It leans on the Registrar's position, so staff feel they cannot refuse. \"Now\" adds urgency, and \"cannot take calls\" blocks the check.", def: "Check through a second channel: phone the Registrar's office on the number you already know. Look closely at the sender's domain, too." },
+    { form: "Email", from: "From: Mail service <support@taxila.example>", text: "Your mailbox is full. Sign in within 30 minutes or all new mail will be deleted.",
+      k: 1, why: "The 30-minute limit is meant to rush you past checking. The threat of lost mail adds fear.", def: "Slow down. A real IT (information technology) office does not set a 30-minute limit by email. Open the mailbox the usual way, not through the link." },
+    { form: "Phone call", from: "Caller: \"Cyber police unit\"", text: "We have seen illegal downloads from your college account. Confirm your password now, or we will open a case against you.",
+      k: 2, why: "The threat of a police case makes the person act to protect themselves. The caller's claimed authority adds weight.", def: "Hang up. No police unit asks for a password. Report the call to the IT office." },
+    { form: "Email", from: "From: Staff Rewards <rewards@sis-taxila.example>", text: "Congratulations! You have won a free laptop in the staff draw. Enter your staff number and password to claim it.",
+      k: 3, why: "The promised prize makes the person want to act before thinking.", def: "If you did not enter a draw, you did not win one. Never give a password to claim anything." },
+    { form: "Left in the car park", from: "A memory stick labelled \"Staff salaries\"", text: "Found near the staff entrance. The label makes everyone want to know what is on it.",
+      k: 4, why: "The label is chosen to make people plug it in to look. This form is called baiting.", def: "Never plug in a stick you found. Hand it to the IT office." },
+    { form: "At the server room door", from: "A visitor carrying two heavy boxes", text: "Hi, I am the new technician. I left my card at home. Could you hold the door? I only need two minutes.",
+      k: 5, why: "Holding a door for someone is polite, and the boxes make refusing feel rude. Following someone through a locked door is called tailgating.", def: "Be polite and firm: \"I cannot let you in, but I can call the IT office for you.\"" }
+  ];
+  var right = M.map(function () { return false; });
+  M.forEach(function (m, i) {
+    var c = el("section", undefined, "card");
+    var h = el("h2", (i + 1) + ". " + m.form); h.id = "m" + i; c.setAttribute("aria-labelledby", h.id); c.appendChild(h);
+    var box = el("div", undefined, "msg"); box.appendChild(el("p", m.from, "from")); box.appendChild(el("p", m.text)); c.appendChild(box);
+    c.appendChild(el("p", "Which trigger does it pull hardest?", "lbl"));
+    var r = el("div", undefined, "row"); r.setAttribute("role", "group"); r.setAttribute("aria-label", "Trigger for approach " + (i + 1));
+    var out = el("div", undefined, "box"); out.hidden = true; out.setAttribute("aria-live", "polite");
+    var bs = T.map(function (t, v) {
+      var b = el("button", t, "quiet"); b.type = "button"; b.setAttribute("aria-pressed", "false");
+      b.addEventListener("click", function () {
+        bs.forEach(function (x, y) { x.setAttribute("aria-pressed", y === v ? "true" : "false"); });
+        clear(out); out.hidden = false;
+        var ok = v === m.k;
+        var p = el("p"); p.appendChild(el("span", ok ? "Yes" : "Look again", "tag " + (ok ? "ok" : "bad")));
+        p.appendChild(document.createTextNode(ok ? "It pulls " + T[m.k].toLowerCase() + " hardest." : "That is not the main one. Ask what the message most wants you to feel."));
+        out.appendChild(p);
+        if (ok) { out.appendChild(el("p", m.why)); out.appendChild(el("p", "The defence: " + m.def)); }
+        out.className = ok ? "box" : "box fault";
+        right[i] = right[i] || ok;
+        $("score").textContent = right.filter(Boolean).length + " of " + M.length + " triggers named.";
+      });
+      r.appendChild(b); return b;
+    });
+    c.appendChild(r); c.appendChild(out); $("list").appendChild(c);
+  });
+
+})();
+</script>
+</body>
+</html>

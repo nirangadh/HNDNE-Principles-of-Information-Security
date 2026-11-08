@@ -492,3 +492,65 @@ A virtual private network (VPN): an encrypted tunnel that carries traffic betwee
 A web application firewall (WAF): an application-layer firewall built for web traffic. It reads each web request and drops one that carries a known attack pattern. It can read encrypted requests only if it ends the encryption itself.
 
 *Taxila example:* a WAF in front of `sis.taxila.example` could drop a login request carrying an injection string.
+
+## Day 9
+
+### Business continuity planning
+Planning that keeps an organisation's critical work going during a failure and brings it back afterwards. It starts from a business impact analysis and sets a recovery time and a recovery point for each service.
+
+*Taxila example:* a plan that says how the fee payment page and the SIS (Student Information System) come back after a failure, and in which order.
+
+### Business impact analysis
+A study of what each important service supports, what harm grows as it stays down for an hour, a day or a week, and so which service must come back first.
+
+*Taxila example:* the fee payment page's harm rises steeply on the last evening of payment, when hundreds of students are paying.
+
+### Malware
+Malicious software: any program written to harm a computer or its owner. Its kinds include the virus, worm, trojan, ransomware, spyware and rootkit, which differ in how they spread and what they do.
+
+*Taxila example:* a trojan hidden in a free timetable program on a staff laptop.
+
+### Ransomware
+Malware that encrypts the victim's files and demands payment for the key. Many kinds also copy the files out first and threaten to publish them.
+
+*Taxila example:* ransomware on the SIS (Student Information System) would lock every grade until the college restored a clean backup.
+
+### Recovery point objective
+The recovery point objective (RPO): the most data, measured in time, that a service can afford to lose in a failure. It sets how often the service must be backed up.
+
+*Taxila example:* an RPO of one hour for the SIS (Student Information System) needs a backup at least every hour, not once a week.
+
+### Recovery time objective
+The recovery time objective (RTO): the longest a service may stay down after a failure before the harm becomes unacceptable. It is set separately from the recovery point.
+
+*Taxila example:* the fee payment page needs a short RTO on the last evening of payment.
+
+### Residual risk
+The risk that remains after a treatment is applied, rated again with the control in place. Its owner judges whether it is low enough.
+
+*Taxila example:* after the exam paper store is encrypted, a lost key is still a residual risk.
+
+### Risk treatment
+The choice of what to do about a risk: mitigate it with a control, avoid it by stopping the activity, transfer it to another party, or accept it as a recorded, owned choice.
+
+*Taxila example:* the bank's payment gateway holds the card numbers, so Taxila has transferred that risk.
+
+### Social engineering
+Attacking people instead of systems: persuading someone to give a password, open a file or hold a door, by pulling on triggers such as authority, urgency or fear. Phishing, pretexting, baiting and tailgating are forms of it.
+
+*Taxila example:* a caller who claims to be the Registrar and asks the IT (information technology) office to reset a password at once.
+
+### STRIDE
+A list of six kinds of threat used to find threats you might miss: spoofing, tampering, repudiation, information disclosure, denial of service and elevation of privilege.
+
+*Taxila example:* the changed grade was tampering, and nobody proving who did it was repudiation.
+
+### Three-two-one backup rule
+Keep three copies of the data, on two kinds of storage, with one copy off-site, so that one fire, theft or malware outbreak cannot reach every copy.
+
+*Taxila example:* a single weekly disk kept in the server room breaks the rule twice: one backup copy, and none off-site.
+
+### Worm
+Malware that moves across a network by itself, through a weakness such as a missing patch, with no person needing to open anything. A virus, by contrast, needs a host file and a click.
+
+*Taxila example:* a worm could reach every unpatched staff computer in minutes.
