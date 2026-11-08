@@ -30,7 +30,7 @@ Both halves of today ask the same question: did the application keep what the us
 
 > **Common mistake.** "Fixing the browser fixes the vulnerability." The fix belongs on the server, in the query and in the output. A check in the browser helps honest users, but it runs on the user's own machine and can be skipped.
 
-> **Quick check.** You run the login test against the unfixed portal and it returns all six records. Your partner says: "The database is broken, raise it with the database team." What is the better reading?
+> **Quick check.** You run the login test against the unfixed portal and it returns every record in the table. Your partner says: "The database is broken, raise it with the database team." What is the better reading?
 >
 > - [ ] The database is faulty and should be reinstalled
 > - [x] The application built its query by joining input, so the database did what the changed query said; the fix is a parameterised query in the application
@@ -42,7 +42,7 @@ Both halves of today ask the same question: did the application keep what the us
 >
 > - [x] Yes: the probe now matches nothing, and a real sign-in still works
 > - [ ] No: a secure login should return zero records for everyone
-> - [ ] No: the test should still return six, to prove it ran
+> - [ ] No: the test should still return every record, to prove it ran
 >
 > **Why:** The fix must stop the injection and keep the portal working. Zero for the probe shows the flaw is closed; one for a normal sign-in shows an ordinary login still succeeds.
 
@@ -65,13 +65,13 @@ Each step states what to do and what you should see. If you do not see it, stop 
 
 *Segment 1: Read the login code and find the injection flaw*
 
-1. **Run the provided test against the unfixed login.** Run the test with your own index number and read its report. *Expected:* the prepared login probe returns 6 of 6 records, including the record seeded for your index; a normal sign-in returns 1. The login is injectable.
+1. **Run the provided test against the unfixed login.** Run the test with your own index number and read its report. *Expected:* the prepared login probe returns every record in your practice table, including your seeded record, where a normal sign-in returns 1. The table's size is set by your index; the report and the recompute tool give the number. The login is injectable.
 
 ```bash
 python3 taxila-portal.py --test --index COHNDNE999X000
 ```
 
-Use your own index number, not the example. Note the name and identifier of your seeded record, and that the probe returned six records where a login should return one.
+Use your own index number, not the example. Note the name and identifier of your seeded record, and that the probe returned every record where a login should return one.
 
 2. **Find the flawed line.** Open `taxila-portal.py` and read the login. *Expected:* you find the line marked as the flawed line inside `flawed_login`, where the username and password are joined straight into the query text. That joining is why input can become part of the query.
 
@@ -79,7 +79,7 @@ Use your own index number, not the example. Note the name and identifier of your
 nano taxila-portal.py
 ```
 
-> **Floor path.** Open the `sqli-login` demo. Choose "Joined: input put into the query text" and step the prepared test value through: part of it becomes a condition that is always true, so every record matches. Then enter your index and run the login test: it returns all six records, including your seeded record. Write down your seeded record and the count.
+> **Floor path.** Open the `sqli-login` demo. Choose "Joined: input put into the query text" and step the prepared test value through: part of it becomes a condition that is always true, so every record matches. Then enter your index and run the login test: it returns every record, including your seeded record. Write down your seeded record and the count.
 
 *Segment 2: Fix the query and prove it with the test*
 
@@ -107,15 +107,15 @@ python3 taxila-portal.py --test --index COHNDNE999X000
 
 ## Prove it
 
-You can show the login test returning six records before your fix, including your seeded record. After the fix it returns zero, while a normal sign-in still returns one. You can show the note test reporting that the page changed before output encoding and shows plain text after it. On the full tier, that is the two test reports, before and after each fix. On the floor tier, it is the same two results from the `sqli-login` and `output-encoding` demos, seeded from your index. The recompute tool derives your seeded record and both row counts, so your pack can be checked against it.
+You can show the login test returning every record before your fix, including your seeded record. After the fix it returns zero, while a normal sign-in still returns one. You can show the note test reporting that the page changed before output encoding and shows plain text after it. On the full tier, that is the two test reports, before and after each fix. On the floor tier, it is the same two results from the `sqli-login` and `output-encoding` demos, seeded from your index. The recompute tool derives your seeded record and both row counts, so your pack can be checked against it.
 
 ## Break it
 
 **Fault:** the login is left joined, not parameterised.
 
 1. Full tier: set `SAFE_LOGIN = True` back to `SAFE_LOGIN = False`, save, and run the test again.
-2. **Symptom:** the prepared probe returns all six records again, including your seeded record.
-3. **Evidence:** the report line reads `OPEN`, and names the six records where a login should return one. The flawed line is the one inside `flawed_login` that joins input into the query text.
+2. **Symptom:** the prepared probe returns every record again, including your seeded record.
+3. **Evidence:** the report line reads `OPEN`, and names every record it returned where a login should return one. The flawed line is the one inside `flawed_login` that joins input into the query text.
 4. **Fix:** set `SAFE_LOGIN` back to `True`, save, and run the test once more. *Expected:* the probe returns zero records again.
 
 > **Floor path.** In the `sqli-login` demo, switch back to the joined query and run the login test: the leak returns. Then switch to the parameterised query: the leak is closed. Name the difference in one line.
@@ -134,7 +134,7 @@ No tool in this lab can affect anyone else's system. The prepared test inputs ru
 
 Pack 6 is the last evidence pack. Put in it:
 
-1. **Personal values.** Your seeded record, its name and identifier, and the two login counts: six records returned before your fix and zero after it. The recompute tool derives all three from your index.
+1. **Personal values.** Your seeded record, its name and identifier, and the two login counts: the records returned before your fix and zero after it. The recompute tool derives all three from your index.
 2. **The flawed line and your fix.** For the login, the line that joined input into the query, and the parameterised query that replaced it. For the note, the line that placed the note as it arrived, and the output encoding that replaced it.
 3. **The note result.** The note test before and after output encoding: the page changed, then shown as plain text with your index.
 4. **Concept sketch.** Draw by hand the boundary between code and data: where input should stop being treated as a command, and label the parameterised-query fix. Photograph it.

@@ -80,7 +80,7 @@
 <p class="tag" id="seedline"></p>
 <div id="result" aria-live="polite"></div>
 
-<p class="note">The practice table holds six records: five fixed, and one seeded from the index you enter, so your result is your own. The test value is a prepared check built into this page; it is never shown as a ready-made string, and you never type one. Nothing is sent anywhere.</p>
+<p class="note">The practice table holds five to eight fixed records, the number set by the index you enter, plus one seeded from it, so your result is your own. The test value is a prepared check built into this page; it is never shown as a ready-made string, and you never type one. Nothing is sent anywhere.</p>
 </main>
 <script>
 (function () {
@@ -88,12 +88,13 @@
   var $ = function (id) { return document.getElementById(id); };
   var FIRST = ["Nimali","Rukshan","Tharindu","Ishara","Dilani","Kavinda","Sanduni","Pasan","Hiruni","Chathura","Amaya","Senuri","Thilina","Oshadi","Ravindu","Nethmi"];
   var LAST = ["Perera","Fernando","Jayasuriya","Bandara","Wickramasinghe","Gunawardena","Ratnayake","Senaratne","Dissanayake","Weerasinghe","Herath","Ekanayake","Samarasinghe","Abeywardena"];
-  var FIXED = [["student01","Chamodi Rajapaksa","TC2001"],["student02","Lahiru Mendis","TC2002"],["student03","Dinithi Silva","TC2003"],["student04","Yasiru Cooray","TC2004"],["student05","Methmi Gamage","TC2005"]];
+  var FIXED = [["student01","Chamodi Rajapaksa","TC2001"],["student02","Lahiru Mendis","TC2002"],["student03","Dinithi Silva","TC2003"],["student04","Yasiru Cooray","TC2004"],["student05","Methmi Gamage","TC2005"],["student06","Pasindu Jayawardena","TC2006"],["student07","Nipuni Senanayake","TC2007"],["student08","Kasun Liyanage","TC2008"]];
   var st = { param: false };
 
   function clean(s){ return (s || "").replace(/[^A-Za-z0-9]/g, "").toUpperCase(); }
   function fnv1a(t){ var h = 0x811c9dc5 >>> 0; var bytes = new TextEncoder().encode(t); for (var i=0;i<bytes.length;i++){ h ^= bytes[i]; h = Math.imul(h, 0x01000193) >>> 0; } return h >>> 0; }
   function seed(ix){ var h = fnv1a(clean(ix)); return { id: "TC" + (1000 + Math.floor(h/(FIRST.length*LAST.length)) % 9000), name: FIRST[h%FIRST.length] + " " + LAST[Math.floor(h/FIRST.length)%LAST.length] }; }
+  function fixedCount(ix){ var h = fnv1a(clean(ix)); return 5 + Math.floor(h/(FIRST.length*LAST.length*9000)) % 4; }
 
   function piece(cls, text){ var s = document.createElement("span"); if (cls) s.className = cls; s.textContent = text; return s; }
 
@@ -137,7 +138,7 @@
     if (ix.length < 1) { $("seedline").textContent = "Enter your index number first."; return; }
     var s = seed(ix);
     $("seedline").textContent = "Your seeded record: " + s.id + " " + s.name + " (username " + ix + ").";
-    var rows = FIXED.slice();
+    var rows = FIXED.slice(0, fixedCount(ix));
     rows.push([ix, s.name, s.id]);
 
     var result = $("result");
@@ -152,7 +153,7 @@
       result.appendChild(head);
       return;
     }
-    strong.textContent = "Joined query: the test returned all 6 records. ";
+    strong.textContent = "Joined query: the test returned all " + rows.length + " records. ";
     head.appendChild(strong);
     head.appendChild(document.createTextNode("A normal sign-in returned 1 record. The login is injectable, and the leak includes your own seeded record."));
     result.appendChild(head);

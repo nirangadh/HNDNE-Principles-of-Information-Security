@@ -41,8 +41,9 @@ SAFE_ECHO = False    # segment 3: set to True once you have applied output encod
 
 
 # ----------------------------------------------------------------------------
-# The practice records, seeded from an index number. Five fixed practice
-# students, plus one seeded for the index you enter, so the table holds six.
+# The practice records, seeded from an index number. Between five and eight
+# fixed practice students, the number set by your index, plus one seeded for the
+# index you enter, so the table holds six to nine.
 # ----------------------------------------------------------------------------
 FIRST = ["Nimali", "Rukshan", "Tharindu", "Ishara", "Dilani", "Kavinda",
          "Sanduni", "Pasan", "Hiruni", "Chathura", "Amaya", "Senuri",
@@ -57,6 +58,9 @@ FIXED_STUDENTS = [
     ("student03", "Dinithi Silva", "TC2003"),
     ("student04", "Yasiru Cooray", "TC2004"),
     ("student05", "Methmi Gamage", "TC2005"),
+    ("student06", "Pasindu Jayawardena", "TC2006"),
+    ("student07", "Nipuni Senanayake", "TC2007"),
+    ("student08", "Kasun Liyanage", "TC2008"),
 ]
 
 
@@ -86,15 +90,24 @@ def seed_record(index):
     return sid, name
 
 
+def fixed_count(index):
+    """How many of the fixed practice students appear, five to eight, set by your
+    index. It is one more step of the same seeding value the record uses, so the
+    portal, the demos and the marking tool agree on it for a given index."""
+    h = fnv1a(clean_index(index))
+    return 5 + (h // (len(FIRST) * len(LAST) * 9000)) % 4
+
+
 def practice_table(index):
-    """A fresh in-memory table of six students: five fixed, plus the seeded one.
-    The seeded student's username is the index you enter; its password is fixed
-    for the practice, so a normal login can be shown to still work."""
+    """A fresh in-memory table: five to eight fixed students, the number set by
+    your index, plus the seeded one. The seeded student's username is the index
+    you enter; its password is fixed for the practice, so a normal login can be
+    shown to still work."""
     ix = clean_index(index)
     sid, name = seed_record(index)
     con = sqlite3.connect(":memory:")
     con.execute("CREATE TABLE students (username TEXT, name TEXT, student_id TEXT, password TEXT)")
-    rows = [(u, n, i, "practice-password") for (u, n, i) in FIXED_STUDENTS]
+    rows = [(u, n, i, "practice-password") for (u, n, i) in FIXED_STUDENTS[:fixed_count(index)]]
     rows.append((ix, name, sid, "practice-password"))
     con.executemany("INSERT INTO students VALUES (?, ?, ?, ?)", rows)
     con.commit()
@@ -174,9 +187,10 @@ def note_probe():
 def run_test(index):
     sid, name = seed_record(index)
     con = practice_table(index)
+    total = fixed_count(index) + 1
     print("Practice record seeded for " + clean_index(index) + ":")
     print("    name " + name + ", identifier " + sid)
-    print("    the table holds 6 students in all")
+    print("    the table holds " + str(total) + " students in all")
     print("")
 
     # Login test.
@@ -185,7 +199,7 @@ def run_test(index):
     normal = login(con, clean_index(index), "practice-password")
     way = "safe (parameterised query)" if SAFE_LOGIN else "flawed (query built by joining text)"
     print("Login page: " + way)
-    print("    the prepared login probe returned " + str(len(returned)) + " of 6 records")
+    print("    the prepared login probe returned " + str(len(returned)) + " of " + str(total) + " records")
     print("    a normal sign-in returned " + str(len(normal)) + " record")
     if len(returned) > 1:
         print("    RESULT: OPEN. The probe read past one record and returned every row,")
