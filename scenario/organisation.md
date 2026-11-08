@@ -112,7 +112,8 @@ Each day adds numbered items to Taxila's security register. The [register pictur
 | College domain | `taxila.example` (a reserved example domain; it never resolves on the internet) |
 | Systems | `sis.taxila.example`, `lms.taxila.example`, `pay.taxila.example`, `mail.taxila.example`, `www.taxila.example` |
 | Your virtual machine | `kali` (full tier) |
-| Provided web application | `taxila-portal` (a small application with its own test, run with Python inside your VM, full tier) or the portal's practice-application demo (floor tier) |
+| Provided web application | `taxila-portal` (a small application with its own test, run with Python inside your VM, full tier) or the portal's `sqli-login` and `output-encoding` demos (floor tier) |
 | Provided database | `taxila-db` (a database you build in MariaDB on your own VM from the provided script, full tier) |
 | Example accounts | `registrar`, `itadmin`, `dpo`, `lecturer01`, `student01` |
+| Day 6 practice records | fictional student names in the `taxila-portal` practice table and the `sqli-login` demo: five fixed records, `student01` to `student05`, and one record seeded from your index, its name drawn from fixed lists of common Sri Lankan given and family names, with an identifier `TC` and four digits. They belong to nobody |
 | Your personal value | your index number written without spaces or hyphens; each lab sheet says how to use it. The example used in the materials is `COHNDNE999X000`, which belongs to nobody |

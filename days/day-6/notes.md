@@ -180,6 +180,14 @@ No single control is enough; the layers work together. Each habit catches what a
 >
 > **Why:** The flaw is in how the portal was set up: a default login nobody changed. No input has to be read as a command, so it is not injection, and no forged request is needed. Anyone who knows the default can walk in.
 
+> **Quick check.** After the review, the portal's admin page has a strong new password. But it still answers to anyone on the internet, from any address. What else should the Head of IT change?
+>
+> - [x] Keep the admin page away from the public internet, so only staff on the college network can reach it
+> - [ ] Change the new password again every week
+> - [ ] Add HttpOnly to the admin page's cookie
+>
+> **Why:** An admin page open to the whole internet is a misconfiguration even with a good password: anyone can keep trying it. Taking it off the public internet closes that door. Changing a strong password weekly adds little, and HttpOnly guards a cookie against scripts, not an open page.
+
 ## Before the lab
 
 This afternoon you work as a defender on the portal's code. You run a provided test, read its report, find the line that trusts what a user typed, apply the fix, and run the test again to prove it. You do this for the login, where the fix is a parameterised query, and for a note the portal shows back, where the fix is output encoding. You never craft an attack and you never type one.
