@@ -326,6 +326,43 @@
 <h3 id="web-application-firewall">Web application firewall</h3>
 <p>A web application firewall (WAF): an application-layer firewall built for web traffic. It reads each web request and drops one that carries a known attack pattern. It can read encrypted requests only if it ends the encryption itself.</p>
 <p><em>Taxila example:</em> a WAF in front of <code>sis.taxila.example</code> could drop a login request carrying an injection string.</p>
+<h2 id="day-9">Day 9</h2>
+<h3 id="business-continuity-planning">Business continuity planning</h3>
+<p>Planning that keeps an organisation's critical work going during a failure and brings it back afterwards. It starts from a business impact analysis and sets a recovery time and a recovery point for each service.</p>
+<p><em>Taxila example:</em> a plan that says how the fee payment page and the SIS (Student Information System) come back after a failure, and in which order.</p>
+<h3 id="business-impact-analysis">Business impact analysis</h3>
+<p>A study of what each important service supports, what harm grows as it stays down for an hour, a day or a week, and so which service must come back first.</p>
+<p><em>Taxila example:</em> the fee payment page's harm rises steeply on the last evening of payment, when hundreds of students are paying.</p>
+<h3 id="malware">Malware</h3>
+<p>Malicious software: any program written to harm a computer or its owner. Its kinds include the virus, worm, trojan, ransomware, spyware and rootkit, which differ in how they spread and what they do.</p>
+<p><em>Taxila example:</em> a trojan hidden in a free timetable program on a staff laptop.</p>
+<h3 id="ransomware">Ransomware</h3>
+<p>Malware that encrypts the victim's files and demands payment for the key. Many kinds also copy the files out first and threaten to publish them.</p>
+<p><em>Taxila example:</em> ransomware on the SIS (Student Information System) would lock every grade until the college restored a clean backup.</p>
+<h3 id="recovery-point-objective">Recovery point objective</h3>
+<p>The recovery point objective (RPO): the most data, measured in time, that a service can afford to lose in a failure. It sets how often the service must be backed up.</p>
+<p><em>Taxila example:</em> an RPO of one hour for the SIS (Student Information System) needs a backup at least every hour, not once a week.</p>
+<h3 id="recovery-time-objective">Recovery time objective</h3>
+<p>The recovery time objective (RTO): the longest a service may stay down after a failure before the harm becomes unacceptable. It is set separately from the recovery point.</p>
+<p><em>Taxila example:</em> the fee payment page needs a short RTO on the last evening of payment.</p>
+<h3 id="residual-risk">Residual risk</h3>
+<p>The risk that remains after a treatment is applied, rated again with the control in place. Its owner judges whether it is low enough.</p>
+<p><em>Taxila example:</em> after the exam paper store is encrypted, a lost key is still a residual risk.</p>
+<h3 id="risk-treatment">Risk treatment</h3>
+<p>The choice of what to do about a risk: mitigate it with a control, avoid it by stopping the activity, transfer it to another party, or accept it as a recorded, owned choice.</p>
+<p><em>Taxila example:</em> the bank's payment gateway holds the card numbers, so Taxila has transferred that risk.</p>
+<h3 id="social-engineering">Social engineering</h3>
+<p>Attacking people instead of systems: persuading someone to give a password, open a file or hold a door, by pulling on triggers such as authority, urgency or fear. Phishing, pretexting, baiting and tailgating are forms of it.</p>
+<p><em>Taxila example:</em> a caller who claims to be the Registrar and asks the IT (information technology) office to reset a password at once.</p>
+<h3 id="stride">STRIDE</h3>
+<p>A list of six kinds of threat used to find threats you might miss: spoofing, tampering, repudiation, information disclosure, denial of service and elevation of privilege.</p>
+<p><em>Taxila example:</em> the changed grade was tampering, and nobody proving who did it was repudiation.</p>
+<h3 id="three-two-one-backup-rule">Three-two-one backup rule</h3>
+<p>Keep three copies of the data, on two kinds of storage, with one copy off-site, so that one fire, theft or malware outbreak cannot reach every copy.</p>
+<p><em>Taxila example:</em> a single weekly disk kept in the server room breaks the rule twice: one backup copy, and none off-site.</p>
+<h3 id="worm">Worm</h3>
+<p>Malware that moves across a network by itself, through a weakness such as a missing patch, with no person needing to open anything. A virus, by contrast, needs a host file and a click.</p>
+<p><em>Taxila example:</em> a worm could reach every unpatched staff computer in minutes.</p>
 <nav class="pager" aria-label="Page navigation"><span></span><span><a href="index.html">All days</a></span><span></span></nav>
 </div>
 </main>

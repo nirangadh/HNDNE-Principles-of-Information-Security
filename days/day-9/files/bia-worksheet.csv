@@ -1,0 +1,3 @@
+Service,What depends on it,Harm after 1 hour (1 to 5),Why,Harm after 1 day (1 to 5),Why,Harm after 1 week (1 to 5),Why,Recovery priority (1 = first)
+Fee payment page (pay.taxila.example),,,,,,,,
+Student Information System (sis.taxila.example),,,,,,,,

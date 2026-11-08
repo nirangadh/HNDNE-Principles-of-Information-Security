@@ -14,3 +14,4 @@ A question appears here when its day's materials are posted.
 | [PQ6](PQ6.md) | Day 6 | A doctor-channelling booking platform: the data-and-command boundary, injection, scripting, cookie settings |
 | [PQ7](PQ7.md) | Day 7 | A microfinance cooperative's mobile app: email checks, a scoped database account, a controller's duty |
 | [PQ8](PQ8.md) | Day 8 | A courier company's tracking site: shared-network threats, firewalls and a demilitarised zone, where a private tunnel helps |
+| [PQ9](PQ9.md) | Day 9 | A ride-hailing app: the attack axes, risk treatments, a backup against a stated recovery point |

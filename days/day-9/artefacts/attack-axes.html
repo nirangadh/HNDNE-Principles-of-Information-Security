@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Three questions for any attack</title>
+<meta name="description" content="Six things that went wrong at Taxila: describe each as passive or active, insider or outsider, targeted or opportunistic, and read its profile.">
+<link rel="stylesheet" href="../../../assets/fonts/fonts.css">
+<style>
+  body{margin:0;font-family:var(--font-body);background:var(--linen);color:var(--ink);line-height:1.6}
+  main{max-width:46rem;margin:0 auto;padding:1.5rem 1rem 2.5rem}
+  h1{font-size:1.6rem;line-height:1.25;margin:0 0 .4rem}
+  .bars{display:flex;gap:6px;margin:.3rem 0 1.1rem}.bars i{display:block;height:6px;border-radius:2px}
+  .bars i:first-child{width:56px;background:var(--burgundy)}.bars i:last-child{width:26px;background:var(--blush)}
+  .lead{margin:0 0 1rem}
+  .step{font-size:.78rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--burgundy);margin:1.6rem 0 .3rem;display:block}
+  h2{font-size:1.15rem;margin:.1rem 0 .4rem}
+  h3{font-size:1rem;margin:.2rem 0 .3rem}
+  button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid var(--burgundy);outline-offset:2px}
+  button{overflow-wrap:anywhere;font:inherit;font-weight:700;color:var(--snow);background:var(--burgundy);border:0;border-radius:8px;padding:.55rem 1rem;min-height:44px;cursor:pointer;margin:.4rem .3rem .2rem 0}
+  button.quiet{color:var(--burgundy);background:var(--snow);border:2px solid var(--burgundy)}
+  button[aria-pressed=true]{background:var(--ink);color:var(--snow);border-color:var(--ink)}
+  button:disabled{opacity:.45;cursor:default}
+  .box{background:var(--snow);border:1px solid var(--rule);border-left:6px solid var(--burgundy);border-radius:0 12px 12px 0;padding:.8rem 1rem;margin:.5rem 0}
+  .box.fault{border-left:6px dashed var(--signal-vermilion);background:var(--rose-wash)}
+  .box.warn{border-left:6px dotted var(--signal-amber)}
+  .box p{margin:.2rem 0}
+  code{font-family:var(--font-code)}
+  .note{font-size:.9rem;color:var(--taupe);margin-top:1.4rem}
+  .tag{display:inline-block;font-size:.75rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;border-radius:6px;padding:.05rem .45rem;margin-right:.4rem}
+  .tag.ok{background:var(--burgundy);color:var(--snow)}
+  .tag.bad{background:var(--rose-wash);color:var(--ink);border:2px dashed var(--signal-vermilion)}
+  .tag.mid{background:var(--snow);color:var(--ink);border:2px dotted var(--taupe)}
+  .row{display:flex;flex-wrap:wrap;align-items:center;gap:.2rem .4rem}
+  .card{background:var(--snow);border:1px solid var(--rule);border-radius:12px;padding:.8rem 1rem;margin:.7rem 0}
+  .card p{margin:.2rem 0}
+  .lbl{font-size:.8rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--taupe);margin:.5rem 0 0}
+  .scroll{overflow-x:auto;max-width:100%}
+  table{border-collapse:collapse;width:100%;margin:.5rem 0;background:var(--snow)}
+  th,td{border:1px solid var(--rule);padding:.3rem .45rem;text-align:left;vertical-align:top;font-size:.9rem}
+  th{background:var(--linen)}
+  @media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
+
+  .meter{font-size:1.05rem;font-weight:800;margin:.8rem 0}
+</style>
+<!-- portal head: written by the portal generator from this demo's title and description; do not edit -->
+<meta name="robots" content="index, follow">
+<link rel="icon" href="../../../assets/img/favicon.svg" type="image/svg+xml">
+<link rel="canonical" href="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-9/artefacts/attack-axes.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Principles of Information Security, HND Network Engineering Year 2">
+<meta property="og:title" content="Three questions for any attack | Day 9">
+<meta property="og:description" content="Six things that went wrong at Taxila: describe each as passive or active, insider or outsider, targeted or opportunistic, and read its profile.">
+<meta property="og:url" content="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-9/artefacts/attack-axes.html">
+<meta property="og:locale" content="en_GB">
+<meta property="og:image" content="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/assets/img/social-card.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="At Taxila College the Head of IT points to the security register on the wall: nineteen numbered items, the first outlined as the place to start. The Registrar holds a sealed transcript and the Data Protection Officer a clipboard. A lecturer turns to welcome two students arriving with a laptop and a phone.">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","author":{"@type":"Person","affiliation":{"@type":"Organization","name":"School of Computing & Engineering, National Institute of Business Management"},"name":"Niranga Dharmaratna"},"description":"Six things that went wrong at Taxila: describe each as passive or active, insider or outsider, targeted or opportunistic, and read its profile.","educationalLevel":"Higher National Diploma, Year 2","inLanguage":"en-GB","interactivityType":"active","isAccessibleForFree":true,"isPartOf":{"@id":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/#course","@type":"Course","name":"Principles of Information Security, HND Network Engineering Year 2","url":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/"},"learningResourceType":"Interactive demonstration","license":"https://opensource.org/licenses/MIT","name":"Three questions for any attack | Day 9","url":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-9/artefacts/attack-axes.html"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/","name":"Principles of Information Security","position":1},{"@type":"ListItem","item":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-9/","name":"Day 9","position":2},{"@type":"ListItem","item":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-9/artefacts/attack-axes.html","name":"Three questions for any attack","position":3}]}</script>
+<script async src="../../../assets/js/analytics.js" data-gtm="GTM-5WTL8VCV" data-site="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/" data-store="hndne-pis:" data-privacy="../../../privacy.html"></script>
+<!-- /portal head -->
+</head>
+<body>
+<main>
+<h1>Three questions for any attack</h1>
+<div class="bars" aria-hidden="true"><i></i><i></i></div>
+<p class="lead">Any attack can be described by three questions. Does the attacker only watch, or act? Do they start inside the college, or outside? Did they choose Taxila, or take whoever was open? The three answers give the attack's profile, and the profile points to the controls that fit.</p>
+
+<span class="step">How to use it</span>
+<p>For each event, answer the three questions with the switches, then choose <strong>Check</strong>. The page tells you which answers fit, and why. Nothing on this page reaches a network: every event is a prepared description.</p>
+<div id="list"></div>
+<p class="meter" id="score" aria-live="polite"></p>
+<p class="note">The events come from Taxila's story and from Days 7 and 8. The profiles are the ones a defender would write down; some events could be argued another way, and the explanation says why this answer fits best.</p>
+
+</main>
+<script>
+(function () {
+  "use strict";
+  var $ = function (id) { return document.getElementById(id); };
+  function el(tag, text, cls) { var e = document.createElement(tag); if (text !== undefined && text !== null) e.textContent = text; if (cls) e.className = cls; return e; }
+  function clear(n) { while (n.firstChild) n.removeChild(n.firstChild); }
+
+  var AX = [
+    { id: "act", q: "What does the attacker do?", a: ["Passive", "Active"] },
+    { id: "who", q: "Where does the attacker start?", a: ["Insider", "Outsider"] },
+    { id: "aim", q: "Who was chosen?", a: ["Targeted", "Opportunistic"] }
+  ];
+  var EV = [
+    { t: "The changed grade", d: "A student's final grade in the Student Information System (SIS) was found higher than the lecturer entered. Only accounts with access to the SIS can change a grade.",
+      k: [1, 0, 0], why: ["The grade was changed, so it is active.", "Only someone with an SIS account could change it: an insider.", "One grade of one student was chosen: targeted."],
+      help: "Least privilege, a second approver for grade changes, and a record of who changed what." },
+    { t: "A message to a stolen list", d: "The same email reaches thousands of addresses copied from an old leaked list, Taxila's staff among them. It asks everyone to sign in to a look-alike page.",
+      k: [1, 1, 1], why: ["It sends messages and asks people to act: active.", "The sender has no access of their own: an outsider.", "Everyone on the list gets it, whoever they are: opportunistic."],
+      help: "Email authentication, an awareness programme, and multi-factor sign-in so a stolen password is not enough." },
+    { t: "A recorder outside the fence", d: "Someone parked outside the campus records any wireless traffic in range, hoping to find something sent without encryption.",
+      k: [0, 1, 1], why: ["Recording only receives: passive. It leaves no trace.", "They have no college account or access: an outsider.", "They take whatever passes: opportunistic."],
+      help: "Encryption on every service, so whatever is recorded is unreadable. Watching for watchers does not work." },
+    { t: "A false reply on the staff network", d: "A machine on the staff network sends a false address reply, aimed at the Registrar's laptop, so its traffic passes through that machine.",
+      k: [1, 0, 0], why: ["Sending a false reply changes the victim's cache: active.", "Address replies never leave the local segment, so the sender is on the staff network: an insider.", "It aims at the Registrar's laptop: targeted."],
+      help: "Keeping unmanaged devices off the staff network, secure web so a certificate check fails, and monitoring that notices one address with two owners." },
+    { t: "A flood on deadline night", d: "On the last evening before a fee deadline, many machines on the internet flood the fee payment page so that students cannot pay.",
+      k: [1, 1, 0], why: ["Flooding sends traffic to stop a service: active.", "The machines are on the internet, with no college access: outsiders.", "Choosing the deadline evening shows the college was chosen: targeted."],
+      help: "A stateful firewall, a provider that absorbs floods, and a continuity plan with a stated recovery time." },
+    { t: "A worm from the internet", d: "A worm moving across the internet reaches one unpatched staff computer that was left reachable, and spreads to others on the staff network.",
+      k: [1, 1, 1], why: ["A worm runs code and copies itself: active.", "It comes from outside, with no account: an outsider.", "It tries every machine with the same weakness, wherever it is: opportunistic."],
+      help: "Patching, a firewall that keeps staff computers unreachable from the internet, and least privilege." }
+  ];
+  var right = EV.map(function () { return false; });
+  var list = $("list");
+  EV.forEach(function (ev, i) {
+    var c = el("section", undefined, "card");
+    c.setAttribute("aria-labelledby", "ev" + i);
+    var h = el("h2", (i + 1) + ". " + ev.t); h.id = "ev" + i; c.appendChild(h);
+    c.appendChild(el("p", ev.d));
+    var pick = [null, null, null];
+    var groups = [];
+    AX.forEach(function (ax, j) {
+      c.appendChild(el("p", ax.q, "lbl"));
+      var r = el("div", undefined, "row"); r.setAttribute("role", "group"); r.setAttribute("aria-label", ax.q);
+      var bs = ax.a.map(function (lab, v) {
+        var b = el("button", lab, "quiet"); b.type = "button"; b.setAttribute("aria-pressed", "false");
+        b.addEventListener("click", function () {
+          pick[j] = v; bs.forEach(function (x, y) { x.setAttribute("aria-pressed", y === v ? "true" : "false"); });
+        });
+        r.appendChild(b); return b;
+      });
+      groups.push(bs); c.appendChild(r);
+    });
+    var chk = el("button", "Check"); chk.type = "button"; c.appendChild(chk);
+    var out = el("div", undefined, "box"); out.setAttribute("aria-live", "polite"); out.hidden = true; c.appendChild(out);
+    chk.addEventListener("click", function () {
+      clear(out); out.hidden = false;
+      if (pick.indexOf(null) >= 0) { out.className = "box warn"; out.appendChild(el("p", "Answer all three questions first.")); return; }
+      var ok = 0;
+      AX.forEach(function (ax, j) {
+        var p = el("p"); var good = pick[j] === ev.k[j]; if (good) ok++;
+        var t = el("span", good ? "Fits" : "Look again", "tag " + (good ? "ok" : "bad")); p.appendChild(t);
+        p.appendChild(document.createTextNode(ev.why[j])); out.appendChild(p);
+      });
+      out.className = ok === 3 ? "box" : "box fault";
+      var prof = AX.map(function (ax, j) { return ax.a[ev.k[j]].toLowerCase(); }).join(", ");
+      out.appendChild(el("p", "Profile: " + prof + "."));
+      out.appendChild(el("p", "What helps: " + ev.help));
+      right[i] = ok === 3;
+      var n = right.filter(Boolean).length;
+      $("score").textContent = n + " of " + EV.length + " events profiled fully right.";
+    });
+    list.appendChild(c);
+  });
+
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,338 @@
+<!doctype html>
+<html lang="en-GB" data-store="hndne-pis:">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="hndne-pis-site">
+<title>Day 9: Attacks, people, risk and continuity | Principles of Information Security</title>
+<meta name="author" content="Niranga Dharmaratna">
+<meta name="description" content="Day 9 morning notes: Day 9: Attacks, people, risk and continuity. These notes cover the Day 9 morning. They give you three questions that describe any...">
+<meta name="robots" content="index, follow">
+<link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml">
+<link rel="canonical" href="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-9/notes.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Principles of Information Security, HND Network Engineering Year 2">
+<meta property="og:title" content="Day 9: Attacks, people, risk and continuity">
+<meta property="og:description" content="Day 9 morning notes: Day 9: Attacks, people, risk and continuity. These notes cover the Day 9 morning. They give you three questions that describe any...">
+<meta property="og:url" content="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-9/notes.html">
+<meta property="og:locale" content="en_GB">
+<meta property="og:image" content="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/assets/img/social-card.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="At Taxila College the Head of IT points to the security register on the wall: nineteen numbered items, the first outlined as the place to start. The Registrar holds a sealed transcript and the Data Protection Officer a clipboard. A lecturer turns to welcome two students arriving with a laptop and a phone.">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","author":{"@type":"Person","affiliation":{"@type":"Organization","name":"School of Computing & Engineering, National Institute of Business Management"},"name":"Niranga Dharmaratna"},"description":"Day 9 morning notes: Day 9: Attacks, people, risk and continuity. These notes cover the Day 9 morning. They give you three questions that describe any...","educationalLevel":"Higher National Diploma, Year 2","inLanguage":"en-GB","interactivityType":"expository","isAccessibleForFree":true,"isPartOf":{"@id":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/#course","@type":"Course","name":"Principles of Information Security, HND Network Engineering Year 2","url":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/"},"learningResourceType":"Lecture notes","license":"https://creativecommons.org/licenses/by-nc-sa/4.0/","name":"Day 9: Attacks, people, risk and continuity","url":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-9/notes.html"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/","name":"Principles of Information Security","position":1},{"@type":"ListItem","item":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-9/","name":"Day 9","position":2},{"@type":"ListItem","item":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-9/notes.html","name":"Day 9: Attacks, people, risk and continuity","position":3}]}</script>
+<link rel="stylesheet" href="../../assets/fonts/fonts.css">
+<link rel="stylesheet" href="../../assets/css/site.css">
+<script>document.documentElement.className = "js";</script>
+<script async src="../../assets/js/analytics.js" data-gtm="GTM-5WTL8VCV" data-site="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/" data-store="hndne-pis:" data-privacy="../../privacy.html"></script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to the content</a>
+<header class="site-header"><div class="wrap"><div><p class="eyebrow"><a href="../../index.html">Principles of Information Security | HND Network Engineering, Year 2</a></p><h1>Day 9: Attacks, people, risk and continuity</h1><p class="sub">Day 9, morning notes</p><div class="bars" aria-hidden="true"><i></i><i></i></div></div></div></header>
+<main id="main">
+<div class="wrap prose">
+<div class="meta"><span class="badge" title="Learning outcome 5">LO5</span><span class="badge" title="Learning outcome 6">LO6</span></div>
+<p>These notes cover the Day 9 morning. They give you three questions that describe any attack, and show how the main kinds of harmful software differ. They show how attackers use people instead of systems, and where the law draws its lines. Then they turn from single threats to the whole picture: how an organisation chooses what to do about each risk, and how it keeps working when something fails anyway.</p>
+<div class="box recall"><p class="box-label">Recall</p><p>A threat exploits a vulnerability to put an asset at risk.</p></div>
+<div class="box recall"><p class="box-label">Recall</p><p>Availability is the property that keeps a service answering.</p></div>
+<p>It is results week. The Registrar stands at the server room door and remembers the night the fee payment page stopped. "If the Student Information System (SIS) stopped tonight, how long could we wait before students were hurt? And if we restored from last week's disk, how many grades would we lose?" Nobody in the room has a number yet. By the end of today, you will.</p>
+<p>Item 18 on Taxila's security register is the staff awareness programme, taught today as a concept. This afternoon you return to item 2, the risk register you started on Day 1, and choose how to treat each risk. You also write item 19, the continuity plan and backups.</p>
+<h2 id="1-classifying-an-attack">1. Classifying an attack</h2>
+<p>Try the demo first: <a href="artefacts/attack-axes.html">Three questions for any attack</a>. Read six things that went wrong, set three switches for each, and read the profile.</p>
+<div class="box recall"><p class="box-label">Recall</p><p>Sniffing only receives and leaves no trace; a flood sends traffic to stop a service.</p></div>
+<p>You have met many attacks in this module. Three questions describe any of them. Each question has two answers, so we call them the three axes.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Axis</th>
+<th>One answer</th>
+<th>The other answer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>What does the attacker do?</td>
+<td><strong>Passive</strong>: only watches or reads, and changes nothing</td>
+<td><strong>Active</strong>: sends, changes, blocks or deletes something</td>
+</tr>
+<tr>
+<td>Where does the attacker start?</td>
+<td><strong>Insider</strong>: already has access, such as a member of staff or a student</td>
+<td><strong>Outsider</strong>: starts with no access of their own</td>
+</tr>
+<tr>
+<td>Who was chosen?</td>
+<td><strong>Targeted</strong>: aimed at this organisation or this person</td>
+<td><strong>Opportunistic</strong>: aimed at anyone who happens to be open</td>
+</tr>
+</tbody>
+</table></div>
+<p>Together the three answers give the attack's profile. The profile helps you judge how likely the attack is and which controls fit it. A passive attack leaves no trace, so encryption is the answer, not watching for it. An insider already holds a password, so a firewall does not stop them, but <a class="term" data-term="least-privilege" href="../../glossary.html#least-privilege">least privilege</a> and a record of who did what do. An opportunistic attack hits whoever is weakest, so ordinary good practice, such as patching, removes most of it. A targeted attacker keeps trying, so the controls must be in layers.</p>
+<figure class="art"><svg aria-labelledby="ax-t ax-d" role="img" style="min-width:640px" viewbox="0 0 640 330"><title id="ax-t">Two events on three axes</title><desc id="ax-d">Two rows, one per event, answered on three questions. The changed grade in the SIS is marked active, insider and targeted. A mass phishing run, one message to thousands, is marked active, outsider and opportunistic. Below, the controls that fit each profile: least privilege and a second approver for the changed grade; awareness and email checks for the phishing run.</desc><rect fill="#FFFBFB" height="330" width="640"></rect><text fill="#6C5353" font-family="Open Sans, Arial, sans-serif" font-size="14" font-weight="700" text-anchor="start" x="20" y="30">TWO EVENTS, THREE QUESTIONS</text><text fill="#2A1A1D" font-family="Open Sans, Arial, sans-serif" font-size="12" font-weight="700" text-anchor="middle" x="262" y="62">Watch or act?</text><text fill="#6C5353" font-family="Open Sans, Arial, sans-serif" font-size="12" font-weight="400" text-anchor="middle" x="228" y="86">passive</text><text fill="#6C5353" font-family="Open Sans, Arial, sans-serif" font-size="12" font-weight="400" text-anchor="middle" x="296" y="86">active</text><text fill="#2A1A1D" font-family="Open Sans, Arial, sans-serif" font-size="12" font-weight="700" text-anchor="middle" x="404" y="62">Inside or outside?</text><text fill="#6C5353" font-family="Open Sans, Arial, sans-serif" font-size="12" font-weight="400" text-anchor="middle" x="370" y="86">insider</text><text fill="#6C5353" font-family="Open Sans, Arial, sans-serif" font-size="12" font-weight="400" text-anchor="middle" x="438" y="86">outsider</text><text fill="#2A1A1D" font-family="Open Sans, Arial, sans-serif" font-size="12" font-weight="700" text-anchor="middle" x="546" y="62">Chosen or not?</text><text fill="#6C5353" font-family="Open Sans, Arial, sans-serif" font-size="12" font-weight="400" text-anchor="middle" x="512" y="86">targeted</text><text fill="#6C5353" font-family="Open Sans, Arial, sans-serif" font-size="12" font-weight="400" text-anchor="middle" x="580" y="86">opportunistic</text><rect fill="#FBF6F6" height="72" rx="10" stroke="#BFA6A8" stroke-width="2" width="600" x="20" y="108"></rect><text fill="#2A1A1D" font-family="Open Sans, Arial, sans-serif" font-size="14" font-weight="800" text-anchor="start" x="34" y="140">The changed grade</text><text fill="#6C5353" font-family="Open Sans, Arial, sans-serif" font-size="12" font-weight="400" text-anchor="start" x="34" y="160">a grade altered in the SIS</text><rect fill="#FFFBFB" height="32" rx="16" stroke="#BFA6A8" stroke-dasharray="4 4" stroke-width="2" width="56" x="200" y="128"></rect><rect fill="#9C2C3A" height="32" rx="16" width="56" x="268" y="128"></rect><path d="M289 144 L294 149 L304 138" fill="none" stroke="#FFFBFB" stroke-width="3"></path><rect fill="#9C2C3A" height="32" rx="16" width="56" x="342" y="128"></rect><path d="M363 144 L368 149 L378 138" fill="none" stroke="#FFFBFB" stroke-width="3"></path><rect fill="#FFFBFB" height="32" rx="16" stroke="#BFA6A8" stroke-dasharray="4 4" stroke-width="2" width="56" x="410" y="128"></rect><rect fill="#9C2C3A" height="32" rx="16" width="56" x="484" y="128"></rect><path d="M505 144 L510 149 L520 138" fill="none" stroke="#FFFBFB" stroke-width="3"></path><rect fill="#FFFBFB" height="32" rx="16" stroke="#BFA6A8" stroke-dasharray="4 4" stroke-width="2" width="56" x="552" y="128"></rect><rect fill="#FBF6F6" height="72" rx="10" stroke="#BFA6A8" stroke-width="2" width="600" x="20" y="198"></rect><text fill="#2A1A1D" font-family="Open Sans, Arial, sans-serif" font-size="14" font-weight="800" text-anchor="start" x="34" y="230">A mass phishing run</text><text fill="#6C5353" font-family="Open Sans, Arial, sans-serif" font-size="12" font-weight="400" text-anchor="start" x="34" y="250">one message to thousands</text><rect fill="#FFFBFB" height="32" rx="16" stroke="#BFA6A8" stroke-dasharray="4 4" stroke-width="2" width="56" x="200" y="218"></rect><rect fill="#9C2C3A" height="32" rx="16" width="56" x="268" y="218"></rect><path d="M289 234 L294 239 L304 228" fill="none" stroke="#FFFBFB" stroke-width="3"></path><rect fill="#FFFBFB" height="32" rx="16" stroke="#BFA6A8" stroke-dasharray="4 4" stroke-width="2" width="56" x="342" y="218"></rect><rect fill="#9C2C3A" height="32" rx="16" width="56" x="410" y="218"></rect><path d="M431 234 L436 239 L446 228" fill="none" stroke="#FFFBFB" stroke-width="3"></path><rect fill="#FFFBFB" height="32" rx="16" stroke="#BFA6A8" stroke-dasharray="4 4" stroke-width="2" width="56" x="484" y="218"></rect><rect fill="#9C2C3A" height="32" rx="16" width="56" x="552" y="218"></rect><path d="M573 234 L578 239 L588 228" fill="none" stroke="#FFFBFB" stroke-width="3"></path><text fill="#9C2C3A" font-family="Open Sans, Arial, sans-serif" font-size="12" font-weight="700" text-anchor="start" x="20" y="296">Changed grade: active, insider, targeted. Least privilege and a second approver fit.</text><text fill="#9C2C3A" font-family="Open Sans, Arial, sans-serif" font-size="12" font-weight="700" text-anchor="start" x="20" y="316">Phishing run: active, outsider, opportunistic. Awareness and email checks fit.</text></svg><figcaption>Two events on three axes: the profile points to the controls <a class="full" href="img/attack-axes.svg">Open this diagram at full size</a></figcaption></figure>
+<p>An insider is not always dishonest. A lecturer who emails a spreadsheet of grades to the wrong person is an insider too, acting by mistake.</p>
+<div class="box know"><p class="box-label">You already know this</p><p>You describe a burglary in three ways. Did the burglar only look through the window, or break in? Was it someone who works in the house, or a stranger? Did they choose your house, or try every door in the street until one opened?</p><p class="map-row"><span class="map-label">Mapping</span>watching against breaking in = passive against active; a staff member against a stranger = insider against outsider; chosen against first-unlocked = targeted against opportunistic.</p></div>
+<div class="box case"><p class="box-label">Taxila College</p><p>The changed grade was likely an insider: someone with access to the SIS. A mass phishing run is opportunistic.</p></div>
+<div class="box mistake"><p class="box-label">Common mistake</p><p>"An attacker is always an outsider." Insiders already have accounts and know where the data is. By malice or by mistake, they are among the hardest to catch. This is why Taxila's grade changes now need a named person and a second approver.</p></div>
+<div class="qc"><p class="qc-label">Quick check</p><p class="qc-q">A student on the college Wi-Fi quietly records other students' traffic to find passwords sent without encryption. They do not mind whose passwords they get. What is the profile?</p><ol class="qc-opts"><li>Active, outsider, targeted</li><li data-right="">Passive, insider, opportunistic<span class="qc-key"> (answer)</span></li><li>Passive, outsider, targeted</li></ol><p class="qc-why"><strong>Why:</strong> Recording traffic only receives, so it is passive. The student is already on the college's own network with their own access, so they are an insider. They take whatever passes, so it is opportunistic. "Outsider" is the tempting wrong answer, because people picture attackers as strangers.</p></div>
+<h2 id="2-malware">2. Malware</h2>
+<p>Try the demo first: <a href="artefacts/malware-spread.html">How malware spreads</a>. Start each animation and watch how each kind moves from one college computer to the next.</p>
+<div class="box recall"><p class="box-label">Recall</p><p>Hardening means removing what a system does not need and keeping it patched.</p></div>
+<p><a class="term" data-term="malware" href="../../glossary.html#malware">Malware</a>, short for malicious software, is any program written to harm a computer or its owner. Its kinds differ in how they spread and in what they do.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Kind</th>
+<th>How it spreads or hides</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Virus</td>
+<td>attaches itself to a host file, and runs when a person opens that file</td>
+<td>copies itself into other files; may damage data</td>
+</tr>
+<tr>
+<td><a class="term" data-term="worm" href="../../glossary.html#worm">Worm</a></td>
+<td>moves across the network by itself, through a weakness such as a missing patch</td>
+<td>spreads to every reachable machine, with no click needed</td>
+</tr>
+<tr>
+<td>Trojan</td>
+<td>hides inside something the user wants, such as a free program</td>
+<td>does something harmful behind the wanted part, such as opening a hidden way in</td>
+</tr>
+<tr>
+<td><a class="term" data-term="ransomware" href="../../glossary.html#ransomware">Ransomware</a></td>
+<td>arrives as any of the above</td>
+<td>encrypts the victim's files and demands payment for the key</td>
+</tr>
+<tr>
+<td>Spyware</td>
+<td>runs quietly in the background</td>
+<td>watches the user, such as recording the keys they press, and reports back</td>
+</tr>
+<tr>
+<td>Rootkit</td>
+<td>hides itself, and other malware, from the operating system and its tools</td>
+<td>keeps an attacker in control without being seen</td>
+</tr>
+</tbody>
+</table></div>
+<p>The first difference matters most. A virus needs a human action: someone must open the infected file. A worm needs none. It finds the next machine with the same weakness, and copies itself there. That is why one unpatched server can infect a whole network in minutes.</p>
+<p>Ransomware turns Day 2's encryption against its victim. The files are still there, but nobody can read them without a key the attacker holds. Many ransomware groups also copy the files out first and threaten to publish them, so confidentiality is lost as well.</p>
+<p>No single product stops all of these. Each layer meets a different kind:</p>
+<ul>
+<li><strong>Patching</strong>, from Day 5, closes the weaknesses that worms use.</li>
+<li><strong>Least privilege</strong> limits what any malware can reach from one account.</li>
+<li><strong>Anti-malware software</strong> on each computer recognises known malware and blocks it.</li>
+<li><strong>Awareness</strong> stops a person opening the infected file or the trojan.</li>
+<li><strong>Backups</strong> that the malware cannot reach let you restore after ransomware.</li>
+</ul>
+<div class="box know"><p class="box-label">You already know this</p><p>Picture a printed flyer. It travels only when someone picks it up and hands it on. Now picture a rumour. It spreads from person to person by itself, and nobody has to decide to pass it on.</p><p class="map-row"><span class="map-label">Mapping</span>a flyer someone must pass on by hand = a virus needing a host and a click; a rumour that spreads by itself = a worm moving across the network.</p></div>
+<div class="box case"><p class="box-label">Taxila College</p><p>Ransomware on the Student Information System would hold grades hostage, hurting availability and integrity.</p></div>
+<div class="box mistake"><p class="box-label">Common mistake</p><p>"A virus and a worm are the same thing." A virus needs a host file and a person to run it. A worm moves across the network on its own. The difference changes the defence: awareness slows a virus, but only patching stops a worm.</p></div>
+<div class="qc"><p class="qc-label">Quick check</p><p class="qc-q">A district clinic's appointment computers stop one evening. By morning every computer on the clinic's network shows the same message, and nobody had opened any attachment. Which kind of malware spread this way?</p><ol class="qc-opts"><li>A virus, because it damaged files</li><li data-right="">A worm, because it reached every machine with no human action<span class="qc-key"> (answer)</span></li><li>A trojan, because it was hidden</li></ol><p class="qc-why"><strong>Why:</strong> Nobody opened anything, so the malware moved by itself: that is a worm. The message on every screen suggests ransomware was its payload. A virus needs a person to open the host file, which did not happen here.</p></div>
+<h2 id="3-social-engineering-the-law-and-privacy">3. Social engineering, the law and privacy</h2>
+<p>Try the demo first: <a href="artefacts/social-triggers.html">Which button does it press?</a>. Read six prepared messages and name the trigger each one pulls.</p>
+<div class="box recall"><p class="box-label">Recall</p><p>Phishing is a message that tricks people into giving away a password, money or data.</p></div>
+<p><a class="term" data-term="social-engineering" href="../../glossary.html#social-engineering">Social engineering</a> attacks people instead of systems. It persuades someone to do what the attacker wants: give a password, open a file, or hold a door. Four forms are common.</p>
+<ul>
+<li><strong><a class="term" data-term="phishing" href="../../glossary.html#phishing">Phishing</a></strong> sends a message, as on Day 7. Spear-phishing aims it at one person.</li>
+<li><strong>Pretexting</strong> invents a story, the pretext, to make a request seem normal. "I am from the bank's security team, and I need to confirm your account."</li>
+<li><strong>Baiting</strong> leaves something tempting, such as a memory stick marked "Salaries", for someone to pick up and plug in.</li>
+<li><strong>Tailgating</strong> follows a person with access through a locked door, perhaps carrying boxes so that they hold it open.</li>
+</ul>
+<p>Each one pulls on a human trigger. Six are common:</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Trigger</th>
+<th>What the message makes you feel</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Authority</td>
+<td>an important person is asking</td>
+<td>"This is the Registrar."</td>
+</tr>
+<tr>
+<td>Urgency</td>
+<td>there is no time to check</td>
+<td>"Reply within one hour."</td>
+</tr>
+<tr>
+<td>Fear</td>
+<td>something bad will happen if you do not act</td>
+<td>"Your account will be closed."</td>
+</tr>
+<tr>
+<td>Reward</td>
+<td>you will gain something</td>
+<td>"You have won a free laptop."</td>
+</tr>
+<tr>
+<td>Curiosity</td>
+<td>you want to see what it is</td>
+<td>"Exam results leaked: see the list."</td>
+</tr>
+<tr>
+<td>Helpfulness</td>
+<td>a polite person needs your help</td>
+<td>"I left my card at home, could you hold the door?"</td>
+</tr>
+</tbody>
+</table></div>
+<p>The control is people who recognise the triggers, which is item 18 on Taxila's security register, the staff awareness programme. It teaches staff to stop and check through a second channel, such as phoning the Registrar's office on the number they already know. It gives them one easy way to report a suspicious message. Practice phishing messages show staff, safely, what a real one looks like.</p>
+<p>The law sets the boundary for all security work. Under Sri Lanka's Computer Crime Act, No. 24 of 2007, gaining access to a computer, or to its information, without lawful authority is an offence. So is making a computer do something without lawful authority. Attacking any system without written permission is a crime, even with no damage. A practice phishing exercise is no exception: Taxila runs one only with the college management's written approval.</p>
+<p>The same exercise produces a list of who clicked. That list is personal data, and the law protects personal data too. Under Sri Lanka's Personal Data Protection Act, No. 9 of 2022, as amended, Taxila is the <a class="term" data-term="data-controller" href="../../glossary.html#data-controller">data controller</a> for its students' and staff's personal data. It must use that data only for a stated purpose, keep it safe and correct, and keep it no longer than needed. At the time of writing, the Act's Data Protection Authority is set up, and a government order has fixed the date from which the duties on organisations apply. The Authority's own site gives the current position. The European Union's General Data Protection Regulation (GDPR) is the best-known law of the same kind, and many of its ideas appear in the Sri Lankan Act.</p>
+<div class="box know"><p class="box-label">You already know this</p><p>A man in a smart uniform knocks at the door. "Electricity board. Your supply will be cut in ten minutes unless I check the meter now." You let him in without asking to see his card.</p><p class="map-row"><span class="map-label">Mapping</span>the uniform that makes you comply = authority; the act-now demand = urgency.</p></div>
+<div class="box case"><p class="box-label">Taxila College</p><p>Two staff followed the fake Registrar link. An awareness programme and the Data Protection Officer's duties are the answer.</p></div>
+<div class="box mistake"><p class="box-label">Common mistake</p><p>"Good technical controls stop social engineering." Social engineering attacks people, not systems. A firewall cannot stop a member of staff who reads a password out over the phone. The main control is people who recognise the triggers and check through a second channel.</p></div>
+<div class="qc"><p class="qc-label">Quick check</p><p class="qc-q">A microfinance cooperative's field agent gets a call: "Head office here. The system is down and the auditors arrive at noon. Read me your login code now, or your village's loans will be stopped." Which triggers does the caller pull?</p><ol class="qc-opts"><li>Reward and curiosity</li><li>Helpfulness only</li><li data-right="">Authority, urgency and fear<span class="qc-key"> (answer)</span></li></ol><p class="qc-why"><strong>Why:</strong> "Head office" is authority. "Auditors arrive at noon" and "now" are urgency. "Loans will be stopped" is fear. The agent's defence is to hang up and call head office on the number they already know.</p></div>
+<h2 id="4-managing-risk">4. Managing risk</h2>
+<p>Try the demo first: <a href="artefacts/risk-treatment.html">Four ways to treat a risk</a>. Choose a treatment for each of four Taxila risks and watch what remains.</p>
+<div class="box recall"><p class="box-label">Recall</p><p>Risk combines how likely a harm is and how much it would cost.</p></div>
+<p>The Head of IT (information technology) cannot fix everything at once. Managing risk is how an organisation decides what to do first, and what to do about each risk. It is a cycle, not a single task.</p>
+<ol>
+<li><strong>Identify</strong> the assets, the threats and the vulnerabilities, as you did on Day 1.</li>
+<li><strong>Rate</strong> each risk: likelihood from 1 to 5, impact from 1 to 5, and the score, which is the two multiplied.</li>
+<li><strong>Treat</strong> each risk, starting with the highest scores.</li>
+<li><strong>Record</strong> the treatment and the person who owns the risk.</li>
+<li><strong>Review</strong> the register when threats or systems change, and start again.</li>
+</ol>
+<p>There are four ways to treat a risk. Together they are called <a class="term" data-term="risk-treatment" href="../../glossary.html#risk-treatment">risk treatment</a>.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Treatment</th>
+<th>What you do</th>
+<th>Taxila example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Mitigate</td>
+<td>add a control that lowers the likelihood or the impact</td>
+<td>encrypt the exam paper store, so a leaked file cannot be read</td>
+</tr>
+<tr>
+<td>Avoid</td>
+<td>stop the activity that creates the risk</td>
+<td>switch off the old test web server that nobody uses</td>
+</tr>
+<tr>
+<td>Transfer</td>
+<td>let another party carry the cost</td>
+<td>the bank's payment gateway holds card numbers, so Taxila never does</td>
+</tr>
+<tr>
+<td>Accept</td>
+<td>live with the risk, as a recorded choice</td>
+<td>the course catalogue on the website is public data; a defaced page is fixed when it happens</td>
+</tr>
+</tbody>
+</table></div>
+<figure class="art"><svg aria-labelledby="tr-t tr-d" role="img" style="min-width:640px" viewbox="0 0 640 400"><title id="tr-t">One risk, four treatments</title><desc id="tr-d">At the top, one risk: exam papers in a folder anyone can open, likelihood 3 times impact 5, score 15. Four arrows lead to four treatments, each with a residual risk bar out of 25. Mitigate, encrypt and limit the folder: residual 1 times 5, which is 5. Avoid, write papers on paper only: the folder risk is gone. Transfer, insurance pays for a rewrite: the bar stays at 15, because the leak still happens. Accept, a recorded, owned choice: 15 stays, too high here.</desc><rect fill="#FFFBFB" height="400" width="640"></rect><text fill="#6C5353" font-family="Open Sans, Arial, sans-serif" font-size="14" font-weight="700" text-anchor="start" x="20" y="30">ONE RISK, FOUR WAYS OUT</text><rect fill="#F3E2E4" height="56" rx="10" stroke="#9C2C3A" stroke-width="2" width="600" x="20" y="44"></rect><text fill="#2A1A1D" font-family="Open Sans, Arial, sans-serif" font-size="14" font-weight="800" text-anchor="start" x="36" y="68">Exam papers in a folder anyone can open</text><text fill="#2A1A1D" font-family="Courier New, monospace" font-size="12" font-weight="400" text-anchor="start" x="36" y="88">likelihood 3 x impact 5 = 15</text><path d="M93 104 L93 124" fill="none" stroke="#2A1A1D" stroke-width="2.5"></path><path d="M93 132 L87 123 L99 123 Z" fill="#2A1A1D"></path><rect fill="#FBF6F6" height="150" rx="10" stroke="#2A1A1D" stroke-width="2" width="146" x="20" y="136"></rect><text fill="#9C2C3A" font-family="Open Sans, Arial, sans-serif" font-size="14" font-weight="800" text-anchor="middle" x="93" y="160">Mitigate</text><text fill="#2A1A1D" font-family="Open Sans, Arial, sans-serif" font-size="12" font-weight="400" text-anchor="middle" x="93" y="184">encrypt and limit</text><text fill="#2A1A1D" font-family="Open Sans, Arial, sans-serif" font-size="12" font-weight="400" text-anchor="middle" x="93" y="200">the folder</text><text fill="#6C5353" font-family="Open Sans, Arial, sans-serif" font-size="12" font-weight="700" text-anchor="middle" x="93" y="228">residual risk</text><rect fill="#FFFBFB" height="12" rx="6" stroke="#BFA6A8" stroke-width="1.5" width="120" x="33" y="238"></rect><rect fill="#6C5353" height="12" rx="6" width="24.0" x="33" y="238"></rect><text fill="#2A1A1D" font-family="Open Sans, Arial, sans-serif" font-size="12" font-weight="400" text-anchor="middle" x="93" y="272">1 x 5 = 5</text><path d="M245 104 L245 124" fill="none" stroke="#2A1A1D" stroke-width="2.5"></path><path d="M245 132 L239 123 L251 123 Z" fill="#2A1A1D"></path><rect fill="#FBF6F6" height="150" rx="10" stroke="#2A1A1D" stroke-width="2" width="146" x="172" y="136"></rect><text fill="#9C2C3A" font-family="Open Sans, Arial, sans-serif" font-size="14" font-weight="800" text-anchor="middle" x="245" y="160">Avoid</text><text fill="#2A1A1D" font-family="Open Sans, Arial, sans-serif" font-size="12" font-weight="400" text-anchor="middle" x="245" y="184">write papers on</text><text fill="#2A1A1D" font-family="Open Sans, Arial, sans-serif" font-size="12" font-weight="400" text-anchor="middle" x="245" y="200">paper only</text><text fill="#6C5353" font-family="Open Sans, Arial, sans-serif" font-size="12" font-weight="700" text-anchor="middle" x="245" y="228">residual risk</text><rect fill="#FFFBFB" height="12" rx="6" stroke="#BFA6A8" stroke-width="1.5" width="120" x="185" y="238"></rect><text fill="#2A1A1D" font-family="Open Sans, Arial, sans-serif" font-size="12" font-weight="400" text-anchor="middle" x="245" y="272">the folder risk is gone</text><path d="M397 104 L397 124" fill="none" stroke="#2A1A1D" stroke-width="2.5"></path><path d="M397 132 L391 123 L403 123 Z" fill="#2A1A1D"></path><rect fill="#FBF6F6" height="150" rx="10" stroke="#2A1A1D" stroke-width="2" width="146" x="324" y="136"></rect><text fill="#9C2C3A" font-family="Open Sans, Arial, sans-serif" font-size="14" font-weight="800" text-anchor="middle" x="397" y="160">Transfer</text><text fill="#2A1A1D" font-family="Open Sans, Arial, sans-serif" font-size="12" font-weight="400" text-anchor="middle" x="397" y="184">insurance pays for</text><text fill="#2A1A1D" font-family="Open Sans, Arial, sans-serif" font-size="12" font-weight="400" text-anchor="middle" x="397" y="200">a rewrite</text><text fill="#6C5353" font-family="Open Sans, Arial, sans-serif" font-size="12" font-weight="700" text-anchor="middle" x="397" y="228">residual risk</text><rect fill="#FFFBFB" height="12" rx="6" stroke="#BFA6A8" stroke-width="1.5" width="120" x="337" y="238"></rect><rect fill="#6C5353" height="12" rx="6" width="72.0" x="337" y="238"></rect><text fill="#2A1A1D" font-family="Open Sans, Arial, sans-serif" font-size="12" font-weight="400" text-anchor="middle" x="397" y="272">the leak still happens</text><path d="M549 104 L549 124" fill="none" stroke="#2A1A1D" stroke-width="2.5"></path><path d="M549 132 L543 123 L555 123 Z" fill="#2A1A1D"></path><rect fill="#FBF6F6" height="150" rx="10" stroke="#2A1A1D" stroke-width="2" width="146" x="476" y="136"></rect><text fill="#9C2C3A" font-family="Open Sans, Arial, sans-serif" font-size="14" font-weight="800" text-anchor="middle" x="549" y="160">Accept</text><text fill="#2A1A1D" font-family="Open Sans, Arial, sans-serif" font-size="12" font-weight="400" text-anchor="middle" x="549" y="184">a recorded,</text><text fill="#2A1A1D" font-family="Open Sans, Arial, sans-serif" font-size="12" font-weight="400" text-anchor="middle" x="549" y="200">owned choice</text><text fill="#6C5353" font-family="Open Sans, Arial, sans-serif" font-size="12" font-weight="700" text-anchor="middle" x="549" y="228">residual risk</text><rect fill="#FFFBFB" height="12" rx="6" stroke="#BFA6A8" stroke-width="1.5" width="120" x="489" y="238"></rect><rect fill="#6C5353" height="12" rx="6" width="72.0" x="489" y="238"></rect><text fill="#2A1A1D" font-family="Open Sans, Arial, sans-serif" font-size="12" font-weight="400" text-anchor="middle" x="549" y="272">15 stays: too high here</text><text fill="#9C2C3A" font-family="Open Sans, Arial, sans-serif" font-size="13" font-weight="700" text-anchor="start" x="20" y="318">Mitigate fits best here: the likelihood falls, though the harm of one leak stays.</text><text fill="#2A1A1D" font-family="Open Sans, Arial, sans-serif" font-size="12" font-weight="400" text-anchor="start" x="20" y="340">Avoid removes the folder but brings printed papers that can leak too.</text><text fill="#2A1A1D" font-family="Open Sans, Arial, sans-serif" font-size="12" font-weight="400" text-anchor="start" x="20" y="360">Transfer moves the cost, not the harm: the paper must still be rewritten.</text><text fill="#2A1A1D" font-family="Open Sans, Arial, sans-serif" font-size="12" font-weight="400" text-anchor="start" x="20" y="380">Accept is a real choice only with an owner and a low enough score.</text></svg><figcaption>One risk, four treatments, and what each leaves behind <a class="full" href="img/treatments.svg">Open this diagram at full size</a></figcaption></figure>
+<p>Treatment rarely removes a risk. What is left after treatment is the <a class="term" data-term="residual-risk" href="../../glossary.html#residual-risk">residual risk</a>. You rate it again, with the control in place. The owner then judges whether that remaining score is low enough.</p>
+<p>To find threats you might miss, analysts use a structured list. <a class="term" data-term="stride" href="../../glossary.html#stride">STRIDE</a> (spoofing, tampering, repudiation, information disclosure, denial of service, elevation of privilege) names six kinds of threat. Five of them attack one of the five properties. The sixth defeats authorisation, the process from Day 5 that decides what each account may do.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>STRIDE threat</th>
+<th>What it attacks</th>
+<th>Taxila example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Spoofing</td>
+<td>authenticity</td>
+<td>the email that pretended to come from the Registrar</td>
+</tr>
+<tr>
+<td>Tampering</td>
+<td>integrity</td>
+<td>the changed grade</td>
+</tr>
+<tr>
+<td>Repudiation</td>
+<td>accountability</td>
+<td>nobody could prove who changed the grade</td>
+</tr>
+<tr>
+<td>Information disclosure</td>
+<td>confidentiality</td>
+<td>the leaked exam paper</td>
+</tr>
+<tr>
+<td>Denial of service</td>
+<td>availability</td>
+<td>the fee payment page that stopped responding</td>
+</tr>
+<tr>
+<td>Elevation of privilege</td>
+<td>authorisation (a process, not a property)</td>
+<td>a student account that gains a lecturer's rights</td>
+</tr>
+</tbody>
+</table></div>
+<p>Organisations write the results down as security policies: short rules that everyone must follow, such as "exam papers are stored only in the examinations office's encrypted folder".</p>
+<h3 id="two-frameworks-the-nist-cybersecurity-framework-and-isoiec-27001">Two frameworks: the NIST Cybersecurity Framework and ISO/IEC 27001</h3>
+<p>Two well-known frameworks give the whole process a common shape. The first is the Cybersecurity Framework of the National Institute of Standards and Technology (NIST), at version 2.0 at the time of writing. It sorts security work into six functions: govern, identify, protect, detect, respond and recover. The second is an international standard, numbered 27001, published jointly by two international standards bodies. It sets out what an organisation's information security management system must contain, and organisations can be certified against it.</p>
+<div class="box know"><p class="box-label">You already know this</p><p>Your roof leaks over one room. You can fix the roof. You can stop using that room. You can pay for insurance that covers the damage. Or, if the leak is small, you can put a bucket under it and decide to live with it.</p><p class="map-row"><span class="map-label">Mapping</span>fix the roof = mitigate; stop using the room = avoid; insure it = transfer; live with it = accept.</p></div>
+<div class="box case"><p class="box-label">Taxila College</p><p>The Head of IT cannot fix everything at once, so the register is prioritised.</p></div>
+<div class="box mistake"><p class="box-label">Common mistake</p><p>"Accepting a risk means ignoring it." An accepted risk is a recorded, owned choice to live with a measured risk. It has an owner, a reason and a point at which it is looked at again. A risk nobody wrote down was not accepted: it was missed.</p></div>
+<div class="qc"><p class="qc-label">Quick check</p><p class="qc-q">A doctor-channelling booking platform buys insurance against losses from an outage on busy evenings. Which treatment is this, and what is still the platform's job?</p><ol class="qc-opts"><li data-right="">Transfer; it must still bring the service back itself<span class="qc-key"> (answer)</span></li><li>Accept; the insurer now handles the outage</li><li>Mitigate; insurance makes an outage less likely</li></ol><p class="qc-why"><strong>Why:</strong> Insurance moves the cost to another party, so it is transfer. It does not make an outage less likely, so it is not mitigation. Patients still cannot book until the service returns, so a continuity plan is still needed.</p></div>
+<h2 id="5-keeping-the-college-running">5. Keeping the college running</h2>
+<p>Try the demo first: <a href="artefacts/rto-rpo-timeline.html">Two windows on one timeline</a>. Slide the last backup and the moment of recovery, and read both windows.</p>
+<div class="box recall"><p class="box-label">Recall</p><p>A denial of service floods a service so real users cannot reach it.</p></div>
+<p>Some failures will happen whatever you do: a disk dies, a power cut lasts all night, or ransomware gets through. <a class="term" data-term="business-continuity-planning" href="../../glossary.html#business-continuity-planning">Business continuity planning</a> keeps the organisation's critical work going during a failure, and brings it back afterwards.</p>
+<p>It starts with a <a class="term" data-term="business-impact-analysis" href="../../glossary.html#business-impact-analysis">business impact analysis</a>. For each important service, you ask three questions. What depends on it? What happens if it stops for one hour, one day, one week? So which service must come back first? The answers give two numbers for each service:</p>
+<ul>
+<li>The <a class="term" data-term="recovery-time-objective" href="../../glossary.html#recovery-time-objective">recovery time objective</a> (RTO) is the longest the service may be down before the harm becomes unacceptable.</li>
+<li>The <a class="term" data-term="recovery-point-objective" href="../../glossary.html#recovery-point-objective">recovery point objective</a> (RPO) is the most data, measured in time, that you can afford to lose. It is the gap between the last good backup and the failure.</li>
+</ul>
+<figure class="art"><svg aria-labelledby="rr-t rr-d" role="img" style="min-width:640px" viewbox="0 0 640 300"><title id="rr-t">One failure, two windows</title><desc id="rr-d">A timeline. On the left, the last good backup; in the middle, the failure, marked in red; on the right, the moment the service is back. The window from the last backup to the failure is the data lost, which must not exceed the recovery point objective, RPO. The window from the failure to recovery is the time the service is down, which must not exceed the recovery time objective, RTO. The RPO sets how often you back up; the RTO sets how fast you must restore. Taxila today has one weekly disk, so up to a week of grades sits in the first window.</desc><rect fill="#FFFBFB" height="300" width="640"></rect><text fill="#6C5353" font-family="Open Sans, Arial, sans-serif" font-size="14" font-weight="700" text-anchor="start" x="20" y="30">ONE FAILURE, TWO WINDOWS</text><path d="M30 130 L610 130" stroke="#2A1A1D" stroke-width="2.5"></path><rect fill="#F3E2E4" height="52" stroke="#E0663C" stroke-dasharray="7 5" stroke-width="2" width="250" x="80" y="104"></rect><rect fill="#E4D5D5" height="52" stroke="#6C5353" stroke-width="2" width="210" x="330" y="104"></rect><path d="M80 90 L80 170 M540 90 L540 170" stroke="#2A1A1D" stroke-width="3"></path><path d="M330 80 L330 180" stroke="#E0663C" stroke-width="4"></path><text fill="#2A1A1D" font-family="Open Sans, Arial, sans-serif" font-size="12" font-weight="700" text-anchor="middle" x="80" y="80">last good backup</text><text fill="#2A1A1D" font-family="Open Sans, Arial, sans-serif" font-size="12" font-weight="700" text-anchor="middle" x="330" y="72">failure</text><text fill="#2A1A1D" font-family="Open Sans, Arial, sans-serif" font-size="12" font-weight="700" text-anchor="middle" x="540" y="80">service back</text><text fill="#2A1A1D" font-family="Open Sans, Arial, sans-serif" font-size="13" font-weight="800" text-anchor="middle" x="205.0" y="135">data lost</text><text fill="#2A1A1D" font-family="Open Sans, Arial, sans-serif" font-size="13" font-weight="800" text-anchor="middle" x="435.0" y="135">service down</text><path d="M80 192 L80 202 L330 202 L330 192" fill="none" stroke="#9C2C3A" stroke-width="2.5"></path><path d="M330 192 L330 202 L540 202 L540 192" fill="none" stroke="#9C2C3A" stroke-width="2.5"></path><text fill="#9C2C3A" font-family="Open Sans, Arial, sans-serif" font-size="12" font-weight="700" text-anchor="middle" x="205.0" y="224">must not exceed the recovery point</text><text fill="#9C2C3A" font-family="Open Sans, Arial, sans-serif" font-size="12" font-weight="700" text-anchor="middle" x="205.0" y="240">objective (RPO)</text><text fill="#9C2C3A" font-family="Open Sans, Arial, sans-serif" font-size="12" font-weight="700" text-anchor="middle" x="435.0" y="224">must not exceed the recovery time</text><text fill="#9C2C3A" font-family="Open Sans, Arial, sans-serif" font-size="12" font-weight="700" text-anchor="middle" x="435.0" y="240">objective (RTO)</text><text fill="#2A1A1D" font-family="Open Sans, Arial, sans-serif" font-size="13" font-weight="700" text-anchor="start" x="20" y="272">The RPO sets how often you back up. The RTO sets how fast you must restore.</text><text fill="#2A1A1D" font-family="Open Sans, Arial, sans-serif" font-size="12" font-weight="400" text-anchor="start" x="20" y="292">Taxila today: one weekly disk, so up to a week of grades sits in the first window.</text></svg><figcaption>One failure, two windows: data lost before it, time down after it <a class="full" href="img/rto-rpo.svg">Open this diagram at full size</a></figcaption></figure>
+<p>The two are set separately. A service can need a short recovery time and still tolerate a day of lost data, or the other way round. The recovery point sets how often you back up: an RPO of one hour needs a backup at least every hour.</p>
+<p>Several tools meet these numbers:</p>
+<ul>
+<li><strong>Recovery sites.</strong> A hot site is a second copy of the systems, running all the time, ready in minutes. A warm site has the equipment but needs the latest data loaded, which takes hours. A cold site is a room with power and network, and takes days. Faster costs more.</li>
+<li><strong>The <a class="term" data-term="three-two-one-backup-rule" href="../../glossary.html#three-two-one-backup-rule">three-two-one backup rule</a>.</strong> Keep three copies of the data, on two kinds of storage, with one copy off-site. A fire or ransomware that reaches one place cannot reach all three.</li>
+<li><strong>Failover.</strong> A standby server takes over automatically when the main one fails.</li>
+<li><strong>Plan testing.</strong> Walk through the plan on paper, run a tabletop exercise as your group will on Day 10, and restore a real backup to a spare machine.</li>
+<li><strong>Incident response</strong>, at overview. When something goes wrong, a team detects and reports it, contains it so that it stops spreading, recovers the service, and learns what to change. These steps belong to the respond and recover functions of the NIST framework.</li>
+</ul>
+<div class="box know"><p class="box-label">You already know this</p><p>A small shop plans for a power cut. How long can it stay closed before customers go elsewhere? And if the till loses its memory, how many of today's sales can the owner afford to forget? The owner writes the day's sales in a notebook every hour, just in case.</p><p class="map-row"><span class="map-label">Mapping</span>how long before you must reopen = the recovery time objective; how many sales records you can afford to lose = the recovery point objective; the hourly notebook = the backup.</p></div>
+<div class="box case"><p class="box-label">Taxila College</p><p>The dead fee-payment night needed a continuity plan with a stated recovery time. Today Taxila backs up to one external disk once a week, so a failure just before the next backup could lose almost a week of grades.</p></div>
+<div class="box mistake"><p class="box-label">Common mistake</p><p>"A backup you have never restored is a working backup." Only a tested restore proves a backup. A disk can fail, a copy can be incomplete, and ransomware may have encrypted the backup too. Test by restoring to a spare machine and checking the data.</p></div>
+<div class="box mistake"><p class="box-label">Common mistake</p><p>"The recovery time and the recovery point are the same number." One is tolerable downtime, the other tolerable data loss, and they are set separately. The fee page may need to return within an hour, yet the SIS may need to lose no more than an hour of grades.</p></div>
+<div class="qc"><p class="qc-label">Quick check</p><p class="qc-q">A school examinations board says its results database may lose at most one hour of entries. It backs up every night. What is wrong?</p><ol class="qc-opts"><li>Nothing, because nightly backups are normal</li><li>The recovery time is too long</li><li data-right="">The backup is too rare: a failure just before the nightly backup loses almost a day of entries, far more than one hour<span class="qc-key"> (answer)</span></li></ol><p class="qc-why"><strong>Why:</strong> The recovery point of one hour sets the backup frequency: at least every hour. A nightly backup gives a recovery point of up to a day. The recovery time is a separate number, and the question does not give it.</p></div>
+<h2 id="before-the-lab">Before the lab</h2>
+<p>This afternoon you open your own risk register from Day 1, choose a treatment and an owner for each risk, and rate what remains. Then you judge what an outage of the fee payment page and of the SIS would cost over an hour, a day and a week. Last, you write a continuity plan with a recovery time and a recovery point for each. Bring these notes, open at sections 4 and 5, and your Day 1 file <code>risk-register.csv</code>. You need no virtual machine today.</p>
+<h2 id="reading">Reading</h2>
+<ul>
+<li>Pfleeger, C. P., Pfleeger, S. L. and Coles-Kemp, L., <em>Security in Computing</em>, 6th ed., chapter 3, section 3.2, on malware. Then chapter 10, sections 10.2 to 10.4, on business continuity planning, handling incidents and risk analysis.</li>
+<li>Pfleeger, C. P., Pfleeger, S. L. and Coles-Kemp, L., <em>Security in Computing</em>, 6th ed., chapter 11, section 11.5, on computer crime; and chapter 9, sections 9.1 and 9.2, on privacy.</li>
+<li>Computer Crime Act, No. 24 of 2007, Sri Lanka, sections 3 to 5, on access without lawful authority.</li>
+<li>Personal Data Protection Act, No. 9 of 2022, Sri Lanka, as amended by Act No. 22 of 2025: the duties of a controller.</li>
+</ul>
+<p>Next: Day 10, the group exercise, synthesis and exam preparation. Your group runs a live incident at Taxila with the register, the controls map and the continuity plan you finish today.</p>
+
+<template id="term-least-privilege"><b>Least privilege</b><span>Giving each account the minimum access its job needs, for no longer than needed. The area a stolen credential can reach, its blast radius, then stays small.</span><span class="ex"><span class="ex-label">At Taxila: </span><code>lecturer01</code> can enter grades only for the lecturer's own modules, so a leaked password reaches little.</span></template><template id="term-malware"><b>Malware</b><span>Malicious software: any program written to harm a computer or its owner. Its kinds include the virus, worm, trojan, ransomware, spyware and rootkit, which differ in how they spread and what they do.</span><span class="ex"><span class="ex-label">At Taxila: </span>a trojan hidden in a free timetable program on a staff laptop.</span></template><template id="term-worm"><b>Worm</b><span>Malware that moves across a network by itself, through a weakness such as a missing patch, with no person needing to open anything. A virus, by contrast, needs a host file and a click.</span><span class="ex"><span class="ex-label">At Taxila: </span>a worm could reach every unpatched staff computer in minutes.</span></template><template id="term-ransomware"><b>Ransomware</b><span>Malware that encrypts the victim's files and demands payment for the key. Many kinds also copy the files out first and threaten to publish them.</span><span class="ex"><span class="ex-label">At Taxila: </span>ransomware on the SIS (Student Information System) would lock every grade until the college restored a clean backup.</span></template><template id="term-social-engineering"><b>Social engineering</b><span>Attacking people instead of systems: persuading someone to give a password, open a file or hold a door, by pulling on triggers such as authority, urgency or fear. Phishing, pretexting, baiting and tailgating are forms of it.</span><span class="ex"><span class="ex-label">At Taxila: </span>a caller who claims to be the Registrar and asks the IT (information technology) office to reset a password at once.</span></template><template id="term-phishing"><b>Phishing</b><span>A message that tricks people into giving away a password, money or data, often through a link to a look-alike page. Spear-phishing is phishing aimed at one person or a small group, using details about them.</span><span class="ex"><span class="ex-label">At Taxila: </span>last semester's message asked staff to update their bank details through a link; two people did.</span></template><template id="term-data-controller"><b>Data controller</b><span>The organisation that decides why and how personal data is processed. Under Sri Lanka's Personal Data Protection Act the controller must keep that data secure and be able to show what it does with it.</span><span class="ex"><span class="ex-label">At Taxila: </span>Taxila College is the controller for its students' and staff's personal data in the SIS (Student Information System).</span></template><template id="term-risk-treatment"><b>Risk treatment</b><span>The choice of what to do about a risk: mitigate it with a control, avoid it by stopping the activity, transfer it to another party, or accept it as a recorded, owned choice.</span><span class="ex"><span class="ex-label">At Taxila: </span>the bank's payment gateway holds the card numbers, so Taxila has transferred that risk.</span></template><template id="term-residual-risk"><b>Residual risk</b><span>The risk that remains after a treatment is applied, rated again with the control in place. Its owner judges whether it is low enough.</span><span class="ex"><span class="ex-label">At Taxila: </span>after the exam paper store is encrypted, a lost key is still a residual risk.</span></template><template id="term-stride"><b>STRIDE</b><span>A list of six kinds of threat used to find threats you might miss: spoofing, tampering, repudiation, information disclosure, denial of service and elevation of privilege.</span><span class="ex"><span class="ex-label">At Taxila: </span>the changed grade was tampering, and nobody proving who did it was repudiation.</span></template><template id="term-business-continuity-planning"><b>Business continuity planning</b><span>Planning that keeps an organisation's critical work going during a failure and brings it back afterwards. It starts from a business impact analysis and sets a recovery time and a recovery point for each service.</span><span class="ex"><span class="ex-label">At Taxila: </span>a plan that says how the fee payment page and the SIS (Student Information System) come back after a failure, and in which order.</span></template><template id="term-business-impact-analysis"><b>Business impact analysis</b><span>A study of what each important service supports, what harm grows as it stays down for an hour, a day or a week, and so which service must come back first.</span><span class="ex"><span class="ex-label">At Taxila: </span>the fee payment page's harm rises steeply on the last evening of payment, when hundreds of students are paying.</span></template><template id="term-recovery-time-objective"><b>Recovery time objective</b><span>The recovery time objective (RTO): the longest a service may stay down after a failure before the harm becomes unacceptable. It is set separately from the recovery point.</span><span class="ex"><span class="ex-label">At Taxila: </span>the fee payment page needs a short RTO on the last evening of payment.</span></template><template id="term-recovery-point-objective"><b>Recovery point objective</b><span>The recovery point objective (RPO): the most data, measured in time, that a service can afford to lose in a failure. It sets how often the service must be backed up.</span><span class="ex"><span class="ex-label">At Taxila: </span>an RPO of one hour for the SIS (Student Information System) needs a backup at least every hour, not once a week.</span></template><template id="term-three-two-one-backup-rule"><b>Three-two-one backup rule</b><span>Keep three copies of the data, on two kinds of storage, with one copy off-site, so that one fire, theft or malware outbreak cannot reach every copy.</span><span class="ex"><span class="ex-label">At Taxila: </span>a single weekly disk kept in the server room breaks the rule twice: one backup copy, and none off-site.</span></template>
+<section class="resources" aria-labelledby="h-res"><h2 id="h-res">Everything for this morning</h2><ul><li><a href="slides/day-9-morning.pdf">Slides for this morning (PDF)</a></li><li><a href="artefacts/attack-axes.html">Three questions for any attack</a> (demo)</li><li><a href="artefacts/malware-spread.html">How malware spreads</a> (demo)</li><li><a href="artefacts/social-triggers.html">Which button does it press?</a> (demo)</li><li><a href="artefacts/risk-treatment.html">Four ways to treat a risk</a> (demo)</li><li><a href="artefacts/rto-rpo-timeline.html">Two windows on one timeline</a> (demo)</li><li><a href="plays/p9-words.html">Words for attacks, risk and continuity</a> (10 minutes)</li><li><a href="plays/p9-1-how-to-treat-it.html">How would you treat it?</a> (8 minutes)</li><li><a href="plays/p9-2-what-comes-back-first.html">What comes back first?</a> (8 minutes)</li><li><a href="plays/p9-quiz.html">Day 9: attacks, people, risk and continuity</a> (10 minutes)</li><li><a href="../../practice/PQ9.html">Practice question 9</a></li></ul></section><div class="progress-box"><button class="btn" type="button" data-progress="d9m">Mark this morning as done</button><span class="progress-note">A record for you, saved only on this device. It never locks or unlocks anything.</span></div><nav class="pager" aria-label="Page navigation"><span>Previous: <a href="../../days/day-8/lab.html">Day 8 afternoon</a></span><span><a href="index.html">Day 9</a></span><span>Next: <a href="../../days/day-9/lab.html">Day 9 afternoon</a></span></nav>
+</div>
+</main>
+<footer class="site-footer"><div class="wrap">
+<p class="author">&copy; Niranga Dharmaratna, School of Computing &amp; Engineering, National Institute of Business Management</p>
+<p>Content licensed <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener">CC BY-NC-SA 4.0</a>; code licensed MIT; Open Sans under the SIL Open Font Licence.</p>
+<p>Dates and submissions are announced for your cohort. Taxila College is fictional.</p>
+<p>Anything you mark as done is saved only on this device. Visits are counted with Google Analytics only if you allow it: see <a href="../../privacy.html">privacy and visit counting</a>.</p>
+</div></footer>
+<script src="../../assets/js/site.js" defer></script>
+</body>
+</html>

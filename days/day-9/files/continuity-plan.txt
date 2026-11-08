@@ -1,0 +1,56 @@
+Taxila College: continuity plan
+===============================
+
+Written by:              (your name)
+Group:                   (your group for the Day 10 exercise)
+
+For each service, fill in every line. Argue each number from
+bia-facts.txt and your business impact analysis: say why, not only what.
+
+---------------------------------------------------------------
+Service 1: the Student Information System (sis.taxila.example)
+---------------------------------------------------------------
+Recovery priority:            
+Recovery time objective (RTO), and why:
+    
+Recovery point objective (RPO), and why:
+    
+Backup strategy (three copies, two kinds of storage, one off-site),
+and how often each copy is made:
+    Copy 1:
+    Copy 2:
+    Copy 3 (off-site):
+How and how often the restore is tested:
+    
+Steps to bring the service back, in order:
+    1.
+    2.
+    3.
+    4.
+    5.
+Who must be told, and when:
+    
+
+---------------------------------------------------------------
+Service 2: the fee payment page (pay.taxila.example)
+---------------------------------------------------------------
+Recovery priority:            
+Recovery time objective (RTO), and why:
+    
+Recovery point objective (RPO), and why:
+    
+Backup strategy (three copies, two kinds of storage, one off-site),
+and how often each copy is made:
+    Copy 1:
+    Copy 2:
+    Copy 3 (off-site):
+How and how often the restore is tested:
+    
+Steps to bring the service back, in order:
+    1.
+    2.
+    3.
+    4.
+    5.
+Who must be told, and when:
+    

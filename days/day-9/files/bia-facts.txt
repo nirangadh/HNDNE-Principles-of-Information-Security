@@ -1,0 +1,52 @@
+Taxila College: facts for the business impact analysis
+=======================================================
+
+Collected by the Head of IT (information technology) and the finance office
+for the trainee security analyst. Taxila College is fictional; these figures
+belong to the teaching scenario only.
+
+1. The fee payment page, pay.taxila.example
+-------------------------------------------
+- On an ordinary evening, about 20 students pay their fees in an hour.
+- On the last evening before a fee deadline, about 600 students pay in each
+  hour between 6 pm and midnight.
+- After the deadline, every student who has not paid is charged a late fee.
+- On the dead deadline night last semester the page stopped for three hours.
+  Hundreds of students missed the deadline, and the finance office spent a
+  week sorting out late fees.
+- The bank's payment gateway takes the card payment. Taxila never stores
+  card numbers. The bank keeps its own record of every payment, and sends
+  the finance office a statement each morning.
+- When a payment succeeds, the page updates the student's fee balance in the
+  Student Information System (SIS). If the page cannot reach the SIS, it
+  cannot take payments.
+- The finance office can take payments at its counter during office hours.
+  It cannot do so in the evening.
+
+2. The Student Information System, sis.taxila.example
+-----------------------------------------------------
+- The Registrar's office, every lecturer and every student use it on every
+  working day. The Kandy campus reaches it over the internet.
+- It holds student records, grades, fee balances and national identity card
+  numbers.
+- In marking weeks, lecturers enter about 1,200 grades on each working day.
+  Lecturers keep their own marking sheets, but re-entering grades takes time
+  and causes mistakes.
+- Results are released on a fixed day each semester. Employers and other
+  universities check transcripts against the SIS.
+- The fee payment page, the Learning Management System's class lists and
+  the examinations office all read from the SIS.
+
+3. Backups today
+----------------
+- Once a week, at the weekend, the Head of IT copies the SIS database and
+  the fee records to one external disk.
+- The disk stays on a shelf in the server room, next to the server.
+- Nobody has ever restored the SIS from this disk.
+
+4. What the Head of IT has to work with
+---------------------------------------
+- One spare server, switched off, in the server room. It is powerful enough
+  to run the SIS.
+- The small rack at the Kandy campus has space for one more disk.
+- A team of four. No changes to production systems during exam weeks.
