@@ -142,7 +142,7 @@ Granting is the database's form of authorisation. The administrator writes `GRAN
 
 Recording matters as much. Auditing a database means keeping a log of who read or changed what. The general query log records every statement each account sends, as it arrives. With it, the college can answer "which account read these records, and when?". Without it, nobody can.
 
-A scoped account also limits injection, where typed input is read as a command: its fix is a parameterised query, and the database still refuses what was never granted.
+A scoped account also limits [injection](../../glossary.md#injection), where typed input is read as a command: its fix is a [parameterised query](../../glossary.md#parameterised-query), and the database still refuses what was never granted.
 
 > **You already know this.** In a shop, the staff at the till have a key that opens the till drawer. They do not have the key to the safe. If a till key is lost, the finder can reach one drawer, not the safe.
 >
