@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Output encoding: markup or plain text</title>
+<meta name="description" content="Place a prepared, harmless note on a page with output encoding off and on. Off, the note's markup takes effect; on, it shows as plain text.">
+<link rel="stylesheet" href="../../../assets/fonts/fonts.css">
+<style>
+  body{margin:0;font-family:var(--font-body);background:var(--linen);color:var(--ink);line-height:1.6}
+  main{max-width:46rem;margin:0 auto;padding:1.5rem 1rem 2.5rem}
+  h1{font-size:1.5rem;line-height:1.25;margin:0 0 .4rem}
+  .bars{display:flex;gap:6px;margin:.3rem 0 1.1rem}.bars i{display:block;height:6px;border-radius:2px}
+  .bars i:first-child{width:56px;background:var(--burgundy)}.bars i:last-child{width:26px;background:var(--blush)}
+  .lead{margin:0 0 1rem}
+  .step{font-size:.78rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--burgundy);margin:1.6rem 0 .3rem;display:block}
+  h2{font-size:1.15rem;margin:.1rem 0 .4rem}
+  button:focus-visible,input:focus-visible{outline:3px solid var(--burgundy);outline-offset:2px}
+  button{font:inherit;font-weight:700;color:var(--burgundy);background:var(--snow);border:2px solid var(--burgundy);border-radius:8px;padding:.55rem 1rem;min-height:44px;cursor:pointer;margin:.4rem .3rem .2rem 0}
+  button[aria-pressed=true]{background:var(--ink);color:var(--snow);border-color:var(--ink)}
+  label{font-weight:700;display:block;margin:.6rem 0 .2rem}
+  input{font:inherit;padding:.5rem .6rem;border:2px solid var(--taupe);border-radius:8px;min-height:44px;width:14rem;max-width:100%}
+  .page{background:var(--snow);border:2px solid var(--taupe);border-radius:12px;padding:1rem 1.1rem;margin:.6rem 0}
+  .page h3{margin:0 0 .4rem;font-size:1rem;color:var(--taupe)}
+  .page .line{font-size:1.05rem}
+  .raw{font-family:var(--font-code);font-size:.95rem;background:var(--linen);border:1px solid var(--rule);border-radius:6px;padding:.1rem .35rem}
+  .verdict{border-radius:12px;padding:.7rem .9rem;margin:.5rem 0;font-weight:600}
+  .verdict.ok{background:var(--rose-wash);border:3px solid var(--burgundy)}
+  .verdict.bad{background:var(--snow);border:3px dashed var(--signal-vermilion)}
+  .note{font-size:.9rem;color:var(--taupe);margin-top:1.4rem}
+</style>
+<!-- portal head: written by the portal generator from this demo's title and description; do not edit -->
+<meta name="robots" content="index, follow">
+<link rel="icon" href="../../../assets/img/favicon.svg" type="image/svg+xml">
+<link rel="canonical" href="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-6/artefacts/output-encoding.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Principles of Information Security, HND Network Engineering Year 2">
+<meta property="og:title" content="Output encoding: markup or plain text | Day 6">
+<meta property="og:description" content="Place a prepared, harmless note on a page with output encoding off and on. Off, the note&#x27;s markup takes effect; on, it shows as plain text.">
+<meta property="og:url" content="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-6/artefacts/output-encoding.html">
+<meta property="og:locale" content="en_GB">
+<meta property="og:image" content="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/assets/img/social-card.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="At Taxila College the Head of IT points to the security register on the wall: nineteen numbered items, the first outlined as the place to start. The Registrar holds a sealed transcript and the Data Protection Officer a clipboard. A lecturer turns to welcome two students arriving with a laptop and a phone.">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","author":{"@type":"Person","affiliation":{"@type":"Organization","name":"School of Computing & Engineering, National Institute of Business Management"},"name":"Niranga Dharmaratna"},"description":"Place a prepared, harmless note on a page with output encoding off and on. Off, the note's markup takes effect; on, it shows as plain text.","educationalLevel":"Higher National Diploma, Year 2","inLanguage":"en-GB","interactivityType":"active","isAccessibleForFree":true,"isPartOf":{"@id":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/#course","@type":"Course","name":"Principles of Information Security, HND Network Engineering Year 2","url":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/"},"learningResourceType":"Interactive demonstration","license":"https://opensource.org/licenses/MIT","name":"Output encoding: markup or plain text | Day 6","url":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-6/artefacts/output-encoding.html"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/","name":"Principles of Information Security","position":1},{"@type":"ListItem","item":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-6/","name":"Day 6","position":2},{"@type":"ListItem","item":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-6/artefacts/output-encoding.html","name":"Output encoding: markup or plain text","position":3}]}</script>
+<!-- /portal head -->
+</head>
+<body>
+<main>
+<h1>Output encoding: markup or plain text</h1>
+<div class="bars" aria-hidden="true"><i></i><i></i></div>
+<p class="lead">The portal shows a note back to the person who left it. If the page places the note exactly as it arrived, any markup in the note takes effect. If the page encodes the note first, every character is shown as plain text. The note below is a prepared, harmless one: it is only bold text.</p>
+
+<span class="step">Step 1</span>
+<h2>Your index, so the page is yours</h2>
+<label for="idx">Your index number (letters and digits)</label>
+<input id="idx" maxlength="20" autocomplete="off" placeholder="COHNDNE999X000">
+
+<span class="step">Step 2</span>
+<h2>Switch output encoding on and off</h2>
+<div><button type="button" id="b-enc" aria-pressed="false">Output encoding: off</button></div>
+
+<p>The prepared note is: <span class="raw">&lt;b&gt;this note is bold&lt;/b&gt;</span></p>
+<div class="page" id="page" aria-live="polite"></div>
+<div class="verdict" id="verdict" aria-live="polite"></div>
+
+<p class="note">The note is a prepared sample that only makes text bold; nothing runs here, and nothing is sent anywhere. The same idea holds for any markup: a page that encodes its output shows every note as plain text, so a note can never become part of the page.</p>
+</main>
+<script>
+(function () {
+  "use strict";
+  var $ = function (id) { return document.getElementById(id); };
+  var RAW = "<b>this note is bold</b>";
+  var st = { enc: false };
+
+  function clean(s){ return (s || "").replace(/[^A-Za-z0-9]/g, "").toUpperCase(); }
+
+  function draw() {
+    $("b-enc").setAttribute("aria-pressed", String(st.enc));
+    $("b-enc").textContent = "Output encoding: " + (st.enc ? "on" : "off");
+    var ix = clean($("idx").value) || "YOURINDEX";
+
+    var page = $("page");
+    while (page.firstChild) page.removeChild(page.firstChild);
+    var h = document.createElement("h3"); h.textContent = "What the portal shows to " + ix;
+    page.appendChild(h);
+
+    var line = document.createElement("p"); line.className = "line";
+    line.appendChild(document.createTextNode("Your note: "));
+    if (st.enc) {
+      // Encoded: the note is shown as plain text, character for character.
+      line.appendChild(document.createTextNode(RAW));
+    } else {
+      // Not encoded: the browser reads the note's markup. Shown here with the
+      // authored equivalent, a real bold element, so no note text is parsed live.
+      var b = document.createElement("strong");
+      b.textContent = "this note is bold";
+      line.appendChild(b);
+    }
+    page.appendChild(line);
+
+    var v = $("verdict");
+    while (v.firstChild) v.removeChild(v.firstChild);
+    var head = document.createElement("strong");
+    if (st.enc) {
+      v.className = "verdict ok";
+      head.textContent = "Shown as plain text. ";
+      v.appendChild(head);
+      v.appendChild(document.createTextNode("With output encoding on, the note's angle brackets are shown as characters, not read as markup. The note stays a note. A script in a note would show as text in the same way, so it could never run."));
+    } else {
+      v.className = "verdict bad";
+      head.textContent = "Read as markup. ";
+      v.appendChild(head);
+      v.appendChild(document.createTextNode("Without encoding, the browser read the note's markup and made the words bold. The note became part of the page. If the markup had been a script instead of bold text, it would have run in the reader's browser. That is cross-site scripting."));
+    }
+  }
+
+  $("b-enc").addEventListener("click", function () { st.enc = !st.enc; draw(); });
+  $("idx").addEventListener("input", draw);
+  draw();
+}());
+</script>
+</body>
+</html>

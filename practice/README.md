@@ -11,5 +11,6 @@ A question appears here when its day's materials are posted.
 | [PQ3](PQ3.md) | Day 3 | An online bookshop: password storage, salting, why speed is a weakness |
 | [PQ4](PQ4.md) | Day 4 | A provincial land records office: signatures, non-repudiation, self-signed against authority-signed |
 | [PQ5](PQ5.md) | Day 5 | A tea estate's payroll office: the three processes, access-control models, one shared computer |
+| [PQ6](PQ6.md) | Day 6 | A doctor-channelling booking platform: the data-and-command boundary, injection, scripting, cookie settings |
 | [PQ7](PQ7.md) | Day 7 | A microfinance cooperative's mobile app: email checks, a scoped database account, a controller's duty |
 | [PQ8](PQ8.md) | Day 8 | A courier company's tracking site: shared-network threats, firewalls and a demilitarised zone, where a private tunnel helps |

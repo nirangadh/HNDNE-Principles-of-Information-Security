@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>A login query, built two ways</title>
+<meta name="description" content="A login query built by joining text lets a prepared value change it; a parameterised query keeps it as data. Run the test with your index.">
+<link rel="stylesheet" href="../../../assets/fonts/fonts.css">
+<style>
+  body{margin:0;font-family:var(--font-body);background:var(--linen);color:var(--ink);line-height:1.6}
+  main{max-width:46rem;margin:0 auto;padding:1.5rem 1rem 2.5rem}
+  h1{font-size:1.5rem;line-height:1.25;margin:0 0 .4rem}
+  .bars{display:flex;gap:6px;margin:.3rem 0 1.1rem}.bars i{display:block;height:6px;border-radius:2px}
+  .bars i:first-child{width:56px;background:var(--burgundy)}.bars i:last-child{width:26px;background:var(--blush)}
+  .lead{margin:0 0 1rem}
+  .step{font-size:.78rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--burgundy);margin:1.6rem 0 .3rem;display:block}
+  h2{font-size:1.15rem;margin:.1rem 0 .4rem}
+  button:focus-visible,input:focus-visible{outline:3px solid var(--burgundy);outline-offset:2px}
+  button{font:inherit;font-weight:700;color:var(--burgundy);background:var(--snow);border:2px solid var(--burgundy);border-radius:8px;padding:.55rem 1rem;min-height:44px;cursor:pointer;margin:.4rem .3rem .2rem 0}
+  button[aria-pressed=true]{background:var(--ink);color:var(--snow);border-color:var(--ink)}
+  .query{font-family:var(--font-code);background:var(--ink);color:var(--snow);border-radius:10px;padding:.8rem .9rem;overflow-x:auto;white-space:pre-wrap;font-size:.92rem;margin:.5rem 0}
+  .query .data{background:var(--rose);color:var(--ink);border-radius:4px;padding:0 .2rem}
+  .query .cmd{background:var(--signal-vermilion);color:var(--snow);border-radius:4px;padding:0 .2rem}
+  .chip{font-family:var(--font-code);font-size:.85rem;background:var(--linen);border:1px solid var(--rule);border-radius:6px;padding:.1rem .4rem}
+  .verdict{border-radius:12px;padding:.7rem .9rem;margin:.5rem 0;font-weight:600}
+  .verdict.ok{background:var(--rose-wash);border:3px solid var(--burgundy)}
+  .verdict.bad{background:var(--snow);border:3px dashed var(--signal-vermilion)}
+  label{font-weight:700;display:block;margin:.6rem 0 .2rem}
+  input{font:inherit;padding:.5rem .6rem;border:2px solid var(--taupe);border-radius:8px;min-height:44px;width:14rem;max-width:100%}
+  table{border-collapse:collapse;width:100%;margin:.5rem 0;font-size:.92rem}
+  th,td{border:1px solid var(--rule);padding:.35rem .5rem;text-align:left}
+  th{background:var(--rose-wash)}
+  tr.seeded td{font-weight:800;background:var(--rose-wash)}
+  .tag{display:block;font-size:.72rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--taupe);margin-top:.5rem}
+  .note{font-size:.9rem;color:var(--taupe);margin-top:1.4rem}
+</style>
+<!-- portal head: written by the portal generator from this demo's title and description; do not edit -->
+<meta name="robots" content="index, follow">
+<link rel="icon" href="../../../assets/img/favicon.svg" type="image/svg+xml">
+<link rel="canonical" href="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-6/artefacts/sqli-login.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Principles of Information Security, HND Network Engineering Year 2">
+<meta property="og:title" content="A login query, built two ways | Day 6">
+<meta property="og:description" content="A login query built by joining text lets a prepared value change it; a parameterised query keeps it as data. Run the test with your index.">
+<meta property="og:url" content="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-6/artefacts/sqli-login.html">
+<meta property="og:locale" content="en_GB">
+<meta property="og:image" content="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/assets/img/social-card.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="At Taxila College the Head of IT points to the security register on the wall: nineteen numbered items, the first outlined as the place to start. The Registrar holds a sealed transcript and the Data Protection Officer a clipboard. A lecturer turns to welcome two students arriving with a laptop and a phone.">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","author":{"@type":"Person","affiliation":{"@type":"Organization","name":"School of Computing & Engineering, National Institute of Business Management"},"name":"Niranga Dharmaratna"},"description":"A login query built by joining text lets a prepared value change it; a parameterised query keeps it as data. Run the test with your index.","educationalLevel":"Higher National Diploma, Year 2","inLanguage":"en-GB","interactivityType":"active","isAccessibleForFree":true,"isPartOf":{"@id":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/#course","@type":"Course","name":"Principles of Information Security, HND Network Engineering Year 2","url":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/"},"learningResourceType":"Interactive demonstration","license":"https://opensource.org/licenses/MIT","name":"A login query, built two ways | Day 6","url":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-6/artefacts/sqli-login.html"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/","name":"Principles of Information Security","position":1},{"@type":"ListItem","item":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-6/","name":"Day 6","position":2},{"@type":"ListItem","item":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-6/artefacts/sqli-login.html","name":"A login query, built two ways","position":3}]}</script>
+<!-- /portal head -->
+</head>
+<body>
+<main>
+<h1>A login query, built two ways</h1>
+<div class="bars" aria-hidden="true"><i></i><i></i></div>
+<p class="lead">To sign you in, the portal asks its database for the record whose username and password match. How it builds that question decides whether a value can change the question. Switch between the two ways and watch what a prepared test value does.</p>
+
+<span class="step">Step 1</span>
+<h2>Choose how the query is built</h2>
+<div>
+  <button type="button" id="b-joined" aria-pressed="true">Joined: input put into the query text</button>
+  <button type="button" id="b-param" aria-pressed="false">Parameterised: input kept as data</button>
+</div>
+
+<span class="step">Step 2</span>
+<h2>Step the prepared test value through</h2>
+<p>The test value is a prepared check, shown as <span class="chip">the test value</span>. The database reads the query below from left to right.</p>
+<div class="query" id="query" aria-live="polite"></div>
+<div class="verdict" id="verdict" aria-live="polite"></div>
+
+<span class="step">Step 3</span>
+<h2>Run the login test with your index</h2>
+<label for="idx">Your index number (letters and digits)</label>
+<input id="idx" maxlength="20" autocomplete="off" inputmode="latin" placeholder="COHNDNE999X000">
+<div><button type="button" id="b-run">Run the login test</button></div>
+<p class="tag" id="seedline"></p>
+<div id="result" aria-live="polite"></div>
+
+<p class="note">The practice table holds six records: five fixed, and one seeded from the index you enter, so your result is your own. The test value is a prepared check built into this page; it is never shown as a ready-made string, and you never type one. Nothing is sent anywhere.</p>
+</main>
+<script>
+(function () {
+  "use strict";
+  var $ = function (id) { return document.getElementById(id); };
+  var FIRST = ["Nimali","Rukshan","Tharindu","Ishara","Dilani","Kavinda","Sanduni","Pasan","Hiruni","Chathura","Amaya","Senuri","Thilina","Oshadi","Ravindu","Nethmi"];
+  var LAST = ["Perera","Fernando","Jayasuriya","Bandara","Wickramasinghe","Gunawardena","Ratnayake","Senaratne","Dissanayake","Weerasinghe","Herath","Ekanayake","Samarasinghe","Abeywardena"];
+  var FIXED = [["student01","Chamodi Rajapaksa","TC2001"],["student02","Lahiru Mendis","TC2002"],["student03","Dinithi Silva","TC2003"],["student04","Yasiru Cooray","TC2004"],["student05","Methmi Gamage","TC2005"]];
+  var st = { param: false };
+
+  function clean(s){ return (s || "").replace(/[^A-Za-z0-9]/g, "").toUpperCase(); }
+  function fnv1a(t){ var h = 0x811c9dc5 >>> 0; var bytes = new TextEncoder().encode(t); for (var i=0;i<bytes.length;i++){ h ^= bytes[i]; h = Math.imul(h, 0x01000193) >>> 0; } return h >>> 0; }
+  function seed(ix){ var h = fnv1a(clean(ix)); return { id: "TC" + (1000 + Math.floor(h/(FIRST.length*LAST.length)) % 9000), name: FIRST[h%FIRST.length] + " " + LAST[Math.floor(h/FIRST.length)%LAST.length] }; }
+
+  function piece(cls, text){ var s = document.createElement("span"); if (cls) s.className = cls; s.textContent = text; return s; }
+
+  function drawQuery() {
+    var q = $("query");
+    while (q.firstChild) q.removeChild(q.firstChild);
+    if (st.param) {
+      q.appendChild(piece("", "SELECT name, student_id FROM students\nWHERE username = "));
+      q.appendChild(piece("data", "?"));
+      q.appendChild(piece("", " AND password = "));
+      q.appendChild(piece("data", "?"));
+      q.appendChild(piece("", "\n"));
+      q.appendChild(piece("", "   with the test value passed beside the query, as "));
+      q.appendChild(piece("data", "data"));
+    } else {
+      q.appendChild(piece("", "SELECT name, student_id FROM students\nWHERE username = '"));
+      q.appendChild(piece("data", "the test value"));
+      q.appendChild(piece("cmd", " ... always true ... "));
+      q.appendChild(piece("", "'\n   the value did not stop at the slot; the rest is read as "));
+      q.appendChild(piece("cmd", "command"));
+    }
+    var v = $("verdict");
+    while (v.firstChild) v.removeChild(v.firstChild);
+    var head = document.createElement("strong");
+    if (st.param) {
+      v.className = "verdict ok";
+      head.textContent = "Kept as data. ";
+      v.appendChild(head);
+      v.appendChild(document.createTextNode("The query holds two placeholders. The test value is passed beside the query, so the database treats it only as a username to look for. It matches no record, and a real sign-in still works."));
+    } else {
+      v.className = "verdict bad";
+      head.textContent = "Read as command. ";
+      v.appendChild(head);
+      v.appendChild(document.createTextNode("Because the value is put straight into the query text, part of it becomes a condition that is always true. The query now matches every row, so one record was asked for and every record comes back."));
+    }
+  }
+
+  function run() {
+    var raw = $("idx").value;
+    var ix = clean(raw);
+    if (ix.length < 1) { $("seedline").textContent = "Enter your index number first."; return; }
+    var s = seed(ix);
+    $("seedline").textContent = "Your seeded record: " + s.id + " " + s.name + " (username " + ix + ").";
+    var rows = FIXED.slice();
+    rows.push([ix, s.name, s.id]);
+
+    var result = $("result");
+    while (result.firstChild) result.removeChild(result.firstChild);
+
+    var head = document.createElement("p");
+    var strong = document.createElement("strong");
+    if (st.param) {
+      strong.textContent = "Parameterised query: the test returned 0 records. ";
+      head.appendChild(strong);
+      head.appendChild(document.createTextNode("A normal sign-in returned 1 record. The flaw is closed."));
+      result.appendChild(head);
+      return;
+    }
+    strong.textContent = "Joined query: the test returned all 6 records. ";
+    head.appendChild(strong);
+    head.appendChild(document.createTextNode("A normal sign-in returned 1 record. The login is injectable, and the leak includes your own seeded record."));
+    result.appendChild(head);
+
+    var table = document.createElement("table");
+    var thead = document.createElement("tr");
+    ["Username","Name","Identifier"].forEach(function (h) { var th = document.createElement("th"); th.textContent = h; thead.appendChild(th); });
+    table.appendChild(thead);
+    rows.forEach(function (r) {
+      var tr = document.createElement("tr");
+      if (r[0] === ix) tr.className = "seeded";
+      r.forEach(function (c) { var td = document.createElement("td"); td.textContent = c; tr.appendChild(td); });
+      table.appendChild(tr);
+    });
+    result.appendChild(table);
+    var cap = document.createElement("p"); cap.className = "tag";
+    cap.textContent = "Every record returned by a query that should return one. Your seeded record is in bold.";
+    result.appendChild(cap);
+  }
+
+  $("b-joined").addEventListener("click", function () { st.param = false; $("b-joined").setAttribute("aria-pressed","true"); $("b-param").setAttribute("aria-pressed","false"); drawQuery(); });
+  $("b-param").addEventListener("click", function () { st.param = true; $("b-joined").setAttribute("aria-pressed","false"); $("b-param").setAttribute("aria-pressed","true"); drawQuery(); });
+  $("b-run").addEventListener("click", run);
+  drawQuery();
+}());
+</script>
+</body>
+</html>

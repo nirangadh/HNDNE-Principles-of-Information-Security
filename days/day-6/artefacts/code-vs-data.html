@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Data or command: the boundary in a form letter</title>
+<meta name="description" content="Choose a prepared value and watch where the application puts it: inside the blank as data, or past it as a command. Then switch on safe handling.">
+<link rel="stylesheet" href="../../../assets/fonts/fonts.css">
+<style>
+  body{margin:0;font-family:var(--font-body);background:var(--linen);color:var(--ink);line-height:1.6}
+  main{max-width:46rem;margin:0 auto;padding:1.5rem 1rem 2.5rem}
+  h1{font-size:1.55rem;line-height:1.25;margin:0 0 .4rem}
+  .bars{display:flex;gap:6px;margin:.3rem 0 1.1rem}.bars i{display:block;height:6px;border-radius:2px}
+  .bars i:first-child{width:56px;background:var(--burgundy)}.bars i:last-child{width:26px;background:var(--blush)}
+  .lead{margin:0 0 1rem}
+  .step{font-size:.78rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--burgundy);margin:1.6rem 0 .3rem;display:block}
+  h2{font-size:1.15rem;margin:.1rem 0 .4rem}
+  button:focus-visible{outline:3px solid var(--burgundy);outline-offset:2px}
+  button{font:inherit;font-weight:700;color:var(--burgundy);background:var(--snow);border:2px solid var(--burgundy);border-radius:8px;padding:.55rem 1rem;min-height:44px;cursor:pointer;margin:.4rem .3rem .2rem 0}
+  button[aria-pressed=true]{background:var(--ink);color:var(--snow);border-color:var(--ink)}
+  .letter{background:var(--snow);border:2px solid var(--taupe);border-radius:12px;padding:1rem 1.1rem;margin:.6rem 0;font-size:1rem}
+  .letter .fixed{color:var(--ink)}
+  .slot{font-family:var(--font-code);padding:.05rem .3rem;border-radius:5px}
+  .slot.data{background:var(--rose-wash);border:1px solid var(--burgundy)}
+  .slot.spill{background:var(--rose-wash);border:1px dashed var(--signal-vermilion)}
+  .over{color:var(--signal-vermilion);font-weight:800;font-family:var(--font-code)}
+  .verdict{border-radius:12px;padding:.7rem .9rem;margin:.5rem 0;font-weight:600}
+  .verdict.ok{background:var(--rose-wash);border:3px solid var(--burgundy)}
+  .verdict.bad{background:var(--snow);border:3px dashed var(--signal-vermilion)}
+  .tag{display:block;font-size:.72rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--taupe);margin-top:.4rem}
+  .note{font-size:.9rem;color:var(--taupe);margin-top:1.4rem}
+</style>
+<!-- portal head: written by the portal generator from this demo's title and description; do not edit -->
+<meta name="robots" content="index, follow">
+<link rel="icon" href="../../../assets/img/favicon.svg" type="image/svg+xml">
+<link rel="canonical" href="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-6/artefacts/code-vs-data.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Principles of Information Security, HND Network Engineering Year 2">
+<meta property="og:title" content="Data or command: the boundary in a form letter | Day 6">
+<meta property="og:description" content="Choose a prepared value and watch where the application puts it: inside the blank as data, or past it as a command. Then switch on safe handling.">
+<meta property="og:url" content="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-6/artefacts/code-vs-data.html">
+<meta property="og:locale" content="en_GB">
+<meta property="og:image" content="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/assets/img/social-card.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="At Taxila College the Head of IT points to the security register on the wall: nineteen numbered items, the first outlined as the place to start. The Registrar holds a sealed transcript and the Data Protection Officer a clipboard. A lecturer turns to welcome two students arriving with a laptop and a phone.">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","author":{"@type":"Person","affiliation":{"@type":"Organization","name":"School of Computing & Engineering, National Institute of Business Management"},"name":"Niranga Dharmaratna"},"description":"Choose a prepared value and watch where the application puts it: inside the blank as data, or past it as a command. Then switch on safe handling.","educationalLevel":"Higher National Diploma, Year 2","inLanguage":"en-GB","interactivityType":"active","isAccessibleForFree":true,"isPartOf":{"@id":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/#course","@type":"Course","name":"Principles of Information Security, HND Network Engineering Year 2","url":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/"},"learningResourceType":"Interactive demonstration","license":"https://opensource.org/licenses/MIT","name":"Data or command: the boundary in a form letter | Day 6","url":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-6/artefacts/code-vs-data.html"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/","name":"Principles of Information Security","position":1},{"@type":"ListItem","item":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-6/","name":"Day 6","position":2},{"@type":"ListItem","item":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-6/artefacts/code-vs-data.html","name":"Data or command: the boundary in a form letter","position":3}]}</script>
+<!-- /portal head -->
+</head>
+<body>
+<main>
+<h1>Data or command: the boundary in a form letter</h1>
+<div class="bars" aria-hidden="true"><i></i><i></i></div>
+<p class="lead">An application fills a blank in a fixed instruction, the way a clerk fills a blank in a form letter. If what you write stays inside the blank, it is data. If it is allowed to run past the blank, it is read as part of the instruction. Choose a prepared value and watch where it lands.</p>
+
+<span class="step">Step 1</span>
+<h2>Choose a prepared value for the blank</h2>
+<div>
+  <button type="button" id="b-plain" aria-pressed="true">A plain student number</button>
+  <button type="button" id="b-spill" aria-pressed="false">A value that runs past the blank</button>
+</div>
+
+<span class="step">Step 2</span>
+<h2>How the application handles it</h2>
+<div>
+  <button type="button" id="b-safe" aria-pressed="false">Safe handling: off</button>
+</div>
+
+<p class="tag">The instruction the application builds</p>
+<div class="letter" id="letter" aria-live="polite"></div>
+<div class="verdict" id="verdict" aria-live="polite"></div>
+
+<p class="note">Both values are prepared samples. Nothing here is sent anywhere, and nothing runs. The point is only where the value is allowed to land: inside the blank, as data, or past it, where it is read as part of the instruction.</p>
+</main>
+<script>
+(function () {
+  "use strict";
+  var $ = function (id) { return document.getElementById(id); };
+  var st = { value: "plain", safe: false };
+  var SAMPLES = {
+    plain: { label: "a student number", data: "TC2003", extra: "" },
+    spill: { label: "a value that runs past the blank", data: "TC2003", extra: " and then show every record" }
+  };
+
+  function draw() {
+    $("b-plain").setAttribute("aria-pressed", String(st.value === "plain"));
+    $("b-spill").setAttribute("aria-pressed", String(st.value === "spill"));
+    $("b-safe").setAttribute("aria-pressed", String(st.safe));
+    $("b-safe").textContent = "Safe handling: " + (st.safe ? "on" : "off");
+
+    var s = SAMPLES[st.value];
+    var spills = (st.value === "spill" && !st.safe);
+
+    var letter = $("letter");
+    while (letter.firstChild) letter.removeChild(letter.firstChild);
+
+    var pre = document.createElement("span"); pre.className = "fixed";
+    pre.textContent = "Show the record for student number ";
+    letter.appendChild(pre);
+
+    var slot = document.createElement("span");
+    slot.className = "slot " + (spills ? "spill" : "data");
+    slot.textContent = s.data;
+    letter.appendChild(slot);
+
+    if (st.value === "spill") {
+      if (st.safe) {
+        // The extra text is kept inside the blank, as data.
+        var kept = document.createElement("span");
+        kept.className = "slot data";
+        kept.textContent = s.extra.trim();
+        letter.appendChild(document.createTextNode(" "));
+        letter.appendChild(kept);
+      } else {
+        // The extra text runs past the blank and joins the instruction.
+        var over = document.createElement("span"); over.className = "over";
+        over.textContent = s.extra;
+        letter.appendChild(over);
+      }
+    }
+    var post = document.createElement("span"); post.className = "fixed";
+    post.textContent = ".";
+    letter.appendChild(post);
+
+    var v = $("verdict");
+    while (v.firstChild) v.removeChild(v.firstChild);
+    var head = document.createElement("strong");
+    if (spills) {
+      v.className = "verdict bad";
+      head.textContent = "Read as a command. ";
+      v.appendChild(head);
+      v.appendChild(document.createTextNode("The value did not stop at the blank. The words after it joined the instruction, so the application is now told to show every record, not one. This is injection: input read as a command."));
+    } else if (st.value === "spill" && st.safe) {
+      v.className = "verdict ok";
+      head.textContent = "Kept as data. ";
+      v.appendChild(head);
+      v.appendChild(document.createTextNode("Safe handling kept the whole value inside the blank. The extra words are just part of a (meaningless) student number now, not an instruction. Nothing runs."));
+    } else {
+      v.className = "verdict ok";
+      head.textContent = "Data. ";
+      v.appendChild(head);
+      v.appendChild(document.createTextNode("The value sits inside the blank and fills it, as a student number should. The instruction is unchanged."));
+    }
+  }
+
+  $("b-plain").addEventListener("click", function () { st.value = "plain"; draw(); });
+  $("b-spill").addEventListener("click", function () { st.value = "spill"; draw(); });
+  $("b-safe").addEventListener("click", function () { st.safe = !st.safe; draw(); });
+  draw();
+}());
+</script>
+</body>
+</html>

@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en-GB" data-store="hndne-pis:">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="hndne-pis-site">
+<title>Practice question 6: a doctor-channelling booking platform | Principles of Information Security</title>
+<meta name="author" content="Niranga Dharmaratna">
+<meta name="description" content="This practice question applies the Day 6 ideas to a public web platform. It covers the boundary between code and data, injection into a database...">
+<meta name="robots" content="index, follow">
+<link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
+<link rel="canonical" href="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/practice/PQ6.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Principles of Information Security, HND Network Engineering Year 2">
+<meta property="og:title" content="Practice question 6: a doctor-channelling booking platform">
+<meta property="og:description" content="This practice question applies the Day 6 ideas to a public web platform. It covers the boundary between code and data, injection into a database...">
+<meta property="og:url" content="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/practice/PQ6.html">
+<meta property="og:locale" content="en_GB">
+<meta property="og:image" content="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/assets/img/social-card.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="At Taxila College the Head of IT points to the security register on the wall: nineteen numbered items, the first outlined as the place to start. The Registrar holds a sealed transcript and the Data Protection Officer a clipboard. A lecturer turns to welcome two students arriving with a laptop and a phone.">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/","name":"Principles of Information Security","position":1},{"@type":"ListItem","item":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/practice/PQ6.html","name":"Practice question 6: a doctor-channelling booking platform","position":2}]}</script>
+<link rel="stylesheet" href="../assets/fonts/fonts.css">
+<link rel="stylesheet" href="../assets/css/site.css">
+<script>document.documentElement.className = "js";</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to the content</a>
+<header class="site-header"><div class="wrap"><div><p class="eyebrow"><a href="../index.html">Principles of Information Security | HND Network Engineering, Year 2</a></p><h1>Practice question 6: a doctor-channelling booking platform</h1><div class="bars" aria-hidden="true"><i></i><i></i></div></div></div></header>
+<main id="main">
+<div class="wrap prose">
+<p>This practice question applies the Day 6 ideas to a public web platform. It covers the boundary between code and data, injection into a database, cross-site scripting, and the session cookie. Attempt it in writing before you read the answer guidance. It carries 20 marks.</p>
+<h2 id="the-setting">The setting</h2>
+<p>A company runs a website where the public book evening appointments with doctors. Patients create an account, sign in, search for a doctor, and leave a short note for the clinic with each booking. On busy evenings thousands of people use the site at once. The site keeps each patient's name, telephone number, national identity card number, and booking history in one database.</p>
+<p>A new developer looks over the site and finds three things.</p>
+<p>First, the sign-in builds its database question by joining the username and password straight into the text of the query. Second, the note a patient leaves is shown back on the clinic's own page exactly as it was typed, with nothing changed. Third, the cookie that keeps a patient signed in is sent with no extra settings on it.</p>
+<p>The developer writes a short report:</p>
+<ol>
+<li>The sign-in should use a parameterised query, so a patient's input can never change the question the database is asked.</li>
+<li>The note should be encoded before any page shows it, so it is always shown as plain text.</li>
+<li>The session cookie should carry three settings, so a script cannot read it, it never travels over a plain connection, and another site cannot make the browser send it.</li>
+</ol>
+<p>The site owner replies: "The sign-in is the way in, so fix that. The note is just a message a patient types, and the cookie is only a small file. Fix the sign-in and we are safe."</p>
+<h2 id="the-question">The question</h2>
+<p><strong>(a)</strong> Explain the boundary between data and command that these flaws share. Then explain what SQL (Structured Query Language) injection is, what reflected cross-site scripting is, and what each of the three session-cookie settings (HttpOnly, Secure and SameSite) does. <strong>(6 marks)</strong></p>
+<p><strong>(b)</strong> Apply these ideas to the platform. Take the three things the developer found: the sign-in query, the note shown on the page, and the session cookie. For each one, name the fix and say what it protects. Say where each fix belongs, on the server or in the browser. <strong>(7 marks)</strong></p>
+<p><strong>(c)</strong> Evaluate the owner's view. Discuss whether fixing only the sign-in would make the platform safe, using the note and the cookie to argue your case. Explain why a check added in the browser is not a security control. Then recommend what the platform should do, naming the idea that several independent layers protect better than one, and give one cost of your recommendation. <strong>(7 marks)</strong></p>
+<h2 id="answer-guidance">Answer guidance</h2>
+<p>Read this only after you have written your own answer.</p>
+<p><strong>Part (a).</strong> All three flaws share one boundary: what a user types should stay data, a value the application reads, and never cross into the command the application runs. SQL injection happens when input is joined into a database query, so part of the input is read as part of the query. A carefully shaped value can add a condition that is always true, so a question meant to return one record returns every record. Reflected cross-site scripting happens when a page shows a user's input as live markup, not as plain text. A script carried in the input, often through a link, then runs in the browser of whoever views the page. The three cookie settings each close a different gap. HttpOnly keeps a script on the page from reading the cookie. Secure keeps the cookie off plain connections, where it could be read in transit. SameSite keeps the browser from sending the cookie on a request that another site started. A strong answer keeps injection and scripting apart, and does not say that encoding or a cookie setting encrypts anything.</p>
+<p><strong>Part (b).</strong> The sign-in: use a parameterised query, which sends the question and the input separately, so input can never change the question. It protects against a crafted sign-in that reads every patient's record, and it belongs on the server. The note: encode the output before any page shows it, so the note is shown as plain text and a script in it can never run. It protects the patients who view the clinic page, and it belongs on the server, where the page is built. The session cookie: set HttpOnly, Secure and SameSite. It protects the token that stands in for the patient after sign-in. The three settings stop a script reading it, a plain connection carrying it, and another site making the browser send it. The settings are placed by the server when it sends the cookie. A strong answer names a fix for each flaw and says what each protects, not only "make it more secure".</p>
+<p><strong>Part (c).</strong> Fixing only the sign-in is not enough. The sign-in fix closes injection into the database. But the note still runs a script in any patient's browser that opens the clinic page. The bare cookie can still be read by such a script, or carried on a forged request. So a patient's session can be taken even with a safe sign-in. A check added in the browser is not a control. The browser runs on the user's own machine, where the check can be skipped. Validation that counts runs on the server. The platform should take all three fixes together. This is defence in depth: several independent layers, each catching what another misses, so one flaw does not open the whole site. As the holder of patients' identity numbers and booking history, the platform has a duty to keep that data secure. One cost of the recommendation is the developer's time to parameterise every query, encode every output, and set the cookie, and to test that ordinary use still works. That cost is small against one patient's records or session being taken. A strong answer rejects "fix the sign-in and we are safe" with reasons drawn from the note and the cookie. It does not treat the sign-in as the only way in.</p>
+<nav class="pager" aria-label="Page navigation"><span></span><span><a href="../index.html">All days</a></span><span></span></nav>
+</div>
+</main>
+<footer class="site-footer"><div class="wrap">
+<p class="author">&copy; Niranga Dharmaratna, School of Computing &amp; Engineering, National Institute of Business Management</p>
+<p>Content licensed <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener">CC BY-NC-SA 4.0</a>; code licensed MIT; Open Sans under the SIL Open Font Licence. See the <a href="../LICENSE-CONTENT.html">licence notes</a>.</p>
+<p>Dates and submissions are announced for your cohort. Taxila College is fictional.</p>
+<p>Anything you mark as done is saved only on this device. Nothing leaves it.</p>
+</div></footer>
+<script src="../assets/js/site.js" defer></script>
+</body>
+</html>

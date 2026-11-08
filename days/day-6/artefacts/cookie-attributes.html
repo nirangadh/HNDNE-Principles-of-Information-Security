@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cookie guards: three settings, three gaps</title>
+<meta name="description" content="Switch HttpOnly, Secure and SameSite on the portal's session cookie and see which of three gaps each setting closes, as a defender sees it.">
+<link rel="stylesheet" href="../../../assets/fonts/fonts.css">
+<style>
+  body{margin:0;font-family:var(--font-body);background:var(--linen);color:var(--ink);line-height:1.6}
+  main{max-width:46rem;margin:0 auto;padding:1.5rem 1rem 2.5rem}
+  h1{font-size:1.6rem;line-height:1.25;margin:0 0 .4rem}
+  .bars{display:flex;gap:6px;margin:.3rem 0 1.1rem}.bars i{display:block;height:6px;border-radius:2px}
+  .bars i:first-child{width:56px;background:var(--burgundy)}.bars i:last-child{width:26px;background:var(--blush)}
+  .lead{margin:0 0 1rem}
+  .step{font-size:.78rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--burgundy);margin:1.6rem 0 .3rem;display:block}
+  h2{font-size:1.15rem;margin:.1rem 0 .4rem}
+  button:focus-visible{outline:3px solid var(--burgundy);outline-offset:2px}
+  button{font:inherit;font-weight:700;color:var(--burgundy);background:var(--snow);border:2px solid var(--burgundy);border-radius:8px;padding:.55rem 1rem;min-height:44px;cursor:pointer;margin:.4rem .3rem .2rem 0}
+  button[aria-pressed=true]{background:var(--ink);color:var(--snow);border-color:var(--ink)}
+  .header{font-family:var(--font-code);background:var(--ink);color:var(--snow);border-radius:10px;padding:.7rem .9rem;overflow-x:auto;white-space:nowrap;font-size:.95rem}
+  .header b{color:var(--rose)}
+  .rows{display:grid;gap:.7rem;grid-template-columns:minmax(0,1fr)}
+  .row{background:var(--snow);border:2px solid var(--taupe);border-radius:12px;padding:.7rem .9rem}
+  .row.open{border:3px dashed var(--signal-vermilion)}
+  .row.closed{border:3px solid var(--burgundy)}
+  .row h3{margin:0 0 .2rem;font-size:1rem}
+  .row p{margin:.2rem 0;font-size:.93rem}
+  .seen{font-family:var(--font-code);font-size:.88rem;background:var(--linen);border:1px solid var(--rule);border-radius:6px;padding:.35rem .55rem;overflow-wrap:anywhere;white-space:pre-wrap}
+  .st{font-weight:800}
+  .tag{display:block;font-size:.72rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--taupe)}
+  .sum{font-weight:700;margin:.8rem 0 .2rem}
+  .note{font-size:.9rem;color:var(--taupe);margin-top:1.4rem}
+</style>
+<!-- portal head: written by the portal generator from this demo's title and description; do not edit -->
+<meta name="robots" content="index, follow">
+<link rel="icon" href="../../../assets/img/favicon.svg" type="image/svg+xml">
+<link rel="canonical" href="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-6/artefacts/cookie-attributes.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Principles of Information Security, HND Network Engineering Year 2">
+<meta property="og:title" content="Cookie guards: three settings, three gaps | Day 6">
+<meta property="og:description" content="Switch HttpOnly, Secure and SameSite on the portal&#x27;s session cookie and see which of three gaps each setting closes, as a defender sees it.">
+<meta property="og:url" content="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-6/artefacts/cookie-attributes.html">
+<meta property="og:locale" content="en_GB">
+<meta property="og:image" content="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/assets/img/social-card.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="At Taxila College the Head of IT points to the security register on the wall: nineteen numbered items, the first outlined as the place to start. The Registrar holds a sealed transcript and the Data Protection Officer a clipboard. A lecturer turns to welcome two students arriving with a laptop and a phone.">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","author":{"@type":"Person","affiliation":{"@type":"Organization","name":"School of Computing & Engineering, National Institute of Business Management"},"name":"Niranga Dharmaratna"},"description":"Switch HttpOnly, Secure and SameSite on the portal's session cookie and see which of three gaps each setting closes, as a defender sees it.","educationalLevel":"Higher National Diploma, Year 2","inLanguage":"en-GB","interactivityType":"active","isAccessibleForFree":true,"isPartOf":{"@id":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/#course","@type":"Course","name":"Principles of Information Security, HND Network Engineering Year 2","url":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/"},"learningResourceType":"Interactive demonstration","license":"https://opensource.org/licenses/MIT","name":"Cookie guards: three settings, three gaps | Day 6","url":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-6/artefacts/cookie-attributes.html"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/","name":"Principles of Information Security","position":1},{"@type":"ListItem","item":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-6/","name":"Day 6","position":2},{"@type":"ListItem","item":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-6/artefacts/cookie-attributes.html","name":"Cookie guards: three settings, three gaps","position":3}]}</script>
+<!-- /portal head -->
+</head>
+<body>
+<main>
+<h1>Cookie guards: three settings, three gaps</h1>
+<div class="bars" aria-hidden="true"><i></i><i></i></div>
+<p class="lead">After you sign in, Taxila's portal gives your browser a session cookie. Whoever holds it is you. Each setting below closes one gap. Switch them on one at a time and watch which gap each one closes, and which it leaves open.</p>
+
+<span class="step">Step 1</span>
+<h2>Choose the cookie's settings</h2>
+<div>
+  <button type="button" id="b-http" aria-pressed="false">HttpOnly</button>
+  <button type="button" id="b-sec" aria-pressed="false">Secure</button>
+  <button type="button" id="b-same" aria-pressed="false">SameSite: not set</button>
+</div>
+<p class="tag">What the portal sends to your browser</p>
+<div class="header" id="hdr" aria-live="polite"></div>
+
+<span class="step">Step 2</span>
+<h2>What a defender sees in each case</h2>
+<p class="sum" id="sum" aria-live="polite"></p>
+<div class="rows" id="rows"></div>
+
+<p class="note">The cookie, the account <span style="font-family:var(--font-code)">lecturer01</span> and every line on this page are prepared samples. Nothing is sent anywhere, and nothing on this page leaves your browser. SameSite takes three values: Strict, Lax and None. None is left out here, because it guards nothing, and browsers accept it only with Secure.</p>
+</main>
+<script>
+(function () {
+  "use strict";
+  var $ = function (id) { return document.getElementById(id); };
+  var TOKEN = "7f3a9c41e0d2b8";
+  var SAME = ["not set", "Lax", "Strict"];
+  var st = { http: false, sec: false, same: 0 };
+  var ROWS = [
+    { id: "script", gap: true, title: "A script on the page asks for the page's cookies",
+      where: "The browser's developer console",
+      open: function () { return "session=" + TOKEN; },
+      shut: function () { return "(nothing: the session cookie is hidden from scripts)"; },
+      closed: function () { return st.http; }, by: "HttpOnly",
+      sayOpen: "Open: the script can read the token, and whoever gets the token is you.",
+      sayShut: "Closed by HttpOnly. The browser still sends the cookie to the portal, but no script on the page can read it." },
+    { id: "plain", gap: true, title: "The browser opens the portal over a plain connection, from an old link",
+      where: "A capture of the plain traffic on the shared Wi-Fi",
+      open: function () { return "Cookie: session=" + TOKEN; },
+      shut: function () { return "(no Cookie line: the browser did not send it)"; },
+      closed: function () { return st.sec; }, by: "Secure",
+      sayOpen: "Open: the token crosses the network as plain text, as the form did on Day 4.",
+      sayShut: "Closed by Secure. The browser sends the cookie only over an encrypted connection." },
+    { id: "forged", gap: true, title: "A page on another site makes the browser post a form to the portal",
+      where: "The portal's request log",
+      open: function () { return "POST /settings  session: valid (lecturer01)  carried out"; },
+      shut: function () { return "POST /settings  session: none  refused, sign-in needed"; },
+      closed: function () { return st.same > 0; }, by: "SameSite",
+      sayOpen: function () { return st.same === 0 ? "Open, or not: with SameSite not set, some browsers send the cookie and some do not. A careful site never relies on the default." : ""; },
+      sayShut: "Closed by SameSite. The forged form arrives with no session, so the portal refuses it. Its log shows the refusal." },
+    { id: "link", gap: false, title: "Everyday use: you follow a link to the portal from another site's page",
+      where: "The portal's request log",
+      open: function () { return "GET /home  session: valid (lecturer01)  page shown"; },
+      shut: function () { return "GET /home  session: none  sign-in page shown"; },
+      closed: function () { return st.same === 2; }, by: "SameSite=Strict",
+      sayOpen: "You arrive signed in. Lax allows this, because following a link changes nothing.",
+      sayShut: "With Strict you arrive signed out, even from a link. Safer for a page that changes important things, such as an administrator's page; less convenient for everyday pages." }
+  ];
+  function header() {
+    var h = $("hdr"); while (h.firstChild) h.removeChild(h.firstChild);
+    h.appendChild(document.createTextNode("Set-Cookie: session=" + TOKEN + "..."));
+    var parts = [];
+    if (st.http) parts.push("HttpOnly");
+    if (st.sec) parts.push("Secure");
+    if (st.same > 0) parts.push("SameSite=" + SAME[st.same]);
+    parts.forEach(function (p) { h.appendChild(document.createTextNode("; ")); var b = document.createElement("b"); b.textContent = p; h.appendChild(b); });
+  }
+  function draw() {
+    $("b-http").setAttribute("aria-pressed", String(st.http));
+    $("b-sec").setAttribute("aria-pressed", String(st.sec));
+    $("b-same").setAttribute("aria-pressed", String(st.same > 0));
+    $("b-same").textContent = "SameSite: " + SAME[st.same];
+    header();
+    var rows = $("rows"); while (rows.firstChild) rows.removeChild(rows.firstChild);
+    var shut = 0;
+    ROWS.forEach(function (r) {
+      var c = r.closed();
+      if (r.gap && c) shut++;
+      var d = document.createElement("div");
+      d.className = "row" + (r.gap ? (c ? " closed" : " open") : "");
+      var h = document.createElement("h3"); h.textContent = r.title; d.appendChild(h);
+      var w = document.createElement("p"); w.className = "tag"; w.textContent = r.where; d.appendChild(w);
+      var s = document.createElement("p"); s.className = "seen"; s.textContent = c ? r.shut() : r.open(); d.appendChild(s);
+      var say = document.createElement("p");
+      var txt = c ? r.sayShut : (typeof r.sayOpen === "function" ? r.sayOpen() : r.sayOpen);
+      if (!txt) txt = "Open: the forged form carries the cookie, and the portal carries it out.";
+      var mark = document.createElement("span"); mark.className = "st";
+      mark.textContent = r.gap ? (c ? "✓ " : "× ") : "Everyday use. ";
+      say.appendChild(mark); say.appendChild(document.createTextNode(txt));
+      d.appendChild(say);
+      rows.appendChild(d);
+    });
+    $("sum").textContent = "Gaps closed: " + shut + " of 3." + (shut === 3 ? " Each setting closed its own gap, and no one setting closed them all." : "");
+  }
+  $("b-http").addEventListener("click", function () { st.http = !st.http; draw(); });
+  $("b-sec").addEventListener("click", function () { st.sec = !st.sec; draw(); });
+  $("b-same").addEventListener("click", function () { st.same = (st.same + 1) % SAME.length; draw(); });
+  draw();
+}());
+</script>
+</body>
+</html>

@@ -307,6 +307,68 @@ Bringing a server to a safe baseline: only needed accounts and services, tight f
 
 *Taxila example:* the Head of IT (information technology) turned off services nobody used on the SIS (Student Information System) server.
 
+## Day 6
+
+### Session token
+A long random value the server gives your browser after you sign in. Every later request carries it, so whoever holds the token is treated as you until it expires.
+
+*Taxila example:* the portal sends each student a session token in a cookie after sign-in, and reads it on every page instead of asking for the password again.
+
+### Cookie attribute
+A setting the server adds to a cookie that tells the browser when it may send the cookie and who may read it. HttpOnly, Secure and SameSite are the three that guard a session cookie.
+
+*Taxila example:* the portal's session cookie carries all three attributes (register item 12).
+
+### SameSite
+A cookie attribute that tells the browser to leave the cookie off requests that another site started. Strict leaves it off even when you follow a link; Lax still allows a followed link.
+
+*Taxila example:* with this attribute set on the portal's session cookie, a form posted to the portal from another site arrives with no session, so the portal refuses it.
+
+### Cross-site request forgery
+Cross-site request forgery (CSRF): a page on another site makes your browser send a request to a site where you are signed in. The browser adds your session cookie, so the request looks like yours.
+
+*Taxila example:* a page elsewhere makes a signed-in lecturer's browser post a form to the portal; SameSite keeps the lecturer's cookie off that request.
+
+### Security misconfiguration
+A weakness in how a system is set up rather than how it is written, such as a default password or an admin page open to everyone. It needs no clever trick to use.
+
+*Taxila example:* an admin page on the portal left on the login it shipped with is an open door.
+
+### OWASP Top 10
+The Open Worldwide Application Security Project's (OWASP) list of the ten most common web application risks, revised every few years. It is a map, not a checklist of every flaw.
+
+*Taxila example:* the Head of IT (information technology) uses this list to check the portal's injection, misconfiguration and session handling.
+
+### Injection
+A flaw where input a user types is read as part of a command the application runs, instead of only as data. The fault is in how the application builds the command.
+
+*Taxila example:* the portal must treat a login as data, never as part of the database question it builds.
+
+### SQL injection
+Injection into a database query. Input joined into the query, which is written in Structured Query Language (SQL), can add a condition that is always true, so one record asked for becomes every record.
+
+*Taxila example:* a crafted login that returns every student's record, until the portal uses a parameterised query.
+
+### Parameterised query
+A database query written with placeholders for its values. The input travels beside the query, as data, so it can never change the question the database is asked.
+
+*Taxila example:* the portal's login uses one, so a crafted login matches no record while a real sign-in still works.
+
+### Cross-site scripting
+A flaw where a page shows a user's input as live script, which then runs in another user's browser. It is called cross-site scripting (XSS), and output encoding stops it.
+
+*Taxila example:* a comment left on a portal page must not run a visitor's script in another student's browser.
+
+### Output encoding
+Turning the characters of a user's input, such as the angle brackets of markup, into their plain-text form before a page shows it, so the input is only ever displayed, never run.
+
+*Taxila example:* the portal encodes every comment it shows, so a script left in one appears as plain text.
+
+### Input validation
+Checking that input looks the way it should, and turning away what does not, before the application uses it. A useful layer, but not a replacement for a parameterised query or output encoding.
+
+*Taxila example:* the portal turns away a login of the wrong shape early, as one layer among several.
+
 ## Day 7
 
 ### Business email compromise

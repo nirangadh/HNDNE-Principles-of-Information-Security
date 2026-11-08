@@ -214,6 +214,43 @@
 <h3 id="hardening">Hardening</h3>
 <p>Bringing a server to a safe baseline: only needed accounts and services, tight file permissions, patches installed, and logging on. Each change shrinks the attack surface, everything an attacker could try to reach.</p>
 <p><em>Taxila example:</em> the Head of IT (information technology) turned off services nobody used on the SIS (Student Information System) server.</p>
+<h2 id="day-6">Day 6</h2>
+<h3 id="session-token">Session token</h3>
+<p>A long random value the server gives your browser after you sign in. Every later request carries it, so whoever holds the token is treated as you until it expires.</p>
+<p><em>Taxila example:</em> the portal sends each student a session token in a cookie after sign-in, and reads it on every page instead of asking for the password again.</p>
+<h3 id="cookie-attribute">Cookie attribute</h3>
+<p>A setting the server adds to a cookie that tells the browser when it may send the cookie and who may read it. HttpOnly, Secure and SameSite are the three that guard a session cookie.</p>
+<p><em>Taxila example:</em> the portal's session cookie carries all three attributes (register item 12).</p>
+<h3 id="samesite">SameSite</h3>
+<p>A cookie attribute that tells the browser to leave the cookie off requests that another site started. Strict leaves it off even when you follow a link; Lax still allows a followed link.</p>
+<p><em>Taxila example:</em> with this attribute set on the portal's session cookie, a form posted to the portal from another site arrives with no session, so the portal refuses it.</p>
+<h3 id="cross-site-request-forgery">Cross-site request forgery</h3>
+<p>Cross-site request forgery (CSRF): a page on another site makes your browser send a request to a site where you are signed in. The browser adds your session cookie, so the request looks like yours.</p>
+<p><em>Taxila example:</em> a page elsewhere makes a signed-in lecturer's browser post a form to the portal; SameSite keeps the lecturer's cookie off that request.</p>
+<h3 id="security-misconfiguration">Security misconfiguration</h3>
+<p>A weakness in how a system is set up rather than how it is written, such as a default password or an admin page open to everyone. It needs no clever trick to use.</p>
+<p><em>Taxila example:</em> an admin page on the portal left on the login it shipped with is an open door.</p>
+<h3 id="owasp-top-10">OWASP Top 10</h3>
+<p>The Open Worldwide Application Security Project's (OWASP) list of the ten most common web application risks, revised every few years. It is a map, not a checklist of every flaw.</p>
+<p><em>Taxila example:</em> the Head of IT (information technology) uses this list to check the portal's injection, misconfiguration and session handling.</p>
+<h3 id="injection">Injection</h3>
+<p>A flaw where input a user types is read as part of a command the application runs, instead of only as data. The fault is in how the application builds the command.</p>
+<p><em>Taxila example:</em> the portal must treat a login as data, never as part of the database question it builds.</p>
+<h3 id="sql-injection">SQL injection</h3>
+<p>Injection into a database query. Input joined into the query, which is written in Structured Query Language (SQL), can add a condition that is always true, so one record asked for becomes every record.</p>
+<p><em>Taxila example:</em> a crafted login that returns every student's record, until the portal uses a parameterised query.</p>
+<h3 id="parameterised-query">Parameterised query</h3>
+<p>A database query written with placeholders for its values. The input travels beside the query, as data, so it can never change the question the database is asked.</p>
+<p><em>Taxila example:</em> the portal's login uses one, so a crafted login matches no record while a real sign-in still works.</p>
+<h3 id="cross-site-scripting">Cross-site scripting</h3>
+<p>A flaw where a page shows a user's input as live script, which then runs in another user's browser. It is called cross-site scripting (XSS), and output encoding stops it.</p>
+<p><em>Taxila example:</em> a comment left on a portal page must not run a visitor's script in another student's browser.</p>
+<h3 id="output-encoding">Output encoding</h3>
+<p>Turning the characters of a user's input, such as the angle brackets of markup, into their plain-text form before a page shows it, so the input is only ever displayed, never run.</p>
+<p><em>Taxila example:</em> the portal encodes every comment it shows, so a script left in one appears as plain text.</p>
+<h3 id="input-validation">Input validation</h3>
+<p>Checking that input looks the way it should, and turning away what does not, before the application uses it. A useful layer, but not a replacement for a parameterised query or output encoding.</p>
+<p><em>Taxila example:</em> the portal turns away a login of the wrong shape early, as one layer among several.</p>
 <h2 id="day-7">Day 7</h2>
 <h3 id="business-email-compromise">Business email compromise</h3>
 <p>A message that seems to come from a manager or a supplier and asks for a payment, or a change to the bank account a payment goes to. It needs no link or attachment, only trust.</p>
