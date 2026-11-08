@@ -214,6 +214,43 @@
 <h3 id="hardening">Hardening</h3>
 <p>Bringing a server to a safe baseline: only needed accounts and services, tight file permissions, patches installed, and logging on. Each change shrinks the attack surface, everything an attacker could try to reach.</p>
 <p><em>Taxila example:</em> the Head of IT (information technology) turned off services nobody used on the SIS (Student Information System) server.</p>
+<h2 id="day-7">Day 7</h2>
+<h3 id="business-email-compromise">Business email compromise</h3>
+<p>A message that seems to come from a manager or a supplier and asks for a payment, or a change to the bank account a payment goes to. It needs no link or attachment, only trust.</p>
+<p><em>Taxila example:</em> a message "from" the Registrar asks the finance office to pay an invoice today to a new account.</p>
+<h3 id="data-controller">Data controller</h3>
+<p>The organisation that decides why and how personal data is processed. Under Sri Lanka's Personal Data Protection Act the controller must keep that data secure and be able to show what it does with it.</p>
+<p><em>Taxila example:</em> Taxila College is the controller for its students' and staff's personal data in the SIS (Student Information System).</p>
+<h3 id="data-masking">Data masking</h3>
+<p>Replacing real values with realistic but false ones, so that a test or training system has data of the right shape without the real people. Anonymising goes further: nobody can be identified from what is left.</p>
+<p><em>Taxila example:</em> the <code>taxila-db</code> copy built in the Day 7 lab holds only invented students and grades.</p>
+<h3 id="dkim">DKIM</h3>
+<p>DomainKeys Identified Mail: the sending server signs each message with the domain's private key, and the receiver verifies it with the public key published in the domain's records. It is a digital signature applied to mail.</p>
+<p><em>Taxila example:</em> <code>mail.taxila.example</code> signs outgoing mail; the public key sits at <code class="long">mail._domainkey.taxila.example</code>.</p>
+<h3 id="dmarc">DMARC</h3>
+<p>Domain-based Message Authentication, Reporting and Conformance: a domain's rule for failures. The from line's domain must match one that passed SPF (Sender Policy Framework) or DKIM (DomainKeys Identified Mail); if not, deliver, quarantine or reject.</p>
+<p><em>Taxila example:</em> <code>taxila.example</code> publishes <code>p=quarantine</code>, so a spoofed "Registrar" message is held, not delivered.</p>
+<h3 id="email-spoofing">Email spoofing</h3>
+<p>Sending a message whose from line names someone who did not send it. It works because the sender writes the from line, and mail servers are not required to check it.</p>
+<p><em>Taxila example:</em> a message with the from line <code>registrar@taxila.example</code>, sent from a server outside Taxila.</p>
+<h3 id="encryption-at-rest">Encryption at rest</h3>
+<p>Encrypting data where it is stored, on disks and in backups, so that a stolen disk shows only ciphertext. Encryption in transit protects the same data while it crosses a network. Neither stops an authorised query.</p>
+<p><em>Taxila example:</em> the SIS (Student Information System) database's files and its weekly backup disk are encrypted at rest.</p>
+<h3 id="look-alike-domain">Look-alike domain</h3>
+<p>A domain name chosen to look like a real one, such as a name with one letter changed or an extra word. It can publish its own records and pass its own checks.</p>
+<p><em>Taxila example:</em> <code>sis-taxila.example</code>, the reply-to domain in the fake Registrar message, is not Taxila's.</p>
+<h3 id="phishing">Phishing</h3>
+<p>A message that tricks people into giving away a password, money or data, often through a link to a look-alike page. Spear-phishing is phishing aimed at one person or a small group, using details about them.</p>
+<p><em>Taxila example:</em> last semester's message asked staff to update their bank details through a link; two people did.</p>
+<h3 id="smtp">SMTP</h3>
+<p>The Simple Mail Transfer Protocol (SMTP): the way mail servers hand a message from one to the next until it reaches the recipient's server. It does not require any server to check the from line.</p>
+<p><em>Taxila example:</em> <code>mail.taxila.example</code> receives Taxila's mail from other servers by SMTP.</p>
+<h3 id="spf">SPF</h3>
+<p>The Sender Policy Framework: a record a domain publishes, listing the servers allowed to send mail for it. A receiving server compares the server that handed over a message with that list.</p>
+<p><em>Taxila example:</em> <code>taxila.example</code> lists only <code>192.0.2.25</code>, its own mail server, and ends with <code>-all</code>.</p>
+<h3 id="transparent-data-encryption">Transparent data encryption</h3>
+<p>Transparent data encryption (TDE): encryption of a database's files on disk, done by the database itself. The database decrypts as it reads, so applications notice nothing, and a stolen disk or backup stays unreadable.</p>
+<p><em>Taxila example:</em> the SIS (Student Information System) database could use it, so that a stolen backup disk is useless to a thief.</p>
 <nav class="pager" aria-label="Page navigation"><span></span><span><a href="index.html">All days</a></span><span></span></nav>
 </div>
 </main>

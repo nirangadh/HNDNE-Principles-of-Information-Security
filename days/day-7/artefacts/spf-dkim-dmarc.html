@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Three checks that fight spoofing</title>
+<meta name="description" content="Turn on a domain&#x27;s three records and deliver three prepared messages, to see what each check catches and what DMARC does.">
+<link rel="stylesheet" href="../../../assets/fonts/fonts.css">
+<style>
+  body{margin:0;font-family:var(--font-body);background:var(--linen);color:var(--ink);line-height:1.6}
+  main{max-width:46rem;margin:0 auto;padding:1.5rem 1rem 2.5rem}
+  h1{font-size:1.6rem;line-height:1.25;margin:0 0 .4rem}
+  .bars{display:flex;gap:6px;margin:.3rem 0 1.1rem}.bars i{display:block;height:6px;border-radius:2px}
+  .bars i:first-child{width:56px;background:var(--burgundy)}.bars i:last-child{width:26px;background:var(--blush)}
+  .lead{margin:0 0 1rem}
+  .step{font-size:.78rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--burgundy);margin:1.6rem 0 .3rem;display:block}
+  h2{font-size:1.15rem;margin:.1rem 0 .4rem}
+  button:focus-visible{outline:3px solid var(--burgundy);outline-offset:2px}
+  button{overflow-wrap:anywhere;font:inherit;font-weight:700;color:var(--snow);background:var(--burgundy);border:0;border-radius:8px;padding:.55rem 1rem;min-height:44px;cursor:pointer;margin:.4rem .3rem .2rem 0}
+  button.quiet{color:var(--burgundy);background:var(--snow);border:2px solid var(--burgundy)}
+  button[aria-pressed=true]{background:var(--ink);color:var(--snow);border-color:var(--ink)}
+  button:disabled{opacity:.45;cursor:default}
+  .box{background:var(--snow);border:1px solid var(--rule);border-left:6px solid var(--burgundy);border-radius:0 12px 12px 0;padding:.8rem 1rem;margin:.5rem 0}
+  .box.fault{border-left:6px dashed var(--signal-vermilion)}
+  .box p{margin:.2rem 0}
+  .code,code{font-family:var(--font-code)}
+  .mono{font-family:var(--font-code);font-size:.92rem;white-space:pre-wrap;word-break:break-word}
+  .note{font-size:.9rem;color:var(--taupe);margin-top:1.4rem}
+  .tag{display:inline-block;font-size:.75rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;border-radius:6px;padding:.05rem .45rem;margin-right:.4rem}
+  .tag.ok{background:var(--burgundy);color:var(--snow)}
+  .tag.bad{background:var(--rose-wash);color:var(--ink);border:2px dashed var(--signal-vermilion)}
+  .tag.none{background:var(--snow);color:var(--ink);border:2px dotted var(--taupe)}
+  .path{list-style:none;padding:0;margin:.4rem 0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.4rem}
+  @media (max-width:560px){.path{grid-template-columns:1fr 1fr}}
+  .path li{overflow-wrap:anywhere;min-width:0;background:var(--snow);border:2px dotted var(--taupe);border-radius:10px;padding:.45rem .6rem;font-size:.92rem}
+  .path li.done{border:2px solid var(--taupe)}
+  .path li.here{border:3px solid var(--burgundy)}
+  .path li strong{display:block}
+  .msg{background:var(--snow);border:1px solid var(--rule);border-radius:10px;padding:.6rem .8rem;margin:.4rem 0}
+  .hl{font-family:var(--font-code);font-size:.9rem;padding:.2rem .4rem;border-radius:4px;margin:.15rem 0;word-break:break-word}
+  .hl.trust{background:var(--rose-tint)}
+  .hl.from{border:2px solid var(--ink)}
+  .hl.quietline{color:var(--taupe)}
+  .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:.5rem;margin:.6rem 0}
+  .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem;margin:.6rem 0}
+  @media (max-width:640px){.grid,.grid3{grid-template-columns:1fr}}
+  .tile{background:var(--snow);border:2px dotted var(--taupe);border-radius:10px;padding:.5rem .7rem}
+  .tile p{margin:.15rem 0}
+  .tile .st{font-size:.75rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--taupe)}
+  .tile.reach{border:3px dashed var(--signal-vermilion);background:var(--rose-wash)}
+  .tile.reach .st{color:var(--ink)}
+  .tile.safe{border:3px solid var(--burgundy)}
+  .tile.safe .st{color:var(--burgundy)}
+  .row{display:flex;flex-wrap:wrap;align-items:center;gap:.2rem .4rem}
+  table{border-collapse:collapse;width:100%;margin:.5rem 0;background:var(--snow)}
+  th,td{border:1px solid var(--rule);padding:.35rem .5rem;text-align:left;vertical-align:top;font-size:.95rem}
+  th{background:var(--linen)}
+  .hlb{display:block;width:100%;text-align:left;font-family:var(--font-code);font-weight:400;font-size:.88rem;word-break:break-word;margin:.25rem 0}
+  .meter{font-size:1.05rem;font-weight:800;margin:.4rem 0}
+  .fb{margin:.35rem 0}
+</style>
+<!-- portal head: written by the portal generator from this demo's title and description; do not edit -->
+<meta name="robots" content="index, follow">
+<link rel="icon" href="../../../assets/img/favicon.svg" type="image/svg+xml">
+<link rel="canonical" href="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-7/artefacts/spf-dkim-dmarc.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Principles of Information Security, HND Network Engineering Year 2">
+<meta property="og:title" content="Three checks that fight spoofing | Day 7">
+<meta property="og:description" content="Turn on a domain&#x27;s three records and deliver three prepared messages, to see what each check catches and what DMARC does.">
+<meta property="og:url" content="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-7/artefacts/spf-dkim-dmarc.html">
+<meta property="og:locale" content="en_GB">
+<meta property="og:image" content="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/assets/img/social-card.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="At Taxila College the Head of IT points to the security register on the wall: nineteen numbered items, the first outlined as the place to start. The Registrar holds a sealed transcript and the Data Protection Officer a clipboard. A lecturer turns to welcome two students arriving with a laptop and a phone.">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","author":{"@type":"Person","affiliation":{"@type":"Organization","name":"School of Computing & Engineering, National Institute of Business Management"},"name":"Niranga Dharmaratna"},"description":"Turn on a domain's three records and deliver three prepared messages, to see what each check catches and what DMARC does.","educationalLevel":"Higher National Diploma, Year 2","inLanguage":"en-GB","interactivityType":"active","isAccessibleForFree":true,"isPartOf":{"@id":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/#course","@type":"Course","name":"Principles of Information Security, HND Network Engineering Year 2","url":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/"},"learningResourceType":"Interactive demonstration","license":"https://opensource.org/licenses/MIT","name":"Three checks that fight spoofing | Day 7","url":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-7/artefacts/spf-dkim-dmarc.html"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/","name":"Principles of Information Security","position":1},{"@type":"ListItem","item":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-7/","name":"Day 7","position":2},{"@type":"ListItem","item":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-7/artefacts/spf-dkim-dmarc.html","name":"Three checks that fight spoofing","position":3}]}</script>
+<!-- /portal head -->
+</head>
+<body>
+<main>
+<h1>Three checks that fight spoofing</h1>
+<div class="bars" aria-hidden="true"><i></i><i></i></div>
+<p class="lead">A receiving server cannot trust a from line, so it checks what the domain has published. Turn Taxila's three records on one at a time, then deliver three prepared messages and read what each check says. The Sender Policy Framework (SPF) lists the servers that may send; DomainKeys Identified Mail (DKIM) is a signature; Domain-based Message Authentication, Reporting and Conformance (DMARC) is the rule for failures.</p>
+
+<span class="step">Step 1</span>
+<h2>Choose what <span class="code">taxila.example</span> publishes</h2>
+<div class="row"><button type="button" class="quiet" id="spf" aria-pressed="false">SPF record: only 192.0.2.25 may send</button></div>
+<div class="row"><button type="button" class="quiet" id="dkim" aria-pressed="false">DKIM public key</button></div>
+<p style="margin:.6rem 0 0"><strong>DMARC record</strong></p>
+<div class="row" id="dmarc"></div>
+<div class="box"><p class="mono" id="records" aria-live="polite"></p></div>
+
+<span class="step">Step 2</span>
+<h2>Deliver a message to <span class="code">mail.taxila.example</span></h2>
+<div id="msgs"></div>
+<div class="box" id="out" aria-live="polite"><p id="outh"><strong>Choose a message to deliver.</strong></p><div id="outd"></div></div>
+
+<p class="note" id="wc">This page uses your browser's Web Crypto to make two real RSA key pairs when it opens: one for <span class="code">taxila.example</span> and one for the look-alike <span class="code">sis-taxila.example</span>. The genuine message and the look-alike message are really signed (RSASSA-PKCS1-v1_5 with SHA-256, as DKIM's rsa-sha256), and the DKIM check really verifies each signature with the published public key. The keys never leave your browser. Every address is a prepared sample, and nothing is sent anywhere.</p>
+</main>
+<script>
+(function () {
+  "use strict";
+  var $ = function (id) { return document.getElementById(id); };
+  var enc = new TextEncoder();
+  var state = { spf: false, dkim: false, dmarc: "absent" };
+  var POL = [["absent", "No DMARC record"], ["none", "p=none"], ["quarantine", "p=quarantine"], ["reject", "p=reject"]];
+  var MSGS = [
+    { id: "genuine", label: "A genuine message from the Registrar", from: "registrar@taxila.example", ip: "192.0.2.25",
+      body: "From: registrar@taxila.example\r\nSubject: Timetable for next week\r\n\r\nThe timetable is on the portal.", signer: "taxila" },
+    { id: "spoofed", label: "A spoofed \"Registrar\" message from outside", from: "registrar@taxila.example", ip: "203.0.113.45",
+      body: "From: registrar@taxila.example\r\nSubject: Action needed: update your salary bank details today\r\n\r\nUse the link below.", signer: null },
+    { id: "lookalike", label: "A message from the look-alike domain", from: "registrar@sis-taxila.example", ip: "203.0.113.80",
+      body: "From: registrar@sis-taxila.example\r\nSubject: Action needed: update your salary bank details today\r\n\r\nUse the link below.", signer: "lookalike" }
+  ];
+  var keys = {}, sigs = {}, ready = false;
+  var ALG = { name: "RSASSA-PKCS1-v1_5", modulusLength: 2048, publicExponent: new Uint8Array([1, 0, 1]), hash: "SHA-256" };
+  function hex(buf) { return Array.prototype.map.call(new Uint8Array(buf), function (b) { return ("0" + b.toString(16)).slice(-2); }).join(""); }
+
+  function recordsText() {
+    var t = [];
+    t.push(state.spf ? "taxila.example.  TXT  \"v=spf1 ip4:192.0.2.25 -all\"" : "taxila.example.  (no SPF record)");
+    t.push(state.dkim ? "mail._domainkey.taxila.example.  TXT  \"v=DKIM1; k=rsa; p=(the public key)\"" : "mail._domainkey.taxila.example.  (no DKIM key)");
+    t.push(state.dmarc === "absent" ? "_dmarc.taxila.example.  (no DMARC record)" :
+      "_dmarc.taxila.example.  TXT  \"v=DMARC1; p=" + state.dmarc + "; rua=mailto:itadmin@taxila.example\"");
+    return t.join("\n");
+  }
+  function drawRecords() {
+    $("spf").setAttribute("aria-pressed", String(state.spf));
+    $("dkim").setAttribute("aria-pressed", String(state.dkim));
+    Array.prototype.forEach.call($("dmarc").children, function (b) { b.setAttribute("aria-pressed", String(b.dataset.p === state.dmarc)); });
+    $("records").textContent = recordsText();
+  }
+  $("spf").addEventListener("click", function () { state.spf = !state.spf; drawRecords(); });
+  $("dkim").addEventListener("click", function () { state.dkim = !state.dkim; drawRecords(); });
+  POL.forEach(function (p) {
+    var b = document.createElement("button"); b.type = "button"; b.className = "quiet"; b.dataset.p = p[0]; b.textContent = p[1];
+    b.addEventListener("click", function () { state.dmarc = p[0]; drawRecords(); });
+    $("dmarc").appendChild(b);
+  });
+  MSGS.forEach(function (m) {
+    var b = document.createElement("button"); b.type = "button"; b.textContent = m.label; b.disabled = true; b.dataset.id = m.id;
+    b.addEventListener("click", function () { deliver(m); });
+    $("msgs").appendChild(b);
+  });
+
+  function row(name, tag, cls, text) {
+    var p = document.createElement("p"), t = document.createElement("span"), s = document.createElement("span");
+    t.className = "tag " + cls; t.textContent = name + "=" + tag; s.textContent = text;
+    p.appendChild(t); p.appendChild(s); return p;
+  }
+  function deliver(m) {
+    var lookalike = m.signer === "lookalike";
+    // SPF: the look-alike domain publishes its own records; Taxila's apply only to taxila.example
+    var spf, spfWhy;
+    if (lookalike) { spf = "pass"; spfWhy = "for sis-taxila.example: its own SPF record lists 203.0.113.80. It says nothing about Taxila."; }
+    else if (!state.spf) { spf = "none"; spfWhy = "taxila.example publishes no SPF record, so there is nothing to compare with."; }
+    else if (m.ip === "192.0.2.25") { spf = "pass"; spfWhy = "192.0.2.25 is on taxila.example's list."; }
+    else { spf = "fail"; spfWhy = m.ip + " is not on taxila.example's list."; }
+    var check = Promise.resolve(null), dkimWhy;
+    if (lookalike) {
+      check = crypto.subtle.verify("RSASSA-PKCS1-v1_5", keys.lookalike.publicKey, sigs.lookalike, enc.encode(m.body));
+    } else if (state.dkim && m.signer === "taxila") {
+      check = crypto.subtle.verify("RSASSA-PKCS1-v1_5", keys.taxila.publicKey, sigs.taxila, enc.encode(m.body));
+    }
+    check.then(function (ok) {
+      var dkim;
+      if (lookalike) { dkim = ok ? "pass" : "fail"; dkimWhy = "for sis-taxila.example: signed with that domain's own private key, verified with its own public key. Signature begins " + hex(sigs.lookalike).slice(0, 24) + "."; }
+      else if (!state.dkim) { dkim = "none"; dkimWhy = "taxila.example publishes no DKIM key, so no signature can be checked."; }
+      else if (!m.signer) { dkim = "none"; dkimWhy = "the message carries no signature. Only Taxila's mail server holds Taxila's private key."; }
+      else { dkim = ok ? "pass" : "fail"; dkimWhy = "the signature verifies with the public key at mail._domainkey.taxila.example. Signature begins " + hex(sigs.taxila).slice(0, 24) + "."; }
+      var dmarc, dmarcWhy, fate, bad;
+      if (lookalike) {
+        dmarc = "pass"; dmarcWhy = "the from line's domain, sis-taxila.example, matches the domain that passed. Taxila's DMARC record does not apply to another domain.";
+        fate = "Delivered to the inbox. All three checks passed, for a domain that is not Taxila's. Only a person reading the address can catch this."; bad = true;
+      } else if (state.dmarc === "absent") {
+        dmarc = "none"; dmarcWhy = "taxila.example publishes no DMARC record, so the receiver has no rule for failures.";
+        fate = (spf === "fail" || dkim !== "pass") && m.signer === null ? "Delivered to the inbox, because no rule says otherwise." : "Delivered to the inbox."; bad = m.signer === null;
+      } else {
+        var aligned = spf === "pass" || dkim === "pass";
+        dmarc = aligned ? "pass" : "fail";
+        dmarcWhy = aligned ? "the from line's domain, taxila.example, matches a check that passed." :
+          "neither SPF nor DKIM passed for taxila.example, so the from line is backed by nothing.";
+        if (aligned) { fate = "Delivered to the inbox."; bad = false; }
+        else if (state.dmarc === "none") { fate = "Delivered anyway, because p=none asks only for a report to itadmin@taxila.example."; bad = true; }
+        else if (state.dmarc === "quarantine") { fate = "Held in quarantine, as Taxila's policy asks."; bad = false; }
+        else { fate = "Refused by the receiving server, as Taxila's policy asks."; bad = false; }
+        if (!aligned && m.signer === "taxila") { fate += " This is genuine mail failing: publish SPF and DKIM before a strict DMARC policy."; bad = true; }
+      }
+      var cls = function (r) { return r === "pass" ? "ok" : (r === "fail" ? "bad" : "none"); };
+      $("outh").textContent = "";
+      var hd = document.createElement("strong"); hd.textContent = m.label + ", from " + m.from + ", sent by " + m.ip;
+      $("outh").appendChild(hd);
+      var d = $("outd"); while (d.firstChild) d.removeChild(d.firstChild);
+      d.appendChild(row("spf", spf, cls(spf), " " + spfWhy));
+      d.appendChild(row("dkim", dkim, cls(dkim), " " + dkimWhy));
+      d.appendChild(row("dmarc", dmarc, cls(dmarc), " " + dmarcWhy));
+      var f = document.createElement("p"); var fs = document.createElement("strong"); fs.textContent = fate; f.appendChild(fs); d.appendChild(f);
+      $("out").className = bad ? "box fault" : "box";
+    });
+  }
+  drawRecords();
+  if (!(window.crypto && crypto.subtle)) {
+    $("outh").textContent = "This browser has no Web Crypto, so the DKIM signatures cannot be made. Open the page in a current browser, from a local copy or the portal.";
+    return;
+  }
+  Promise.all([crypto.subtle.generateKey(ALG, false, ["sign", "verify"]), crypto.subtle.generateKey(ALG, false, ["sign", "verify"])])
+    .then(function (kp) {
+      keys.taxila = kp[0]; keys.lookalike = kp[1];
+      return Promise.all([crypto.subtle.sign("RSASSA-PKCS1-v1_5", kp[0].privateKey, enc.encode(MSGS[0].body)),
+                          crypto.subtle.sign("RSASSA-PKCS1-v1_5", kp[1].privateKey, enc.encode(MSGS[2].body))]);
+    }).then(function (s) {
+      sigs.taxila = s[0]; sigs.lookalike = s[1]; ready = true;
+      Array.prototype.forEach.call($("msgs").children, function (b) { b.disabled = false; });
+    });
+}());
+</script>
+</body>
+</html>

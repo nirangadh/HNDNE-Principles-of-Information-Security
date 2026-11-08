@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Two accounts, one leaked password: least privilege for a database</title>
+<meta name="description" content="Suppose a database account&#x27;s password leaks. Compare what a scoped and a full-rights account reach, and what the log records.">
+<link rel="stylesheet" href="../../../assets/fonts/fonts.css">
+<style>
+  body{margin:0;font-family:var(--font-body);background:var(--linen);color:var(--ink);line-height:1.6}
+  main{max-width:46rem;margin:0 auto;padding:1.5rem 1rem 2.5rem}
+  h1{font-size:1.6rem;line-height:1.25;margin:0 0 .4rem}
+  .bars{display:flex;gap:6px;margin:.3rem 0 1.1rem}.bars i{display:block;height:6px;border-radius:2px}
+  .bars i:first-child{width:56px;background:var(--burgundy)}.bars i:last-child{width:26px;background:var(--blush)}
+  .lead{margin:0 0 1rem}
+  .step{font-size:.78rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--burgundy);margin:1.6rem 0 .3rem;display:block}
+  h2{font-size:1.15rem;margin:.1rem 0 .4rem}
+  button:focus-visible{outline:3px solid var(--burgundy);outline-offset:2px}
+  button{overflow-wrap:anywhere;font:inherit;font-weight:700;color:var(--snow);background:var(--burgundy);border:0;border-radius:8px;padding:.55rem 1rem;min-height:44px;cursor:pointer;margin:.4rem .3rem .2rem 0}
+  button.quiet{color:var(--burgundy);background:var(--snow);border:2px solid var(--burgundy)}
+  button[aria-pressed=true]{background:var(--ink);color:var(--snow);border-color:var(--ink)}
+  button:disabled{opacity:.45;cursor:default}
+  .box{background:var(--snow);border:1px solid var(--rule);border-left:6px solid var(--burgundy);border-radius:0 12px 12px 0;padding:.8rem 1rem;margin:.5rem 0}
+  .box.fault{border-left:6px dashed var(--signal-vermilion)}
+  .box p{margin:.2rem 0}
+  .code,code{font-family:var(--font-code)}
+  .mono{font-family:var(--font-code);font-size:.92rem;white-space:pre-wrap;word-break:break-word}
+  .note{font-size:.9rem;color:var(--taupe);margin-top:1.4rem}
+  .tag{display:inline-block;font-size:.75rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;border-radius:6px;padding:.05rem .45rem;margin-right:.4rem}
+  .tag.ok{background:var(--burgundy);color:var(--snow)}
+  .tag.bad{background:var(--rose-wash);color:var(--ink);border:2px dashed var(--signal-vermilion)}
+  .tag.none{background:var(--snow);color:var(--ink);border:2px dotted var(--taupe)}
+  .path{list-style:none;padding:0;margin:.4rem 0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.4rem}
+  @media (max-width:560px){.path{grid-template-columns:1fr 1fr}}
+  .path li{overflow-wrap:anywhere;min-width:0;background:var(--snow);border:2px dotted var(--taupe);border-radius:10px;padding:.45rem .6rem;font-size:.92rem}
+  .path li.done{border:2px solid var(--taupe)}
+  .path li.here{border:3px solid var(--burgundy)}
+  .path li strong{display:block}
+  .msg{background:var(--snow);border:1px solid var(--rule);border-radius:10px;padding:.6rem .8rem;margin:.4rem 0}
+  .hl{font-family:var(--font-code);font-size:.9rem;padding:.2rem .4rem;border-radius:4px;margin:.15rem 0;word-break:break-word}
+  .hl.trust{background:var(--rose-tint)}
+  .hl.from{border:2px solid var(--ink)}
+  .hl.quietline{color:var(--taupe)}
+  .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:.5rem;margin:.6rem 0}
+  .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem;margin:.6rem 0}
+  @media (max-width:640px){.grid,.grid3{grid-template-columns:1fr}}
+  .tile{background:var(--snow);border:2px dotted var(--taupe);border-radius:10px;padding:.5rem .7rem}
+  .tile p{margin:.15rem 0}
+  .tile .st{font-size:.75rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--taupe)}
+  .tile.reach{border:3px dashed var(--signal-vermilion);background:var(--rose-wash)}
+  .tile.reach .st{color:var(--ink)}
+  .tile.safe{border:3px solid var(--burgundy)}
+  .tile.safe .st{color:var(--burgundy)}
+  .row{display:flex;flex-wrap:wrap;align-items:center;gap:.2rem .4rem}
+  table{border-collapse:collapse;width:100%;margin:.5rem 0;background:var(--snow)}
+  th,td{border:1px solid var(--rule);padding:.35rem .5rem;text-align:left;vertical-align:top;font-size:.95rem}
+  th{background:var(--linen)}
+  .hlb{display:block;width:100%;text-align:left;font-family:var(--font-code);font-weight:400;font-size:.88rem;word-break:break-word;margin:.25rem 0}
+  .meter{font-size:1.05rem;font-weight:800;margin:.4rem 0}
+  .fb{margin:.35rem 0}
+</style>
+<!-- portal head: written by the portal generator from this demo's title and description; do not edit -->
+<meta name="robots" content="index, follow">
+<link rel="icon" href="../../../assets/img/favicon.svg" type="image/svg+xml">
+<link rel="canonical" href="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-7/artefacts/least-privilege-db.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Principles of Information Security, HND Network Engineering Year 2">
+<meta property="og:title" content="Two accounts, one leaked password: least privilege for a database | Day 7">
+<meta property="og:description" content="Suppose a database account&#x27;s password leaks. Compare what a scoped and a full-rights account reach, and what the log records.">
+<meta property="og:url" content="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-7/artefacts/least-privilege-db.html">
+<meta property="og:locale" content="en_GB">
+<meta property="og:image" content="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/assets/img/social-card.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="At Taxila College the Head of IT points to the security register on the wall: nineteen numbered items, the first outlined as the place to start. The Registrar holds a sealed transcript and the Data Protection Officer a clipboard. A lecturer turns to welcome two students arriving with a laptop and a phone.">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","author":{"@type":"Person","affiliation":{"@type":"Organization","name":"School of Computing & Engineering, National Institute of Business Management"},"name":"Niranga Dharmaratna"},"description":"Suppose a database account's password leaks. Compare what a scoped and a full-rights account reach, and what the log records.","educationalLevel":"Higher National Diploma, Year 2","inLanguage":"en-GB","interactivityType":"active","isAccessibleForFree":true,"isPartOf":{"@id":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/#course","@type":"Course","name":"Principles of Information Security, HND Network Engineering Year 2","url":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/"},"learningResourceType":"Interactive demonstration","license":"https://opensource.org/licenses/MIT","name":"Two accounts, one leaked password: least privilege for a database | Day 7","url":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-7/artefacts/least-privilege-db.html"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/","name":"Principles of Information Security","position":1},{"@type":"ListItem","item":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-7/","name":"Day 7","position":2},{"@type":"ListItem","item":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-7/artefacts/least-privilege-db.html","name":"Two accounts, one leaked password: least privilege for a database","position":3}]}</script>
+<!-- /portal head -->
+</head>
+<body>
+<main>
+<h1>Two accounts, one leaked password</h1>
+<div class="bars" aria-hidden="true"><i></i><i></i></div>
+<p class="lead">The portal signs in to the Student Information System (SIS) database with one account, <span class="code">taxila-portal</span>. Whoever holds that account's password can do exactly what the account was granted. Suppose the password leaks. Compare the account as Taxila first set it up with the account scoped to the portal's job.</p>
+
+<span class="step">Step 1</span>
+<h2>Choose how the account is set up</h2>
+<div id="setups"></div>
+<div class="box"><p class="mono" id="grants" aria-live="polite"></p></div>
+
+<span class="step">Step 2</span>
+<h2>Choose whether the database keeps its query log</h2>
+<button type="button" class="quiet" id="log" aria-pressed="true">General query log: on</button>
+
+<span class="step">Step 3</span>
+<h2>The password leaks. Here is what its holder tries</h2>
+<p class="meter" id="meter" aria-live="polite"></p>
+<div class="grid" id="grid"></div>
+
+<span class="step">What the defender sees</span>
+<h2>The log, <span class="code">/var/lib/mysql/kali.log</span></h2>
+<div class="msg" id="logview" aria-live="polite"></div>
+
+<p class="note">Every account, statement and log line on this page is a prepared sample, shown as a defender reads it afterwards; you cannot type anything into it. Least privilege is not about distrusting the portal's builders: the password can leak without anyone doing wrong. Nothing on this page leaves your browser.</p>
+</main>
+<script>
+(function () {
+  "use strict";
+  var $ = function (id) { return document.getElementById(id); };
+  var SETUPS = [
+    { name: "As first set up: every right", grants: [
+        "GRANT ALL PRIVILEGES ON *.* TO `taxila-portal`@`localhost` WITH GRANT OPTION" ],
+      can: ["read", "update", "students", "delete", "drop", "users", "create"] },
+    { name: "Scoped to the portal's job", grants: [
+        "GRANT USAGE ON *.* TO `taxila-portal`@`localhost`",
+        "GRANT SELECT ON `taxila-db`.`students` TO `taxila-portal`@`localhost`",
+        "GRANT SELECT, INSERT, UPDATE ON `taxila-db`.`grades` TO `taxila-portal`@`localhost`" ],
+      can: ["read", "update", "students"] }
+  ];
+  var TRIES = [
+    { id: "read", text: "Read a student's grades", sql: "SELECT * FROM grades WHERE student_id = 'student04'", priv: "SELECT", table: "`taxila-db`.`grades`" },
+    { id: "students", text: "Read every student's record", sql: "SELECT * FROM students", priv: "SELECT", table: "`taxila-db`.`students`" },
+    { id: "update", text: "Change a grade", sql: "UPDATE grades SET mark = 90 WHERE student_id = 'student04' AND module = 'M1'", priv: "UPDATE", table: "`taxila-db`.`grades`" },
+    { id: "delete", text: "Delete every grade", sql: "DELETE FROM grades", priv: "DELETE", table: "`taxila-db`.`grades`" },
+    { id: "drop", text: "Drop the grades table", sql: "DROP TABLE grades", priv: "DROP", table: "`taxila-db`.`grades`" },
+    { id: "users", text: "Read the database's list of accounts", sql: "SELECT * FROM mysql.user", priv: "SELECT", table: "`mysql`.`user`" },
+    { id: "create", text: "Make a new account for later", sql: "CREATE USER 'helper'@'localhost'", priv: "CREATE USER", table: null }
+  ];
+  var setup = 0, logOn = true;
+  SETUPS.forEach(function (s, i) {
+    var b = document.createElement("button"); b.type = "button"; b.className = "quiet"; b.textContent = s.name;
+    b.addEventListener("click", function () { setup = i; draw(); });
+    $("setups").appendChild(b);
+  });
+  $("log").addEventListener("click", function () { logOn = !logOn; draw(); });
+  function p(text, cls) { var e = document.createElement("p"); if (cls) e.className = cls; e.textContent = text; return e; }
+  function draw() {
+    var S = SETUPS[setup];
+    Array.prototype.forEach.call($("setups").children, function (b, i) { b.setAttribute("aria-pressed", String(i === setup)); });
+    $("grants").textContent = "MariaDB> SHOW GRANTS FOR 'taxila-portal'@'localhost';\n" + S.grants.join("\n");
+    $("log").setAttribute("aria-pressed", String(logOn));
+    $("log").textContent = "General query log: " + (logOn ? "on" : "off");
+    var g = $("grid"); while (g.firstChild) g.removeChild(g.firstChild);
+    var n = 0;
+    TRIES.forEach(function (t) {
+      var ok = S.can.indexOf(t.id) >= 0, d = document.createElement("div");
+      d.className = "tile " + (ok ? "reach" : "safe");
+      d.appendChild(p(ok ? "× Reached" : "✓ Refused", "st"));
+      d.appendChild(p(t.text));
+      d.appendChild(p(t.sql, "mono"));
+      if (!ok) {
+        d.appendChild(p(t.table ? "ERROR 1142 (42000): " + t.priv + " command denied to user 'taxila-portal'@'localhost' for table " + t.table
+          : "ERROR 1227 (42000): Access denied; you need (at least one of) the CREATE USER privilege(s) for this operation", "mono"));
+      }
+      g.appendChild(d);
+      if (ok) n++;
+    });
+    $("meter").textContent = "Reached: " + n + " of " + TRIES.length + ". " + (setup === 0 ?
+      "One leaked password reaches everything, including other databases and the power to make accounts." :
+      "The holder still reaches what the portal reaches, so the log matters; everything else is refused.");
+    var L = $("logview"); while (L.firstChild) L.removeChild(L.firstChild);
+    if (!logOn) {
+      L.appendChild(p("(the log is off: nothing is recorded, so nobody can say what the holder did)", "hl quietline"));
+      return;
+    }
+    L.appendChild(p("02:17:40    88 Connect  taxila-portal@localhost on taxila-db using TCP/IP", "hl"));
+    TRIES.forEach(function (t, i) {
+      L.appendChild(p("02:17:" + (44 + i * 2) + "    88 Query    " + t.sql, "hl"));
+    });
+    L.appendChild(p("02:18:02    88 Quit", "hl"));
+    L.appendChild(p("Every request is there, allowed or refused: the log writes each one as it arrives. Sign-ins at two in the morning, from an account only the portal uses, are worth a question.", ""));
+  }
+  draw();
+}());
+</script>
+</body>
+</html>

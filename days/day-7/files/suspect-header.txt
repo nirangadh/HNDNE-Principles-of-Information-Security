@@ -1,0 +1,40 @@
+Header of a message held in quarantine by mail.taxila.example
+Teaching copy for the Day 7 lab. Every name, address and value is a prepared sample.
+The date part of each time stamp has been removed; the times are kept.
+The message body is not included: you read only the header.
+
+How to read it: start at the bottom Received line, the oldest, and read upwards. Each server
+that handled the message added its Received line at the top. Lines your own server added
+can be trusted; lines below them were written by whoever handed the message over, and could
+say anything.
+
+----- the header starts here -----
+Return-Path: <registrar@taxila.example>
+Received: from localhost (localhost [127.0.0.1])
+	by mail.taxila.example (quarantine filter) with ESMTP id 7F2C4A1B9;
+	09:14:09 +0530
+Authentication-Results: mail.taxila.example;
+	spf=fail (mail.taxila.example: 203.0.113.45 is not a permitted sender for taxila.example)
+	smtp.mailfrom=registrar@taxila.example;
+	dkim=none (message not signed);
+	dmarc=fail (p=QUARANTINE) header.from=taxila.example
+Received: from bulk-relay (unknown [203.0.113.45])
+	by mail.taxila.example with ESMTP id 3B8D61E07
+	for <lecturer01@taxila.example>; 09:14:07 +0530
+Received: from [198.51.100.23] (helo=laptop)
+	by bulk-relay with ESMTPSA; 03:44:01 +0000
+From: "Registrar, Taxila College" <registrar@taxila.example>
+Reply-To: <registrar@sis-taxila.example>
+To: <lecturer01@taxila.example>
+Subject: Action needed: update your salary bank details today
+Date: (date removed) 03:43:58 +0000
+Message-ID: <a91c7e04.5d2f@bulk-relay>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+X-Quarantine: held; DMARC policy for taxila.example is quarantine
+----- the header ends here -----
+
+Taxila's published records, for comparison (from the domain's DNS, the Domain Name System):
+  taxila.example.                  TXT  "v=spf1 ip4:192.0.2.25 -all"
+  mail._domainkey.taxila.example.  TXT  "v=DKIM1; k=rsa; p=(the public key, shortened here)"
+  _dmarc.taxila.example.           TXT  "v=DMARC1; p=quarantine; rua=mailto:itadmin@taxila.example"

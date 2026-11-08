@@ -1,0 +1,32 @@
+General query log on Taxila's SIS database server, taxila-db
+Teaching copy for the Day 7 lab, floor tier. Every account and value is a prepared sample.
+
+The real file is /var/lib/mysql/kali.log on your Kali virtual machine. In the real file the
+Time column starts with the date; it has been removed from this copy, and the times are kept.
+The server writes the time only when it changes, so a line with no time happened in the
+same second as the line above it. Id is the connection: each sign-in gets a new number.
+The first line, a Quit, is the administrator's connection that turned the log on: the
+statement that turned it on arrived while logging was still off, so only the sign-out shows.
+
+----- the log starts here -----
+/usr/sbin/mariadbd, Version: (shortened in this teaching copy). started with:
+Tcp port: 3306  Unix socket: /run/mysqld/mysqld.sock
+Time		    Id Command	Argument
+ 9:41:02	    40 Quit	
+ 9:41:30	    41 Connect	taxila-portal@localhost on taxila-db using Socket
+ 9:41:44	    41 Query	SELECT student_id, module, mark FROM grades WHERE student_id = 'student01'
+ 9:42:10	    41 Query	UPDATE grades SET mark = 64 WHERE student_id = 'student01' AND module = 'M2'
+ 9:42:31	    41 Query	DROP TABLE grades
+ 9:42:58	    41 Query	SELECT * FROM mysql.user
+ 9:43:05	    41 Quit	
+ 9:47:12	    42 Connect	registrar@localhost on taxila-db using Socket
+		    42 Query	SELECT module, AVG(mark) FROM grades GROUP BY module
+		    42 Quit	
+----- the log ends here -----
+
+Questions for the lab, step 7:
+  1. Which account made each statement? Use the Id column to join each Query to its Connect line.
+  2. Which two statements did the portal account ask for that its grants do not allow?
+     The general query log records what was asked, as it arrives, before the server checks it.
+     It does not say whether a statement was allowed: compare each one with grants.txt, Part B.
+  3. If logging had been off, what would the Data Protection Officer be able to show about this morning?

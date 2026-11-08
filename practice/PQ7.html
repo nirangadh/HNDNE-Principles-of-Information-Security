@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en-GB" data-store="hndne-pis:">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="hndne-pis-site">
+<title>Practice question 7: a microfinance cooperative&#x27;s mobile app | Principles of Information Security</title>
+<meta name="author" content="Niranga Dharmaratna">
+<meta name="description" content="This practice question applies the Day 7 ideas to a microfinance cooperative. It covers why an email cannot prove its sender, the three published checks...">
+<meta name="robots" content="index, follow">
+<link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
+<link rel="canonical" href="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/practice/PQ7.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Principles of Information Security, HND Network Engineering Year 2">
+<meta property="og:title" content="Practice question 7: a microfinance cooperative&#x27;s mobile app">
+<meta property="og:description" content="This practice question applies the Day 7 ideas to a microfinance cooperative. It covers why an email cannot prove its sender, the three published checks...">
+<meta property="og:url" content="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/practice/PQ7.html">
+<meta property="og:locale" content="en_GB">
+<meta property="og:image" content="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/assets/img/social-card.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="At Taxila College the Head of IT points to the security register on the wall: nineteen numbered items, the first outlined as the place to start. The Registrar holds a sealed transcript and the Data Protection Officer a clipboard. A lecturer turns to welcome two students arriving with a laptop and a phone.">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/","name":"Principles of Information Security","position":1},{"@type":"ListItem","item":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/practice/PQ7.html","name":"Practice question 7: a microfinance cooperative's mobile app","position":2}]}</script>
+<link rel="stylesheet" href="../assets/fonts/fonts.css">
+<link rel="stylesheet" href="../assets/css/site.css">
+<script>document.documentElement.className = "js";</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to the content</a>
+<header class="site-header"><div class="wrap"><div><p class="eyebrow"><a href="../index.html">Principles of Information Security | HND Network Engineering, Year 2</a></p><h1>Practice question 7: a microfinance cooperative&#x27;s mobile app</h1><div class="bars" aria-hidden="true"><i></i><i></i></div></div></div></header>
+<main id="main">
+<div class="wrap prose">
+<p>This practice question applies the Day 7 ideas to a microfinance cooperative. It covers why an email cannot prove its sender, the three published checks, a scoped database account, and a controller's duty. Attempt it in writing before you read the answer guidance. It carries 20 marks.</p>
+<h2 id="the-setting">The setting</h2>
+<p>A microfinance cooperative lends small amounts to about 9,000 members in villages across two districts. Twenty field agents visit members, collect repayments and record them in the cooperative's mobile app. The app sends everything to one database at the head office. The database holds each member's name, national identity card number, phone number, loan balance and repayment history.</p>
+<p>Last month three field agents received an email that seemed to come from the general manager. Its from line showed the manager's real address. It asked them to approve an urgent loan payout to a member "whose account details have changed", and gave a new bank account. One agent approved it before calling the office. The money went to an account nobody recognised.</p>
+<p>The cooperative's IT (information technology) officer read the message's header afterwards. These are the parts that matter:</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Header part</th>
+<th>What it showed</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>From</td>
+<td>the general manager's real address, at the cooperative's own domain</td>
+</tr>
+<tr>
+<td>Reply-To</td>
+<td>an address at a domain that differs from the cooperative's by one extra letter</td>
+</tr>
+<tr>
+<td>Authentication results</td>
+<td>the sending-server check failed; there was no signature; the cooperative publishes no rule for failures</td>
+</tr>
+<tr>
+<td>The lowest received line written by the cooperative's own mail server</td>
+<td>the message was handed over by a server outside the cooperative</td>
+</tr>
+</tbody>
+</table></div>
+<p>The IT officer also found that the mobile app signs in to the database with one account, and that account holds every right on every database. Nothing records what the account does.</p>
+<p>The IT officer proposes three changes:</p>
+<ol>
+<li>Publish the three email checks for the cooperative's domain, with a policy to hold failing messages.</li>
+<li>Give the app's database account only the rights the app needs, and turn on a log of every request.</li>
+<li>Remind agents to check the reply-to and to confirm any payment request by phone.</li>
+</ol>
+<p>The general manager says: "The email was the problem, not the database. Our database disk is already encrypted, so the members' data is safe. Publish the email checks and stop there."</p>
+<h2 id="the-question">The question</h2>
+<p><strong>(a)</strong> Explain why the from line of an email cannot prove who sent it. Then explain what each of the three checks adds: the Sender Policy Framework (SPF), DomainKeys Identified Mail (DKIM), and Domain-based Message Authentication, Reporting and Conformance (DMARC). <strong>(6 marks)</strong></p>
+<p><strong>(b)</strong> Apply these ideas to the cooperative. Use the header table to explain how the IT officer can tell the message was not from the general manager, naming each tell. Then design the app's database account: say which kinds of right it needs and which it must not have, and what the log should let the cooperative answer. <strong>(7 marks)</strong></p>
+<p><strong>(c)</strong> Evaluate the general manager's view. Discuss whether publishing the email checks alone would have been enough, and whether the encrypted disk keeps the members' data safe. Then say what the cooperative owes its members as the controller of their personal data. Recommend what the cooperative should do, with one cost of your recommendation. <strong>(7 marks)</strong></p>
+<h2 id="answer-guidance">Answer guidance</h2>
+<p>Read this only after you have written your own answer.</p>
+<p><strong>Part (a).</strong> Email is handed from server to server by the Simple Mail Transfer Protocol (SMTP). The sender writes the from line, and no server on the way is required to check it, so any address can be written there. The domain owner fixes this by publishing records that receiving servers can read. SPF lists the servers allowed to send mail for the domain; a receiver compares the server that handed over the message with that list. DKIM has the sending server sign each message with the domain's private key. The receiver verifies the signature with the public key the domain publishes, so a message not signed by the domain, or changed on the way, fails. DMARC is the rule for failures: the domain in the from line must match a domain that passed SPF or DKIM. The domain also tells receivers whether to deliver, quarantine or reject a message that fails. A strong answer keeps the three jobs apart and does not say that DKIM encrypts the message.</p>
+<p><strong>Part (b).</strong> There are three tells. The sending-server check failed and there was no signature, so nothing backs the from line. The lowest received line written by the cooperative's own server shows the message came from outside. Lines below it were written by the sender's side and prove nothing. And the reply-to is a look-alike domain, so any reply goes to the sender, not the manager. The message got through because the cooperative published no DMARC rule, so the receiver had no instruction to hold it. For the database account: the app needs to read members' records and loan balances, add repayment records, and perhaps update balances. It does not need to delete records, drop tables, read other databases, or create accounts and give rights to others. Each right should be granted for the specific tables the app uses. The log should let the cooperative answer which account read or changed which records, and when, including requests that were refused.</p>
+<p><strong>Part (c).</strong> Publishing the email checks is necessary but not enough. With a quarantine policy, a spoofed message from the cooperative's own domain would have been held. But a look-alike domain can publish its own SPF, DKIM and DMARC and pass all three, for its own domain. Only a person reading the address, and confirming a payment by phone, catches that. The encrypted disk protects a stolen disk or backup. It does nothing against a stolen password: the database decrypts for any account allowed to read. If an agent's or the app's password is taken by a message like this one, the app's account today reaches every member's identity number and every database. Scoping the account limits that reach. A scoped account also limits injection, where typed input is read as a command, though its real fix is a parameterised query in the app. And the log is the only way to know what was read. As the controller, the cooperative decides why and how members' personal data is processed. So it must keep that data secure and be able to show what it does with it. Under Sri Lanka's Personal Data Protection Act, No. 9 of 2022, as amended, those are duties on the organisation; at the time of writing, a government order has fixed the date from which they apply. The cooperative should take all three changes. The main cost is a few days of the IT officer's time. The records must be published and their reports watched before failures are held, and the app's account reworked and tested. The log needs disk space and someone to read it, and agents lose a minute on each payment call. One payout to an unknown account costs more. A strong answer rejects "the email was the problem" with reasons, and does not treat disk encryption as protection against a stolen login.</p>
+<nav class="pager" aria-label="Page navigation"><span></span><span><a href="../index.html">All days</a></span><span></span></nav>
+</div>
+</main>
+<footer class="site-footer"><div class="wrap">
+<p class="author">&copy; Niranga Dharmaratna, School of Computing &amp; Engineering, National Institute of Business Management</p>
+<p>Content licensed <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener">CC BY-NC-SA 4.0</a>; code licensed MIT; Open Sans under the SIL Open Font Licence. See the <a href="../LICENSE-CONTENT.html">licence notes</a>.</p>
+<p>Dates and submissions are announced for your cohort. Taxila College is fictional.</p>
+<p>Anything you mark as done is saved only on this device. Nothing leaves it.</p>
+</div></footer>
+<script src="../assets/js/site.js" defer></script>
+</body>
+</html>

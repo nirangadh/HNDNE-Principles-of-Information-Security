@@ -306,3 +306,65 @@ Making a second person approve a sensitive action, so that no one person can com
 Bringing a server to a safe baseline: only needed accounts and services, tight file permissions, patches installed, and logging on. Each change shrinks the attack surface, everything an attacker could try to reach.
 
 *Taxila example:* the Head of IT (information technology) turned off services nobody used on the SIS (Student Information System) server.
+
+## Day 7
+
+### Business email compromise
+A message that seems to come from a manager or a supplier and asks for a payment, or a change to the bank account a payment goes to. It needs no link or attachment, only trust.
+
+*Taxila example:* a message "from" the Registrar asks the finance office to pay an invoice today to a new account.
+
+### Data controller
+The organisation that decides why and how personal data is processed. Under Sri Lanka's Personal Data Protection Act the controller must keep that data secure and be able to show what it does with it.
+
+*Taxila example:* Taxila College is the controller for its students' and staff's personal data in the SIS (Student Information System).
+
+### Data masking
+Replacing real values with realistic but false ones, so that a test or training system has data of the right shape without the real people. Anonymising goes further: nobody can be identified from what is left.
+
+*Taxila example:* the `taxila-db` copy built in the Day 7 lab holds only invented students and grades.
+
+### DKIM
+DomainKeys Identified Mail: the sending server signs each message with the domain's private key, and the receiver verifies it with the public key published in the domain's records. It is a digital signature applied to mail.
+
+*Taxila example:* `mail.taxila.example` signs outgoing mail; the public key sits at `mail._domainkey.taxila.example`.
+
+### DMARC
+Domain-based Message Authentication, Reporting and Conformance: a domain's rule for failures. The from line's domain must match one that passed SPF (Sender Policy Framework) or DKIM (DomainKeys Identified Mail); if not, deliver, quarantine or reject.
+
+*Taxila example:* `taxila.example` publishes `p=quarantine`, so a spoofed "Registrar" message is held, not delivered.
+
+### Email spoofing
+Sending a message whose from line names someone who did not send it. It works because the sender writes the from line, and mail servers are not required to check it.
+
+*Taxila example:* a message with the from line `registrar@taxila.example`, sent from a server outside Taxila.
+
+### Encryption at rest
+Encrypting data where it is stored, on disks and in backups, so that a stolen disk shows only ciphertext. Encryption in transit protects the same data while it crosses a network. Neither stops an authorised query.
+
+*Taxila example:* the SIS (Student Information System) database's files and its weekly backup disk are encrypted at rest.
+
+### Look-alike domain
+A domain name chosen to look like a real one, such as a name with one letter changed or an extra word. It can publish its own records and pass its own checks.
+
+*Taxila example:* `sis-taxila.example`, the reply-to domain in the fake Registrar message, is not Taxila's.
+
+### Phishing
+A message that tricks people into giving away a password, money or data, often through a link to a look-alike page. Spear-phishing is phishing aimed at one person or a small group, using details about them.
+
+*Taxila example:* last semester's message asked staff to update their bank details through a link; two people did.
+
+### SMTP
+The Simple Mail Transfer Protocol (SMTP): the way mail servers hand a message from one to the next until it reaches the recipient's server. It does not require any server to check the from line.
+
+*Taxila example:* `mail.taxila.example` receives Taxila's mail from other servers by SMTP.
+
+### SPF
+The Sender Policy Framework: a record a domain publishes, listing the servers allowed to send mail for it. A receiving server compares the server that handed over a message with that list.
+
+*Taxila example:* `taxila.example` lists only `192.0.2.25`, its own mail server, and ends with `-all`.
+
+### Transparent data encryption
+Transparent data encryption (TDE): encryption of a database's files on disk, done by the database itself. The database decrypts as it reads, so applications notice nothing, and a stolen disk or backup stays unreadable.
+
+*Taxila example:* the SIS (Student Information System) database could use it, so that a stolen backup disk is useless to a thief.

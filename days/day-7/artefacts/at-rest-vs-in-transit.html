@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Where encryption protects: at rest, in transit and in a live query</title>
+<meta name="description" content="Move a grade record to disk, across the network and through a live query, and see which kind of encryption protects each place.">
+<link rel="stylesheet" href="../../../assets/fonts/fonts.css">
+<style>
+  body{margin:0;font-family:var(--font-body);background:var(--linen);color:var(--ink);line-height:1.6}
+  main{max-width:46rem;margin:0 auto;padding:1.5rem 1rem 2.5rem}
+  h1{font-size:1.6rem;line-height:1.25;margin:0 0 .4rem}
+  .bars{display:flex;gap:6px;margin:.3rem 0 1.1rem}.bars i{display:block;height:6px;border-radius:2px}
+  .bars i:first-child{width:56px;background:var(--burgundy)}.bars i:last-child{width:26px;background:var(--blush)}
+  .lead{margin:0 0 1rem}
+  .step{font-size:.78rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--burgundy);margin:1.6rem 0 .3rem;display:block}
+  h2{font-size:1.15rem;margin:.1rem 0 .4rem}
+  button:focus-visible{outline:3px solid var(--burgundy);outline-offset:2px}
+  button{overflow-wrap:anywhere;font:inherit;font-weight:700;color:var(--snow);background:var(--burgundy);border:0;border-radius:8px;padding:.55rem 1rem;min-height:44px;cursor:pointer;margin:.4rem .3rem .2rem 0}
+  button.quiet{color:var(--burgundy);background:var(--snow);border:2px solid var(--burgundy)}
+  button[aria-pressed=true]{background:var(--ink);color:var(--snow);border-color:var(--ink)}
+  button:disabled{opacity:.45;cursor:default}
+  .box{background:var(--snow);border:1px solid var(--rule);border-left:6px solid var(--burgundy);border-radius:0 12px 12px 0;padding:.8rem 1rem;margin:.5rem 0}
+  .box.fault{border-left:6px dashed var(--signal-vermilion)}
+  .box p{margin:.2rem 0}
+  .code,code{font-family:var(--font-code)}
+  .mono{font-family:var(--font-code);font-size:.92rem;white-space:pre-wrap;word-break:break-word}
+  .note{font-size:.9rem;color:var(--taupe);margin-top:1.4rem}
+  .tag{display:inline-block;font-size:.75rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;border-radius:6px;padding:.05rem .45rem;margin-right:.4rem}
+  .tag.ok{background:var(--burgundy);color:var(--snow)}
+  .tag.bad{background:var(--rose-wash);color:var(--ink);border:2px dashed var(--signal-vermilion)}
+  .tag.none{background:var(--snow);color:var(--ink);border:2px dotted var(--taupe)}
+  .path{list-style:none;padding:0;margin:.4rem 0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.4rem}
+  @media (max-width:560px){.path{grid-template-columns:1fr 1fr}}
+  .path li{overflow-wrap:anywhere;min-width:0;background:var(--snow);border:2px dotted var(--taupe);border-radius:10px;padding:.45rem .6rem;font-size:.92rem}
+  .path li.done{border:2px solid var(--taupe)}
+  .path li.here{border:3px solid var(--burgundy)}
+  .path li strong{display:block}
+  .msg{background:var(--snow);border:1px solid var(--rule);border-radius:10px;padding:.6rem .8rem;margin:.4rem 0}
+  .hl{font-family:var(--font-code);font-size:.9rem;padding:.2rem .4rem;border-radius:4px;margin:.15rem 0;word-break:break-word}
+  .hl.trust{background:var(--rose-tint)}
+  .hl.from{border:2px solid var(--ink)}
+  .hl.quietline{color:var(--taupe)}
+  .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:.5rem;margin:.6rem 0}
+  .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem;margin:.6rem 0}
+  @media (max-width:640px){.grid,.grid3{grid-template-columns:1fr}}
+  .tile{background:var(--snow);border:2px dotted var(--taupe);border-radius:10px;padding:.5rem .7rem}
+  .tile p{margin:.15rem 0}
+  .tile .st{font-size:.75rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--taupe)}
+  .tile.reach{border:3px dashed var(--signal-vermilion);background:var(--rose-wash)}
+  .tile.reach .st{color:var(--ink)}
+  .tile.safe{border:3px solid var(--burgundy)}
+  .tile.safe .st{color:var(--burgundy)}
+  .row{display:flex;flex-wrap:wrap;align-items:center;gap:.2rem .4rem}
+  table{border-collapse:collapse;width:100%;margin:.5rem 0;background:var(--snow)}
+  th,td{border:1px solid var(--rule);padding:.35rem .5rem;text-align:left;vertical-align:top;font-size:.95rem}
+  th{background:var(--linen)}
+  .hlb{display:block;width:100%;text-align:left;font-family:var(--font-code);font-weight:400;font-size:.88rem;word-break:break-word;margin:.25rem 0}
+  .meter{font-size:1.05rem;font-weight:800;margin:.4rem 0}
+  .fb{margin:.35rem 0}
+</style>
+<!-- portal head: written by the portal generator from this demo's title and description; do not edit -->
+<meta name="robots" content="index, follow">
+<link rel="icon" href="../../../assets/img/favicon.svg" type="image/svg+xml">
+<link rel="canonical" href="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-7/artefacts/at-rest-vs-in-transit.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Principles of Information Security, HND Network Engineering Year 2">
+<meta property="og:title" content="Where encryption protects: at rest, in transit and in a live query | Day 7">
+<meta property="og:description" content="Move a grade record to disk, across the network and through a live query, and see which kind of encryption protects each place.">
+<meta property="og:url" content="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-7/artefacts/at-rest-vs-in-transit.html">
+<meta property="og:locale" content="en_GB">
+<meta property="og:image" content="https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/assets/img/social-card.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="At Taxila College the Head of IT points to the security register on the wall: nineteen numbered items, the first outlined as the place to start. The Registrar holds a sealed transcript and the Data Protection Officer a clipboard. A lecturer turns to welcome two students arriving with a laptop and a phone.">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","author":{"@type":"Person","affiliation":{"@type":"Organization","name":"School of Computing & Engineering, National Institute of Business Management"},"name":"Niranga Dharmaratna"},"description":"Move a grade record to disk, across the network and through a live query, and see which kind of encryption protects each place.","educationalLevel":"Higher National Diploma, Year 2","inLanguage":"en-GB","interactivityType":"active","isAccessibleForFree":true,"isPartOf":{"@id":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/#course","@type":"Course","name":"Principles of Information Security, HND Network Engineering Year 2","url":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/"},"learningResourceType":"Interactive demonstration","license":"https://opensource.org/licenses/MIT","name":"Where encryption protects: at rest, in transit and in a live query | Day 7","url":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-7/artefacts/at-rest-vs-in-transit.html"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/","name":"Principles of Information Security","position":1},{"@type":"ListItem","item":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-7/","name":"Day 7","position":2},{"@type":"ListItem","item":"https://nirangadh.github.io/HNDNE-Principles-of-Information-Security/days/day-7/artefacts/at-rest-vs-in-transit.html","name":"Where encryption protects: at rest, in transit and in a live query","position":3}]}</script>
+<!-- /portal head -->
+</head>
+<body>
+<main>
+<h1>Where encryption protects</h1>
+<div class="bars" aria-hidden="true"><i></i><i></i></div>
+<p class="lead">A grade record in the Student Information System (SIS) lives in three places: on the disk and its backup, on the network between the portal and the database, and in the answer to a live query. Switch each kind of encryption on or off, and see who can read the record in each place.</p>
+
+<span class="step">Step 1</span>
+<h2>Choose Taxila's settings</h2>
+<div class="row"><button type="button" class="quiet" id="rest" aria-pressed="false">Encryption at rest, with transparent data encryption (TDE)</button></div>
+<div class="row"><button type="button" class="quiet" id="transit" aria-pressed="false">Encryption in transit, with Transport Layer Security (TLS)</button></div>
+
+<span class="step">Step 2</span>
+<h2>Three places, three people trying to read it</h2>
+<div class="grid3" id="places"></div>
+<div class="box" id="out" aria-live="polite"><p id="outp"></p></div>
+
+<p class="note">The record and the ciphertext on this page are prepared samples, written to show what each person would see; this page does not encrypt anything itself. Nothing on this page leaves your browser.</p>
+</main>
+<script>
+(function () {
+  "use strict";
+  var $ = function (id) { return document.getElementById(id); };
+  var PLAIN = "student01 | M2 | 64";
+  var CIPHER = "9f3a c71e 08b2 5d64 e1a0 77c3 ...";
+  var PLACES = [
+    { title: "On the disk and the backup", who: "Someone steals the weekly backup disk", lock: "rest",
+      onSay: "The backup shows only ciphertext. Without the key, the thief has nothing useful.",
+      offSay: "The backup is readable by anyone who plugs it in." },
+    { title: "On the network", who: "Someone can see the traffic between the portal and the database", lock: "transit",
+      onSay: "The traffic shows only ciphertext. The watcher learns that a query happened, not what it said.",
+      offSay: "The record crosses the network as plain text, readable by anyone who can see the traffic." },
+    { title: "In a live query", who: "Someone signs in with the portal's leaked password", lock: null,
+      onSay: "", offSay: "The database decrypts the record and hands it over, because the account is allowed to read it." }
+  ];
+  var on = { rest: false, transit: false };
+  function p(text, cls) { var e = document.createElement("p"); if (cls) e.className = cls; e.textContent = text; return e; }
+  function draw() {
+    $("rest").setAttribute("aria-pressed", String(on.rest));
+    $("transit").setAttribute("aria-pressed", String(on.transit));
+    var g = $("places"); while (g.firstChild) g.removeChild(g.firstChild);
+    var readable = 0;
+    PLACES.forEach(function (pl) {
+      var safe = pl.lock && on[pl.lock], d = document.createElement("div");
+      d.className = "tile " + (safe ? "safe" : "reach");
+      d.appendChild(p(safe ? "✓ Unreadable" : "× Readable", "st"));
+      var h = document.createElement("p"); var s = document.createElement("strong"); s.textContent = pl.title; h.appendChild(s); d.appendChild(h);
+      d.appendChild(p(pl.who));
+      d.appendChild(p("They see: " + (safe ? CIPHER : PLAIN), "mono"));
+      d.appendChild(p(safe ? pl.onSay : pl.offSay));
+      if (!pl.lock) d.appendChild(p("Neither lock covers this place. Only the account's grants limit what it reads, and only the log shows that it did.", ""));
+      g.appendChild(d);
+      if (!safe) readable++;
+    });
+    var msg;
+    if (on.rest && on.transit) msg = "Both kinds of encryption are on, and the record is still readable in one place: the live query. That is why the portal's account is scoped and its requests are logged.";
+    else if (!on.rest && !on.transit) msg = "Readable in all three places. Turn on each kind of encryption and watch which place it covers.";
+    else msg = "Readable in " + readable + " of 3 places. Each kind of encryption covers one place only.";
+    $("outp").textContent = msg;
+    $("out").className = readable > 1 ? "box fault" : "box";
+  }
+  $("rest").addEventListener("click", function () { on.rest = !on.rest; draw(); });
+  $("transit").addEventListener("click", function () { on.transit = !on.transit; draw(); });
+  draw();
+}());
+</script>
+</body>
+</html>
