@@ -2,7 +2,8 @@
 
 ## Materials
 
-Files appear here before the teaching day.
+- [Afternoon slides: Synthesis and exam preparation](slides/day-10-afternoon.pdf) (PDF)
+- [Notes](notes.md)
 
 ## Morning: Group tabletop exercise
 
